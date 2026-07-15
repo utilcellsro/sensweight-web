@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Cloud Sensors — Průmyslový IoT monitoring</title>
+<meta name="description" content="Modulární IoT systémy pro vzdálené sledování průmyslových procesů. UCS X1, X2, X3 a SensSILO Connect Kit.">
+<link rel="stylesheet" href="assets/css/main.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PROMO BANNER
+     Skrýt: nastavit display:none na #promo-bar
+     Nebo smazat celý blok pokud není akce
+════════════════════════════════════════════════════════ -->
+<div class="promo-bar" id="promo-bar">
+  <span>🎯 Speciální nabídka: 15 % sleva na systémy <strong>UCS X2</strong> do 31. 7. 2025 &mdash; <a href="#akce">Zjistit více</a></span>
+  <button class="promo-close" id="promo-close" aria-label="Zavřít">×</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAV — generuje layout.js, neměnit
+════════════════════════════════════════════════════════ -->
+<div id="site-nav"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════ -->
+<section class="hero">
+<div class="wrap">
+  <h1>Vzdálené sledování<br>průmyslových<br><span class="a">procesů.</span></h1>
+  <p>Modulární IoT systémy. Cloudový přístup. Žádná údržba na místě.</p>
+  <a class="btn-pill" href="#demo">Živá ukázka →</a>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PRODUKTY
+════════════════════════════════════════════════════════ -->
+<section class="sec" id="produkty">
+<div class="wrap">
+  <div class="micro">Produkty</div>
+
+  <div class="prow">
+    <div class="pcode">X3</div>
+    <div>
+      <div class="pn">UCS X3</div>
+      <div class="pd">Nejpokročilejší průmyslová IoT brána s 8 vstupními kanály, 4G LTE, Wi-Fi 6 a hranovým zpracováním dat.</div>
+      <div class="pm">8 kanálů · 4G LTE + Wi-Fi · IP67 · −40 až +85 °C</div>
+    </div>
+  </div>
+
+  <div class="prow">
+    <div class="pcode">X2</div>
+    <div>
+      <div class="pn">UCS X2</div>
+      <div class="pd">Robustní brána pro standardní průmyslové nasazení. 4 vstupní kanály, 4G LTE, Ethernet a RS-485 Modbus.</div>
+      <div class="pm">4 kanály · 4G LTE + ETH · IP65 · −40 až +70 °C</div>
+    </div>
+  </div>
+
+  <div class="prow">
+    <div class="pcode">X1</div>
+    <div>
+      <div class="pn">UCS X1</div>
+      <div class="pd">Kompaktní modul pro jednoduché monitorovací aplikace. Snadná instalace, nízká spotřeba.</div>
+      <div class="pm">2 kanály · 4G LTE · IP54 · Plug &amp; Play</div>
+    </div>
+  </div>
+
+  <div class="prow">
+    <div class="pcode" style="font-size:30px;letter-spacing:-1px;padding-top:12px;color:rgba(214,140,16,.2)">KIT</div>
+    <div>
+      <div class="pn">SensSILO Connect Kit</div>
+      <div class="pd">Kompletní balíček pro monitoring zásobníku — brána, senzory, montáž a cloudová platforma v jednom.</div>
+      <div class="pm amber">Vše v jednom · Rychlá instalace · UCS Cloud · Záruka 3 roky</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     ŘEŠENÍ
+════════════════════════════════════════════════════════ -->
+<section class="sec sec-alt" id="reseni">
+<div class="wrap">
+  <div class="micro">Řešení</div>
+  <div class="sol-grid">
+    <div class="si"><div class="si-name">SensWEIGHT™</div><h3>Vzdálené vážení</h3><p>Pásové váhy, automobilové váhy, sila</p></div>
+    <div class="si"><div class="si-name">SensSILO™</div><h3>Monitoring zásobníků</h3><p>Hladina, hmotnost, rychlost plnění</p></div>
+    <div class="si"><div class="si-name">SensGEO™</div><h3>Geotechnický monitoring</h3><p>Náklon, sedání, deformace</p></div>
+    <div class="si"><div class="si-name">SensATMO™</div><h3>Environmentální monitoring</h3><p>Teplota, vlhkost, tlak, prašnost</p></div>
+    <div class="si"><div class="si-name">SensGREEN™</div><h3>Zelené střechy</h3><p>Zatížení a vlhkost živé architektury</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     ROI KALKULAČKA
+     Vzorec je orientační — upřesnit po dodání podkladů
+════════════════════════════════════════════════════════ -->
+<section class="sec" id="roi">
+<div class="wrap">
+  <div class="micro">Návratnost investice</div>
+  <div class="sec-h">Kolik ušetří UCS ve vašem provozu?</div>
+
+  <div class="roi-grid">
+    <!-- Inputs -->
+    <div class="roi-form">
+
+      <div class="roi-field">
+        <label>Počet zaměstnanců na manuální monitoring</label>
+        <div class="roi-input-row">
+          <input class="roi-input" id="r-fte" type="number" min="0" step="1" value="2">
+          <span class="roi-unit">zaměstnanců</span>
+        </div>
+      </div>
+
+      <div class="roi-field">
+        <label>Průměrná hodinová mzda</label>
+        <div class="roi-input-row">
+          <input class="roi-input" id="r-wage" type="number" min="0" step="10" value="280">
+          <span class="roi-unit">Kč / hod</span>
+        </div>
+      </div>
+
+      <div class="roi-field">
+        <label>Počet neplánovaných poruch za rok</label>
+        <div class="roi-input-row">
+          <input class="roi-input" id="r-failures" type="number" min="0" step="1" value="10">
+          <span class="roi-unit">poruch / rok</span>
+        </div>
+      </div>
+
+      <div class="roi-field">
+        <label>Průměrná délka prostoje</label>
+        <div class="roi-input-row">
+          <input class="roi-input" id="r-down-h" type="number" min="0" step="0.5" value="5">
+          <span class="roi-unit">hodin</span>
+        </div>
+      </div>
+
+      <div class="roi-field">
+        <label>Hodinové náklady na prostoj</label>
+        <div class="roi-input-row">
+          <input class="roi-input" id="r-down-cost" type="number" min="0" step="100" value="6000">
+          <span class="roi-unit">Kč / hod</span>
+        </div>
+      </div>
+
+      <div class="roi-field">
+        <label>Pořizovací cena systému UCS</label>
+        <div class="roi-input-row">
+          <input class="roi-input" id="r-syscost" type="number" min="0" step="1000" value="350000">
+          <span class="roi-unit">Kč</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Results -->
+    <div class="roi-result">
+      <div class="roi-result-title">Výsledek výpočtu</div>
+
+      <div class="rrow">
+        <div class="rlabel">Roční úspora — pracovní síla</div>
+        <div class="rval" id="res-labour">—</div>
+      </div>
+      <div class="rrow">
+        <div class="rlabel">Roční úspora — prevence poruch</div>
+        <div class="rval" id="res-downtime">—</div>
+      </div>
+      <div class="rrow highlight">
+        <div class="rlabel">Celková roční úspora</div>
+        <div class="rval" id="res-total">—</div>
+      </div>
+      <div class="rrow payback">
+        <div class="rlabel">Návratnost investice</div>
+        <div class="rval" id="res-payback">—</div>
+      </div>
+      <div class="rrow">
+        <div class="rlabel">ROI za 1. rok</div>
+        <div class="rval" id="res-roi">—</div>
+      </div>
+
+      <p class="roi-note">Výpočet je orientační. Předpoklady: 40 % redukce manuálního monitoringu, 55 % prevence poruch pomocí UCS. Přesný vzorec bude upřesněn.</p>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     AKCE / PROPAGACE
+     Upravit nebo skrýt jednotlivé karty
+════════════════════════════════════════════════════════ -->
+<section class="sec sec-alt" id="akce">
+<div class="wrap">
+  <div class="micro">Akce &amp; Události</div>
+  <div class="events-grid">
+
+    <div class="event-card">
+      <span class="event-tag tag-promo">Sleva 15 %</span>
+      <h3>UCS X2 — letní akce</h3>
+      <p>Do 31. července 2025 získáte 15% slevu na jednotky UCS X2 při objednávce min. 5 kusů.</p>
+      <div class="event-date">Platí do 31. 7. 2025</div>
+    </div>
+
+    <div class="event-card">
+      <span class="event-tag tag-new">Novinka</span>
+      <h3>SensSILO Connect Kit 2.0</h3>
+      <p>Nová generace Connect Kitu s rozšířenou zárukou 3 roky a bezplatnou předinstalací firmware.</p>
+      <div class="event-date">Dostupné od 1. 8. 2025</div>
+    </div>
+
+    <div class="event-card">
+      <span class="event-tag tag-event">Webinář</span>
+      <h3>Digitalizace váhových systémů</h3>
+      <p>Online prezentace: jak přejít z manuálního sledování na automatizovaný IoT monitoring za 1 den.</p>
+      <div class="event-date">15. 9. 2025 · 10:00 hod.</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     VIDEO
+     Přidat YouTube video ID do data-video-id
+     Příklad: data-video-id="dQw4w9WgXcQ"
+     layout.js automaticky vloží iframe
+════════════════════════════════════════════════════════ -->
+<section class="sec" id="video">
+<div class="wrap">
+  <div class="micro">Video</div>
+  <div class="video-grid">
+
+    <!-- Hlavní video -->
+    <div class="vid-wrap" data-video-id="YOUR_VIDEO_ID">
+      <div class="vid-placeholder">
+        <div class="vid-play">▶</div>
+        <p>Vložte YouTube ID videa<br>do atributu data-video-id</p>
+      </div>
+    </div>
+
+    <!-- Vedlejší videa -->
+    <div class="vid-side">
+      <div class="vid-wrap" data-video-id="YOUR_VIDEO_ID_2">
+        <div class="vid-placeholder">
+          <div class="vid-play">▶</div>
+          <p>Video 2</p>
+        </div>
+      </div>
+      <div class="vid-wrap" data-video-id="YOUR_VIDEO_ID_3">
+        <div class="vid-placeholder">
+          <div class="vid-play">▶</div>
+          <p>Video 3</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     DEMO — živá data SensWEIGHT
+════════════════════════════════════════════════════════ -->
+<section class="sec sec-alt" id="demo">
+<div class="wrap">
+  <div class="micro">Živá ukázka</div>
+  <div class="demo-lead">
+    <div class="ldot"></div>
+    <h2>SensWEIGHT — M500 referenční systém</h2>
+  </div>
+  <div class="demo-meta">8 tenzometrů · data v reálném čase · <span id="utime">--:--:--</span></div>
+
+  <div class="dstats">
+    <div><div class="ds-l">Celková hmotnost</div><div class="ds-v"><span id="total">—</span><span class="u">kg</span></div></div>
+    <div><div class="ds-l">Průměr / snímač</div><div class="ds-v"><span id="avg">—</span><span class="u">kg</span></div></div>
+    <div><div class="ds-l">Odchylka</div><div class="ds-v"><span id="dev">—</span></div></div>
+    <div><div class="ds-l">Stav</div><div class="ds-v ok">Vše OK</div></div>
+  </div>
+
+  <div class="demo-grid">
+    <div class="dpanel">
+      <div class="chart-h"><canvas id="chart"></canvas></div>
+    </div>
+    <div class="dpanel">
+      <table class="st">
+        <thead><tr><th>Snímač</th><th>Aktuálně (kg)</th><th>Min 1h</th><th>Max 1h</th><th>Stav</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER — generuje layout.js
+════════════════════════════════════════════════════════ -->
+<div id="site-footer"></div>
+
+<!-- Scripts -->
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/roi.js"></script>
+<script>
+/* ── Demo chart ─────────────────────────────────────── */
+const S=['LC01','LC02','LC03','LC04','LC05','LC06','LC07','LC08'];
+const B=[512.4,498.7,521.3,485.2,507.8,493.1,518.6,504.9];
+const rnd=b=>+(b+(Math.random()-.5)*9).toFixed(1);
+const read=()=>B.map(rnd);
+function dStats(v){
+  const tot=v.reduce((a,b)=>a+b,0),avg=tot/v.length;
+  document.getElementById('total').textContent=tot.toFixed(1);
+  document.getElementById('avg').textContent=avg.toFixed(1);
+  document.getElementById('dev').textContent=(((Math.max(...v)-Math.min(...v))/avg)*100).toFixed(1)+'%';
+  document.getElementById('utime').textContent=new Date().toLocaleTimeString('cs-CZ');
+}
+function dTable(v){
+  document.getElementById('tbody').innerHTML=v.map((x,i)=>`<tr>
+    <td>${S[i]}</td><td class="cv">${x}</td>
+    <td>${+(x-12-Math.random()*4).toFixed(1)}</td>
+    <td>${+(x+10+Math.random()*4).toFixed(1)}</td>
+    <td class="oks">OK</td></tr>`).join('');
+}
+let ch;
+function dInit(v){
+  ch=new Chart(document.getElementById('chart'),{
+    type:'radar',
+    data:{labels:S,datasets:[{data:v,
+      backgroundColor:'rgba(0,180,166,.08)',borderColor:'#00B4A6',borderWidth:1.5,
+      pointBackgroundColor:'#1560E0',pointBorderColor:'#fff',pointBorderWidth:1.5,pointRadius:4,pointHoverRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} kg`}}},
+      scales:{r:{min:455,max:545,
+        ticks:{stepSize:22,font:{family:"-apple-system,'Segoe UI',sans-serif",size:10},color:'#8e8e93',backdropColor:'transparent'},
+        grid:{color:'rgba(0,0,0,.06)'},angleLines:{color:'rgba(0,0,0,.06)'},
+        pointLabels:{font:{family:"-apple-system,'Segoe UI',sans-serif",size:12,weight:'600'},color:'#1d1d1f'}
+      }}
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const v=read();dStats(v);dTable(v);dInit(v);
+  setInterval(()=>{const n=read();dStats(n);dTable(n);ch.data.datasets[0].data=n;ch.update('none');},3000);
+});
+</script>
+</body>
+</html>

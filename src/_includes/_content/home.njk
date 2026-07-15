@@ -1,0 +1,369 @@
+{% set t = translations[lang] %}
+
+{# ── HERO ──────────────────────────────────────────────────── #}
+<section class="hero hero-dark">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tagline">{{ t.hero.tagline }}</div>
+      <h1>{{ t.hero.headline }}</h1>
+      <p class="hero-sub">{{ t.hero.sub }}</p>
+      <div class="hero-ctas">
+        <a href="/{{ lang }}/demo/" class="btn btn-primary">{{ t.hero.cta_demo }} &rarr;</a>
+        <a href="#products" class="btn btn-ghost">{{ t.hero.cta_products }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── HOW IT WORKS — FLOW DIAGRAM ──────────────────────────── #}
+<section class="section flow-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ t.flow.tagline }}</div>
+      <h2>{{ t.flow.heading }}</h2>
+    </div>
+    <div class="flow-grid">
+      <div class="flow-node">
+        <div class="flow-node-icon flow-node-icon--muted"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18"/><path d="M7 8 4 15h6z"/><path d="M17 8l-3 7h6z"/><path d="M12 5v14"/><path d="M8 21h8"/></svg></div>
+        <h3>{{ t.flow.node1_title }}</h3>
+        <p>{{ t.flow.node1_sub }}</p>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">
+        <div class="flow-node-icon flow-node-icon--accent"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M10 2v3M14 2v3M10 19v3M14 19v3M2 10h3M2 14h3M19 10h3M19 14h3"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+        <h3>{{ t.flow.node2_title }}</h3>
+        <p>{{ t.flow.node2_sub }}</p>
+      </div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-node">
+        <div class="flow-node-icon flow-node-icon--navy"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.4A3.5 3.5 0 0 1 17.5 18H7z"/><path d="M9 14l2 2 4-4"/></svg></div>
+        <h3>{{ t.flow.node3_title }}</h3>
+        <p>{{ t.flow.node3_sub }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── STATS BAR ─────────────────────────────────────────────── #}
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-value">{{ t.stats.uptime }}</div>
+        <div class="stat-label">{{ t.stats.uptime_label }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ t.stats.sensors }}</div>
+        <div class="stat-label">{{ t.stats.sensors_label }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">{{ t.stats.roi }}</div>
+        <div class="stat-label">{{ t.stats.roi_label }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# ── PRODUCTS ──────────────────────────────────────────────── #}
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ t.products_section_title }}</div>
+      <h2>{{ t.products_subtitle }}</h2>
+    </div>
+    <div class="product-grid">
+
+      {# SensWEIGHT — axle load bars #}
+      <div class="product-card product-card-live" style="--card-accent:var(--blue)">
+        <div class="product-card-header">
+          <div class="product-card-header-top">
+            <span class="product-card-header-label">Weighbridge dashboard</span>
+            <span class="product-card-live-badge"><span class="live-dot live-dot--green"></span>live</span>
+          </div>
+          <div class="pc-readout"><span class="pc-readout-value">24,860</span><span class="pc-readout-unit">kg gross</span></div>
+          <div class="pc-bars">
+            <div class="pc-bar-row"><span class="pc-bar-label">AXLE 1</span><span class="pc-bar-track"><span class="pc-bar-fill" style="width:72%"></span></span></div>
+            <div class="pc-bar-row"><span class="pc-bar-label">AXLE 2</span><span class="pc-bar-track"><span class="pc-bar-fill" style="width:88%"></span></span></div>
+            <div class="pc-bar-row"><span class="pc-bar-label">AXLE 3</span><span class="pc-bar-track"><span class="pc-bar-fill pc-bar-fill--teal" style="width:61%"></span></span></div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <h3>{{ t.products.sensweight.name }}</h3>
+          <p>{{ t.products.sensweight.desc }}</p>
+          <div class="product-card-footer">
+            <span class="product-badge">{{ t.products.sensweight.badge }}</span>
+            <a href="/{{ lang }}/sensweight/" class="card-link">Learn more &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      {# SensSILO — level bars #}
+      <div class="product-card product-card-live" style="--card-accent:var(--teal)">
+        <div class="product-card-header">
+          <div class="product-card-header-top">
+            <span class="product-card-header-label">Silo inventory dashboard</span>
+            <span class="product-card-live-badge"><span class="live-dot live-dot--green"></span>live</span>
+          </div>
+          <div class="pc-silos">
+            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill" style="height:82%"></span></span><span class="pc-silo-label">A · 82%</span></div>
+            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill" style="height:47%"></span></span><span class="pc-silo-label">B · 47%</span></div>
+            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill pc-silo-fill--amber" style="height:19%"></span></span><span class="pc-silo-label pc-silo-label--amber">C · 19%</span></div>
+            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill pc-silo-fill--teal" style="height:64%"></span></span><span class="pc-silo-label">D · 64%</span></div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <h3>{{ t.products.senssilo.name }}</h3>
+          <p>{{ t.products.senssilo.desc }}</p>
+          <div class="product-card-footer">
+            <span class="product-badge" style="color:var(--teal);background:rgba(15,165,148,.10)">{{ t.products.senssilo.badge }}</span>
+            <a href="/{{ lang }}/senssilo/" class="card-link">Learn more &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      {# SensGEO — tilt gauge #}
+      <div class="product-card product-card-live" style="--card-accent:var(--sky)">
+        <div class="product-card-header">
+          <div class="product-card-header-top">
+            <span class="product-card-header-label">Inclination dashboard</span>
+            <span class="product-card-live-badge"><span class="live-dot live-dot--green"></span>live</span>
+          </div>
+          <div class="pc-readout"><span class="pc-readout-value">0.4°</span><span class="pc-readout-unit">tilt, node 3</span></div>
+          <div class="pc-tilt">
+            <div class="pc-tilt-track"><div class="pc-tilt-center"></div><div class="pc-tilt-marker" style="left:58%"></div></div>
+            <div class="pc-tilt-scale"><span>-5°</span><span>0°</span><span>+5°</span></div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <h3>{{ t.products.sensgeo.name }}</h3>
+          <p>{{ t.products.sensgeo.desc }}</p>
+          <div class="product-card-footer">
+            <span class="product-badge" style="color:var(--sky);background:rgba(61,145,214,.10)">{{ t.products.sensgeo.badge }}</span>
+            <a href="/{{ lang }}/sensgeo/" class="card-link">Learn more &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      {# SensATMO — multi-parameter readouts #}
+      <div class="product-card product-card-live" style="--card-accent:var(--amber)">
+        <div class="product-card-header">
+          <div class="product-card-header-top">
+            <span class="product-card-header-label">Environmental dashboard</span>
+            <span class="product-card-live-badge"><span class="live-dot live-dot--green"></span>live</span>
+          </div>
+          <div class="pc-stats-row">
+            <div class="pc-stat"><span class="pc-stat-label">TEMP</span><span class="pc-stat-value">21.4°C</span></div>
+            <div class="pc-stat"><span class="pc-stat-label">RH</span><span class="pc-stat-value">48%</span></div>
+            <div class="pc-stat"><span class="pc-stat-label">CO₂</span><span class="pc-stat-value pc-stat-value--teal">612 ppm</span></div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <h3>{{ t.products.sensatmo.name }}</h3>
+          <p>{{ t.products.sensatmo.desc }}</p>
+          <div class="product-card-footer">
+            <span class="product-badge" style="color:var(--amber);background:rgba(240,160,32,.12)">{{ t.products.sensatmo.badge }}</span>
+            <a href="/{{ lang }}/sensatmo/" class="card-link">Learn more &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      {# SensGREEN — load + moisture donut #}
+      <div class="product-card product-card-live" style="--card-accent:var(--green)">
+        <div class="product-card-header">
+          <div class="product-card-header-top">
+            <span class="product-card-header-label">Green roof dashboard</span>
+            <span class="product-card-live-badge"><span class="live-dot live-dot--green"></span>live</span>
+          </div>
+          <div class="pc-donut-row">
+            <div class="pc-donut" style="--pct:74%"><span class="pc-donut-value">74%</span></div>
+            <div class="pc-donut-details">
+              <div><span class="pc-stat-label">LOAD</span><span class="pc-stat-value">312 kg/m²</span></div>
+              <div><span class="pc-stat-label">MOISTURE</span><span class="pc-stat-value pc-stat-value--teal">32%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <h3>{{ t.products.sensgreen.name }}</h3>
+          <p>{{ t.products.sensgreen.desc }}</p>
+          <div class="product-card-footer">
+            <span class="product-badge" style="color:var(--green);background:rgba(74,158,92,.10)">{{ t.products.sensgreen.badge }}</span>
+            <a href="/{{ lang }}/sensgreen/" class="card-link">Learn more &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      {# UCS X3 — hardware, no live telemetry #}
+      <div class="product-card product-card-live" style="--card-accent:var(--navy)">
+        <div class="product-card-header">
+          <div class="product-card-header-top">
+            <span class="product-card-header-label">IoT gateway</span>
+            <span class="product-card-hw-badge">hardware</span>
+          </div>
+          <div class="pc-hw-specs">
+            <span>4G LTE</span><span>Wi-Fi 6</span><span>8ch I/O</span><span>Edge AI</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <h3>{{ t.products.ucsx3.name }}</h3>
+          <p>{{ t.products.ucsx3.desc }}</p>
+          <div class="product-card-footer">
+            <span class="product-badge" style="color:var(--navy);background:rgba(12,34,51,.08)">{{ t.products.ucsx3.badge }}</span>
+            <a href="/{{ lang }}/ucsx3/" class="card-link">Learn more &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── WHY UCS ───────────────────────────────────────────────── #}
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ t.why.title }}</div>
+      <h2>Built for industrial reality</h2>
+      <p class="section-sub">{{ t.why.subtitle }}</p>
+    </div>
+    <div class="why-grid">
+      {% for item in t.why.items %}
+      <div class="why-item">
+        <div class="why-mark"></div>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{# ── VIDEO ─────────────────────────────────────────────────── #}
+<section class="section video-section" id="videos">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ t.video.section_title }}</div>
+      <h2>{{ t.video.section_heading }}</h2>
+    </div>
+    <div class="video-grid">
+      <div class="vid-main" data-vid="YOUR_VIDEO_ID_1">
+        <div class="vid-thumb"></div>
+        <div class="vid-play"><div class="vid-play-btn"></div></div>
+        <div class="vid-placeholder-text">{{ t.video.placeholder }}</div>
+      </div>
+      <div class="vid-side">
+        <div class="vid-card" data-vid="YOUR_VIDEO_ID_2">
+          <div class="vid-thumb"></div>
+          <div class="vid-play"><div class="vid-play-btn vid-play-btn--sm"></div></div>
+          <div class="vid-placeholder-text">{{ t.video.placeholder }}</div>
+        </div>
+        <div class="vid-card" data-vid="YOUR_VIDEO_ID_3">
+          <div class="vid-thumb"></div>
+          <div class="vid-play"><div class="vid-play-btn vid-play-btn--sm"></div></div>
+          <div class="vid-placeholder-text">{{ t.video.placeholder }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ── ROI CALCULATOR ────────────────────────────────────────── #}
+<section class="section" id="roi">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ t.roi.section_title }}</div>
+      <h2>{{ t.roi.section_heading }}</h2>
+    </div>
+    <div class="roi-grid" data-locale="{{ t.roi.locale }}" data-currency="{{ t.roi.currency }}" data-payback-unit="{{ t.roi.payback_unit }}">
+
+      <div class="roi-inputs">
+        <div class="roi-field">
+          <label>{{ t.roi.label_fte }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-fte" type="number" min="0" step="1" value="{{ t.roi.def_fte }}">
+            <span class="roi-unit">{{ t.roi.unit_fte }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_wage }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-wage" type="number" min="0" step="1" value="{{ t.roi.def_wage }}">
+            <span class="roi-unit">{{ t.roi.unit_wage }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_failures }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-failures" type="number" min="0" step="1" value="{{ t.roi.def_failures }}">
+            <span class="roi-unit">{{ t.roi.unit_failures }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_downtime_h }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-down-h" type="number" min="0" step="0.5" value="{{ t.roi.def_downtime_h }}">
+            <span class="roi-unit">{{ t.roi.unit_downtime_h }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_downtime_cost }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-down-cost" type="number" min="0" step="50" value="{{ t.roi.def_downtime_cost }}">
+            <span class="roi-unit">{{ t.roi.unit_downtime_cost }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_syscost }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-syscost" type="number" min="0" step="500" value="{{ t.roi.def_syscost }}">
+            <span class="roi-unit">{{ t.roi.unit_syscost }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roi-results">
+        <div class="roi-result-title">{{ t.roi.result_title }}</div>
+        <div class="rrow">
+          <div class="rlabel">{{ t.roi.res_labour }}</div>
+          <div class="rval" id="res-labour">—</div>
+        </div>
+        <div class="rrow">
+          <div class="rlabel">{{ t.roi.res_downtime }}</div>
+          <div class="rval" id="res-downtime">—</div>
+        </div>
+        <div class="rrow highlight">
+          <div class="rlabel">{{ t.roi.res_total }}</div>
+          <div class="rval" id="res-total">—</div>
+        </div>
+        <div class="rrow payback">
+          <div class="rlabel">{{ t.roi.res_payback }}</div>
+          <div class="rval" id="res-payback">—</div>
+        </div>
+        <div class="rrow">
+          <div class="rlabel">{{ t.roi.res_roi }}</div>
+          <div class="rval" id="res-roi">—</div>
+        </div>
+        <p class="roi-note">{{ t.roi.note }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{# ── DEMO CTA ──────────────────────────────────────────────── #}
+<section class="demo-cta-section">
+  <div class="container">
+    <div class="demo-cta-inner">
+      <div class="demo-cta-text">
+        <div class="live-indicator">
+          <div class="live-dot"></div>
+          <span class="live-text">Live data</span>
+        </div>
+        <h2>{{ t.demo_cta.title }}</h2>
+        <p>{{ t.demo_cta.body }}</p>
+      </div>
+      <a href="/{{ lang }}/demo/" class="btn btn-teal">{{ t.demo_cta.btn }} &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<script src="/assets/js/home.js"></script>

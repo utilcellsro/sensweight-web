@@ -1,0 +1,57 @@
+{% set t = translations[lang] %}
+{% set e = t.events %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">{{ e.page_tagline }}</div>
+    <h1>{{ e.page_headline }}</h1>
+    <p class="page-hero-sub">{{ e.page_sub }}</p>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ e.promotions_title }}</div>
+    </div>
+    <div class="events-empty-state">
+      <p>{{ e.promotions_empty }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ e.events_title }}</div>
+    </div>
+    <div class="events-empty-state">
+      <p>{{ e.events_empty }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ e.news_title }}</div>
+    </div>
+    <div class="events-empty-state">
+      <p>{{ e.news_empty }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-section">
+  <div class="container newsletter-inner">
+    <div>
+      <h2>{{ e.newsletter_title }}</h2>
+      <p>{{ e.newsletter_sub }}</p>
+    </div>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input class="newsletter-input" type="email" placeholder="{{ e.newsletter_placeholder }}" required>
+      <button class="btn btn-teal" type="submit">{{ e.newsletter_btn }}</button>
+    </form>
+    <p class="newsletter-note">{{ e.newsletter_note }}</p>
+  </div>
+</section>

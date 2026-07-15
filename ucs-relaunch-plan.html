@@ -1,0 +1,1391 @@
+
+<title>unifiedcloudsensors.com — Relaunch Implementation Plan</title>
+<meta name="description" content="Conceptual implementation plan for the new UCS website: three language versions, ThingsBoard M500 demo portal, ROI calculator, and AWS CloudFront deployment.">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:       #091828;
+  --navy-mid:   #152E4A;
+  --navy-lit:   #1E4268;
+  --blue:       #1560E0;
+  --blue-dim:   #EBF1FC;
+  --teal:       #00B4A6;
+  --teal-dim:   #E3F7F5;
+  --sky:        #3D91D6;
+  --amber:      #D68C10;
+  --amber-dim:  #FEF7E6;
+  --bg:         #ECF0F7;
+  --surface:    #F5F7FB;
+  --white:      #FFFFFF;
+  --text:       #1A2A3C;
+  --muted:      #586E86;
+  --border:     #C8D5E8;
+  --mono: 'Cascadia Code','Consolas','Courier New',monospace;
+  --sans: 'Segoe UI',system-ui,-apple-system,sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── HEADER ─────────────────────────────────────── */
+.doc-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 52px 40px 44px;
+  position: relative;
+  overflow: hidden;
+}
+.doc-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 420px; height: 420px;
+  background: radial-gradient(ellipse at 80% 120%, rgba(0,180,166,.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+.header-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: var(--teal);
+}
+.doc-title {
+  font-size: clamp(24px, 4.5vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  max-width: 660px;
+  margin-bottom: 14px;
+}
+.doc-subtitle {
+  color: rgba(255,255,255,.55);
+  font-size: 15px;
+  max-width: 560px;
+  line-height: 1.6;
+}
+.header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+.meta-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+}
+.meta-value {
+  font-size: 13px;
+  color: rgba(255,255,255,.8);
+  font-weight: 500;
+}
+
+/* ─── BODY ────────────────────────────────────────── */
+.doc-body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 52px 24px 88px;
+}
+
+/* ─── SECTION ───────────────────────────────────── */
+.section { margin-bottom: 60px; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.s-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: .06em;
+  min-width: 30px;
+}
+.s-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -.015em;
+}
+
+/* ─── PROSE ─────────────────────────────────────── */
+p { margin-bottom: 14px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--text); font-weight: 600; }
+
+/* ─── CALLOUT ───────────────────────────────────── */
+.callout {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 6px 6px 0;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+.callout.amber { border-left-color: var(--amber); background: var(--amber-dim); }
+.callout.teal  { border-left-color: var(--teal);  background: var(--teal-dim);  }
+.callout.navy  { border-left-color: var(--navy);  background: #EEF2F8; }
+.callout-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+.callout.amber .callout-title { color: var(--amber); }
+.callout.teal  .callout-title { color: #009D90; }
+.callout.navy  .callout-title { color: var(--navy); }
+.callout p { font-size: 13.5px; }
+.callout ul { font-size: 13.5px; color: var(--muted); padding-left: 20px; margin-top: 8px; }
+.callout ul li { margin-bottom: 4px; line-height: 1.55; }
+
+/* ─── VERSION CARDS ─────────────────────────────── */
+.version-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.vcard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.vcard.rec { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+.vcard-stripe {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.vcard:nth-child(1) .vcard-stripe { background: var(--blue); }
+.vcard:nth-child(2) .vcard-stripe { background: var(--teal); }
+.vcard:nth-child(3) .vcard-stripe { background: var(--sky); }
+.vcard-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.vcard-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: var(--bg);
+  color: var(--muted);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.vcard.rec .vcard-tag { background: var(--blue-dim); color: var(--blue); }
+.rec-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--blue);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+.vcard-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+.vcard-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.vcard-url {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--blue);
+  background: var(--blue-dim);
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  letter-spacing: .02em;
+  margin-top: 4px;
+}
+
+/* ─── PRODUCT GRID ───────────────────────────────── */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.prod-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+.prod-name {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+  letter-spacing: .02em;
+}
+.prod-full {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+.prod-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.prod-flag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-top: 8px;
+}
+.flagship { background: #EBF0FD; color: var(--blue); }
+.migration { background: var(--teal-dim); color: #009D90; }
+.later { background: #F0F0F0; color: #888; }
+
+/* ─── SITEMAP ────────────────────────────────────── */
+.sitemap-wrap {
+  background: var(--navy);
+  border-radius: 8px;
+  padding: 28px 32px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 2;
+}
+.sm-root  { color: var(--teal); font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+.sm-b     { color: rgba(255,255,255,.5); white-space: pre; }
+.sm-page  { color: rgba(255,255,255,.8); }
+.sm-feat  { color: var(--sky); }
+.sm-note  { color: rgba(255,255,255,.28); margin-left: 4px; }
+.sm-sep   { border-top: 1px solid rgba(255,255,255,.07); margin: 10px 0 6px; }
+
+/* ─── FEATURE TABLE ──────────────────────────────── */
+.table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  background: var(--white);
+}
+thead th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 11px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+tbody td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--surface); }
+.f-name { font-weight: 600; color: var(--navy); }
+.f-sub  { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.55; }
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.p1 { background: #FDEAEA; color: #B83030; }
+.p2 { background: #FEF3E2; color: #A06020; }
+.p3 { background: var(--blue-dim); color: var(--blue); }
+.effort { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ─── CONTENT AUDIT TABLE ────────────────────────── */
+.audit-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 16px; }
+.audit-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--white); }
+.audit-table th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+.audit-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.audit-table tr:last-child td { border-bottom: none; }
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+.keep   { background: #2ECC71; }
+.adapt  { background: var(--amber); }
+.drop   { background: #E74C3C; }
+.new-pg { background: var(--blue); }
+
+/* ─── AWS ARCH ───────────────────────────────────── */
+.arch {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px 24px;
+  overflow-x: auto;
+}
+.arch-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  min-width: 560px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.abox {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  text-align: center;
+  min-width: 108px;
+}
+.abox.primary { background: var(--navy); border-color: var(--navy); }
+.abox.aws     { background: var(--blue-dim); border-color: var(--blue); }
+.abox.teal    { background: var(--teal-dim); border-color: var(--teal); }
+.abox-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--navy);
+}
+.abox.primary .abox-label { color: #fff; }
+.abox.aws .abox-label     { color: var(--blue); }
+.abox.teal .abox-label    { color: #009D90; }
+.abox-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.abox.primary .abox-sub { color: rgba(255,255,255,.5); }
+.arr {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--border);
+  padding: 0 6px;
+  user-select: none;
+  flex-shrink: 0;
+}
+.arch-analytics {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.analytics-node {
+  flex: 1;
+  min-width: 130px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 12.5px;
+}
+.analytics-node strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.analytics-arrow {
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--border);
+  flex-shrink: 0;
+}
+.arch-note { margin-top: 16px; font-size: 12px; color: var(--muted); font-style: italic; }
+
+/* ─── DESIGN TOKENS ─────────────────────────────── */
+.token-colors { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.color-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+}
+.swatch {
+  width: 30px; height: 30px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,.08);
+  flex-shrink: 0;
+}
+.chip-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+.chip-hex  { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.type-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.type-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 20px 16px;
+}
+.type-role {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.type-sample-xl   { font-size: 28px; font-weight: 700; line-height: 1.15; color: var(--navy); letter-spacing: -.02em; margin-bottom: 4px; }
+.type-sample-body { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 6px; }
+.type-sample-mono { font-family: var(--mono); font-size: 13px; color: var(--teal); letter-spacing: .04em; }
+.type-spec        { font-family: var(--mono); font-size: 11px; color: rgba(0,0,0,.3); margin-top: 8px; }
+
+/* ─── ROI SPEC ───────────────────────────────────── */
+.roi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.roi-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+.roi-block-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.roi-block ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.roi-block li { font-size: 13px; color: var(--text); padding-left: 14px; position: relative; line-height: 1.45; }
+.roi-block li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+
+/* ─── PHASES ─────────────────────────────────────── */
+.phases { display: flex; flex-direction: column; gap: 12px; }
+.phase-row {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.phase-timing { padding-top: 18px; text-align: right; }
+.phase-wks    { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--teal); letter-spacing: .03em; }
+.phase-wk-lbl { font-size: 11px; color: var(--muted); }
+.phase-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  border-left: 3px solid var(--border);
+}
+.ph1 { border-left-color: var(--blue); }
+.ph2 { border-left-color: var(--teal); }
+.ph3 { border-left-color: var(--sky); }
+.ph4 { border-left-color: #8B78E0; }
+.ph5 { border-left-color: #E07850; }
+.phase-name { font-size: 14.5px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.phase-tasks { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.phase-tasks li {
+  font-size: 13px; color: var(--muted); padding-left: 14px; position: relative; line-height: 1.55;
+}
+.phase-tasks li::before { content: '–'; position: absolute; left: 0; color: var(--border); }
+
+/* ─── QUESTIONS ──────────────────────────────────── */
+.questions { display: flex; flex-direction: column; gap: 10px; }
+.q-item {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 18px;
+}
+.q-n { font-family: var(--mono); font-size: 12px; color: var(--teal); font-weight: 700; padding-top: 1px; }
+.q-text { font-size: 14px; color: var(--text); line-height: 1.5; font-weight: 500; }
+.q-why  { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 620px) {
+  .doc-header { padding: 36px 20px 32px; }
+  .header-meta { gap: 18px; }
+  .doc-body { padding: 36px 16px 64px; }
+  .phase-row { grid-template-columns: 1fr; }
+  .phase-timing { padding-top: 0; display: flex; gap: 8px; align-items: baseline; }
+  .arch-flow { flex-direction: column; min-width: unset; }
+  .arr { transform: rotate(90deg); }
+  .roi-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<!-- ═══════════════════════════════════════════════════ HEADER -->
+<header class="doc-header">
+  <div class="header-eyebrow">Implementation Plan · v2 — after site audit</div>
+  <h1 class="doc-title">unifiedcloudsensors.com<br>Website Relaunch</h1>
+  <p class="doc-subtitle">Migrating five product lines and 96 pages from the Czech-language .eu domain to a trilingual, AWS CloudFront-deployed platform — with ThingsBoard M500 live demos and an ROI calculator.</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="meta-label">Current state</span>
+      <span class="meta-value">unifiedcloudsensors.eu · CZ/PL/EN · 96 pages</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">New domain</span>
+      <span class="meta-value">unifiedcloudsensors.com on AWS CloudFront</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Products found</span>
+      <span class="meta-value">SensWEIGHT · SensSILO · SensGEO · SensATMO · SensGREEN</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Status</span>
+      <span class="meta-value">Conceptual · awaiting Q&amp;A sign-off</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════ BODY -->
+<main class="doc-body">
+
+  <!-- ── 1. WHAT WE FOUND ON THE CURRENT SITE ──────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">01</span>
+      <h2 class="s-title">What the Existing Site Contains</h2>
+    </div>
+
+    <div class="callout navy">
+      <div class="callout-title">Site Audit Summary — unifiedcloudsensors.eu</div>
+      <p>The current site has significantly more content than expected: <strong>96 URLs</strong> across five product lines, multilingual content (CZ/PL/EN), a digitalization guide series, technical SensWEIGHT documentation, event pages, and downloadable resources. The relaunch is a content migration and modernization, not a greenfield build.</p>
+    </div>
+
+    <div class="product-grid">
+      <div class="prod-card">
+        <div class="prod-name">SensWEIGHT™</div>
+        <div class="prod-full">Remote Weighing System Monitor</div>
+        <div class="prod-desc">Bridge scales, belt scales, truck scales, dosing scales. AI-based predictive diagnostics. UCS X1 hardware module with NB-IoT/LPWAN.</div>
+        <span class="prod-flag flagship">Flagship · new demo</span>
+      </div>
+      <div class="prod-card">
+        <div class="prod-name">SensSILO™</div>
+        <div class="prod-full">Silo Level &amp; Force Monitor</div>
+        <div class="prod-desc">Force-based container fill monitoring. Includes SensSILO Connect Kit for retrofit installations.</div>
+        <span class="prod-flag migration">Migrate content</span>
+      </div>
+      <div class="prod-card">
+        <div class="prod-name">SensGEO™</div>
+        <div class="prod-full">Geotechnical Inclination Monitor</div>
+        <div class="prod-desc">Wall inclination monitoring in construction excavations and sheet pile systems. Specialist sector.</div>
+        <span class="prod-flag migration">Migrate content</span>
+      </div>
+      <div class="prod-card">
+        <div class="prod-name">SensATMO™</div>
+        <div class="prod-full">Atmospheric Parameter Monitor</div>
+        <div class="prod-desc">Remote environmental/atmospheric monitoring. Relevant for agriculture and outdoor installations.</div>
+        <span class="prod-flag later">Phase 2</span>
+      </div>
+      <div class="prod-card">
+        <div class="prod-name">SensGREEN™</div>
+        <div class="prod-full">Green Wall &amp; Roof Monitor</div>
+        <div class="prod-desc">Structural load monitoring for green roofs and living walls. Niche but growing sector.</div>
+        <span class="prod-flag later">Phase 2</span>
+      </div>
+    </div>
+
+    <p>Additionally, the site has a UCS hardware line: <strong>UCS X, X1, X2, X2-DIN</strong> (wireless IoT modules), a <strong>UCS Dashboard</strong>, and a <strong>UCS Cloud</strong> platform — these are the underlying infrastructure sold through or alongside the Sens* products.</p>
+  </section>
+
+  <!-- ── 2. THREE LANGUAGE VERSIONS ──────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">02</span>
+      <h2 class="s-title">Three Language Versions — CZ / PL / EN</h2>
+    </div>
+
+    <div class="callout teal">
+      <div class="callout-title">Confirmed</div>
+      <p>The three versions are the three language editions: <strong>Czech, Polish, and English</strong>. This matches the existing .eu site's language switcher. English becomes the primary language for .com (global reach and SEO authority), with Czech and Polish as co-equal variants for the domestic and export markets.</p>
+    </div>
+
+    <div class="version-grid">
+      <div class="vcard rec">
+        <div class="vcard-stripe"></div>
+        <div class="vcard-eyebrow">
+          <span class="vcard-tag">Version 1</span>
+          <span class="rec-pill">Primary</span>
+        </div>
+        <div class="vcard-name">English — Global</div>
+        <div class="vcard-desc">The main commercial language for international reach, SEO authority on .com, and inbound leads outside Czech and Polish markets. Drives all design and content decisions.</div>
+        <span class="vcard-url">unifiedcloudsensors.com</span><br>
+        <span class="vcard-url">unifiedcloudsensors.com/en/</span>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-stripe"></div>
+        <div class="vcard-eyebrow">
+          <span class="vcard-tag">Version 2</span>
+        </div>
+        <div class="vcard-name">Czech — Domestic</div>
+        <div class="vcard-desc">The home market. Czech content from the .eu site migrates here. Retain the existing Czech copy from the company's chief — this is the source of truth for product messaging.</div>
+        <span class="vcard-url">unifiedcloudsensors.com/cs/</span>
+      </div>
+
+      <div class="vcard">
+        <div class="vcard-stripe"></div>
+        <div class="vcard-eyebrow">
+          <span class="vcard-tag">Version 3</span>
+        </div>
+        <div class="vcard-name">Polish — Export Market</div>
+        <div class="vcard-desc">Poland is explicitly supported on the .eu site (CZ-PL catalog available for download). PL content migrates with CZ as the source, translated where needed.</div>
+        <span class="vcard-url">unifiedcloudsensors.com/pl/</span>
+      </div>
+    </div>
+
+    <div class="callout navy">
+      <div class="callout-title">Implementation approach — flat-file i18n, no CMS</div>
+      <p>One <strong>JSON translation file per language</strong> (<code>en.json</code>, <code>cs.json</code>, <code>pl.json</code>) + one shared HTML template. <strong>Eleventy (11ty)</strong> builds three complete sets of static pages at deploy time. Adding a new page means creating one template — the build generates it in all three languages automatically. A <strong>CloudFront Function</strong> on the root <code>/</code> reads the visitor's <code>Accept-Language</code> header and routes to the appropriate version. No CMS, no server, no moving parts.</p>
+    </div>
+  </section>
+
+  <!-- ── 3. SITE ARCHITECTURE ───────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">03</span>
+      <h2 class="s-title">Proposed Site Architecture</h2>
+    </div>
+
+    <p>Each language version mirrors the same page tree. New pages (demo portal, ROI calculator, video section) are additions on top of the migrated .eu content structure.</p>
+
+    <div class="sitemap-wrap">
+<div class="sm-root">unifiedcloudsensors.com/{lang}/ &nbsp;<span class="sm-note">— where {lang} = en | cs | pl</span></div>
+<div class="sm-b">├─ <span class="sm-page">index</span>         <span class="sm-note">Hero · 5-product overview · ROI teaser · Video · Events banner · CTA</span></div>
+<div class="sm-b">├─ products/</div>
+<div class="sm-b">│  ├─ <span class="sm-page">sensweight</span>  <span class="sm-note">Weighing system monitor (flagship — deepest content)</span></div>
+<div class="sm-b">│  ├─ <span class="sm-page">senssilo</span>    <span class="sm-note">Silo / container level monitoring</span></div>
+<div class="sm-b">│  ├─ <span class="sm-page">sensgeo</span>     <span class="sm-note">Geotechnical inclination monitoring</span></div>
+<div class="sm-b">│  ├─ <span class="sm-page">sensatmo</span>    <span class="sm-note">Atmospheric / environmental monitoring</span></div>
+<div class="sm-b">│  └─ <span class="sm-page">sensgreen</span>   <span class="sm-note">Green roof / living wall monitoring</span></div>
+<div class="sm-b">├─ hardware/</div>
+<div class="sm-b">│  ├─ <span class="sm-page">ucs-x1</span>      <span class="sm-note">UCS X1 module — main sensor unit</span></div>
+<div class="sm-b">│  ├─ <span class="sm-page">ucs-x2</span>      <span class="sm-note">UCS X2 / X2-DIN variants</span></div>
+<div class="sm-b">│  └─ <span class="sm-page">ucs-cloud</span>   <span class="sm-note">UCS Cloud platform + dashboard</span></div>
+<div class="sm-b">├─ <span class="sm-feat">◆ demo/m500</span>          <span class="sm-note">Live ThingsBoard embed · M500 real data · date picker</span></div>
+<div class="sm-b">├─ <span class="sm-feat">◆ roi-calculator</span>     <span class="sm-note">Interactive ROI tool — input → payback months + savings</span></div>
+<div class="sm-b">├─ <span class="sm-page">events</span>              <span class="sm-note">Trade shows · Promotions · Discounts (JSON-driven)</span></div>
+<div class="sm-b">├─ <span class="sm-page">videos</span>              <span class="sm-note">YouTube gallery — product demos, installations, webinars</span></div>
+<div class="sm-b">├─ <span class="sm-page">digitalization-guide</span><span class="sm-note">Migrate existing průvodce digitalizací series (5 articles)</span></div>
+<div class="sm-b">├─ <span class="sm-page">about</span>               <span class="sm-note">Company · Mission · Technology · Certifications</span></div>
+<div class="sm-b">├─ <span class="sm-page">contact</span>             <span class="sm-note">Lead form · +420 546 427 053 · Ostrovačice, CZ</span></div>
+<div class="sm-b">└─ <span class="sm-page">resources</span>           <span class="sm-note">Leaflet PDFs · UCS Catalog 2025 · Logos · Manuals</span></div>
+<div class="sm-sep"></div>
+<div class="sm-root">unifiedcloudsensors.com/ (root)</div>
+<div class="sm-b">└─ <span class="sm-page">index</span>  <span class="sm-note">Auto-redirect → /en/ (or browser language detection → /cs/ / /pl/)</span></div>
+    </div>
+  </section>
+
+  <!-- ── 4. CONTENT MIGRATION AUDIT ───────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">04</span>
+      <h2 class="s-title">Content Migration Decision Matrix</h2>
+    </div>
+
+    <p>The .eu site has 96 URLs but most are deeply nested sub-pages of the same products. Here is the migration decision for each major content area.</p>
+
+    <div class="audit-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th style="width:35%">Content area (.eu)</th>
+            <th style="width:12%">Action</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SensWEIGHT™ product family (11 sub-pages)</td>
+            <td><span class="dot adapt"></span>Adapt</td>
+            <td style="font-size:12.5px;color:var(--muted)">Consolidate 11 sub-pages into one product page with anchor sections. Preserve all chief's copy. Add ThingsBoard demo CTA.</td>
+          </tr>
+          <tr>
+            <td>SensSILO™ product page</td>
+            <td><span class="dot keep"></span>Keep</td>
+            <td style="font-size:12.5px;color:var(--muted)">Migrate as-is. Translate to EN for .com launch.</td>
+          </tr>
+          <tr>
+            <td>SensGEO™ product page (2 variants)</td>
+            <td><span class="dot keep"></span>Keep</td>
+            <td style="font-size:12.5px;color:var(--muted)">Migrate both inclination and sheet-piling variants as sections of one SensGEO page.</td>
+          </tr>
+          <tr>
+            <td>SensATMO™ / SensGREEN™</td>
+            <td><span class="dot keep"></span>Keep</td>
+            <td style="font-size:12.5px;color:var(--muted)">Migrate content. Lower traffic pages — simple layouts.</td>
+          </tr>
+          <tr>
+            <td>UCS X, X1, X2 hardware pages</td>
+            <td><span class="dot adapt"></span>Adapt</td>
+            <td style="font-size:12.5px;color:var(--muted)">Consolidate into one hardware overview + individual product cards. Link from product pages.</td>
+          </tr>
+          <tr>
+            <td>Digitalization Guide (5 articles)</td>
+            <td><span class="dot keep"></span>Keep</td>
+            <td style="font-size:12.5px;color:var(--muted)">Good SEO content. Migrate as a blog/article series. Important for thought leadership in EN market.</td>
+          </tr>
+          <tr>
+            <td>About / O nás</td>
+            <td><span class="dot adapt"></span>Adapt</td>
+            <td style="font-size:12.5px;color:var(--muted)">Rewrite in EN with the company's mission and four pillars (Savings, Professionalism, Trust, Long-term Service). Expand team section.</td>
+          </tr>
+          <tr>
+            <td>Events / AKTUALITY (news)</td>
+            <td><span class="dot new-pg"></span>New page</td>
+            <td style="font-size:12.5px;color:var(--muted)">Build a new Events page with JSON-driven content. Migrate DTX Europe, SYMAS 2024, TechAgro 2024 items. Add upcoming events.</td>
+          </tr>
+          <tr>
+            <td>Special Offer page</td>
+            <td><span class="dot adapt"></span>Adapt</td>
+            <td style="font-size:12.5px;color:var(--muted)">Redesign as a marketing discounts/promotions section. Feed from the same events JSON.</td>
+          </tr>
+          <tr>
+            <td>FAQ / Časté dotazy</td>
+            <td><span class="dot keep"></span>Keep</td>
+            <td style="font-size:12.5px;color:var(--muted)">Migrate. Good for SEO and reducing support load. Translate for EN.</td>
+          </tr>
+          <tr>
+            <td>GDPR / Cookie policy</td>
+            <td><span class="dot keep"></span>Keep</td>
+            <td style="font-size:12.5px;color:var(--muted)">Legal requirement. Update to reflect .com domain.</td>
+          </tr>
+          <tr>
+            <td>Photo gallery / installation photos</td>
+            <td><span class="dot adapt"></span>Adapt</td>
+            <td style="font-size:12.5px;color:var(--muted)">Curate best images into product pages and an installations gallery. Don't migrate a full gallery CMS.</td>
+          </tr>
+          <tr>
+            <td>ROI / Savings page (no specific numbers)</td>
+            <td><span class="dot new-pg"></span>New — build properly</td>
+            <td style="font-size:12.5px;color:var(--muted)">The existing ROI page has no numbers. Replace with the interactive ROI calculator tool with real formula inputs.</td>
+          </tr>
+          <tr>
+            <td>ThingsBoard M500 Demo</td>
+            <td><span class="dot new-pg"></span>New — no equivalent</td>
+            <td style="font-size:12.5px;color:var(--muted)">Entirely new. Requires ThingsBoard public dashboard URL and M500 historical dataset access.</td>
+          </tr>
+          <tr>
+            <td>Video section</td>
+            <td><span class="dot new-pg"></span>New — no equivalent</td>
+            <td style="font-size:12.5px;color:var(--muted)">New page. Requires YouTube channel/video URLs from the team.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--muted);">
+      <span><span class="dot keep" style="vertical-align:middle"></span> Keep = migrate as-is</span>
+      <span><span class="dot adapt" style="vertical-align:middle"></span> Adapt = restructure or consolidate</span>
+      <span><span class="dot new-pg" style="vertical-align:middle"></span> New page = build from scratch</span>
+    </div>
+  </section>
+
+  <!-- ── 5. FEATURE BREAKDOWN ───────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">05</span>
+      <h2 class="s-title">Feature Breakdown &amp; Priority</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:26%">Feature</th>
+            <th style="width:33%">What it involves</th>
+            <th style="width:12%">Priority</th>
+            <th style="width:10%">Effort</th>
+            <th>Blocker</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="f-name">i18n Template System</div><div class="f-sub">One HTML template generates EN/CS/PL pages</div></td>
+            <td><div class="f-sub">Eleventy (11ty) static site generator · translation JSON files · shared layout partials for header, footer, nav</div></td>
+            <td><span class="badge p1">P1 — Core</span></td>
+            <td><span class="effort">M (3–4 d)</span></td>
+            <td><span style="font-size:12px;color:var(--muted)">None</span></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">ThingsBoard M500 Demo</div><div class="f-sub">8-load-cell dashboard — spider plots, tables, analytics. Open to all visitors.</div></td>
+            <td><div class="f-sub">Cross-domain embed approach TBD (see §6) · wrapper page with context text · date-range selector for historical M500 data · no login required</div></td>
+            <td><span class="badge p1">P1 — Core</span></td>
+            <td><span class="effort">M (3–5 d)</span></td>
+            <td><span style="font-size:12px;color:#B83030;">Cross-domain approach to decide</span></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">ROI Calculator</div><div class="f-sub">Interactive browser-side tool</div></td>
+            <td><div class="f-sub">Inputs: throughput, measurement error %, material price, downtime hours, SensWEIGHT fee · outputs: annual saving, payback months, 5-yr chart</div></td>
+            <td><span class="badge p1">P1 — Core</span></td>
+            <td><span class="effort">M (3–5 d)</span></td>
+            <td><span style="font-size:12px;color:#B83030;">ROI formula needed</span></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">Content Migration</div><div class="f-sub">Five product lines, hardware, guides, FAQ</div></td>
+            <td><div class="f-sub">Audit → extract → reformat into new templates · translate key pages to EN · 301 redirects .eu → .com</div></td>
+            <td><span class="badge p1">P1 — Core</span></td>
+            <td><span class="effort">L (6–8 d)</span></td>
+            <td><span style="font-size:12px;color:var(--muted)">None</span></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">AWS S3 + CloudFront</div><div class="f-sub">Hosting, CDN, HTTPS, multi-lang routing</div></td>
+            <td><div class="f-sub">S3 bucket · CloudFront + ACM cert · Route 53 DNS · CloudFront Function for /en, /cs, /pl routing · access logs to S3</div></td>
+            <td><span class="badge p1">P1 — Core</span></td>
+            <td><span class="effort">S (1–2 d)</span></td>
+            <td><span style="font-size:12px;color:#B83030;">AWS account access needed</span></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">Video Gallery</div><div class="f-sub">YouTube embed page + homepage featured video</div></td>
+            <td><div class="f-sub">Privacy-safe YouTube embeds (youtube-nocookie.com) · thumbnail grid · lazy-load · lightbox on click</div></td>
+            <td><span class="badge p2">P2 — Soon</span></td>
+            <td><span class="effort">S (1–2 d)</span></td>
+            <td><span style="font-size:12px;color:#B83030;">Video URLs needed</span></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">Events &amp; Promotions</div><div class="f-sub">JSON-driven, easy to update without code</div></td>
+            <td><div class="f-sub">events.json data file · homepage banner strip · /events page with upcoming trade shows (DTX, SYMAS, TechAgro) and discount offers</div></td>
+            <td><span class="badge p2">P2 — Soon</span></td>
+            <td><span class="effort">S (1–2 d)</span></td>
+            <td><span style="font-size:12px;color:var(--muted)">None</span></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">Analytics Pipeline</div><div class="f-sub">CloudFront logs → Athena, optionally GA4</div></td>
+            <td><div class="f-sub">CloudFront access log → S3 logs bucket → Athena table · optionally add GA4 or Plausible for real-time view and goal tracking</div></td>
+            <td><span class="badge p3">P3 — Later</span></td>
+            <td><span class="effort">S (1–2 d)</span></td>
+            <td><span style="font-size:12px;color:var(--muted)">None</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px;font-size:12px;color:var(--muted);">S = &lt;3 days · M = 3–6 days · L = 6+ days. Assumes one developer with HTML/CSS/JS + AWS basics.</p>
+  </section>
+
+  <!-- ── 6. THINGSBOARD DEMO SPEC ──────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">06</span>
+      <h2 class="s-title">ThingsBoard Demo — Dashboard Specification</h2>
+    </div>
+
+    <p>The demo must be <strong>immediately accessible without login</strong> — a visitor lands on the page and sees a live (or near-live) weighing system dashboard with no friction. The system being shown is a scale with <strong>8 load cells</strong>, typical of a bridge scale or truck scale installation.</p>
+
+    <div class="callout amber">
+      <div class="callout-title">Cross-domain challenge — decision needed</div>
+      <p>ThingsBoard is currently running on a <strong>separate domain</strong>. Three approaches exist to embed or connect it from unifiedcloudsensors.com. They differ in development effort, visual integration quality, and what changes are needed on the ThingsBoard server. Pick one before Phase 3 begins.</p>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:20px;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:20%">Approach</th>
+            <th style="width:35%">How it works</th>
+            <th style="width:15%">Effort</th>
+            <th style="width:15%">Visual fit</th>
+            <th>Requirement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="f-name">A — Public iframe</div><div class="f-sub" style="color:var(--teal)">Simplest</div></td>
+            <td><div class="f-sub">Configure a Public Dashboard in ThingsBoard → embed via &lt;iframe&gt; on the demo page. ThingsBoard shows its own UI inside the frame.</div></td>
+            <td><span class="effort">S (1 d)</span></td>
+            <td><span class="effort">ThingsBoard UI only</span></td>
+            <td><div class="f-sub">Set <code>X-Frame-Options: ALLOWALL</code> (or remove header) in ThingsBoard server config (<code>thingsboard.yml</code>). Mark dashboard as Public in TB settings.</div></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">B — REST API + custom charts</div><div class="f-sub" style="color:var(--blue)">Recommended</div></td>
+            <td><div class="f-sub">JavaScript fetches data from ThingsBoard REST API. Site renders its own spider plots, tables, analytics using Chart.js. Full visual control; matches brand perfectly.</div></td>
+            <td><span class="effort">M (4–6 d)</span></td>
+            <td><span class="effort">Full brand match</span></td>
+            <td><div class="f-sub">ThingsBoard API must allow CORS from unifiedcloudsensors.com. A read-only API token or public device credentials stored in the page JS.</div></td>
+          </tr>
+          <tr>
+            <td><div class="f-name">C — Move TB to subdomain</div></td>
+            <td><div class="f-sub">Point <code>iot.unifiedcloudsensors.com</code> → ThingsBoard server via DNS/proxy. Same-origin restrictions lifted; iframe or API both work cleanly.</div></td>
+            <td><span class="effort">S (1–2 d)</span></td>
+            <td><span class="effort">Either</span></td>
+            <td><div class="f-sub">DNS A record + reverse proxy (nginx/CloudFront origin) in front of the ThingsBoard server. ACM cert for the subdomain.</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout teal">
+      <div class="callout-title">Recommendation: Option B (API + custom charts) with Option C as the setup step</div>
+      <p>Move ThingsBoard to <strong>iot.unifiedcloudsensors.com</strong> first (Option C — one afternoon of DNS + nginx work). Then use the REST API to pull data and render branded charts (Option B). This gives you full visual ownership of the demo, a URL that looks like yours, and no dependency on ThingsBoard's UI ever breaking the embed. The public dashboard can still be used as a fallback link ("open in ThingsBoard") for users who want the full-screen experience.</p>
+    </div>
+
+    <p style="font-weight:600;color:var(--navy);font-size:14px;margin-bottom:12px;">What the demo page must display:</p>
+
+    <div class="roi-grid">
+      <div class="roi-block">
+        <div class="roi-block-title">Spider / Radar Plot</div>
+        <ul>
+          <li>8 axes — one per load cell</li>
+          <li>Current load as % of nominal capacity per cell</li>
+          <li>Ideal load = perfectly symmetrical octagon</li>
+          <li>Imbalance highlighted in amber/red</li>
+          <li>Animated update on data refresh</li>
+        </ul>
+      </div>
+      <div class="roi-block">
+        <div class="roi-block-title">Data Table</div>
+        <ul>
+          <li>Cell ID · Current load (kg) · % capacity</li>
+          <li>Zero-point drift (mm / mV)</li>
+          <li>Status: OK / Warning / Fault</li>
+          <li>Last calibration date</li>
+          <li>Sortable columns, color-coded status</li>
+        </ul>
+      </div>
+      <div class="roi-block">
+        <div class="roi-block-title">Analytics Panel</div>
+        <ul>
+          <li>Load trend per cell — last 12 months</li>
+          <li>Drift trend — zero-point shift over time</li>
+          <li>Total scale throughput chart</li>
+          <li>Anomaly markers on timeline</li>
+          <li>Date-range picker (M500 historical data)</li>
+        </ul>
+      </div>
+      <div class="roi-block">
+        <div class="roi-block-title">Summary Bar (top of page)</div>
+        <ul>
+          <li>Total current load (kg / % capacity)</li>
+          <li>System status: All OK / n cells warning</li>
+          <li>Most loaded cell ID</li>
+          <li>Days since last calibration</li>
+          <li>Data freshness timestamp</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 7. ROI CALCULATOR SPEC ────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">07</span>
+      <h2 class="s-title">ROI Calculator — Specification</h2>
+    </div>
+
+    <div class="callout amber">
+      <div class="callout-title">Note from site audit</div>
+      <p>The existing .eu ROI page (<code>/inpage/uspora-a-navratnost-nakladu-sensweight/</code>) lists cost-reduction categories but contains <strong>no specific numbers or formula</strong> — it's narrative only. The new calculator must be built with real figures. Please share the ROI attachment you referenced so we can wire the exact formula.</p>
+    </div>
+
+    <div class="roi-grid">
+      <div class="roi-block">
+        <div class="roi-block-title">Likely Inputs (from site content)</div>
+        <ul>
+          <li>Annual throughput (tonnes/year)</li>
+          <li>Current measurement error (%)</li>
+          <li>Material unit price (€/t)</li>
+          <li>Number of installed scales</li>
+          <li>Current service visits per scale per year</li>
+          <li>Average visit cost (travel + labour, €)</li>
+          <li>Unplanned downtime hours/year</li>
+          <li>Production loss rate (€/hour)</li>
+          <li>SensWEIGHT subscription (€/year)</li>
+        </ul>
+      </div>
+      <div class="roi-block">
+        <div class="roi-block-title">Outputs to Display</div>
+        <ul>
+          <li>Annual service visit savings (€)</li>
+          <li>Annual measurement loss savings (€)</li>
+          <li>Annual downtime reduction savings (€)</li>
+          <li>Total annual benefit (€)</li>
+          <li>Net annual saving after SensWEIGHT fee (€)</li>
+          <li>Payback period (months)</li>
+          <li>5-year cumulative ROI chart (canvas-rendered)</li>
+          <li>Lead capture: "Send me this report as PDF"</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>The calculator should be <strong>pre-filled with typical defaults</strong> (e.g. 3 scales, 4 visits/scale/year, €250/visit) so visitors see a compelling result immediately on load, without filling anything in first. They adjust sliders to match their situation.</p>
+  </section>
+
+  <!-- ── 8. AWS ARCHITECTURE ───────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">08</span>
+      <h2 class="s-title">AWS Deployment Architecture</h2>
+    </div>
+
+    <p>All three language versions deploy as static files — no server to manage. Zero idle compute cost. A CloudFront Function handles language routing so visitors land on the right version automatically.</p>
+
+    <div class="arch">
+      <div class="arch-flow">
+        <div class="abox primary">
+          <div class="abox-label">Browser</div>
+          <div class="abox-sub">Visitor</div>
+        </div>
+        <div class="arr">→</div>
+        <div class="abox aws">
+          <div class="abox-label">Route 53</div>
+          <div class="abox-sub">.com DNS</div>
+        </div>
+        <div class="arr">→</div>
+        <div class="abox aws">
+          <div class="abox-label">CloudFront</div>
+          <div class="abox-sub">CDN · TLS · lang routing</div>
+        </div>
+        <div class="arr">→</div>
+        <div class="abox aws">
+          <div class="abox-label">S3 Bucket</div>
+          <div class="abox-sub">/en/ /cs/ /pl/ static files</div>
+        </div>
+        <div class="arr">→</div>
+        <div class="abox teal">
+          <div class="abox-label">ACM</div>
+          <div class="abox-sub">Free SSL cert</div>
+        </div>
+      </div>
+
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin:4px 0 20px;letter-spacing:.05em;">VISITOR REQUEST PATH</div>
+
+      <div class="arch-analytics">
+        <div class="analytics-node">
+          <strong>CloudFront Logs</strong>
+          Per-request: URI, status, bytes, IP country, referrer, user-agent
+        </div>
+        <div class="analytics-arrow">→</div>
+        <div class="analytics-node">
+          <strong>S3 Logs Bucket</strong>
+          Date-partitioned. Lifecycle → Glacier after 90 d for cost control
+        </div>
+        <div class="analytics-arrow">→</div>
+        <div class="analytics-node">
+          <strong>AWS Athena</strong>
+          SQL over raw logs: top pages per language, geography, referrers
+        </div>
+        <div class="analytics-arrow">→</div>
+        <div class="analytics-node">
+          <strong>QuickSight / Grafana</strong>
+          Visual dashboards for the marketing team
+        </div>
+      </div>
+
+      <p class="arch-note">ThingsBoard stays on its own server. The M500 demo page embeds it via &lt;iframe&gt; using a public dashboard token. The .eu domain gets 301 redirects pointing to .com equivalents, so no SEO equity is lost and existing bookmarks continue to work.</p>
+    </div>
+  </section>
+
+  <!-- ── 9. DESIGN SYSTEM ──────────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">09</span>
+      <h2 class="s-title">Design System — Derived from SensWEIGHT Leaflets</h2>
+    </div>
+
+    <p>The three PDF leaflets (Belt Scale, Silo, Truck Scale) establish the brand visual language: <strong>deep navy authority</strong>, <strong>electric blue precision</strong>, <strong>teal data-readiness</strong>. The new website extends this directly — same brand, now adapted for screen interactions.</p>
+
+    <div class="token-colors">
+      <div class="color-chip">
+        <div class="swatch" style="background:#091828"></div>
+        <div><div class="chip-name">Navy — Authority</div><div class="chip-hex">#091828</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#1560E0"></div>
+        <div><div class="chip-name">Electric Blue — Brand</div><div class="chip-hex">#1560E0</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#00B4A6"></div>
+        <div><div class="chip-name">Teal — Live / Data</div><div class="chip-hex">#00B4A6</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#3D91D6"></div>
+        <div><div class="chip-name">Sky — Secondary</div><div class="chip-hex">#3D91D6</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#ECF0F7"></div>
+        <div><div class="chip-name">Cool Grey — BG</div><div class="chip-hex">#ECF0F7</div></div>
+      </div>
+      <div class="color-chip">
+        <div class="swatch" style="background:#D68C10"></div>
+        <div><div class="chip-name">Amber — ROI / Alerts</div><div class="chip-hex">#D68C10</div></div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-card">
+        <div class="type-role">Headlines</div>
+        <div class="type-sample-xl">SensWEIGHT™<br>Your Weighing<br>Guardian</div>
+        <div class="type-spec">Segoe UI 700, −0.025em, text-wrap:balance</div>
+      </div>
+      <div class="type-card">
+        <div class="type-role">Body Copy</div>
+        <div class="type-sample-body">Remote wireless monitoring of force sensors and evaluation units at any distance — with AI-based predictive diagnostics built in.</div>
+        <div class="type-spec">Segoe UI 400, 1.65 line-height, max 68ch wide</div>
+      </div>
+      <div class="type-card">
+        <div class="type-role">UI Labels &amp; Data</div>
+        <div class="type-sample-mono">LIVE · M500 · 14:32:07<br>±0.02% accuracy<br>NB-IoT · LPWAN</div>
+        <div class="type-spec">Cascadia Code / Consolas, tabular-nums</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 10. IMPLEMENTATION PHASES ─────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">10</span>
+      <h2 class="s-title">Implementation Roadmap — 10 Weeks</h2>
+    </div>
+
+    <div class="phases">
+
+      <div class="phase-row">
+        <div class="phase-timing">
+          <div class="phase-wks">Wk 1–2</div>
+          <div class="phase-wk-lbl">Foundation</div>
+        </div>
+        <div class="phase-card ph1">
+          <div class="phase-name">Phase 1 — AWS Infrastructure &amp; Template System</div>
+          <ul class="phase-tasks">
+            <li>S3 bucket setup with /en/, /cs/, /pl/ folder structure</li>
+            <li>CloudFront distribution + ACM SSL cert for .com and any sub-domains</li>
+            <li>Route 53 DNS records pointing .com to CloudFront</li>
+            <li>CloudFront Function for Accept-Language-based routing on root /</li>
+            <li>Eleventy (11ty) project: shared layout, translation JSON files (en/cs/pl), build pipeline</li>
+            <li>Design system: CSS variables, typography, color tokens matching leaflets</li>
+            <li>Deploy working homepage in English (static, real copy, responsive)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-timing">
+          <div class="phase-wks">Wk 3–5</div>
+          <div class="phase-wk-lbl">Migration</div>
+        </div>
+        <div class="phase-card ph2">
+          <div class="phase-name">Phase 2 — Content Migration (five product lines)</div>
+          <ul class="phase-tasks">
+            <li>SensWEIGHT™ product page — consolidate 11 .eu sub-pages into one with anchor sections</li>
+            <li>SensSILO™, SensGEO™, SensATMO™, SensGREEN™ product pages</li>
+            <li>UCS Hardware overview (X1, X2, X2-DIN, UCS Cloud)</li>
+            <li>About page — four pillars (Savings / Professionalism / Trust / Long-term Service)</li>
+            <li>FAQ and Digitalization Guide article series</li>
+            <li>All pages available in CS; EN translation completed for flagship pages</li>
+            <li>301 redirect map from .eu URLs to .com equivalents (submitted to Google)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-timing">
+          <div class="phase-wks">Wk 6–7</div>
+          <div class="phase-wk-lbl">Demo &amp; ROI</div>
+        </div>
+        <div class="phase-card ph3">
+          <div class="phase-name">Phase 3 — ThingsBoard Demo + ROI Calculator</div>
+          <ul class="phase-tasks">
+            <li>Configure M500 ThingsBoard dashboard as public iframe (requires dashboard URL)</li>
+            <li>Build demo page wrapper: context explanation, date picker, product description</li>
+            <li>Build ROI calculator: sliders, formula engine from ROI document, canvas chart</li>
+            <li>Lead capture after ROI result display — email for "receive this analysis as PDF"</li>
+            <li>PL translations for all new pages</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-timing">
+          <div class="phase-wks">Wk 8–9</div>
+          <div class="phase-wk-lbl">Features</div>
+        </div>
+        <div class="phase-card ph4">
+          <div class="phase-name">Phase 4 — Video, Events, &amp; Marketing Features</div>
+          <ul class="phase-tasks">
+            <li>Video gallery page — privacy-safe YouTube embeds (youtube-nocookie.com)</li>
+            <li>Featured video on homepage above the fold</li>
+            <li>Events &amp; promotions page — JSON-driven (team edits one file, no code change needed)</li>
+            <li>Homepage events banner with optional countdown timer for active promotions</li>
+            <li>Resources page: leaflet PDFs, UCS Catalog 2025 CZ-PL download, logos</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-timing">
+          <div class="phase-wks">Wk 10</div>
+          <div class="phase-wk-lbl">Launch</div>
+        </div>
+        <div class="phase-card ph5">
+          <div class="phase-name">Phase 5 — QA, Analytics, &amp; Go-Live</div>
+          <ul class="phase-tasks">
+            <li>Cross-browser and mobile QA on all 3 languages</li>
+            <li>Lighthouse audit — target 90+ performance, accessibility, SEO</li>
+            <li>Enable CloudFront access log pipeline → S3 → Athena</li>
+            <li>Optionally add GA4 or Plausible for real-time analytics</li>
+            <li>Soft launch: .com live, .eu still online in parallel for 30 days</li>
+            <li>Full DNS cutover after monitoring confirms no broken redirects</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 11. OPEN QUESTIONS ─────────────────────────── -->
+  <section class="section">
+    <div class="section-head">
+      <span class="s-num">11</span>
+      <h2 class="s-title">Open Questions — Needs Your Input</h2>
+    </div>
+
+    <div class="questions">
+
+      <div class="q-item">
+        <div class="q-n">Q1</div>
+        <div class="q-body">
+          <div class="q-text">Which cross-domain approach for ThingsBoard: A (public iframe), B (REST API + custom charts), or C (move TB to iot.unifiedcloudsensors.com)?</div>
+          <div class="q-why">See §06 for the comparison. Recommendation is C then B — move to a subdomain first, then build branded charts. This decision gates Phase 3 work.</div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-n">Q2</div>
+        <div class="q-body">
+          <div class="q-text">Please share the ROI calculation document/attachment you mentioned.</div>
+          <div class="q-why">The existing .eu ROI page has no numbers — only narrative. The calculator needs the actual formula, input parameters, and typical values your sales team uses.</div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-n">Q3</div>
+        <div class="q-body">
+          <div class="q-text">Do you have access to the AWS prod environment, or do we set it up fresh?</div>
+          <div class="q-why">Determines whether we configure new S3/CF resources or connect to an existing AWS account with existing IAM policies.</div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-n">Q4</div>
+        <div class="q-body">
+          <div class="q-text">Which YouTube videos should appear in the video gallery?</div>
+          <div class="q-why">We need the specific video URLs or a channel link. We can pull titles and thumbnails from those URLs to build the gallery.</div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-n">Q5</div>
+        <div class="q-body">
+          <div class="q-text">Is the M500 a specific customer installation or a UCS reference system?</div>
+          <div class="q-why">Affects how we label it on the demo page: "live customer installation" vs. "UCS reference measurement site." Also determines any access/privacy constraints on showing the data publicly.</div>
+        </div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-n">Q6</div>
+        <div class="q-body">
+          <div class="q-text">Should the demo be open to all visitors, or behind a "request access" gate?</div>
+          <div class="q-why">An open demo generates more self-qualified leads. A gate (simple form or Cognito password) adds friction but may be required for commercial sensitivity of the M500 data.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div style="border-top:1px solid var(--border);padding-top:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;">Unified Cloud Sensors · Web Platform Relaunch</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--border);">·</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);">Implementation Plan v3 · 2026-06-27 · CZ/PL/EN confirmed · Demo spec added</div>
+  </div>
+
+</main>

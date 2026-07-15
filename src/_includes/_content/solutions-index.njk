@@ -1,0 +1,30 @@
+{% set t = translations[lang] %}
+{% set sols = t.solutions %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">Solutions</div>
+    <h1>Find your application</h1>
+    <p class="page-hero-sub">UCS sensor systems are deployed across six major industrial and civil engineering applications. Choose your area to learn more.</p>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="solutions-grid">
+      {% set solKeys = ["belt-scale", "silo-inventory", "truck-weighbridge", "geotechnical", "environmental", "green-roof"] %}
+      {% for key in solKeys %}
+      {% set sol = sols[key] %}
+      <a class="sol-card" href="/{{ lang }}/solutions/{{ key }}/">
+        <div class="sol-icon">{{ sol.icon }}</div>
+        <h3>{{ sol.name }}</h3>
+        <p>{{ sol.tagline }}</p>
+        <div class="sol-footer">
+          <span class="sol-product">{{ sol.product }}</span>
+          <span class="sol-link">Learn more →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

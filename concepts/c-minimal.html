@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Cloud Sensors</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:  #091828;
+  --blue:  #1560E0;
+  --teal:  #00B4A6;
+  --amber: #D68C10;
+  --text:  #1d1d1f;
+  --text2: #6e6e73;
+  --text3: #8e8e93;
+  --bdr:   #e5e5ea;
+  --font:  -apple-system,'Segoe UI',system-ui,sans-serif;
+  --mono:  'Cascadia Code','Consolas',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#fff;color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+
+/* ── NAV ─────────────────────────────────── */
+nav{
+  background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--bdr);
+  position:sticky;top:0;z-index:100;
+}
+.nav-in{display:flex;align-items:center;height:52px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-mark{width:26px;height:26px;background:var(--navy);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:9px;font-family:var(--mono);letter-spacing:-.5px}
+.logo-name{font-size:15px;font-weight:600;color:var(--text)}
+.nav-links{display:flex;margin-left:auto;gap:0}
+nav a.nl{color:var(--text2);font-size:13px;text-decoration:none;padding:6px 16px;transition:.15s;border-radius:6px}
+nav a.nl:hover{color:var(--text);background:rgba(0,0,0,.04)}
+
+/* ── HERO ────────────────────────────────── */
+.hero{background:var(--navy);padding:108px 0 96px}
+.hero h1{
+  font-size:clamp(38px,5.8vw,70px);font-weight:700;color:#fff;
+  line-height:1.06;letter-spacing:-2.5px;margin-bottom:18px;max-width:680px;
+}
+.hero h1 .a{color:var(--teal)}
+.hero p{font-size:19px;color:rgba(255,255,255,.55);max-width:460px;margin-bottom:40px;font-weight:300;line-height:1.6;letter-spacing:-.1px}
+.btn-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;color:var(--navy);font-weight:700;font-size:15px;
+  padding:13px 28px;border-radius:980px;text-decoration:none;transition:.15s;letter-spacing:-.1px;
+}
+.btn-pill:hover{background:rgba(255,255,255,.88);transform:scale(.98)}
+
+/* ── PRODUCTS ────────────────────────────── */
+.products{padding:96px 0}
+.micro{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:52px}
+
+.prow{
+  display:grid;grid-template-columns:88px 1fr;gap:20px;
+  align-items:start;padding:40px 0;border-top:1px solid var(--bdr);
+  transition:padding-left .2s;
+}
+.prow:last-child{border-bottom:1px solid var(--bdr)}
+.prow:hover{padding-left:6px}
+.prow:hover .pn{color:var(--blue)}
+
+.pcode{font-size:54px;font-weight:900;color:rgba(0,0,0,.055);letter-spacing:-3px;font-family:var(--mono);padding-top:2px;user-select:none}
+.pn{font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.5px;margin-bottom:6px;transition:color .2s}
+.pd{font-size:15px;color:var(--text2);line-height:1.65;max-width:540px;margin-bottom:10px}
+.pm{font-size:12px;color:var(--text3);font-family:var(--mono);letter-spacing:.1px}
+
+/* ── SOLUTIONS ───────────────────────────── */
+.solutions{padding:88px 0;border-top:1px solid var(--bdr)}
+.sol-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:32px;margin-top:52px}
+.si-name{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:5px}
+.si h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px;letter-spacing:-.2px}
+.si p{font-size:13px;color:var(--text3);line-height:1.5}
+
+/* ── DEMO ────────────────────────────────── */
+.demo-sec{padding:88px 0;border-top:1px solid var(--bdr)}
+.demo-lead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ldot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pl 2s infinite;flex-shrink:0}
+@keyframes pl{0%,100%{box-shadow:0 0 0 0 rgba(0,180,166,.4)}50%{box-shadow:0 0 0 8px rgba(0,180,166,0)}}
+.demo-lead h2{font-size:clamp(20px,2.8vw,28px);font-weight:700;color:var(--text);letter-spacing:-.3px}
+.demo-meta{font-size:12px;color:var(--text3);font-family:var(--mono);margin-bottom:36px}
+.demo-meta span{color:var(--teal)}
+
+.dstats{display:flex;gap:48px;margin-bottom:28px}
+.ds-l{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.ds-v{font-size:26px;font-weight:700;color:var(--text);font-family:var(--mono);letter-spacing:-1px}
+.ds-v .u{font-size:13px;font-weight:400;color:var(--text3);margin-left:2px;letter-spacing:0}
+.ds-v.ok{color:var(--teal)}
+
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dpanel{border:1px solid var(--bdr);border-radius:14px;overflow:hidden}
+.chart-h{height:288px;padding:20px}
+.st{width:100%;border-collapse:collapse;font-size:13px}
+.st th{font-size:11px;font-weight:600;color:var(--text3);padding:12px 18px;text-align:right;border-bottom:1px solid var(--bdr)}
+.st th:first-child{text-align:left}
+.st td{padding:11px 18px;text-align:right;border-bottom:1px solid var(--bdr);color:var(--text2)}
+.st td:first-child{text-align:left;font-weight:600;color:var(--text)}
+.st tr:last-child td{border-bottom:none}
+.st tr:hover td{background:#f9f9fb}
+.cv{color:var(--blue)!important;font-weight:700;font-family:var(--mono)}
+.oks{color:var(--teal);font-size:12px;font-weight:600}
+
+/* ── FOOTER ──────────────────────────────── */
+footer{padding:40px 0;border-top:1px solid var(--bdr)}
+footer p{font-size:12px;color:var(--text3);text-align:center}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media(max-width:760px){
+  .prow{grid-template-columns:56px 1fr}
+  .sol-grid{grid-template-columns:1fr 1fr}
+  .demo-grid{grid-template-columns:1fr}
+  .dstats{gap:24px;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<div class="wrap nav-in">
+  <a class="logo" href="#">
+    <div class="logo-mark">UCS</div>
+    <div class="logo-name">Unified Cloud Sensors</div>
+  </a>
+  <div class="nav-links">
+    <a class="nl" href="#produkty">Produkty</a>
+    <a class="nl" href="#reseni">Řešení</a>
+    <a class="nl" href="#demo">Demo</a>
+    <a class="nl" href="#">Kontakt</a>
+  </div>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="wrap">
+  <h1>Vzdálené sledování<br>průmyslových<br><span class="a">procesů.</span></h1>
+  <p>Modulární IoT systémy. Cloudový přístup. Žádná údržba na místě.</p>
+  <a class="btn-pill" href="#demo">Živá ukázka →</a>
+</div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="produkty">
+<div class="wrap">
+  <div class="micro">Produkty</div>
+
+  <div class="prow">
+    <div class="pcode">X3</div>
+    <div>
+      <div class="pn">UCS X3</div>
+      <div class="pd">Nejpokročilejší průmyslová IoT brána s 8 vstupními kanály, 4G LTE, Wi-Fi 6 a hranovým zpracováním dat.</div>
+      <div class="pm">8 kanálů · 4G LTE + Wi-Fi · IP67 · −40 až +85 °C</div>
+    </div>
+  </div>
+
+  <div class="prow">
+    <div class="pcode">X2</div>
+    <div>
+      <div class="pn">UCS X2</div>
+      <div class="pd">Robustní brána pro standardní průmyslové nasazení. 4 vstupní kanály, 4G LTE, Ethernet a RS-485 Modbus.</div>
+      <div class="pm">4 kanály · 4G LTE + ETH · IP65 · −40 až +70 °C</div>
+    </div>
+  </div>
+
+  <div class="prow">
+    <div class="pcode">X1</div>
+    <div>
+      <div class="pn">UCS X1</div>
+      <div class="pd">Kompaktní modul pro jednoduché monitorovací aplikace. Snadná instalace, nízká spotřeba.</div>
+      <div class="pm">2 kanály · 4G LTE · IP54 · Plug &amp; Play</div>
+    </div>
+  </div>
+
+  <div class="prow">
+    <div class="pcode" style="font-size:32px;letter-spacing:-1px;padding-top:10px;color:rgba(214,140,16,.18)">KIT</div>
+    <div>
+      <div class="pn">SensSILO Connect Kit</div>
+      <div class="pd">Kompletní balíček pro monitoring zásobníku — brána, senzory, montáž a cloudová platforma v jednom.</div>
+      <div class="pm" style="color:var(--amber)">Vše v jednom · Rychlá instalace · UCS Cloud · Záruka 3 roky</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="solutions" id="reseni">
+<div class="wrap">
+  <div class="micro">Řešení</div>
+  <div class="sol-grid">
+    <div class="si"><div class="si-name">SensWEIGHT™</div><h3>Vzdálené vážení</h3><p>Pásové váhy, automobilové váhy, sila</p></div>
+    <div class="si"><div class="si-name">SensSILO™</div><h3>Monitoring zásobníků</h3><p>Hladina, hmotnost, rychlost plnění</p></div>
+    <div class="si"><div class="si-name">SensGEO™</div><h3>Geotechnický monitoring</h3><p>Náklon, sedání, deformace</p></div>
+    <div class="si"><div class="si-name">SensATMO™</div><h3>Environmentální monitoring</h3><p>Teplota, vlhkost, tlak, prašnost</p></div>
+    <div class="si"><div class="si-name">SensGREEN™</div><h3>Zelené střechy</h3><p>Zatížení a vlhkost živé architektury</p></div>
+  </div>
+</div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-sec" id="demo">
+<div class="wrap">
+  <div class="micro">Živá ukázka</div>
+  <div class="demo-lead">
+    <div class="ldot"></div>
+    <h2>SensWEIGHT — M500 referenční systém</h2>
+  </div>
+  <div class="demo-meta">8 tenzometrů · data v reálném čase · <span id="utime">--:--:--</span></div>
+
+  <div class="dstats">
+    <div><div class="ds-l">Celková hmotnost</div><div class="ds-v"><span id="total">—</span><span class="u">kg</span></div></div>
+    <div><div class="ds-l">Průměr / snímač</div><div class="ds-v"><span id="avg">—</span><span class="u">kg</span></div></div>
+    <div><div class="ds-l">Odchylka</div><div class="ds-v"><span id="dev">—</span></div></div>
+    <div><div class="ds-l">Stav</div><div class="ds-v ok">Vše OK</div></div>
+  </div>
+
+  <div class="demo-grid">
+    <div class="dpanel">
+      <div class="chart-h"><canvas id="chart"></canvas></div>
+    </div>
+    <div class="dpanel">
+      <table class="st">
+        <thead><tr><th>Snímač</th><th>Aktuálně (kg)</th><th>Min 1h</th><th>Max 1h</th><th>Stav</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<div class="wrap">
+  <p>Unified Cloud Sensors, s.r.o. · Ostrovačice, Česká republika · © 2025</p>
+</div>
+</footer>
+
+<script>
+const S=['LC01','LC02','LC03','LC04','LC05','LC06','LC07','LC08'];
+const B=[512.4,498.7,521.3,485.2,507.8,493.1,518.6,504.9];
+const r=b=>+(b+(Math.random()-.5)*9).toFixed(1);
+const read=()=>B.map(r);
+function stats(v){
+  const tot=v.reduce((a,b)=>a+b,0),avg=tot/v.length;
+  document.getElementById('total').textContent=tot.toFixed(1);
+  document.getElementById('avg').textContent=avg.toFixed(1);
+  document.getElementById('dev').textContent=(((Math.max(...v)-Math.min(...v))/avg)*100).toFixed(1)+'%';
+  document.getElementById('utime').textContent=new Date().toLocaleTimeString('cs-CZ');
+}
+function table(v){
+  document.getElementById('tbody').innerHTML=v.map((x,i)=>`<tr>
+    <td>${S[i]}</td><td class="cv">${x}</td>
+    <td>${+(x-12-Math.random()*4).toFixed(1)}</td>
+    <td>${+(x+10+Math.random()*4).toFixed(1)}</td>
+    <td class="oks">OK</td></tr>`).join('');
+}
+let ch;
+function initChart(v){
+  ch=new Chart(document.getElementById('chart'),{
+    type:'radar',
+    data:{
+      labels:S,
+      datasets:[{
+        data:v,
+        backgroundColor:'rgba(0,180,166,.08)',
+        borderColor:'#00B4A6',
+        borderWidth:1.5,
+        pointBackgroundColor:'#1560E0',
+        pointBorderColor:'#fff',
+        pointBorderWidth:1.5,
+        pointRadius:4,
+        pointHoverRadius:6,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} kg`}}},
+      scales:{r:{
+        min:455,max:545,
+        ticks:{stepSize:22,font:{family:"-apple-system,'Segoe UI',system-ui,sans-serif",size:10},color:'#8e8e93',backdropColor:'transparent'},
+        grid:{color:'rgba(0,0,0,.06)'},
+        angleLines:{color:'rgba(0,0,0,.06)'},
+        pointLabels:{font:{family:"-apple-system,'Segoe UI',system-ui,sans-serif",size:12,weight:'600'},color:'#1d1d1f'}
+      }}
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const v=read();stats(v);table(v);initChart(v);
+  setInterval(()=>{const n=read();stats(n);table(n);ch.data.datasets[0].data=n;ch.update('none');},3000);
+});
+</script>
+</body>
+</html>

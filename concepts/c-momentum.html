@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCS — Koncept C: Momentum</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:  #091828;
+  --blue:  #1560E0;
+  --teal:  #00B4A6;
+  --amber: #D68C10;
+  --grey:  #F2F5FA;
+  --white: #ffffff;
+  --text:  #0f2235;
+  --text2: #4a5568;
+  --muted: #8a9ab5;
+  --bdr:   #dce4f0;
+  --font:  'Segoe UI',system-ui,sans-serif;
+  --mono:  'Cascadia Code','Consolas',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--text);font-family:var(--font);line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+/* NAV */
+nav{background:var(--navy);position:sticky;top:0;z-index:100}
+.nav-in{display:flex;align-items:center;height:60px;gap:6px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:20px}
+.logo-mark{width:32px;height:32px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:12px;font-family:var(--mono)}
+.logo-name{font-size:14px;font-weight:600;color:#fff;line-height:1.25}
+.logo-name em{color:var(--teal);font-style:normal}
+nav a.nl{color:rgba(255,255,255,.6);font-size:14px;text-decoration:none;padding:6px 14px;border-radius:6px;transition:.15s;font-weight:500}
+nav a.nl:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-cta{margin-left:auto;background:var(--teal);color:var(--navy);font-size:13px;font-weight:700;padding:8px 20px;border-radius:6px;text-decoration:none;transition:.15s;letter-spacing:.2px}
+.nav-cta:hover{background:#00cabb}
+
+/* HERO — full-bleed navy, diagonal line pattern, very large text */
+.hero{background:var(--navy);padding:96px 0 80px;position:relative;overflow:hidden}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(-52deg,rgba(21,96,224,.05),rgba(21,96,224,.05) 1px,transparent 1px,transparent 14px);
+}
+.hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:60px;background:var(--white);clip-path:ellipse(56% 100% at 50% 100%);pointer-events:none}
+.hero-in{position:relative;z-index:1}
+.htag{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:22px}
+.hero h1{font-size:clamp(32px,5vw,62px);font-weight:900;color:#fff;line-height:1.05;margin-bottom:22px;letter-spacing:-2px;max-width:700px}
+.hero h1 .accent{color:var(--teal)}
+.hero p{font-size:18px;color:rgba(255,255,255,.65);max-width:500px;margin-bottom:40px;line-height:1.65;font-weight:300}
+.btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-t{background:var(--teal);color:var(--navy);font-weight:800;font-size:15px;padding:13px 28px;border-radius:6px;text-decoration:none;transition:.15s;letter-spacing:.2px}
+.btn-t:hover{background:#00cabb;transform:translateY(-1px)}
+.btn-g{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);font-size:15px;font-weight:600;padding:13px 28px;border-radius:6px;text-decoration:none;border:1.5px solid rgba(255,255,255,.2);transition:.15s}
+.btn-g:hover{border-color:rgba(255,255,255,.5);color:#fff}
+
+/* PRODUCTS — horizontal rows, not cards */
+.products-sec{padding:80px 0;border-bottom:1px solid var(--bdr)}
+.stag{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.sec-h{font-size:clamp(22px,2.8vw,36px);font-weight:900;color:var(--navy);margin-bottom:50px;letter-spacing:-.5px}
+
+.product-row{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:28px;padding:28px 0;border-top:1px solid var(--bdr);transition:.15s}
+.product-row:hover{padding-left:8px}
+.pr-num{font-size:56px;font-weight:900;color:rgba(9,24,40,.07);line-height:1;font-family:var(--mono);letter-spacing:-3px;text-align:right}
+.pr-body{}
+.pr-tag{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:5px}
+.pr-tag.am{color:var(--amber)}
+.pr-body h3{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;letter-spacing:-.3px}
+.pr-body p{font-size:14px;color:var(--text2);line-height:1.6;max-width:480px}
+.pr-specs{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0}
+.sp{font-family:var(--mono);font-size:11px;font-weight:600;padding:4px 10px;border-radius:3px;background:var(--grey);color:var(--text2);white-space:nowrap}
+.sp.am{background:rgba(214,140,16,.10);color:var(--amber)}
+
+/* SOLUTIONS — big bold text */
+.sol-sec{background:var(--navy);padding:72px 0;position:relative;overflow:hidden}
+.sol-sec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(0,180,166,.12) 0%,transparent 70%);pointer-events:none}
+.sol-in{position:relative;z-index:1}
+.sol-stag{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.sol-sec .sec-h{color:#fff;margin-bottom:40px}
+.sol-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden}
+.sol-item{padding:22px 18px;border-right:1px solid rgba(255,255,255,.08)}
+.sol-item:last-child{border-right:none}
+.sol-line{width:28px;height:2px;background:var(--teal);margin-bottom:12px}
+.sol-name{font-size:13px;font-weight:700;color:var(--teal);margin-bottom:6px;letter-spacing:.2px}
+.sol-item h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px}
+.sol-item p{font-size:12px;color:rgba(255,255,255,.42);line-height:1.55}
+
+/* DEMO */
+.demo-sec{padding:72px 0;background:var(--grey)}
+.demo-sec .stag{color:var(--blue)}
+.demo-shell{background:#fff;border-radius:12px;border:1px solid var(--bdr);overflow:hidden;box-shadow:0 4px 24px rgba(9,24,40,.10)}
+.demo-top{background:var(--navy);padding:18px 24px;display:flex;align-items:center;gap:14px}
+.ldot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pl 2s infinite;flex-shrink:0}
+@keyframes pl{0%,100%{box-shadow:0 0 0 0 rgba(0,180,166,.45)}50%{box-shadow:0 0 0 9px rgba(0,180,166,0)}}
+.demo-ttl{font-size:14px;font-weight:600;color:#fff}
+.demo-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;font-family:var(--mono)}
+.demo-time{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--teal)}
+.demo-stats{display:grid;grid-template-columns:repeat(4,1fr)}
+.ds{padding:16px 22px;border-right:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.ds:last-child{border-right:none}
+.ds-l{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.ds-v{font-size:24px;font-weight:900;color:var(--navy);font-family:var(--mono);letter-spacing:-.5px}
+.ds-v.ok{color:var(--teal)}
+.ds-u{font-size:12px;font-weight:500;color:var(--muted);margin-left:3px}
+.demo-body{display:grid;grid-template-columns:1fr 1fr}
+.dc{padding:24px;border-right:1px solid var(--bdr)}
+.dt{padding:24px}
+.pl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.chart-h{height:252px;position:relative}
+.st{width:100%;border-collapse:collapse;font-size:13px}
+.st th{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:6px 10px;text-align:right;border-bottom:2px solid var(--bdr)}
+.st th:first-child{text-align:left}
+.st td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--bdr);color:var(--text2)}
+.st td:first-child{text-align:left;font-weight:700;color:var(--navy)}
+.st tr:last-child td{border-bottom:none}
+.st tr:hover td{background:var(--grey)}
+.cv{color:var(--blue)!important;font-weight:800;font-family:var(--mono)}
+.ok-s{display:inline-flex;align-items:center;gap:4px;color:var(--teal);font-weight:700;font-size:11px}
+.ok-s::before{content:'●';font-size:7px}
+
+/* FOOTER */
+footer{background:var(--navy);padding:32px 0}
+.fi{display:flex;justify-content:space-between;align-items:center}
+.fi p{font-size:13px;color:rgba(255,255,255,.38)}
+.fi .badge{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.5px;border:1px solid rgba(255,255,255,.12);padding:5px 12px;border-radius:4px}
+
+@media(max-width:860px){
+  .product-row{grid-template-columns:60px 1fr;gap:16px}
+  .pr-specs{display:none}
+  .sol-grid{grid-template-columns:1fr 1fr}
+  .sol-item{border-bottom:1px solid rgba(255,255,255,.08)}
+  .demo-body{grid-template-columns:1fr}
+  .dc{border-right:none;border-bottom:1px solid var(--bdr)}
+  .demo-stats{grid-template-columns:1fr 1fr}
+  .ds:nth-child(2){border-right:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="wrap nav-in">
+  <a class="logo" href="#">
+    <div class="logo-mark">UCS</div>
+    <div class="logo-name">Unified Cloud <em>Sensors</em></div>
+  </a>
+  <a class="nl" href="#produkty">Produkty</a>
+  <a class="nl" href="#reseni">Řešení</a>
+  <a class="nl" href="#demo">Demo</a>
+  <a class="nl" href="#">Kontakt</a>
+  <a class="nav-cta" href="#demo">Živá ukázka →</a>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="wrap hero-in">
+  <div class="htag">PRŮMYSLOVÝ IoT MONITORING</div>
+  <h1>Vzdálené sledování<br><span class="accent">průmyslových procesů</span></h1>
+  <p>Modulární IoT systémy pro monitoring vážení, zásobníků a průmyslového prostředí. Jednoduchou instalaci, cloudový přístup, žádná údržba na místě.</p>
+  <div class="btns">
+    <a class="btn-t" href="#demo">Živá ukázka →</a>
+    <a class="btn-g" href="#produkty">Produkty</a>
+  </div>
+</div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-sec" id="produkty">
+<div class="wrap">
+  <div class="stag">Produkty</div>
+  <div class="sec-h">Hardwarové platformy</div>
+  <div class="product-row">
+    <div class="pr-num">X3</div>
+    <div class="pr-body">
+      <div class="pr-tag">Vlajková brána IoT</div>
+      <h3>UCS X3</h3>
+      <p>Nejpokročilejší průmyslová IoT brána s 8 vstupními kanály, 4G LTE, Wi-Fi 6 a hranovým zpracováním dat. Pro náročné aplikace.</p>
+    </div>
+    <div class="pr-specs">
+      <span class="sp">8 kanálů</span><span class="sp">4G LTE + Wi-Fi</span><span class="sp">IP67</span><span class="sp">−40 až +85 °C</span>
+    </div>
+  </div>
+  <div class="product-row">
+    <div class="pr-num">X2</div>
+    <div class="pr-body">
+      <div class="pr-tag">Průmyslová brána IoT</div>
+      <h3>UCS X2</h3>
+      <p>Robustní brána pro standardní průmyslové nasazení. 4 vstupní kanály, 4G LTE, Ethernet a RS-485 Modbus.</p>
+    </div>
+    <div class="pr-specs">
+      <span class="sp">4 kanály</span><span class="sp">4G LTE + ETH</span><span class="sp">IP65</span><span class="sp">−40 až +70 °C</span>
+    </div>
+  </div>
+  <div class="product-row">
+    <div class="pr-num">X1</div>
+    <div class="pr-body">
+      <div class="pr-tag">Kompaktní IoT modul</div>
+      <h3>UCS X1</h3>
+      <p>Kompaktní modul pro jednoduché monitorovací aplikace. Snadná instalace, nízká spotřeba, spolehlivé připojení.</p>
+    </div>
+    <div class="pr-specs">
+      <span class="sp">2 kanály</span><span class="sp">4G LTE</span><span class="sp">IP54</span><span class="sp">Plug &amp; Play</span>
+    </div>
+  </div>
+  <div class="product-row">
+    <div class="pr-num" style="color:rgba(214,140,16,.18)">KIT</div>
+    <div class="pr-body">
+      <div class="pr-tag am">Kompletní řešení</div>
+      <h3>SensSILO Connect Kit</h3>
+      <p>Kompletní balíček pro monitoring zásobníku — brána, senzory, montáž a cloudová platforma. Vše z jednoho zdroje.</p>
+    </div>
+    <div class="pr-specs">
+      <span class="sp am">Vše v jednom</span><span class="sp am">Rychlá instalace</span><span class="sp am">UCS Cloud</span><span class="sp am">Záruka 3 roky</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="sol-sec" id="reseni">
+<div class="wrap sol-in">
+  <div class="sol-stag">Řešení</div>
+  <div class="sec-h">Aplikace pro každé průmyslové prostředí</div>
+  <div class="sol-grid">
+    <div class="sol-item"><div class="sol-line"></div><div class="sol-name">SensWEIGHT™</div><h3>Vzdálené vážení</h3><p>Pásové váhy, automobilové váhy, sila</p></div>
+    <div class="sol-item"><div class="sol-line"></div><div class="sol-name">SensSILO™</div><h3>Monitoring zásobníků</h3><p>Hladina, hmotnost, rychlost plnění</p></div>
+    <div class="sol-item"><div class="sol-line"></div><div class="sol-name">SensGEO™</div><h3>Geotechnický monitoring</h3><p>Náklon, sedání, deformace</p></div>
+    <div class="sol-item"><div class="sol-line"></div><div class="sol-name">SensATMO™</div><h3>Environmentální monitoring</h3><p>Teplota, vlhkost, tlak, prašnost</p></div>
+    <div class="sol-item"><div class="sol-line"></div><div class="sol-name">SensGREEN™</div><h3>Zelené střechy</h3><p>Zatížení a vlhkost živé architektury</p></div>
+  </div>
+</div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-sec" id="demo">
+<div class="wrap">
+  <div class="stag">Živá ukázka</div>
+  <div class="sec-h">SensWEIGHT — M500 referenční systém</div>
+  <div class="demo-shell">
+    <div class="demo-top">
+      <div class="ldot"></div>
+      <div>
+        <div class="demo-ttl">SensWEIGHT — 8 tenzometrů · M500 referenční systém</div>
+        <div class="demo-sub">Data v reálném čase · aktualizace každé 3 s</div>
+      </div>
+      <div class="demo-time" id="utime">--:--:--</div>
+    </div>
+    <div class="demo-stats">
+      <div class="ds"><div class="ds-l">Celk. hmotnost</div><div class="ds-v"><span id="total">—</span><span class="ds-u">kg</span></div></div>
+      <div class="ds"><div class="ds-l">Průměr / snímač</div><div class="ds-v"><span id="avg">—</span><span class="ds-u">kg</span></div></div>
+      <div class="ds"><div class="ds-l">Max. odchylka</div><div class="ds-v"><span id="dev">—</span></div></div>
+      <div class="ds"><div class="ds-l">Stav systému</div><div class="ds-v ok">Vše OK</div></div>
+    </div>
+    <div class="demo-body">
+      <div class="dc">
+        <div class="pl">Rozložení zatížení</div>
+        <div class="chart-h"><canvas id="chart"></canvas></div>
+      </div>
+      <div class="dt">
+        <div class="pl">Hodnoty snímačů</div>
+        <table class="st">
+          <thead><tr><th>Snímač</th><th>Aktuálně (kg)</th><th>Min 1h</th><th>Max 1h</th><th>Stav</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+<div class="wrap fi">
+  <p>Unified Cloud Sensors, s.r.o. · Ostrovačice, Česká republika · © 2025</p>
+  <span class="badge">KONCEPT C — MOMENTUM</span>
+</div>
+</footer>
+
+<script>
+const S=['LC01','LC02','LC03','LC04','LC05','LC06','LC07','LC08'];
+const B=[512.4,498.7,521.3,485.2,507.8,493.1,518.6,504.9];
+const r=b=>+(b+(Math.random()-.5)*9).toFixed(1);
+const read=()=>B.map(r);
+function stats(v){
+  const tot=v.reduce((a,b)=>a+b,0),avg=tot/v.length;
+  document.getElementById('total').textContent=tot.toFixed(1);
+  document.getElementById('avg').textContent=avg.toFixed(1);
+  document.getElementById('dev').textContent=(((Math.max(...v)-Math.min(...v))/avg)*100).toFixed(1)+'%';
+  document.getElementById('utime').textContent=new Date().toLocaleTimeString('cs-CZ');
+}
+function table(v){
+  document.getElementById('tbody').innerHTML=v.map((x,i)=>`<tr>
+    <td>${S[i]}</td><td class="cv">${x}</td>
+    <td>${+(x-12-Math.random()*4).toFixed(1)}</td>
+    <td>${+(x+10+Math.random()*4).toFixed(1)}</td>
+    <td><span class="ok-s">OK</span></td></tr>`).join('');
+}
+let ch;
+function initChart(v){
+  ch=new Chart(document.getElementById('chart'),{
+    type:'radar',
+    data:{labels:S,datasets:[{data:v,backgroundColor:'rgba(0,180,166,.12)',borderColor:'#00B4A6',borderWidth:2.5,pointBackgroundColor:'#1560E0',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} kg`}}},
+      scales:{r:{min:455,max:545,
+        ticks:{stepSize:22,font:{family:"'Segoe UI',system-ui,sans-serif",size:10},color:'#8a9ab5',backdropColor:'transparent'},
+        grid:{color:'rgba(9,24,40,.07)'},angleLines:{color:'rgba(9,24,40,.07)'},
+        pointLabels:{font:{family:"'Segoe UI',system-ui,sans-serif",size:12,weight:'800'},color:'#0f2235'}
+      }}
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const v=read();stats(v);table(v);initChart(v);
+  setInterval(()=>{const n=read();stats(n);table(n);ch.data.datasets[0].data=n;ch.update('none');},3000);
+});
+</script>
+</body>
+</html>

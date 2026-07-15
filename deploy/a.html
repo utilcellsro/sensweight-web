@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UCS — Concept A: Light / Precision</title>
+<style>
+:root{--navy:#091828;--blue:#1560E0;--sky:#3D91D6;--teal:#00B4A6;--amber:#D68C10;--green:#4A9E5C;--white:#fff;--bg:#F4F8FC;--text:#0f2235;--text2:#4a5568;--muted:#718096;--border:#D8E4F0;--font:'Segoe UI',system-ui,sans-serif;--mono:'Cascadia Code','Consolas',monospace;--r:4px;--rl:8px;--sh:0 2px 8px rgba(9,24,40,.07);--shl:0 6px 24px rgba(9,24,40,.12);--t:180ms ease}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--text);background:var(--white);line-height:1.6}
+img{max-width:100%;display:block}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* concept bar */
+.concept-bar{background:var(--navy);color:rgba(255,255,255,.45);font-size:11px;font-family:var(--mono);padding:7px 24px;display:flex;gap:16px;align-items:center}
+.concept-bar strong{color:#fff}
+.concept-bar a{color:rgba(255,255,255,.45);text-decoration:none}
+.concept-bar a:hover{color:#fff}
+.concept-bar .back{margin-left:auto}
+
+/* nav */
+.nav{background:var(--white);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(9,24,40,.05)}
+.nav-inner{display:flex;align-items:center;gap:32px;height:68px}
+.nav-logo img{height:38px;width:auto}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-links a{color:var(--text2);font-size:14px;font-weight:500;padding:6px 14px;border-radius:6px;transition:var(--t);text-decoration:none}
+.nav-links a:hover{color:var(--navy);background:var(--bg)}
+.nav-lang{display:flex;gap:4px;margin-left:auto}
+.lang-btn{padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700;border:1px solid var(--border);color:var(--muted);background:transparent;cursor:pointer;transition:var(--t);text-transform:uppercase;letter-spacing:.8px;font-family:var(--mono)}
+.lang-btn:hover{color:var(--navy);border-color:var(--sky)}
+.lang-btn.active{color:#fff;background:var(--sky);border-color:var(--sky)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:var(--r);font-size:15px;font-weight:600;cursor:pointer;transition:var(--t);text-decoration:none;border:2px solid transparent;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#1050c8;box-shadow:0 4px 20px rgba(21,96,224,.3);color:#fff;text-decoration:none}
+.btn-outline{background:transparent;color:var(--navy);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--navy);background:rgba(9,24,40,.04);color:var(--navy);text-decoration:none}
+.btn-teal{background:var(--teal);color:var(--navy);font-weight:700}
+.btn-teal:hover{background:#00a295;color:var(--navy);text-decoration:none}
+
+/* hero */
+.hero{background:var(--bg);padding:96px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--sky) 0%,var(--blue) 100%)}
+.hero::after{content:'';position:absolute;right:0;top:0;bottom:0;width:40%;background:linear-gradient(135deg,transparent 0%,rgba(61,145,214,.06) 100%);pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:680px}
+.hero-tagline{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--sky);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-tagline::before{content:'';width:28px;height:2px;background:var(--sky);flex-shrink:0}
+.hero h1{font-size:clamp(36px,5.2vw,68px);font-weight:800;line-height:1.06;color:var(--navy);margin-bottom:24px;letter-spacing:-1.5px}
+.hero-sub{font-size:20px;line-height:1.6;color:var(--text2);margin-bottom:40px;max-width:540px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+/* stats */
+.stats-bar{background:var(--white);border-bottom:1px solid var(--border)}
+.stats-inner{display:grid;grid-template-columns:repeat(3,1fr)}
+.stat-item{padding:28px 32px;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-value{font-size:34px;font-weight:800;color:var(--navy);font-family:var(--mono);letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.stat-label{font-size:14px;color:var(--muted);margin-top:5px}
+
+/* sections */
+.section{padding:80px 0}
+.section-alt{background:var(--bg)}
+.section-header{text-align:left;margin-bottom:48px}
+.section-tagline{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--sky);margin-bottom:14px}
+.section h2{font-size:clamp(26px,3.5vw,46px);font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.section-sub{font-size:18px;color:var(--text2);margin-top:16px;max-width:580px}
+
+/* product cards */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+.product-card{background:var(--white);border-radius:var(--rl);border:1px solid var(--border);padding:28px;transition:var(--t);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.product-card:hover{box-shadow:var(--shl);border-color:var(--card-accent,var(--sky))}
+.product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-accent,var(--sky))}
+.product-icon{width:48px;height:48px;border-radius:10px;background:var(--card-accent,var(--sky));display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-weight:800;color:#fff;font-size:13px;letter-spacing:-.5px;font-family:var(--mono);flex-shrink:0}
+.product-card h3{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:8px;letter-spacing:-.2px}
+.product-card p{font-size:15px;color:var(--text2);line-height:1.65;flex:1}
+.product-card-footer{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.product-badge{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--card-accent,var(--sky));background:color-mix(in srgb,var(--card-accent,var(--sky)) 12%,transparent);padding:3px 8px;border-radius:4px}
+.card-link{font-size:13px;font-weight:600;color:var(--sky);display:flex;align-items:center;gap:4px;transition:var(--t)}
+.card-link:hover{text-decoration:none;gap:9px}
+
+/* why */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:48px}
+.why-item{display:flex;flex-direction:column}
+.why-mark{width:32px;height:3px;background:var(--sky);margin-bottom:20px;flex-shrink:0}
+.why-item h3{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:10px;letter-spacing:-.2px}
+.why-item p{font-size:16px;color:var(--text2);line-height:1.7}
+
+/* video */
+.video-section{background:var(--navy)}
+.video-section .section-tagline{color:var(--teal)}
+.video-section .section h2{color:#fff}
+.video-grid{display:grid;grid-template-columns:1fr 340px;gap:12px}
+.vid-main{aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:var(--rl);cursor:pointer;background:#0a1f38}
+.vid-side{display:flex;flex-direction:column;gap:12px}
+.vid-card{flex:1;position:relative;overflow:hidden;min-height:0;border-radius:var(--rl);cursor:pointer;background:#0a1f38}
+.vid-thumb{position:absolute;inset:0;background:#0a1f38 center/cover no-repeat;transition:transform 300ms ease}
+.vid-main:hover .vid-thumb,.vid-card:hover .vid-thumb{transform:scale(1.04)}
+.vid-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1}
+.vid-play-btn{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;transition:transform 200ms ease}
+.vid-play-btn::after{content:'';width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid var(--navy);margin-left:5px}
+.vid-play-btn--sm{width:44px;height:44px}
+.vid-play-btn--sm::after{border-top-width:8px;border-bottom-width:8px;border-left-width:14px;margin-left:3px}
+.vid-main:hover .vid-play-btn,.vid-card:hover .vid-play-btn{transform:scale(1.1);background:#fff}
+.vid-placeholder-text{position:absolute;bottom:14px;left:16px;z-index:1;font-size:11px;color:rgba(255,255,255,.3);font-family:var(--mono)}
+
+/* roi */
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.roi-inputs{display:flex;flex-direction:column;gap:22px}
+.roi-field label{font-size:14px;font-weight:500;color:var(--text2);display:block;margin-bottom:9px;line-height:1.4}
+.roi-input-row{display:flex;align-items:center;gap:12px}
+.roi-input{width:150px;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:20px;font-weight:700;color:var(--navy);font-family:var(--mono);background:var(--white);transition:border-color var(--t);font-variant-numeric:tabular-nums}
+.roi-input:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(61,145,214,.15)}
+.roi-unit{font-size:13px;color:var(--muted);font-weight:500;white-space:nowrap}
+.roi-results{background:var(--navy);border-radius:var(--rl);padding:36px;color:#fff;position:sticky;top:80px}
+.roi-result-title{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:28px}
+.rrow{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.07);gap:24px}
+.rrow:last-of-type{border-bottom:none}
+.rlabel{font-size:14px;color:rgba(255,255,255,.5);line-height:1.4}
+.rval{font-size:17px;font-weight:700;font-family:var(--mono);color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rrow.highlight .rlabel{color:rgba(255,255,255,.85);font-weight:600}
+.rrow.highlight .rval{font-size:24px;color:var(--teal)}
+.rrow.payback .rval{font-size:24px;color:var(--amber)}
+.roi-note{font-size:12px;color:rgba(255,255,255,.3);margin-top:28px;line-height:1.65}
+
+/* demo cta */
+.demo-cta-section{background:var(--blue);color:#fff;padding:80px 0;position:relative;overflow:hidden}
+.demo-cta-section::before{content:'';position:absolute;right:-60px;top:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);pointer-events:none}
+.demo-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;position:relative;z-index:1}
+.demo-cta-text h2{font-size:clamp(26px,3vw,38px);font-weight:800;margin-bottom:16px;letter-spacing:-.3px}
+.demo-cta-text p{font-size:18px;color:rgba(255,255,255,.8);max-width:480px}
+.live-indicator{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,180,166,.5)}70%{box-shadow:0 0 0 12px rgba(0,180,166,0)}100%{box-shadow:0 0 0 0 rgba(0,180,166,0)}}
+.live-text{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85)}
+
+/* footer */
+.footer{background:var(--navy);color:rgba(255,255,255,.55);padding:48px 0 32px}
+.footer-inner{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-logo img{height:30px;width:auto;filter:brightness(0) invert(1) opacity(.7)}
+.footer-logo{margin-bottom:10px}
+.footer-company{font-size:13px;margin-bottom:4px}
+.footer-nav{display:flex;gap:24px}
+.footer-nav a{color:rgba(255,255,255,.55);font-size:13px;transition:var(--t)}
+.footer-nav a:hover{color:#fff;text-decoration:none}
+.footer-bottom{margin-top:24px;font-size:12px;color:rgba(255,255,255,.3)}
+
+/* solutions */
+.solutions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sol-card{background:var(--white);border-radius:var(--rl);border:1px solid var(--border);padding:24px 24px 20px;display:flex;flex-direction:column;gap:0;transition:var(--t);position:relative;overflow:hidden}
+.sol-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--sol-color,var(--sky))}
+.sol-card:hover{box-shadow:var(--shl);border-color:var(--sol-color,var(--sky));transform:translateY(-1px)}
+.sol-icon{width:40px;height:40px;border-radius:8px;background:color-mix(in srgb,var(--sol-color,var(--sky)) 12%,transparent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:var(--mono);color:var(--sol-color,var(--sky));letter-spacing:-.3px;margin-bottom:14px;flex-shrink:0}
+.sol-card h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;letter-spacing:-.2px;line-height:1.3}
+.sol-card p{font-size:14px;color:var(--text2);line-height:1.65;flex:1}
+.sol-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.sol-product{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--sol-color,var(--sky));background:color-mix(in srgb,var(--sol-color,var(--sky)) 10%,transparent);padding:3px 8px;border-radius:4px}
+.sol-link{font-size:12px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:3px;transition:var(--t)}
+.sol-link:hover{color:var(--sol-color,var(--sky));text-decoration:none;gap:7px}
+
+@media(max-width:900px){.video-grid{grid-template-columns:1fr}.vid-side{flex-direction:row}.vid-card{aspect-ratio:16/9}.roi-grid{grid-template-columns:1fr}.roi-results{position:static}.solutions-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.stats-inner{grid-template-columns:1fr}.stat-item{border-right:none;border-bottom:1px solid var(--border)}.stat-item:last-child{border-bottom:none}.nav-links{display:none}.footer-inner{grid-template-columns:1fr}.demo-cta-inner{flex-direction:column}.vid-side{flex-direction:column}.solutions-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="concept-bar">
+  <strong>Concept A — Light / Precision</strong>
+  <a href="/b">B: Dark</a>
+  <a href="/c">C: Minimal</a>
+  <a href="/" class="back">← All concepts</a>
+</div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo"><img src="/ucs-logo.png" alt="Unified Cloud Sensors"></a>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Products</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#">SensWEIGHT™</a>
+      <a href="/demo">Live Demo</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="nav-lang">
+      <button class="lang-btn active">EN</button>
+      <button class="lang-btn">CZ</button>
+      <button class="lang-btn">PL</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tagline">Industrial IoT Weighing Monitoring</div>
+      <h1>Remote monitoring that pays for itself</h1>
+      <p class="hero-sub">Real-time load cell data, predictive alerts, and ROI-proven analytics — purpose-engineered for industrial environments.</p>
+      <div class="hero-ctas">
+        <a href="/demo" class="btn btn-primary">See Live Demo →</a>
+        <a href="#products" class="btn btn-outline">Explore Products</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat-item"><div class="stat-value">99.9%</div><div class="stat-label">Cloud availability SLA</div></div>
+      <div class="stat-item"><div class="stat-value">Up to 8</div><div class="stat-label">Load cells per monitoring node</div></div>
+      <div class="stat-item"><div class="stat-value">6–18 mo</div><div class="stat-label">Typical investment payback period</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">Product Lines</div>
+      <h2>Five sensing product lines. One unified cloud platform.</h2>
+    </div>
+    <div class="product-grid">
+      <div class="product-card" style="--card-accent:#1560E0"><div class="product-icon">SW</div><h3>SensWEIGHT™</h3><p>Remote weighing monitor for conveyor belt scales, truck weighbridges, and silo inventory systems.</p><div class="product-card-footer"><span class="product-badge">FLAGSHIP</span><a href="#" class="card-link">Learn more →</a></div></div>
+      <div class="product-card" style="--card-accent:#00B4A6"><div class="product-icon" style="background:#00B4A6">SS</div><h3>SensSILO™</h3><p>Continuous silo and container level monitoring with fill rate analytics and low-stock alerts.</p><div class="product-card-footer"><span class="product-badge" style="color:#00B4A6;background:rgba(0,180,166,.1)">LEVEL</span><a href="#" class="card-link">Learn more →</a></div></div>
+      <div class="product-card" style="--card-accent:#3D91D6"><div class="product-icon" style="background:#3D91D6">SG</div><h3>SensGEO™</h3><p>Geotechnical inclination and displacement monitoring for construction and civil infrastructure.</p><div class="product-card-footer"><span class="product-badge" style="color:#3D91D6;background:rgba(61,145,214,.1)">GEO</span><a href="#" class="card-link">Learn more →</a></div></div>
+      <div class="product-card" style="--card-accent:#D68C10"><div class="product-icon" style="background:#D68C10">SA</div><h3>SensATMO™</h3><p>Atmospheric and environmental monitoring for industrial sites, clean rooms, and logistics hubs.</p><div class="product-card-footer"><span class="product-badge" style="color:#D68C10;background:rgba(214,140,16,.1)">ENVIRO</span><a href="#" class="card-link">Learn more →</a></div></div>
+      <div class="product-card" style="--card-accent:#4A9E5C"><div class="product-icon" style="background:#4A9E5C">SG</div><h3>SensGREEN™</h3><p>Structural load monitoring for green roofs, living walls, and sustainable architecture projects.</p><div class="product-card-footer"><span class="product-badge" style="color:#4A9E5C;background:rgba(74,158,92,.1)">GREEN</span><a href="#" class="card-link">Learn more →</a></div></div>
+      <div class="product-card" style="--card-accent:#091828"><div class="product-icon" style="background:#091828">X3</div><h3>UCS X3</h3><p>Next-generation industrial IoT gateway — 4G LTE, Ethernet, Wi-Fi 6, 8-channel universal input, edge runtime.</p><div class="product-card-footer"><span class="product-badge" style="color:#091828;background:rgba(9,24,40,.08)">HARDWARE</span><a href="#" class="card-link">Learn more →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">Why Unified Cloud Sensors</div>
+      <h2>Built for industrial reality</h2>
+      <p class="section-sub">Not retrofitted enterprise software. Purpose-engineered for harsh environments, field technicians, and board-level reporting.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item"><div class="why-mark"></div><h3>Purpose-built for Industry</h3><p>Designed for harsh environments, DIN-rail mounting, IP65/IP67 protection, and 24/7 unattended operation at −40°C to +85°C.</p></div>
+      <div class="why-item"><div class="why-mark"></div><h3>Cloud-native Platform</h3><p>All data flows to UCS Cloud — accessible from any browser, any device, anywhere in the world. No VPN. No on-premise server.</p></div>
+      <div class="why-item"><div class="why-mark"></div><h3>Proven ROI</h3><p>Customers consistently report 6–18 month payback through labour savings, prevented downtime, and accurate material custody transfer.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="solutions">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">Solutions</div>
+      <h2>Built for your application — not a generic platform</h2>
+      <p class="section-sub">From belt scales to green roofs, UCS hardware and cloud software are pre-configured for each use case.</p>
+    </div>
+    <div class="solutions-grid">
+
+      <div class="sol-card" style="--sol-color:#1560E0">
+        <div class="sol-icon">BLT</div>
+        <h3>Belt Scale Monitoring</h3>
+        <p>Continuous throughput measurement on conveyor systems — real-time tonnage, drift alerts, and shift totalizer dashboards without manual rounds.</p>
+        <div class="sol-footer"><span class="sol-product">SensWEIGHT™</span><a href="#" class="sol-link">Learn more →</a></div>
+      </div>
+
+      <div class="sol-card" style="--sol-color:#00B4A6">
+        <div class="sol-icon">SILO</div>
+        <h3>Silo &amp; Container Inventory</h3>
+        <p>Fill-level monitoring with configurable low-stock and overflow alerts — eliminate production stops and over-ordering across your entire silo farm.</p>
+        <div class="sol-footer"><span class="sol-product" style="color:#00B4A6;background:rgba(0,180,166,.1)">SensSILO™</span><a href="#" class="sol-link" style="--sol-color:#00B4A6">Learn more →</a></div>
+      </div>
+
+      <div class="sol-card" style="--sol-color:#1560E0">
+        <div class="sol-icon">TRK</div>
+        <h3>Truck Weighbridge</h3>
+        <p>Automated axle and gross vehicle weighing for material custody transfer — replacing manual ticketing with timestamped cloud records and PDF reports.</p>
+        <div class="sol-footer"><span class="sol-product">SensWEIGHT™</span><a href="#" class="sol-link">Learn more →</a></div>
+      </div>
+
+      <div class="sol-card" style="--sol-color:#3D91D6">
+        <div class="sol-icon">GEO</div>
+        <h3>Geotechnical Monitoring</h3>
+        <p>Inclination, settlement, and deformation tracking on construction sites, retaining walls, and deep excavations — with configurable safety thresholds and alarm escalation.</p>
+        <div class="sol-footer"><span class="sol-product" style="color:#3D91D6;background:rgba(61,145,214,.1)">SensGEO™</span><a href="#" class="sol-link" style="--sol-color:#3D91D6">Learn more →</a></div>
+      </div>
+
+      <div class="sol-card" style="--sol-color:#D68C10">
+        <div class="sol-icon">ATM</div>
+        <h3>Environmental Sensing</h3>
+        <p>Air quality, temperature, humidity, and pressure monitoring for industrial sites, logistics hubs, and regulated clean rooms — continuous compliance logging.</p>
+        <div class="sol-footer"><span class="sol-product" style="color:#D68C10;background:rgba(214,140,16,.1)">SensATMO™</span><a href="#" class="sol-link" style="--sol-color:#D68C10">Learn more →</a></div>
+      </div>
+
+      <div class="sol-card" style="--sol-color:#4A9E5C">
+        <div class="sol-icon">GRN</div>
+        <h3>Green Roof &amp; Living Walls</h3>
+        <p>Structural load monitoring for sustainable architecture — ensure safety limits are maintained under vegetation, waterlogging, and seasonal snow load.</p>
+        <div class="sol-footer"><span class="sol-product" style="color:#4A9E5C;background:rgba(74,158,92,.1)">SensGREEN™</span><a href="#" class="sol-link" style="--sol-color:#4A9E5C">Learn more →</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section video-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">In Action</div>
+      <h2>See UCS at work</h2>
+    </div>
+    <div class="video-grid">
+      <div class="vid-main" data-vid="PLACEHOLDER"><div class="vid-thumb"></div><div class="vid-play"><div class="vid-play-btn"></div></div><div class="vid-placeholder-text">Video coming soon</div></div>
+      <div class="vid-side">
+        <div class="vid-card" data-vid="PLACEHOLDER"><div class="vid-thumb"></div><div class="vid-play"><div class="vid-play-btn vid-play-btn--sm"></div></div><div class="vid-placeholder-text">Video coming soon</div></div>
+        <div class="vid-card" data-vid="PLACEHOLDER"><div class="vid-thumb"></div><div class="vid-play"><div class="vid-play-btn vid-play-btn--sm"></div></div><div class="vid-placeholder-text">Video coming soon</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="roi">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">Return on Investment</div>
+      <h2>How much will UCS save in your facility?</h2>
+    </div>
+    <div class="roi-grid">
+      <div class="roi-inputs">
+        <div class="roi-field"><label>Staff assigned to manual monitoring</label><div class="roi-input-row"><input class="roi-input" id="r-fte" type="number" min="0" step="1" value="2"><span class="roi-unit">employees</span></div></div>
+        <div class="roi-field"><label>Average hourly wage</label><div class="roi-input-row"><input class="roi-input" id="r-wage" type="number" min="0" step="1" value="35"><span class="roi-unit">/ hr</span></div></div>
+        <div class="roi-field"><label>Unplanned failures per year</label><div class="roi-input-row"><input class="roi-input" id="r-failures" type="number" min="0" step="1" value="10"><span class="roi-unit">failures / yr</span></div></div>
+        <div class="roi-field"><label>Average downtime per failure</label><div class="roi-input-row"><input class="roi-input" id="r-down-h" type="number" min="0" step="0.5" value="5"><span class="roi-unit">hours</span></div></div>
+        <div class="roi-field"><label>Hourly cost of downtime</label><div class="roi-input-row"><input class="roi-input" id="r-down-cost" type="number" min="0" step="50" value="800"><span class="roi-unit">/ hr</span></div></div>
+        <div class="roi-field"><label>UCS system investment</label><div class="roi-input-row"><input class="roi-input" id="r-syscost" type="number" min="0" step="500" value="15000"><span class="roi-unit">€</span></div></div>
+      </div>
+      <div class="roi-results">
+        <div class="roi-result-title">Projected Savings</div>
+        <div class="rrow"><div class="rlabel">Annual saving — labour</div><div class="rval" id="res-labour">—</div></div>
+        <div class="rrow"><div class="rlabel">Annual saving — prevented failures</div><div class="rval" id="res-downtime">—</div></div>
+        <div class="rrow highlight"><div class="rlabel">Total annual saving</div><div class="rval" id="res-total">—</div></div>
+        <div class="rrow payback"><div class="rlabel">Investment payback</div><div class="rval" id="res-payback">—</div></div>
+        <div class="rrow"><div class="rlabel">ROI after year 1</div><div class="rval" id="res-roi">—</div></div>
+        <p class="roi-note">Indicative calculation. 40% reduction in manual monitoring time, 55% prevention of unplanned failures via predictive alerts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="demo-cta-section">
+  <div class="container">
+    <div class="demo-cta-inner">
+      <div class="demo-cta-text">
+        <div class="live-indicator"><div class="live-dot"></div><span class="live-text">Live data</span></div>
+        <h2>See Real Sensor Data</h2>
+        <p>The M500 reference system streams live load cell readings from 8 sensors in real time. No login required.</p>
+      </div>
+      <a href="/demo" class="btn btn-teal">Open Live Demo →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="/ucs-logo.png" alt="Unified Cloud Sensors"></div>
+        <div class="footer-company">Unified Cloud Sensors, s.r.o.</div>
+        <div>Ostrovačice, Czech Republic</div>
+      </div>
+      <nav class="footer-nav">
+        <a href="#">Home</a><a href="#">SensWEIGHT™</a><a href="#">UCS X3</a><a href="#">Live Demo</a><a href="#">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">© 2025 Unified Cloud Sensors, s.r.o. — All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var g=document.querySelector('.roi-grid');
+  if(!g)return;
+  var fmt=function(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n)};
+  var val=function(id){return parseFloat(document.getElementById(id).value)||0};
+  function calc(){
+    var fte=val('r-fte'),wage=val('r-wage'),fail=val('r-failures'),dh=val('r-down-h'),dc=val('r-down-cost'),sc=val('r-syscost');
+    var lab=fte*2080*wage*0.40,down=fail*dh*dc*0.55,tot=lab+down;
+    var pb=tot>0?(sc/(tot/12)):0,roi=sc>0?((tot-sc)/sc*100):0;
+    function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v}
+    set('res-labour',fmt(lab));set('res-downtime',fmt(down));set('res-total',fmt(tot));
+    set('res-payback',pb>0?pb.toFixed(1)+' mo.':'—');set('res-roi',roi.toFixed(0)+' %');
+    var pe=document.getElementById('res-payback');if(pe)pe.style.color=(pb>0&&pb<=18)?'var(--teal)':'';
+  }
+  document.querySelectorAll('.roi-input').forEach(function(e){e.addEventListener('input',calc)});
+  calc();
+})();
+</script>
+</body>
+</html>
