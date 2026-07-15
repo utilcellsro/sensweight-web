@@ -1,6 +1,7 @@
 {% set t = translations[lang] %}
 {% set h = t.demo_hub %}
-{% set icons = {sensweight: "⚖️", senssilo: "🛢️", sensgeo: "⛰️", sensatmo: "🌡️", sensgreen: "🌿"} %}
+{% set icons = {sensweight: "SW", senssilo: "SIL", sensgeo: "GEO", sensatmo: "ATM", sensgreen: "GRN"} %}
+{% set iconColors = {sensweight: "var(--blue)", senssilo: "var(--teal)", sensgeo: "var(--sky)", sensatmo: "var(--amber)", sensgreen: "var(--green)"} %}
 
 <section class="page-hero">
   <div class="container page-hero-content">
@@ -15,7 +16,7 @@
     <div class="solutions-grid">
       {% for key in ["sensweight", "senssilo", "sensgeo", "sensatmo", "sensgreen"] %}
       <a class="sol-card" href="/{{ lang }}/demo/{{ key }}/">
-        <div class="sol-icon">{{ icons[key] }}</div>
+        <div class="sol-icon" style="background:{{ iconColors[key] }}">{{ icons[key] }}</div>
         <h3>{{ t.products[key].name }}</h3>
         <p>{{ t.products[key].desc }}</p>
         <div class="sol-footer">

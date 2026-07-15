@@ -7,10 +7,29 @@
       <div class="hero-tagline">{{ t.hero.tagline }}</div>
       <h1>{{ t.hero.headline }}</h1>
       <p class="hero-sub">{{ t.hero.sub }}</p>
-      <div class="hero-ctas">
-        <a href="/{{ lang }}/demo/" class="btn btn-primary">{{ t.hero.cta_demo }} &rarr;</a>
-        <a href="#products" class="btn btn-ghost">{{ t.hero.cta_products }}</a>
-      </div>
+    </div>
+    <div class="hero-tiles">
+      <a href="#products" class="hero-tile">
+        <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        <span class="hero-tile-text">
+          <span class="hero-tile-title">{{ t.hero.tile1_title }}</span>
+          <span class="hero-tile-sub">{{ t.hero.tile1_sub }}</span>
+        </span>
+      </a>
+      <a href="/{{ lang }}/how-to-buy/" class="hero-tile">
+        <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/><path d="M2 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L21 7H6"/></svg></span>
+        <span class="hero-tile-text">
+          <span class="hero-tile-title">{{ t.hero.tile2_title }}</span>
+          <span class="hero-tile-sub">{{ t.hero.tile2_sub }}</span>
+        </span>
+      </a>
+      <a href="/{{ lang }}/request-a-dealer/" class="hero-tile">
+        <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span class="hero-tile-text">
+          <span class="hero-tile-title">{{ t.hero.tile3_title }}</span>
+          <span class="hero-tile-sub">{{ t.hero.tile3_sub }}</span>
+        </span>
+      </a>
     </div>
   </div>
 </section>
@@ -43,26 +62,6 @@
     </div>
   </div>
 </section>
-
-{# ── STATS BAR ─────────────────────────────────────────────── #}
-<div class="stats-bar">
-  <div class="container">
-    <div class="stats-inner">
-      <div class="stat-item">
-        <div class="stat-value">{{ t.stats.uptime }}</div>
-        <div class="stat-label">{{ t.stats.uptime_label }}</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">{{ t.stats.sensors }}</div>
-        <div class="stat-label">{{ t.stats.sensors_label }}</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">{{ t.stats.roi }}</div>
-        <div class="stat-label">{{ t.stats.roi_label }}</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 {# ── PRODUCTS ──────────────────────────────────────────────── #}
 <section class="section" id="products">
@@ -345,23 +344,6 @@
         <p class="roi-note">{{ t.roi.note }}</p>
       </div>
 
-    </div>
-  </div>
-</section>
-
-{# ── DEMO CTA ──────────────────────────────────────────────── #}
-<section class="demo-cta-section">
-  <div class="container">
-    <div class="demo-cta-inner">
-      <div class="demo-cta-text">
-        <div class="live-indicator">
-          <div class="live-dot"></div>
-          <span class="live-text">Live data</span>
-        </div>
-        <h2>{{ t.demo_cta.title }}</h2>
-        <p>{{ t.demo_cta.body }}</p>
-      </div>
-      <a href="/{{ lang }}/demo/" class="btn btn-teal">{{ t.demo_cta.btn }} &rarr;</a>
     </div>
   </div>
 </section>

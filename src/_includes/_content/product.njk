@@ -23,7 +23,7 @@
     <div class="features-grid">
       {% for f in p.features %}
       <div class="feature-card">
-        <div class="feature-icon">{{ f.icon }}</div>
+        <div class="feature-icon">{{ "0" if loop.index < 10 }}{{ loop.index }}</div>
         <h3>{{ f.title }}</h3>
         <p>{{ f.body }}</p>
       </div>

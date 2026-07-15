@@ -13,10 +13,11 @@
   <div class="container">
     <div class="solutions-grid">
       {% set solKeys = ["belt-scale", "silo-inventory", "truck-weighbridge", "geotechnical", "environmental", "green-roof"] %}
+      {% set solColors = {"belt-scale": "var(--blue)", "silo-inventory": "var(--teal)", "truck-weighbridge": "var(--blue)", "geotechnical": "var(--sky)", "environmental": "var(--amber)", "green-roof": "var(--green)"} %}
       {% for key in solKeys %}
       {% set sol = sols[key] %}
       <a class="sol-card" href="/{{ lang }}/solutions/{{ key }}/">
-        <div class="sol-icon">{{ sol.icon }}</div>
+        <div class="sol-icon" style="background:{{ solColors[key] }}">{{ sol.icon }}</div>
         <h3>{{ sol.name }}</h3>
         <p>{{ sol.tagline }}</p>
         <div class="sol-footer">

@@ -44,7 +44,7 @@ Rebuilding **unifiedcloudsensors.eu** → **unifiedcloudsensors.com**, hosted on
 | `SensWEIGHT_Leaflet_A3_TruckScalePRINT_READY.pdf` | Brand/design reference |
 | claude.ai/design project "Unified Cloud Sensors redesign" (`4d1bd223-d7b1-46cf-9718-ca8f86eb8417`) | Source of current homepage design (dark hero, live-dashboard product cards, Archivo/IBM Plex type) — access via the `DesignSync` tool |
 
-## Current state — as of 2026-07-15
+## Current state — as of 2026-07-15 (end of day)
 
 ### What has been built
 
@@ -59,8 +59,16 @@ Rebuilding **unifiedcloudsensors.eu** → **unifiedcloudsensors.com**, hosted on
 | Demo page scaffold | ✅ Done (no live ThingsBoard yet) |
 | Logo | ✅ `ucs-logo.png` in project root + `src/assets/images/` |
 | CSS redesign — light/precision style | ✅ Superseded — see "Homepage redesign" row below |
-| Homepage redesign — dark hero + live-dashboard product cards | ✅ Done 2026-07-15 — sourced from user's Claude Design project ("Unified Cloud Sensors redesign", `UCS Home.dc.html`). New fonts (Archivo/IBM Plex Sans/IBM Plex Mono), new tokens (see table below), dark navy hero with 3 glass quick-link tiles, new "how it works" 3-node flow section, product cards rebuilt with per-product live mini-dashboards (axle bars, silo levels, tilt gauge, env readouts, load/moisture donut). Real 5 product lines used (mockup's placeholder SensBELT/SensPOOL were not adopted). |
+| Homepage redesign — dark hero + live-dashboard product cards | ✅ Done 2026-07-15 — sourced from user's Claude Design project ("Unified Cloud Sensors redesign", `UCS Home.dc.html`). New fonts (Archivo/IBM Plex Sans/IBM Plex Mono), new tokens (see table below). Product cards rebuilt with per-product live mini-dashboards (axle bars, silo levels, tilt gauge, env readouts, load/moisture donut). Real 5 product lines used (mockup's placeholder SensBELT/SensPOOL were not adopted). Since revised further — see rows below. |
+| Demo restructured — hub + 5 per-product pages | ✅ Done 2026-07-15 — `/demo/` is now an index linking to `/demo/sensweight/`, `/demo/senssilo/`, `/demo/sensgeo/`, `/demo/sensatmo/`, `/demo/sensgreen/` (was a single page). One shared config-driven engine (`demo-configs.js` + `demo.js`) powers all 5 — radar chart + table + summary bar, tailored per product (raw units, negative-axis tilt, normalized mixed-unit "comfort index"). |
+| Hero simplified to 3-button Rice Lake-style flow | ✅ Done 2026-07-15 — replaced the original 2-CTA hero (+ an interim 3-tile Products/ROI/Demo version) with **Products / How to Buy / Request a Dealer** tiles, modeled directly on ricelake.com's flow. Hero no longer has separate CTA buttons — Live Demo is reached via nav + product pages instead. |
+| "How to Buy" + "Request a Dealer" pages | ✅ Done 2026-07-15 — new pages (EN/CS/PL) at `/how-to-buy/` (3-step buying process, reuses existing `.steps-grid` CSS) and `/request-a-dealer/` (form: name/company/email/phone/country/product interest/message). **The form has no backend** — static S3 hosting can't process POSTs, so submission is wired via a `mailto:` JS handler (`dealer-form.js`) that opens the visitor's email client with fields pre-filled. Needs a real form backend (e.g. a Lambda+API Gateway endpoint or a third-party form service) before a real launch if a silent/no-email-client submission is required. |
+| Emojis removed site-wide | ✅ Done 2026-07-15 — 198 emoji `icon:` fields removed from `translations.js` feature/capability lists (templates now render `loop.index` as a numbered mono badge, e.g. "01"/"02"). The 6 solution-card and 5 demo-hub-card emoji were replaced with short accent-colored letter codes (BLT/SIL/TWB/GEO/ATM/GRN, SW/SIL/GEO/ATM/GRN) reusing the existing `.sol-icon` badge pattern. |
+| Nav header stripped to logo-only | ✅ Done 2026-07-15 — removed all 6 top-nav links (Home/Solutions/SensWEIGHT™/UCS X3/Events/Live Demo) per user request ("leave just logo"). Language switcher (EN/CZ/PL) kept — it's load-bearing for the trilingual requirement, wasn't part of what was asked to cut. Full navigation is still available via the footer, which keeps its nav links. |
+| Logo source file fixed | ✅ Done 2026-07-15 — `src/assets/images/ucs-logo.png` was 456×438px but the visible mark only filled a 281×134px region (~31% of canvas height), rendering tiny/inconsistent wherever a fixed height was applied, and looking like a broken black box on the dark footer (opaque white background inverted by the footer's CSS filter). Cropped to content bbox + made background truly transparent via a Python/Pillow script (no ImageMagick/sharp available in this environment). Renders crisp in both nav (white bg) and footer (dark bg, inverted) now. Root-level `ucs-logo.png` and `deploy/ucs-logo.png` are untouched duplicates — not used by the live Eleventy build. |
+| Homepage sections trimmed | ✅ Done 2026-07-15 — removed the Stats Bar (99.9%/Up to 8/6–18mo) and the bottom "Demo CTA" banner per user request ("minimal text as possible... remove redundant components"). Kept: Hero, How-it-works flow diagram (user explicitly said this one should stay — "good catch", needed to explain what UCS does), Products, Why UCS, Video, ROI Calculator. |
 | Three Vercel concept previews | ✅ Deployed and shared with team |
+| Git repository | ✅ Initialized 2026-07-15, pushed to `github.com/echetvergov/ucs-frontend` (main branch). `node_modules/`, `_site/`, `.idea/`, `deploy/.vercel/` are gitignored. The Vercel `ucs-frontend` project (https://ucs-frontend-ivory.vercel.app) still only serves the old `deploy/` A/B/C concepts, unconnected to this repo or to `src/` — not yet redeployed with the current build. |
 
 ### Vercel deployment (design concepts)
 
@@ -105,6 +113,8 @@ Fonts: `Archivo` (headings), `IBM Plex Sans` (body), `IBM Plex Mono` (data label
 4. **AWS account** — existing prod environment or fresh setup?
 5. **YouTube video URLs** — for the video gallery page (placeholders in place)
 6. **M500 identity** — customer installation or UCS reference system?
+7. **Request a Dealer form backend** — currently a `mailto:` fallback (no server). Needs a real endpoint (Lambda+API Gateway, or a third-party form service) before launch if silent submission (no email client popup) is required.
+8. **`sales@unifiedcloudsensors.com` inbox** — the dealer-request mailto target is a placeholder address; confirm it exists/is monitored, or swap in the real sales inbox.
 
 ## Design system (from leaflets)
 

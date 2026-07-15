@@ -21,7 +21,7 @@
     <div class="features-grid">
       {% for c in s.capabilities %}
       <div class="feature-card">
-        <div class="feature-icon">{{ c.icon }}</div>
+        <div class="feature-icon">{{ "0" if loop.index < 10 }}{{ loop.index }}</div>
         <h3>{{ c.title }}</h3>
         <p>{{ c.body }}</p>
       </div>
