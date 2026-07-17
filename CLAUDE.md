@@ -6,7 +6,7 @@ This file is auto-loaded every session. Read it before doing anything else.
 
 **Unified Cloud Sensors, s.r.o.** (Ostrovačice, Czech Republic) is an IIoT company making remote monitoring systems for industrial weighing. The company owns **two domains**, which are now built as **two separate sites in this one monorepo**:
 
-- **`sensweight.com`** — the real product/industry sales site. A hub for all five Sens- product lines, organized around 8 industries, showing prospects what UCS can do for their specific operation. **This is where all active work happens right now.**
+- **`sensweight.com`** — the real product/industry sales site, organized around a clean **Products vs Solutions** split (see below). **This is where all active work happens right now.**
 - **`unifiedcloudsensors.com`** — a small, separate, minimal/premium corporate "about us" page, safe to link from LinkedIn. Not started. Own design DNA (not yet sourced). Scoped for later — do not build unless asked.
 
 This supersedes the original plan of one combined trilingual site on `unifiedcloudsensors.eu` → `.com`. That plan is dead; see "Decisions already made" below for what replaced it.
@@ -21,7 +21,7 @@ ucs_web/
 │   └── HOW_TO_WORK.md-equivalent instructions live in the root HOW_TO_WORK.md
 ├── unifiedcloudsensors/    ← placeholder only, not started (see its README.md)
 ├── references/             ← shared design/brand material, outside both builds
-│   ├── UCS-Web-DNA.html               ← sensweight's design source (bundled Claude Design export, 8-industry radial hub)
+│   ├── UCS-Web-DNA.html               ← sensweight's visual design source (tokens, fonts, hero/card styling) — its industries-hub concept was tried and then dropped, see Decisions below
 │   ├── roi-example-truckscale.jpg     ← real worked ROI example ("Truck Scale Digitization"), source for the ROI calculator's per-category rate formula
 │   ├── SEO_AIEO_Strategy.docx / .pdf
 │   ├── ucs-relaunch-plan.html         ← original single-site plan, superseded, kept for history
@@ -40,11 +40,11 @@ ucs_web/
 |---|---|
 | Two domains | `sensweight.com` (product/industry hub) and `unifiedcloudsensors.com` (corporate/brand) are separate sites, not one combined site |
 | Priority | `sensweight.com` only, for now — `unifiedcloudsensors.com` is deferred |
-| sensweight.com nav axis | **8 industries**, not the 5 product lines: belt scale, logistics/weighbridge, geotechnical, silos, recycling, concrete, green roofs, quarries. Source: `references/UCS-Web-DNA.html` |
-| sensweight.com brand scope | It's a **hub for all 5 Sens- brands** — SensWEIGHT isn't privileged over SensSILO/SensGEO/SensATMO/SensGREEN just because of the domain name. Industries are the navigational lens across all of them |
-| sensweight.com hardware | A `/hardware/` section (sensors/indicators/junction boxes/gateways/accessories) is built, mocked — SKUs are illustrative, grounded in the real `references/roi-example-truckscale.jpg` quote, not a confirmed catalog |
+| **sensweight.com IA — Products vs Solutions (2026-07-17, current)** | Two clean top-level pillars, nothing else competing for primary nav space: **Products** = the real, physical, touchable catalog (sensors, indicators, junction boxes, gateways, accessories) at `/products/`. **Solutions** = the five dashboard-based monitoring systems (SensWEIGHT, SensSILO, SensGEO, SensATMO, SensGREEN) at `/solutions/`, each pairing UCS hardware with a UCS Cloud dashboard. |
+| Industries — dropped for now | The 8-industry taxonomy (quarries, concrete, silos, recycling, logistics, belt scale, geotechnical, green roofs) was tried as the primary nav axis, then as a homepage teaser hub — both were judged redundant/overcomplicated once Products vs Solutions was settled on. **Not currently a distinct section anywhere on the site.** The old industry→brand mapping (see git history / commit `dd0d1c5`) may still be useful if industry-specific content gets added back inside each Solution's own page later — that hasn't been decided. |
+| How to Buy / Request a Dealer | Merged into one page (`/how-to-buy/`) — the 3-step buying explainer flows straight into the dealer-request form. There is no separate `/request-a-dealer/` page anymore; two pages for one linear flow was judged redundant. |
 | sensweight.com language | **English only** — no CS/PL. The old trilingual (EN/CS/PL) decision was for the combined single-site plan and is superseded here |
-| sensweight.com hero | DNA hero adopted wholesale, full fidelity — not just tokens/colors |
+| sensweight.com hero | DNA visual style adopted (tokens, fonts, card treatments) — but the DNA's own industries-hub navigation concept was NOT kept, see above |
 | sensweight.com ROI + demo | Reuse the existing ROI calculator and demo engine as-is, don't rebuild |
 | unifiedcloudsensors.com | Different DNA (not yet sourced), minimal/premium, corporate tone — scoped later |
 | Build tool | Eleventy (11ty) v3 — one template set, single English translation object (`translations.en`) |
@@ -52,37 +52,28 @@ ucs_web/
 | Demo access | Open to all visitors — no login gate |
 | Demo content | 8 load cells — radar/spider plot, data table, summary bar (unchanged) |
 
-## Product lines (5 + hardware)
+## The two pillars
 
+**Solutions** (`/solutions/` index + one page each) — dashboard-based monitoring systems:
 - **SensWEIGHT™** — remote weighing monitor (has the M500 ThingsBoard demo data)
 - **SensSILO™** — silo/container level monitoring
 - **SensGEO™** — geotechnical inclination monitoring (construction)
 - **SensATMO™** — atmospheric/environmental monitoring
 - **SensGREEN™** — green roof/wall structural monitoring
-- **Hardware**: UCS X, X1, X2, X2-DIN modules + UCS Cloud platform — plus the underlying components (load cells, indicators, junction boxes, accessories) catalogued at `/hardware/` (mocked, see Current state below)
 
-## Industries → brand mapping (proposed, confirm before treating as final)
-
-All 5 brands are equal citizens of the hub; this is which brand(s) apply per industry, not a primary/secondary ranking:
-
-| Industry | Brand(s) |
-|---|---|
-| Belt Scale | SensWEIGHT |
-| Logistics / Weighbridge | SensWEIGHT |
-| Silos | SensSILO |
-| Geotechnical | SensGEO |
-| Green Roofs | SensGREEN |
-| Recycling | SensWEIGHT + SensATMO |
-| Concrete | SensWEIGHT |
-| Quarries | SensWEIGHT + SensGEO |
+**Products** (`/products/`, one catalog page, mocked) — the physical, touchable components:
+- Load cells & sensors, indicators & terminals, junction & summing boxes, IIoT edge gateways (UCS X1/X2/X2-DIN/X3 — X3 has its own detail page at `/ucsx3/`), accessories & calibration services.
 
 ## Current state — 2026-07-17
 
 - **Monorepo reorg complete**: `sensweight/` holds the Eleventy build, `unifiedcloudsensors/` is an empty placeholder, `references/` holds shared brand/design material. Verified: `cd sensweight && npm install && npm start` boots at `localhost:8080/` (no `/en/` prefix), all pages return 200.
-- **Carried forward from pre-reorg WIP** (was uncommitted, already anticipated this pivot before the reorg conversation happened): homepage has an 8-industry radial hub section; the ROI calculator is rewired to a per-category rate formula matching `references/roi-example-truckscale.jpg` exactly (downtime, efficiency, weighing errors, fraud, calibration, structural, audit, multi-site — each a fixed rate × visitor-entered quantity); design tokens replaced (Chakra Petch display font, navy `#1D2C49`/blue `#476DB8`/ink `#2F2F2E` palette with `--ok`/`--warn`/`--alarm`/`--off` sensor-state colors — see table below).
+- **Carried forward from pre-reorg WIP** (was uncommitted, already anticipated the domain-split pivot): the ROI calculator is rewired to a per-category rate formula matching `references/roi-example-truckscale.jpg` exactly (downtime, efficiency, weighing errors, fraud, calibration, structural, audit, multi-site — each a fixed rate × visitor-entered quantity); design tokens replaced (Chakra Petch display font, navy `#1D2C49`/blue `#476DB8`/ink `#2F2F2E` palette with `--ok`/`--warn`/`--alarm`/`--off` sensor-state colors — see table below).
 - **This reorg session removed**: the `/en/` URL prefix and the EN/CZ language switcher entirely (English-only now — flattened `src/en/*` up to `src/*`, deleted `src/cs/`, deleted the `cs:` block from `translations.js`, added `src/_data/lang.js` as a flat `"en"` global replacing the old per-directory `en.json`/`cs.json` convention).
-- **`/solutions/` remapped to the 8 DNA industries** (quarries, concrete, silos, recycling, logistics, beltscale, geotechnical, greenroofs), replacing the old 6-item taxonomy (belt-scale, silo-inventory, truck-weighbridge, geotechnical, environmental, green-roof). Direct content reuse for the 5 that mapped cleanly; new copy written for quarries/concrete/recycling; `environmental` retired as a standalone page (its angle folded into recycling as a secondary SensATMO capability — SensATMO still has its own product page). Solution entries now carry a `products` array (not a single `product` field) so dual-brand industries show both badges. Solutions-grid icons now reuse the homepage hub's inline SVGs instead of 3-letter text codes.
-- **`/hardware/` built**: 5 mocked categories — load cells & sensors, indicators & terminals, junction & summing boxes, IIoT edge gateways (cross-links to `/ucsx3/`), accessories & calibration. SKU codes (CLM8INOX, WDESK-BL, OPZWALIBI, M740) pulled from `references/roi-example-truckscale.jpg` so it reads as plausible rather than invented; page copy flags it as illustrative pending a real catalog. Linked from footer nav.
+- **IA simplified to Products vs Solutions (2026-07-17, same day, later pass)** — this went through two iterations before landing:
+  1. First built `/solutions/` around the 8 DNA industries (quarries, concrete, silos, recycling, logistics, beltscale, geotechnical, greenroofs) plus a homepage industries radial hub, and a separate `/hardware/` catalog page.
+  2. User feedback: keep it to two clean pillars — **Products** (real, touchable: sensors, indicators, etc.) and **Solutions** (the 5 dashboard systems) — and drop industries as a distinct axis, it was redundant. Also merge How to Buy + Request a Dealer, they were "too close to each other."
+  - Final state: `/hardware/` renamed to `/products/` (nav label, translations key `products_page`, file names). `/solutions/` rewritten as a simple index of the 5 Sens- systems (reusing existing `t.products[key]` name/desc/badge content — no new copy needed); the 8 industry pages, `solution.njk`, and the `t.solutions` data block were deleted. Homepage industries radial hub removed entirely (`t.industries` data and `.industries-*`/`.industry-*` CSS deleted too). Homepage's 5-brand card section relabeled from "Product Lines" to "Solutions" and the UCS X3 card dropped from it (X3 is hardware, lives in the Products catalog and its own `/ucsx3/` page instead). Hero tiles are now Products → Solutions → How to Buy, all linking to real pages (no more `#anchor` scroll-links). `/request-a-dealer/` deleted; its form now lives at the bottom of `/how-to-buy/` (same `dealer-form.js`, same `#dealer-form` id).
+  - **If asked to re-add an industries section or re-split How to Buy/Request a Dealer, check with the user first** — this was a deliberate simplification after trying the richer version, not an oversight.
 
 ### Design tokens (current, from main.css — 2026-07-17)
 
@@ -108,15 +99,15 @@ Fonts: `Chakra Petch` (headings/display), `IBM Plex Sans` (body), `IBM Plex Mono
 
 ## Open questions
 
-1. **ROI formula generalization** — `references/roi-example-truckscale.jpg` gives one worked example (Truck Scale Digitization). Confirm whether its per-category rates apply site-wide or need per-industry variants.
-2. **Industries → brand mapping** — table above is proposed, not fully confirmed for Recycling/Quarries' dual-brand cases.
-3. **unifiedcloudsensors.com DNA** — not sourced yet.
-4. **ThingsBoard cross-domain approach** for the live demo — still open (public iframe vs REST API vs subdomain+proxy).
-5. **YouTube video URLs** — placeholders still in place in `home.njk`.
-6. **M500 identity** — customer installation or UCS reference system? (privacy)
-7. **AWS account** — existing prod environment or fresh setup?
-8. **Request a Dealer form backend** — currently a `mailto:` fallback (static site, no server). Needs a real endpoint before launch if silent submission is required.
-9. **`sales@unifiedcloudsensors.com` inbox** — placeholder mailto target, confirm it exists/is monitored, or swap in the real sales inbox. (Note: now that sensweight.com and unifiedcloudsensors.com are separate, confirm which domain's inbox this should actually be.)
+1. **ROI formula generalization** — `references/roi-example-truckscale.jpg` gives one worked example (Truck Scale Digitization). Confirm whether its per-category rates apply site-wide or need variants.
+2. **unifiedcloudsensors.com DNA** — not sourced yet.
+3. **ThingsBoard cross-domain approach** for the live demo — still open (public iframe vs REST API vs subdomain+proxy).
+4. **YouTube video URLs** — placeholders still in place in `home.njk`.
+5. **M500 identity** — customer installation or UCS reference system? (privacy)
+6. **AWS account** — existing prod environment or fresh setup?
+7. **Dealer form backend** — currently a `mailto:` fallback (static site, no server), now living at the bottom of `/how-to-buy/`. Needs a real endpoint before launch if silent submission is required.
+8. **`sales@unifiedcloudsensors.com` inbox** — placeholder mailto target, confirm it exists/is monitored, or swap in the real sales inbox. (Note: now that sensweight.com and unifiedcloudsensors.com are separate, confirm which domain's inbox this should actually be.)
+9. **Whether industry-specific content ever comes back** — not currently planned, but if it does, the working assumption (per user feedback) is it belongs inside each Solution's own page, not as a separate top-level section.
 
 ## Implementation phases (original estimate, predates the 2-domain split — treat as directional only)
 

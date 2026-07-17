@@ -1,5 +1,5 @@
 {% set t = translations[lang] %}
-{% set h = t.hardware %}
+{% set h = t.products_page %}
 {% set categoryIcons = [
   '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><path d="M10 8h4M10 12h4M10 16h4"/></svg>',
   '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h4M7 14h2"/><circle cx="16" cy="12" r="2"/></svg>',
@@ -47,8 +47,7 @@
     <h2>{{ h.cta_note }}</h2>
     <p>Every installation is specced to the site — talk to a dealer about capacities, mounting, and integration.</p>
     <div class="product-cta-btns">
-      <a href="/request-a-dealer/" class="btn btn-teal">{{ h.cta_dealer }}</a>
-      <a href="/how-to-buy/" class="btn btn-ghost">{{ h.cta_buy }}</a>
+      <a href="/how-to-buy/" class="btn btn-teal">{{ h.cta_buy }}</a>
     </div>
   </div>
 </section>

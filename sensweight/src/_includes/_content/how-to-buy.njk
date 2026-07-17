@@ -31,13 +31,72 @@
   </div>
 </section>
 
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <div class="section-tagline">{{ h.form_tagline }}</div>
+      <h2>{{ h.form_heading }}</h2>
+      <p class="section-sub">{{ h.form_sub }}</p>
+    </div>
+    <form class="contact-form" id="dealer-form">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="d-name">{{ h.label_name }}</label>
+          <input type="text" id="d-name" name="name" required>
+        </div>
+        <div class="form-field">
+          <label for="d-company">{{ h.label_company }}</label>
+          <input type="text" id="d-company" name="company" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="d-email">{{ h.label_email }}</label>
+          <input type="email" id="d-email" name="email" required>
+        </div>
+        <div class="form-field">
+          <label for="d-phone">{{ h.label_phone }}</label>
+          <input type="tel" id="d-phone" name="phone">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="d-country">{{ h.label_country }}</label>
+          <input type="text" id="d-country" name="country" required>
+        </div>
+        <div class="form-field">
+          <label for="d-interest">{{ h.label_interest }}</label>
+          <select id="d-interest" name="interest">
+            <option value="">{{ h.option_default }}</option>
+            <option value="SensWEIGHT">SensWEIGHT™</option>
+            <option value="SensSILO">SensSILO™</option>
+            <option value="SensGEO">SensGEO™</option>
+            <option value="SensATMO">SensATMO™</option>
+            <option value="SensGREEN">SensGREEN™</option>
+            <option value="Hardware">Hardware / components</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="d-message">{{ h.label_message }}</label>
+        <textarea id="d-message" name="message" placeholder="{{ h.placeholder_message }}"></textarea>
+      </div>
+      <div>
+        <button type="submit" class="btn btn-primary">{{ h.submit }} &rarr;</button>
+      </div>
+      <p class="form-note">{{ h.note }}</p>
+    </form>
+  </div>
+</section>
+
 <section class="product-cta">
   <div class="container">
     <h2>{{ h.cta_heading }}</h2>
     <p>{{ h.cta_sub }}</p>
     <div class="product-cta-btns">
-      <a href="/request-a-dealer/" class="btn btn-teal">{{ h.cta_dealer }}</a>
-      <a href="/demo/" class="btn btn-ghost">{{ h.cta_demo }}</a>
+      <a href="/demo/" class="btn btn-teal">{{ h.cta_demo }}</a>
     </div>
   </div>
 </section>
+
+<script src="/assets/js/dealer-form.js"></script>
