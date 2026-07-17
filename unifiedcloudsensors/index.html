@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Cloud Sensors</title>
+<meta name="description" content="Unified Cloud Sensors, s.r.o. — industrial IoT company behind the SensWEIGHT, SensSILO, SensGEO, SensATMO, and SensGREEN monitoring platforms.">
+<style>
+  :root {
+    --bg: #0B1420;
+    --ink: #F4F6F8;
+    --muted: rgba(244,246,248,.62);
+    --faint: rgba(244,246,248,.32);
+    --rule: rgba(244,246,248,.14);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--bg); color: var(--ink);
+    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+  }
+  body {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 40px 24px; text-align: center;
+  }
+  .logo { height: 34px; width: auto; filter: brightness(0) invert(1) opacity(.92); margin-bottom: 40px; }
+  .eyebrow {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--faint); margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 400; letter-spacing: .3px; margin: 0 0 20px; }
+  p.sub {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px; line-height: 1.7; color: var(--muted);
+    max-width: 480px; margin: 0 0 36px;
+  }
+  .rule { width: 40px; height: 1px; background: var(--rule); margin: 0 0 36px; }
+  a.cta {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px; font-weight: 600; letter-spacing: .5px;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--rule); padding-bottom: 4px;
+    transition: border-color .18s ease;
+  }
+  a.cta:hover { border-color: var(--ink); }
+  footer {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 12px; color: var(--faint);
+    margin-top: 64px;
+  }
+</style>
+</head>
+<body>
+  <img class="logo" src="assets/images/ucs-logo.png" alt="Unified Cloud Sensors">
+  <div class="eyebrow">Industrial IoT</div>
+  <h1>Unified Cloud Sensors</h1>
+  <p class="sub">
+    We engineer the sensors, gateways, and cloud platform behind SensWEIGHT, SensSILO, SensGEO,
+    SensATMO, and SensGREEN — remote monitoring systems deployed across quarries, concrete plants,
+    silos, recycling facilities, and civil infrastructure worldwide.
+  </p>
+  <div class="rule"></div>
+  <a class="cta" href="https://sensweight.com/">Explore our industry solutions on sensweight.com →</a>
+  <footer>Unified Cloud Sensors, s.r.o. · Ostrovačice, Czech Republic</footer>
+</body>
+</html>
