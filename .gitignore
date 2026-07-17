@@ -1,6 +1,5 @@
 node_modules/
 _site/
 .idea/
-deploy/.vercel/
 .DS_Store
 Thumbs.db

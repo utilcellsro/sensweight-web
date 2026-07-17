@@ -1,0 +1,22 @@
+{% set t = translations[lang] %}
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img class="footer-logo-img" src="/assets/images/ucs-logo.png" alt="Unified Cloud Sensors">
+        </div>
+        <div class="footer-company">{{ t.footer.company }}</div>
+        <div>{{ t.footer.address }}</div>
+      </div>
+      <nav class="footer-nav">
+        <a href="/">{{ t.nav.home }}</a>
+        <a href="/sensweight/">SensWEIGHT™</a>
+        <a href="/ucsx3/">UCS X3</a>
+        <a href="/demo/">{{ t.nav.demo }}</a>
+        <a href="#">{{ t.nav.contact }}</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">© 2025 {{ t.footer.company }} — {{ t.footer.rights }}</div>
+  </div>
+</footer>
