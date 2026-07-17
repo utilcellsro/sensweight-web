@@ -11,10 +11,11 @@ module.exports = {
     },
     flow: {
       tagline: "How it works",
-      heading: "Fit the module, connect the cloud.",
-      node1_title: "Your existing equipment", node1_sub: "Scales, silos, structures — already in place",
-      node2_title: "UCS sensor module", node2_sub: "Fitted in hours, IP67-rated",
-      node3_title: "UCS Cloud", node3_sub: "Live dashboards, alerts, ROI reporting",
+      heading: "One system. Sensors to cloud.",
+      sub: "We don't sell parts — we deliver the whole thing: hardware, installation, and the cloud platform that ties it together, specified for your exact site.",
+      node1_title: "We assess your site", node1_sub: "Every belt, silo, or structure is different — we specify the right sensors and hardware for your exact case.",
+      node2_title: "We engineer & install the hardware", node2_sub: "Load cells, gateways, and wiring — installed and commissioned by our certified technicians, not shipped as a DIY kit.",
+      node3_title: "UCS Cloud, live", node3_sub: "Dashboards, predictive alerts, and ROI reporting — flowing the same day.",
     },
     stats: {
       uptime: "99.9%", uptime_label: "Cloud availability SLA",
