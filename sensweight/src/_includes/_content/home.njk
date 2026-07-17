@@ -9,77 +9,27 @@
       <p class="hero-sub">{{ t.hero.sub }}</p>
     </div>
     <div class="hero-tiles">
-      <a href="#products" class="hero-tile">
+      <a href="/products/" class="hero-tile">
         <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
         <span class="hero-tile-text">
           <span class="hero-tile-title">{{ t.hero.tile1_title }}</span>
           <span class="hero-tile-sub">{{ t.hero.tile1_sub }}</span>
         </span>
       </a>
-      <a href="/how-to-buy/" class="hero-tile">
-        <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/><path d="M2 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L21 7H6"/></svg></span>
+      <a href="/solutions/" class="hero-tile">
+        <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 15l3-4 3 2 4-6"/></svg></span>
         <span class="hero-tile-text">
           <span class="hero-tile-title">{{ t.hero.tile2_title }}</span>
           <span class="hero-tile-sub">{{ t.hero.tile2_sub }}</span>
         </span>
       </a>
-      <a href="/request-a-dealer/" class="hero-tile">
-        <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+      <a href="/how-to-buy/" class="hero-tile">
+        <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/><path d="M2 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L21 7H6"/></svg></span>
         <span class="hero-tile-text">
           <span class="hero-tile-title">{{ t.hero.tile3_title }}</span>
           <span class="hero-tile-sub">{{ t.hero.tile3_sub }}</span>
         </span>
       </a>
-    </div>
-  </div>
-</section>
-
-{# ── INDUSTRIES — radial hub ───────────────────────────────── #}
-{% set industryKeys = ["quarries", "concrete", "silos", "recycling", "logistics", "beltscale", "geotechnical", "greenroofs"] %}
-{% set industryIcons = {
-  quarries: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 19h20"/><path d="M4 19 9 8l3 4.5L15 7l5 12"/></svg>',
-  concrete: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l2 4v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V7z"/><path d="M6 9h12"/></svg>',
-  silos: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a3 1.4 0 0 1 6 0v10a3 1.4 0 0 1-6 0z"/><path d="M4 8a3 1.4 0 0 0 6 0"/><path d="M14 11a3 1.2 0 0 1 6 0v7a3 1.2 0 0 1-6 0z"/><path d="M14 11a3 1.2 0 0 0 6 0"/></svg>',
-  recycling: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 8-8"/><path d="M9 2 12 4 9 7"/><path d="M20 12a8 8 0 0 1-8 8"/><path d="M15 22 12 20 15 17"/></svg>',
-  logistics: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="11" height="8" rx="1"/><path d="M13 11h4l3 3v3h-7z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>',
-  beltscale: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="7" width="6" height="5" rx="1"/><circle cx="6" cy="16" r="2.5"/><circle cx="18" cy="16" r="2.5"/><path d="M6 13.5h12M6 18.5h12"/></svg>',
-  geotechnical: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M4 20 16 6"/><path d="M4 20a10 10 0 0 1 8-9.8" stroke-dasharray="2 2.5"/></svg>',
-  greenroofs: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h16l-2-6H6z"/><path d="M12 14v6"/><path d="M12 14c-2-2-2-5 0-7 2 2 2 5 0 7z"/></svg>'
-} %}
-<section class="section industries-section">
-  <div class="container">
-    <div class="section-header section-header--center">
-      <div class="section-tagline">{{ t.industries.tagline }}</div>
-      <h2>{{ t.industries.heading }}</h2>
-      <p class="section-sub">{{ t.industries.sub }}</p>
-    </div>
-
-    <div class="industries-hub">
-      <div class="industries-orbit-ring"></div>
-      <div class="industries-hub-center">
-        <img class="industries-hub-logo" src="/assets/images/ucs-logo.png" alt="UCS">
-      </div>
-      {% for key in industryKeys %}
-      <div class="industry-node" style="--a:{{ loop.index0 * 45 }}deg">
-        <div class="industry-node-inner">
-          <span class="industry-node-icon">{{ industryIcons[key] | safe }}</span>
-          <span class="industry-node-label">{{ t.industries.items[key] }}</span>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-
-    <div class="industries-grid-mobile">
-      {% for key in industryKeys %}
-      <div class="industry-chip">
-        <span class="industry-node-icon">{{ industryIcons[key] | safe }}</span>
-        <span class="industry-node-label">{{ t.industries.items[key] }}</span>
-      </div>
-      {% endfor %}
-    </div>
-
-    <div class="industries-cta">
-      <a href="/solutions/" class="card-link">{{ t.industries.cta }} &rarr;</a>
     </div>
   </div>
 </section>
@@ -113,8 +63,8 @@
   </div>
 </section>
 
-{# ── PRODUCTS ──────────────────────────────────────────────── #}
-<section class="section" id="products">
+{# ── SOLUTIONS ─────────────────────────────────────────────── #}
+<section class="section" id="solutions">
   <div class="container">
     <div class="section-header">
       <div class="section-tagline">{{ t.products_section_title }}</div>
@@ -241,26 +191,6 @@
         </div>
       </div>
 
-      {# UCS X3 — hardware, no live telemetry #}
-      <div class="product-card product-card-live" style="--card-accent:var(--ink)">
-        <div class="product-card-header">
-          <div class="product-card-header-top">
-            <span class="product-card-header-label">IoT gateway</span>
-            <span class="product-card-hw-badge">hardware</span>
-          </div>
-          <div class="pc-hw-specs">
-            <span>4G LTE</span><span>Wi-Fi 6</span><span>8ch I/O</span><span>Edge AI</span>
-          </div>
-        </div>
-        <div class="product-card-body">
-          <h3>{{ t.products.ucsx3.name }}</h3>
-          <p>{{ t.products.ucsx3.desc }}</p>
-          <div class="product-card-footer">
-            <span class="product-badge" style="color:var(--ink);background:rgba(47,47,46,.08)">{{ t.products.ucsx3.badge }}</span>
-            <a href="/ucsx3/" class="card-link">Learn more &rarr;</a>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>

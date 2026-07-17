@@ -150,80 +150,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 .hero-tile-sub { font-size: 12.5px; color: rgba(255,255,255,.6); }
 @media (max-width: 768px) { .hero-tiles { grid-template-columns: 1fr; } }
 
-/* ── Industries — radial hub ───────────────────────────────── */
+/* ── Centered section header (reused by index pages) ──────── */
 .section-header--center { text-align: center; max-width: 640px; margin: 0 auto 56px; }
 .section-header--center .hero-tagline,
 .section-header--center .section-tagline { justify-content: center; }
 .section-header--center .section-tagline::before { display: none; }
-
-.industries-hub {
-  position: relative;
-  width: min(560px, 92vw);
-  aspect-ratio: 1;
-  margin: 0 auto;
-}
-.industries-orbit-ring {
-  position: absolute; inset: 0; border-radius: 50%;
-  border: 1px dashed var(--border);
-}
-.industries-hub-center {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 92px; height: 92px; border-radius: 50%;
-  background: var(--navy);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 2; box-shadow: 0 4px 16px rgba(29,44,73,.25);
-}
-.industries-hub-logo {
-  width: 56px; height: auto;
-  filter: brightness(0) invert(1) opacity(.92);
-}
-.industry-node {
-  position: absolute; top: 50%; left: 50%;
-  transform: rotate(var(--a)) translate(0, -210px);
-  transition: z-index var(--t-fast);
-}
-.industry-node:hover { z-index: 5; }
-.industry-node-inner {
-  position: absolute; top: 0; left: 0; transform: translate(-50%, -50%) rotate(calc(-1 * var(--a)));
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  width: 108px; text-align: center;
-}
-.industry-node-icon {
-  width: 58px; height: 58px; border-radius: 50%;
-  background: var(--white); border: 1px solid var(--border); flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--blue);
-  transition: transform var(--t-fast), border-color var(--t-fast), color var(--t-fast), box-shadow var(--t-fast);
-}
-.industry-node-icon svg { width: 28px; height: 28px; }
-.industry-node:hover .industry-node-icon {
-  transform: scale(1.28);
-  border-color: var(--blue);
-  color: var(--blue-dark);
-  box-shadow: var(--shl);
-}
-.industry-node-label { font-size: 12.5px; font-weight: 600; color: var(--text2); line-height: 1.35; transition: color var(--t-fast); }
-.industry-node:hover .industry-node-label { color: var(--ink); }
-
-.industries-cta { text-align: center; margin-top: 40px; }
-.industries-cta .card-link { display: inline-flex; font-size: 14px; }
-
-.industries-grid-mobile { display: none; }
-
-@media (max-width: 767px) {
-  .industries-hub { display: none; }
-  .industries-grid-mobile {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
-    max-width: 480px; margin: 0 auto;
-  }
-  .industry-chip {
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    text-align: center; padding: 20px 12px;
-    background: var(--white); border: 1px solid var(--border); border-radius: var(--r);
-  }
-  .industry-chip .industry-node-icon { width: 56px; height: 56px; }
-  .industry-chip:hover .industry-node-icon { transform: scale(1.1); border-color: var(--blue); }
-}
 
 /* ── Flow diagram ("how it works") ─────────────────────────── */
 .flow-grid { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: flex-start; gap: 0; }
