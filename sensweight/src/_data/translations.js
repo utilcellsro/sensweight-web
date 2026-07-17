@@ -1,6 +1,6 @@
 module.exports = {
   en: {
-    nav: { home: "Home", solutions: "Solutions", events: "Events", demo: "Live Demo", contact: "Contact" },
+    nav: { home: "Home", solutions: "Solutions", hardware: "Hardware", events: "Events", demo: "Live Demo", contact: "Contact" },
     hero: {
       tagline: "Industrial IoT Weighing Monitoring",
       headline: "Remote monitoring that pays for itself",
@@ -467,6 +467,57 @@ module.exports = {
         ],
         video_title: "Green roof monitoring in action", cta_demo: "See Live Demo →", cta_contact: "Request a Quote",
       },
+    },
+    hardware: {
+      tagline: "Hardware", heading: "The components behind every SensWEIGHT system",
+      sub: "Load cells, indicators, junction boxes, IIoT gateways, and accessories — mix and match to fit an existing installation or spec a system from scratch. Mocked catalog, illustrative only — confirm current SKUs and pricing before quoting.",
+      cta_note: "Need a full system quote?", cta_dealer: "Request a Dealer →", cta_buy: "How to Buy →",
+      categories: [
+        {
+          name: "Load Cells & Sensors",
+          desc: "Analog and digital load cells for every capacity and mounting style — compression, shear beam, and bending-beam configurations.",
+          skus: [
+            { code: "M740 Series",  name: "Compression load cell",        spec: "500 kg – 50 t, IP68, stainless steel" },
+            { code: "M320 Series",  name: "Shear beam load cell",         spec: "1 – 30 t, alloy steel, IP67" },
+            { code: "M910D Series", name: "Digital load cell",            spec: "1 – 60 t, CANopen, integrated diagnostics" },
+          ],
+        },
+        {
+          name: "Indicators & Terminals",
+          desc: "Weight indicators and terminals for the scale house, control room, or the plant floor — from a basic desktop display to a rugged handheld.",
+          skus: [
+            { code: "WDESK-BL",   name: "Desktop indicator",            spec: "Backlit LCD, RS-232/485, 4–20 mA output" },
+            { code: "WPANEL-19",  name: "19″ panel-mount indicator",    spec: "For control room integration" },
+            { code: "WHAND-IP67", name: "Handheld wireless indicator",  spec: "IP67, Bluetooth, 12h battery" },
+          ],
+        },
+        {
+          name: "Junction & Summing Boxes",
+          desc: "Analog and digitizing junction boxes that combine multiple load cell signals into one clean reading — the backbone of any multi-cell scale.",
+          skus: [
+            { code: "CLM8INOX", name: "8-channel digitizing summing box", spec: "Stainless steel, IP68" },
+            { code: "CLM4",     name: "4-channel analog junction box",    spec: "Potted, IP66" },
+          ],
+        },
+        {
+          name: "IIoT Edge Gateways",
+          desc: "The UCS X series turns any junction box or indicator into a cloud-connected node — 4G/Wi-Fi uplink, edge processing, and UCS Cloud integration out of the box.",
+          skus: [
+            { code: "UCS X1",       name: "Entry gateway",               spec: "4-channel I/O, Wi-Fi, Ethernet" },
+            { code: "UCS X2 / X2-DIN", name: "Mid-range gateway",        spec: "8-channel I/O, 4G LTE, DIN-rail option" },
+            { code: "UCS X3",       name: "Flagship gateway, edge AI",   spec: "8-channel I/O, 4G LTE, Wi-Fi 6 — full spec →", url: "ucsx3" },
+          ],
+        },
+        {
+          name: "Accessories & Calibration",
+          desc: "Alibi memory modules, lightning protection, cabling kits, and certified calibration services — everything needed for a compliant, audit-ready installation.",
+          skus: [
+            { code: "OPZWALIBI",   name: "Alibi memory module",             spec: "Tamper-proof audit trail, legal-for-trade" },
+            { code: "Acc. 74901n", name: "Cable & surge protection kit",    spec: "Lightning/surge protection for outdoor runs" },
+            { code: "Calibration", name: "Single- or multi-range certification", spec: "On-site or factory, ISO-traceable" },
+          ],
+        },
+      ],
     },
     events: {
       page_title: "Events & Promotions", page_tagline: "Stay connected",
