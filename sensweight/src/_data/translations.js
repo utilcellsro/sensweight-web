@@ -1,13 +1,13 @@
 module.exports = {
   en: {
-    nav: { home: "Home", solutions: "Solutions", products: "Products", events: "Events", demo: "Live Demo", contact: "Contact" },
+    nav: { home: "Home", industries: "Industries", solutions: "Solutions", products: "Products", events: "Events", demo: "Live Demo", contact: "Contact" },
     hero: {
       tagline: "Industrial IoT Weighing Monitoring",
       headline: "Remote monitoring that pays for itself",
       sub: "Real-time load cell data, predictive alerts, and ROI-proven analytics — purpose-engineered for industrial environments.",
-      tile1_title: "Products", tile1_sub: "Sensors, indicators, and hardware",
-      tile2_title: "Solutions", tile2_sub: "Five dashboard-based monitoring systems",
-      tile3_title: "How to Buy", tile3_sub: "Simple three-step path, talk to a dealer",
+      tile1_title: "Industries", tile1_sub: "Find your industry, start here",
+      tile2_title: "Products", tile2_sub: "Sensors, indicators, and hardware",
+      tile3_title: "Solutions", tile3_sub: "Five dashboard-based monitoring systems",
     },
     flow: {
       tagline: "How it works",
@@ -26,6 +26,63 @@ module.exports = {
     solutions_index: {
       tagline: "Solutions", heading: "Five monitoring systems. One cloud dashboard.",
       sub: "Each solution pairs UCS hardware with a purpose-built UCS Cloud dashboard — live data, predictive alerts, and ROI reporting for one specific thing you need to monitor.",
+    },
+    industries: {
+      index_tagline: "Industries", index_heading: "Find your industry",
+      index_sub: "Not sure which product or solution applies to your operation? Start here — pick the industry closest to yours and we'll point you at the right one(s).",
+      recommended_title: "Recommended for you",
+      cta_products: "See recommended hardware →",
+      cta_buy: "Talk to us →",
+      items: {
+        quarries: {
+          name: "Quarries & Gravel Pits", tagline: "Aggregate output and pit-wall safety in one system",
+          headline: "Weigh every load out. Watch every wall for movement.",
+          sub: "SensWEIGHT™ weighbridges and belt scales record every truckload leaving the pit, while SensGEO™ inclinometers watch quarry walls and stockpile slopes for the movement that precedes a collapse.",
+          solutions: ["sensweight", "sensgeo"],
+        },
+        concrete: {
+          name: "Concrete Plants", tagline: "Precision batching, honest deliveries",
+          headline: "Every batch weighed right. Every truck loaded to spec.",
+          sub: "SensWEIGHT™ load cells on aggregate bins, cement silos, and truck-loading scales keep batch recipes accurate and prevent over- or under-loading on every delivery.",
+          solutions: ["sensweight"],
+        },
+        silos: {
+          name: "Silos & Storage", tagline: "Real-time inventory by weight",
+          headline: "No more manual silo dips. Accurate inventory, automatically.",
+          sub: "SensSILO™ load cells under each silo leg deliver real-time tonnage, fill rate analytics, and automated low-stock alerts — without entering the silo.",
+          solutions: ["senssilo"],
+        },
+        recycling: {
+          name: "Recycling", tagline: "Weigh the material. Watch the air.",
+          headline: "Know what came in, what went out, and what's in the air between.",
+          sub: "SensWEIGHT™ weighbridges and belt scales track scrap and recyclables in and out of the facility, while SensATMO™ keeps dust, particulates, and site air quality within compliance.",
+          solutions: ["sensweight", "sensatmo"],
+        },
+        logistics: {
+          name: "Logistics & Distribution", tagline: "Automated vehicle & fleet weighing",
+          headline: "Every truck. Every axle. Automatically recorded.",
+          sub: "Dynamic axle weighing with ANPR integration, automatic weight ticket generation, and overload alerts — all feeding into one cloud system.",
+          solutions: ["sensweight"],
+        },
+        beltscale: {
+          name: "Belt Scale Operations", tagline: "Continuous gravimetric flow measurement",
+          headline: "Know exactly how much is moving — in real time.",
+          sub: "SensWEIGHT™ on conveyor belts eliminates manual sampling, improves custody transfer accuracy, and raises alerts before off-spec material ships.",
+          solutions: ["sensweight"],
+        },
+        geotechnical: {
+          name: "Geotechnical & Construction", tagline: "Construction and civil infrastructure",
+          headline: "Catch settlement and movement before it becomes failure.",
+          sub: "SensGEO™ MEMS inclinometers and displacement sensors stream real-time structural data to UCS Cloud — keeping engineers informed and projects safe.",
+          solutions: ["sensgeo"],
+        },
+        greenroofs: {
+          name: "Green Roofs & Structures", tagline: "Sustainable architecture structural monitoring",
+          headline: "Beautiful. But safe.",
+          sub: "SensGREEN™ monitors the structural load of green roofs and living walls — ensuring weight limits are respected and substrates stay correctly saturated.",
+          solutions: ["sensgreen"],
+        },
+      },
     },
     products: {
       sensweight: { name: "SensWEIGHT™", desc: "Remote weighing monitor for conveyor belt scales, truck weighbridges, and silo inventory systems.", badge: "FLAGSHIP" },

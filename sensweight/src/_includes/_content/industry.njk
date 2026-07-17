@@ -1,0 +1,47 @@
+{% set t = translations[lang] %}
+{% set ind = t.industries %}
+{% set item = ind.items[industryKey] %}
+{% set icons = {sensweight: "SW", senssilo: "SIL", sensgeo: "GEO", sensatmo: "ATM", sensgreen: "GRN"} %}
+{% set iconColors = {sensweight: "var(--blue)", senssilo: "var(--ok)", sensgeo: "var(--sky)", sensatmo: "var(--warn)", sensgreen: "var(--blue-dark)"} %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">{{ item.tagline }}</div>
+    <h1>{{ item.headline }}</h1>
+    <p class="page-hero-sub">{{ item.sub }}</p>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <div class="section-tagline">{{ ind.recommended_title }}</div>
+      <h2>{{ item.name }}</h2>
+    </div>
+    <div class="solutions-grid">
+      {% for key in item.solutions %}
+      {% set p = t.products[key] %}
+      <a class="sol-card" href="/{{ key }}/">
+        <div class="sol-icon" style="background:{{ iconColors[key] }}">{{ icons[key] }}</div>
+        <h3>{{ p.name }}</h3>
+        <p>{{ p.desc }}</p>
+        <div class="sol-footer">
+          <span class="sol-product">{{ p.badge }}</span>
+          <span class="sol-link">Learn more &rarr;</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="product-cta">
+  <div class="container">
+    <h2>Ready to talk about {{ item.name }}?</h2>
+    <p>Get a tailored quote, or see the recommended hardware for this application.</p>
+    <div class="product-cta-btns">
+      <a href="/how-to-buy/" class="btn btn-teal">{{ ind.cta_buy }}</a>
+      <a href="/products/" class="btn btn-ghost">{{ ind.cta_products }}</a>
+    </div>
+  </div>
+</section>
