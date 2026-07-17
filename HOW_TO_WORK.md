@@ -19,19 +19,20 @@ ucs_web/
 │   │   │       ├── ucsx3.njk        ← UCS X3 hardware page
 │   │   │       ├── solution.njk     ← generic solutions-page template
 │   │   │       ├── product.njk      ← generic product-page template
-│   │   │       └── demo-product.njk ← generic per-product live demo template
+│   │   │       ├── demo-product.njk ← generic per-product live demo template
+│   │   │       └── hardware.njk     ← mocked hardware/components catalog
 │   │   ├── assets/
 │   │   │   ├── css/main.css    ← All styles — design tokens, layout, components
 │   │   │   ├── js/home.js      ← ROI calculator + video lazy loader
 │   │   │   ├── js/demo.js + demo-configs.js ← shared live-demo engine (radar chart/table/summary)
 │   │   │   └── images/ucs-logo.png
-│   │   ├── index.njk, sensweight.njk, senssilo.njk, sensgeo.njk, sensatmo.njk, sensgreen.njk, ucsx3.njk, how-to-buy.njk, request-a-dealer.njk, events.njk ← page entry points, flat (no /en/ prefix)
-│   │   ├── solutions/           ← 6 solution/application pages (old taxonomy, not yet remapped to the 8 DNA industries)
+│   │   ├── index.njk, sensweight.njk, senssilo.njk, sensgeo.njk, sensatmo.njk, sensgreen.njk, ucsx3.njk, hardware.njk, how-to-buy.njk, request-a-dealer.njk, events.njk ← page entry points, flat (no /en/ prefix)
+│   │   ├── solutions/           ← 8 industry pages (quarries, concrete, silos, recycling, logistics, beltscale, geotechnical, greenroofs)
 │   │   └── demo/                ← demo hub + 5 per-product live demo pages
 │   ├── _site/                  ← BUILD OUTPUT — do not edit, auto-generated
 │   ├── eleventy.config.js
 │   └── package.json
-├── unifiedcloudsensors/         ← placeholder only, not started — see its README.md
+├── unifiedcloudsensors/         ← minimal static placeholder for unifiedcloudsensors.com (index.html, no build step) — NOT the real site, see its README.md
 ├── references/                  ← shared design/brand material, not part of either build
 │   ├── UCS-Web-DNA.html               ← sensweight's design source
 │   ├── roi-example-truckscale.jpg     ← source for the ROI calculator's rate formula
@@ -55,6 +56,14 @@ Opens at **http://localhost:8080/** (root — no language prefix) — keep the t
 
 > If you get ERR_CONNECTION_REFUSED: the terminal was closed. Run `npm start` again.
 > If `node_modules/` is missing (e.g. after a fresh clone): run `npm install` first.
+
+---
+
+## The unifiedcloudsensors.com placeholder
+
+`unifiedcloudsensors/index.html` is a static, single-file holding page — no Eleventy, no build step. Just open it directly in a browser, or serve the folder with any static file server (e.g. `npx http-server unifiedcloudsensors`). Edit the HTML/inline `<style>` directly.
+
+This is **not** the real site — it's a plain placeholder (logo, a paragraph, a link to sensweight.com) standing in until the domain's own design DNA is sourced and a proper build starts. Don't invest in it beyond quick copy/logo tweaks; expect it to be replaced wholesale later.
 
 ---
 
