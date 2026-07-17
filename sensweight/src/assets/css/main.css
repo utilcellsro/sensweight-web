@@ -778,3 +778,29 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   padding: 3px 10px; border-radius: var(--r);
 }
 .sol-link { font-size: .9rem; font-weight: 600; color: var(--blue); }
+
+/* ── Hardware catalog ──────────────────────────────────────── */
+.hardware-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+.hw-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--rl);
+  padding: 28px 24px; box-shadow: var(--sh);
+}
+.hw-icon {
+  width: 44px; height: 44px; border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center; color: #fff;
+  margin-bottom: 16px; flex-shrink: 0;
+}
+.hw-card h3 { margin-bottom: 6px; color: var(--text); }
+.hw-card > p { color: var(--text2); font-size: .93rem; margin-bottom: 20px; }
+.hw-sku-list { border-top: 1px solid var(--border); padding-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+.hw-sku { display: flex; gap: 12px; align-items: baseline; }
+.hw-sku-code { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--blue); white-space: nowrap; flex-shrink: 0; }
+.hw-sku-info { flex: 1; display: flex; flex-direction: column; }
+.hw-sku-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.hw-sku-spec { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.hw-sku-spec a { color: var(--blue); font-weight: 600; }

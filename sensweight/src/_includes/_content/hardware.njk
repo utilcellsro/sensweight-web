@@ -1,0 +1,54 @@
+{% set t = translations[lang] %}
+{% set h = t.hardware %}
+{% set categoryIcons = [
+  '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="10" height="16" rx="2"/><path d="M10 8h4M10 12h4M10 16h4"/></svg>',
+  '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h4M7 14h2"/><circle cx="16" cy="12" r="2"/></svg>',
+  '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="10" rx="1.5"/><path d="M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M8 12h8"/></svg>',
+  '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+  '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a4 4 0 0 1-5.3 5.3L6.7 20.3a1.5 1.5 0 0 1-2.1-2.1l8.8-8.8a4 4 0 0 1 5.3-5.3z"/></svg>'
+] %}
+{% set catColors = ["var(--blue)", "var(--ok)", "var(--sky)", "var(--blue-dark)", "var(--warn)"] %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">{{ h.tagline }}</div>
+    <h1>{{ h.heading }}</h1>
+    <p class="page-hero-sub">{{ h.sub }}</p>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="hardware-grid">
+      {% for cat in h.categories %}
+      <div class="hw-card">
+        <div class="hw-icon" style="background:{{ catColors[loop.index0 % catColors.length] }}">{{ categoryIcons[loop.index0 % categoryIcons.length] | safe }}</div>
+        <h3>{{ cat.name }}</h3>
+        <p>{{ cat.desc }}</p>
+        <div class="hw-sku-list">
+          {% for sku in cat.skus %}
+          <div class="hw-sku">
+            <span class="hw-sku-code">{{ sku.code }}</span>
+            <span class="hw-sku-info">
+              <span class="hw-sku-name">{{ sku.name }}</span>
+              <span class="hw-sku-spec">{% if sku.url %}<a href="/{{ sku.url }}/">{{ sku.spec }}</a>{% else %}{{ sku.spec }}{% endif %}</span>
+            </span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="product-cta">
+  <div class="container">
+    <h2>{{ h.cta_note }}</h2>
+    <p>Every installation is specced to the site — talk to a dealer about capacities, mounting, and integration.</p>
+    <div class="product-cta-btns">
+      <a href="/request-a-dealer/" class="btn btn-teal">{{ h.cta_dealer }}</a>
+      <a href="/how-to-buy/" class="btn btn-ghost">{{ h.cta_buy }}</a>
+    </div>
+  </div>
+</section>
