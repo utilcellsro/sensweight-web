@@ -7,7 +7,9 @@
     <h1>{{ s.headline }}</h1>
     <p class="page-hero-sub">{{ s.sub }}</p>
     <div class="page-hero-badges">
-      <span class="hero-badge">{{ s.product }}</span>
+      {% for p in s.products %}
+      <span class="hero-badge">{{ p.name }}</span>
+      {% endfor %}
     </div>
   </div>
 </section>
