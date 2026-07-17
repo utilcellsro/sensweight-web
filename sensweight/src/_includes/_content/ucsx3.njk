@@ -1,0 +1,79 @@
+{% set t = translations[lang] %}
+{% set p = t.ucsx3 %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">{{ p.hero_tagline }}</div>
+    <h1>{{ p.hero_headline }}</h1>
+    <p class="page-hero-sub">{{ p.hero_sub }}</p>
+    <div class="page-hero-badges">
+      {% for b in p.badges %}
+      <span class="hero-badge">{{ b }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ p.features_title }}</div>
+      <h2>One gateway. Every sensor type.</h2>
+    </div>
+    <div class="features-grid">
+      {% for f in p.features %}
+      <div class="feature-card">
+        <div class="feature-icon">{{ "0" if loop.index < 10 }}{{ loop.index }}</div>
+        <h3>{{ f.title }}</h3>
+        <p>{{ f.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ p.specs_title }}</div>
+      <h2>UCS X3 full specification</h2>
+    </div>
+    <div class="specs-wrap">
+      <table class="specs-table">
+        <thead>
+          <tr><th>Parameter</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          {% for s in p.specs %}
+          <tr><td>{{ s.label }}</td><td>{{ s.value }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ p.compat_title }}</div>
+      <h2>One device. Every sensing application.</h2>
+    </div>
+    <div class="compat-chips">
+      {% for c in p.compat %}
+      <div class="compat-chip">{{ c }}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="product-cta">
+  <div class="container">
+    <h2>See UCS X3 powering the M500 demo</h2>
+    <p>The live SensWEIGHT demo runs on a UCS X3 gateway — 8 load cells, real-time cloud streaming.</p>
+    <div class="product-cta-btns">
+      <a href="/demo/" class="btn btn-teal">Open Live Demo &rarr;</a>
+      <a href="#" class="btn btn-ghost">Request a Quote</a>
+    </div>
+  </div>
+</section>

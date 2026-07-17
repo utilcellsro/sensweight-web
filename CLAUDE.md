@@ -4,132 +4,121 @@ This file is auto-loaded every session. Read it before doing anything else.
 
 ## What this project is
 
-Rebuilding **unifiedcloudsensors.eu** → **unifiedcloudsensors.com**, hosted on AWS CloudFront (S3 static files). The company is **Unified Cloud Sensors, s.r.o.** (Ostrovačice, Czech Republic) — an IIoT company making remote monitoring systems for industrial weighing.
+**Unified Cloud Sensors, s.r.o.** (Ostrovačice, Czech Republic) is an IIoT company making remote monitoring systems for industrial weighing. The company owns **two domains**, which are now built as **two separate sites in this one monorepo**:
+
+- **`sensweight.com`** — the real product/industry sales site. A hub for all five Sens- product lines, organized around 8 industries, showing prospects what UCS can do for their specific operation. **This is where all active work happens right now.**
+- **`unifiedcloudsensors.com`** — a small, separate, minimal/premium corporate "about us" page, safe to link from LinkedIn. Not started. Own design DNA (not yet sourced). Scoped for later — do not build unless asked.
+
+This supersedes the original plan of one combined trilingual site on `unifiedcloudsensors.eu` → `.com`. That plan is dead; see "Decisions already made" below for what replaced it.
+
+## Repo structure (monorepo, reorganized 2026-07-17)
+
+```
+ucs_web/
+├── sensweight/            ← Eleventy project that builds sensweight.com — THE active build
+│   ├── src/                 (single language now — no /en//cs//pl/ split, no language switcher)
+│   ├── package.json, eleventy.config.js
+│   └── HOW_TO_WORK.md-equivalent instructions live in the root HOW_TO_WORK.md
+├── unifiedcloudsensors/    ← placeholder only, not started (see its README.md)
+├── references/             ← shared design/brand material, outside both builds
+│   ├── UCS-Web-DNA.html               ← sensweight's design source (bundled Claude Design export, 8-industry radial hub)
+│   ├── roi-example-truckscale.jpg     ← real worked ROI example ("Truck Scale Digitization"), source for the ROI calculator's per-category rate formula
+│   ├── SEO_AIEO_Strategy.docx / .pdf
+│   ├── ucs-relaunch-plan.html         ← original single-site plan, superseded, kept for history
+│   ├── ucs-logo-master.png
+│   ├── leaflets/                       ← 3 SensWEIGHT print-ready leaflets (brand/design reference)
+│   └── mockups/                        ← 2 radial-wheel infographics (product lines / platform capabilities) + 1 homepage concept screenshot (Czech), all reference material for the industries-hub direction
+├── CLAUDE.md
+└── HOW_TO_WORK.md
+```
+
+`site/`, `concepts/`, and `deploy/` (three generations of pre-DNA design prototypes — an early standalone CZ-only build, 4 exploratory concept HTMLs, and the A/B/C Vercel concepts the team voted on and moved past) were deleted 2026-07-17 as part of this reorg. They're recoverable from git history if ever needed; `deploy/`'s A/B/C concepts are also still live at `ucs-frontend-ivory.vercel.app` as a separate hosted artifact, unaffected by the local deletion.
 
 ## Decisions already made — do NOT re-ask
 
 | Topic | Decision |
 |---|---|
-| Three versions | **CZ / PL / EN** language editions — not product sites or audience tiers |
-| Primary language | **English** on .com (global); CS and PL are co-equal variants |
-| Build tool | **Eleventy (11ty)** — one template, three JSON translation files (`en.json`, `cs.json`, `pl.json`) |
-| Hosting | **AWS S3 + CloudFront + ACM + Route 53** — fully static, no server |
-| Language routing | **CloudFront Function** reads `Accept-Language` header on root `/` → redirects to `/en/`, `/cs/`, `/pl/` |
-| Demo access | **Open to all visitors** — no login gate |
-| Demo content | **8 load cells** — spider/radar plot, data table, analytics panel, summary bar |
-| ThingsBoard approach | Recommended: move TB to `iot.unifiedcloudsensors.com` (DNS + nginx), then REST API + custom Chart.js |
+| Two domains | `sensweight.com` (product/industry hub) and `unifiedcloudsensors.com` (corporate/brand) are separate sites, not one combined site |
+| Priority | `sensweight.com` only, for now — `unifiedcloudsensors.com` is deferred |
+| sensweight.com nav axis | **8 industries**, not the 5 product lines: belt scale, logistics/weighbridge, geotechnical, silos, recycling, concrete, green roofs, quarries. Source: `references/UCS-Web-DNA.html` |
+| sensweight.com brand scope | It's a **hub for all 5 Sens- brands** — SensWEIGHT isn't privileged over SensSILO/SensGEO/SensATMO/SensGREEN just because of the domain name. Industries are the navigational lens across all of them |
+| sensweight.com products | A products section (sensors/indicators hardware) is in scope, mocked for now — not fully speced |
+| sensweight.com language | **English only** — no CS/PL. The old trilingual (EN/CS/PL) decision was for the combined single-site plan and is superseded here |
+| sensweight.com hero | DNA hero adopted wholesale, full fidelity — not just tokens/colors |
+| sensweight.com ROI + demo | Reuse the existing ROI calculator and demo engine as-is, don't rebuild |
+| unifiedcloudsensors.com | Different DNA (not yet sourced), minimal/premium, corporate tone — scoped later |
+| Build tool | Eleventy (11ty) v3 — one template set, single English translation object (`translations.en`) |
+| Hosting | AWS S3 + CloudFront + ACM + Route 53 — fully static, no server (unchanged) |
+| Demo access | Open to all visitors — no login gate |
+| Demo content | 8 load cells — radar/spider plot, data table, summary bar (unchanged) |
 
 ## Product lines (5 + hardware)
 
-- **SensWEIGHT™** — remote weighing monitor (flagship; has the M500 ThingsBoard demo data)
+- **SensWEIGHT™** — remote weighing monitor (has the M500 ThingsBoard demo data)
 - **SensSILO™** — silo/container level monitoring
 - **SensGEO™** — geotechnical inclination monitoring (construction)
 - **SensATMO™** — atmospheric/environmental monitoring
 - **SensGREEN™** — green roof/wall structural monitoring
 - **Hardware**: UCS X, X1, X2, X2-DIN modules + UCS Cloud platform
 
-## Current .eu site facts
+## Industries → brand mapping (proposed, confirm before treating as final)
 
-- 96 URLs, Czech-primary, trilingual (CZ/PL/EN switcher already exists)
-- Sitemap: `https://www.unifiedcloudsensors.eu/sitemap.xml`
-- The existing ROI page has **no numbers** — only narrative text. The ROI calculator must be built from scratch once the user shares the formula document.
+All 5 brands are equal citizens of the hub; this is which brand(s) apply per industry, not a primary/secondary ranking:
 
-## Key files in this folder
-
-| File | Purpose |
+| Industry | Brand(s) |
 |---|---|
-| `ucs-relaunch-plan.html` | Full implementation plan (open in browser) |
-| `SensWEIGHT_BeltScale_Leaflet_A3_PRINT_READY.pdf` | Brand/design reference |
-| `SensWEIGHT_Leaflet_A3_SILOPRINT_READY.pdf` | Brand/design reference |
-| `SensWEIGHT_Leaflet_A3_TruckScalePRINT_READY.pdf` | Brand/design reference |
-| claude.ai/design project "Unified Cloud Sensors redesign" (`4d1bd223-d7b1-46cf-9718-ca8f86eb8417`) | Source of current homepage design (dark hero, live-dashboard product cards, Archivo/IBM Plex type) — access via the `DesignSync` tool |
+| Belt Scale | SensWEIGHT |
+| Logistics / Weighbridge | SensWEIGHT |
+| Silos | SensSILO |
+| Geotechnical | SensGEO |
+| Green Roofs | SensGREEN |
+| Recycling | SensWEIGHT + SensATMO |
+| Concrete | SensWEIGHT |
+| Quarries | SensWEIGHT + SensGEO |
 
-## Current state — as of 2026-07-15 (end of day)
+## Current state — 2026-07-17
 
-### What has been built
+- **Monorepo reorg complete**: `sensweight/` holds the Eleventy build, `unifiedcloudsensors/` is an empty placeholder, `references/` holds shared brand/design material. Verified: `cd sensweight && npm install && npm start` boots at `localhost:8080/` (no `/en/` prefix), all pages return 200.
+- **Carried forward from pre-reorg WIP** (was uncommitted, already anticipated this pivot before the reorg conversation happened): homepage has an 8-industry radial hub section; the ROI calculator is rewired to a per-category rate formula matching `references/roi-example-truckscale.jpg` exactly (downtime, efficiency, weighing errors, fraud, calibration, structural, audit, multi-site — each a fixed rate × visitor-entered quantity); design tokens replaced (Chakra Petch display font, navy `#1D2C49`/blue `#476DB8`/ink `#2F2F2E` palette with `--ok`/`--warn`/`--alarm`/`--off` sensor-state colors — see table below).
+- **This reorg session removed**: the `/en/` URL prefix and the EN/CZ language switcher entirely (English-only now — flattened `src/en/*` up to `src/*`, deleted `src/cs/`, deleted the `cs:` block from `translations.js`, added `src/_data/lang.js` as a flat `"en"` global replacing the old per-directory `en.json`/`cs.json` convention).
+- **Not yet reorganized around the 8-industry taxonomy**: `/solutions/` still uses the old 6-item taxonomy (belt-scale, silo-inventory, truck-weighbridge, geotechnical, environmental, green-roof) rather than the DNA's 8 industries. The 5 product pages, demo hub + 5 demo pages, `/how-to-buy/`, `/request-a-dealer/` all still work but weren't touched by the industries pivot yet.
+- **Products (hardware) section**: not built yet — in scope, to be mocked.
 
-| Item | Status |
-|---|---|
-| Eleventy project scaffold | ✅ Done — `npm start` → `localhost:8080/en/` |
-| Homepage template (`home.njk`) | ✅ Done — all sections complete |
-| ROI calculator | ✅ Done — live JS, EUR/CZK/PLN per language |
-| Video section | ✅ Done — placeholders, will lazy-load YouTube on real IDs |
-| Three language editions EN/CS/PL | ✅ Done — translations in `src/_data/translations.js` |
-| Product pages: SensWEIGHT, UCS X3 | ✅ Done |
-| Demo page scaffold | ✅ Done (no live ThingsBoard yet) |
-| Logo | ✅ `ucs-logo.png` in project root + `src/assets/images/` |
-| CSS redesign — light/precision style | ✅ Superseded — see "Homepage redesign" row below |
-| Homepage redesign — dark hero + live-dashboard product cards | ✅ Done 2026-07-15 — sourced from user's Claude Design project ("Unified Cloud Sensors redesign", `UCS Home.dc.html`). New fonts (Archivo/IBM Plex Sans/IBM Plex Mono), new tokens (see table below). Product cards rebuilt with per-product live mini-dashboards (axle bars, silo levels, tilt gauge, env readouts, load/moisture donut). Real 5 product lines used (mockup's placeholder SensBELT/SensPOOL were not adopted). Since revised further — see rows below. |
-| Demo restructured — hub + 5 per-product pages | ✅ Done 2026-07-15 — `/demo/` is now an index linking to `/demo/sensweight/`, `/demo/senssilo/`, `/demo/sensgeo/`, `/demo/sensatmo/`, `/demo/sensgreen/` (was a single page). One shared config-driven engine (`demo-configs.js` + `demo.js`) powers all 5 — radar chart + table + summary bar, tailored per product (raw units, negative-axis tilt, normalized mixed-unit "comfort index"). |
-| Hero simplified to 3-button Rice Lake-style flow | ✅ Done 2026-07-15 — replaced the original 2-CTA hero (+ an interim 3-tile Products/ROI/Demo version) with **Products / How to Buy / Request a Dealer** tiles, modeled directly on ricelake.com's flow. Hero no longer has separate CTA buttons — Live Demo is reached via nav + product pages instead. |
-| "How to Buy" + "Request a Dealer" pages | ✅ Done 2026-07-15 — new pages (EN/CS/PL) at `/how-to-buy/` (3-step buying process, reuses existing `.steps-grid` CSS) and `/request-a-dealer/` (form: name/company/email/phone/country/product interest/message). **The form has no backend** — static S3 hosting can't process POSTs, so submission is wired via a `mailto:` JS handler (`dealer-form.js`) that opens the visitor's email client with fields pre-filled. Needs a real form backend (e.g. a Lambda+API Gateway endpoint or a third-party form service) before a real launch if a silent/no-email-client submission is required. |
-| Emojis removed site-wide | ✅ Done 2026-07-15 — 198 emoji `icon:` fields removed from `translations.js` feature/capability lists (templates now render `loop.index` as a numbered mono badge, e.g. "01"/"02"). The 6 solution-card and 5 demo-hub-card emoji were replaced with short accent-colored letter codes (BLT/SIL/TWB/GEO/ATM/GRN, SW/SIL/GEO/ATM/GRN) reusing the existing `.sol-icon` badge pattern. |
-| Nav header stripped to logo-only | ✅ Done 2026-07-15 — removed all 6 top-nav links (Home/Solutions/SensWEIGHT™/UCS X3/Events/Live Demo) per user request ("leave just logo"). Language switcher (EN/CZ/PL) kept — it's load-bearing for the trilingual requirement, wasn't part of what was asked to cut. Full navigation is still available via the footer, which keeps its nav links. |
-| Logo source file fixed | ✅ Done 2026-07-15 — `src/assets/images/ucs-logo.png` was 456×438px but the visible mark only filled a 281×134px region (~31% of canvas height), rendering tiny/inconsistent wherever a fixed height was applied, and looking like a broken black box on the dark footer (opaque white background inverted by the footer's CSS filter). Cropped to content bbox + made background truly transparent via a Python/Pillow script (no ImageMagick/sharp available in this environment). Renders crisp in both nav (white bg) and footer (dark bg, inverted) now. Root-level `ucs-logo.png` and `deploy/ucs-logo.png` are untouched duplicates — not used by the live Eleventy build. |
-| Homepage sections trimmed | ✅ Done 2026-07-15 — removed the Stats Bar (99.9%/Up to 8/6–18mo) and the bottom "Demo CTA" banner per user request ("minimal text as possible... remove redundant components"). Kept: Hero, How-it-works flow diagram (user explicitly said this one should stay — "good catch", needed to explain what UCS does), Products, Why UCS, Video, ROI Calculator. |
-| Three Vercel concept previews | ✅ Deployed and shared with team |
-| Git repository | ✅ Initialized 2026-07-15, pushed to `github.com/echetvergov/ucs-frontend` (main branch). `node_modules/`, `_site/`, `.idea/`, `deploy/.vercel/` are gitignored. The Vercel `ucs-frontend` project (https://ucs-frontend-ivory.vercel.app) still only serves the old `deploy/` A/B/C concepts, unconnected to this repo or to `src/` — not yet redeployed with the current build. |
+### Design tokens (current, from main.css — 2026-07-17)
 
-### Vercel deployment (design concepts)
-
-- **Project:** `ucs-frontend` — team `zhenyachet91-7909s-projects`
-- **Dashboard:** https://vercel.com/zhenyachet91-7909s-projects/ucs-frontend/settings
-- **Live URL:** https://ucs-frontend-ivory.vercel.app
-- **Concept A (Light):** https://ucs-frontend-ivory.vercel.app/a
-- **Concept B (Dark):** https://ucs-frontend-ivory.vercel.app/b
-- **Concept C (Minimal):** https://ucs-frontend-ivory.vercel.app/c
-- **Source folder:** `deploy/` in project root
-- **To redeploy:** `cd deploy && vercel --yes` (CLI already authenticated)
-
-### Design direction
-
-Three concepts were built for team review. Meeting scheduled 2026-06-30.
-- **A — Light/Precision:** white nav, light blue-grey hero, sky blue accents. Preferred by user so far.
-- **B — Dark/Tech:** full navy, electric blue glow, teal accents.
-- **C — Minimal/Bold:** white, huge type, products as numbered list rows.
-
-**The Eleventy main build currently uses Concept A styling** (light redesign committed to `main.css`).
-
-### Design tokens (current — from Claude Design mockup, 2026-07-15)
-
-| Token | Value | Use |
+| Token | Value | Role |
 |---|---|---|
-| Navy | `#0C2233` | Dark hero, product card headers, footer, CTAs, ROI results panel |
-| Electric Blue | `#0E6FD1` | Primary buttons, CTA sections, hero tile icons |
-| Sky | `#3D91D6` | Nav accent, section taglines, section headers, SensGEO accent |
-| Teal | `#0FA594` | Data/live indicators, ROI highlight, SensSILO accent |
-| Live Green | `#28D07A` | Pulsing "● live" dot on product dashboard cards |
-| Amber | `#F0A020` | ROI payback value, SensATMO accent |
-| Cool Grey | `#F4F8FC` | Section alt backgrounds |
-| Border | `#D8E4F0` | All dividers |
+| Navy | `#1D2C49` | Dark chrome / product-dark-surface backgrounds only — never text |
+| Blue | `#476DB8` | Brand lead — actions, links, key figures |
+| Blue Dark | `#2F4D89` | Hover/pressed state for blue |
+| Blue Pale | `#DCE5F4` | Chips, focus rings, dark-surface text |
+| Sky | `#7ED3F0` | Rare live-data accent only |
+| Ink | `#2F2F2E` | Headings + primary text |
+| Ink2 | `#484847` | Secondary/emphasis text |
+| Muted | `#6F6F6E` | Tertiary/meta text |
+| Muted2 | `#B9B9B8` | Quaternary, lightest muted |
+| Bg | `#F7F7F6` | Section-alt / page background |
+| Border | `#ECECEB` | Dividers |
+| Ok | `#3F8F6B` | Sensor/device state — good |
+| Warn | `#C98A2E` | Sensor/device state — warning |
+| Alarm | `#BF4B41` | Sensor/device state — alarm |
+| Off | `#9A9A99` | Sensor/device state — offline |
 
-Fonts: `Archivo` (headings), `IBM Plex Sans` (body), `IBM Plex Mono` (data labels, monospace UI) — replaces the earlier Segoe UI / Cascadia Code pairing.
+Fonts: `Chakra Petch` (headings/display), `IBM Plex Sans` (body), `IBM Plex Mono` (data labels, monospace UI).
 
-### Open questions (as of 2026-06-29)
+## Open questions
 
-1. ~~Design direction — team vote happening 2026-06-30.~~ **Resolved 2026-07-15** — user brought a new design (Claude Design project "Unified Cloud Sensors redesign") superseding the A/B/C Vercel concepts; adopted into the main Eleventy build (see Current state above).
-2. **ThingsBoard cross-domain approach** — A (public iframe), B (REST API custom charts), or C (subdomain + proxy)? Recommendation is C then B.
-3. **ROI formula document** — not yet shared by user
-4. **AWS account** — existing prod environment or fresh setup?
-5. **YouTube video URLs** — for the video gallery page (placeholders in place)
-6. **M500 identity** — customer installation or UCS reference system?
-7. **Request a Dealer form backend** — currently a `mailto:` fallback (no server). Needs a real endpoint (Lambda+API Gateway, or a third-party form service) before launch if silent submission (no email client popup) is required.
-8. **`sales@unifiedcloudsensors.com` inbox** — the dealer-request mailto target is a placeholder address; confirm it exists/is monitored, or swap in the real sales inbox.
+1. **ROI formula generalization** — `references/roi-example-truckscale.jpg` gives one worked example (Truck Scale Digitization). Confirm whether its per-category rates apply site-wide or need per-industry variants.
+2. **Industries → brand mapping** — table above is proposed, not fully confirmed for Recycling/Quarries' dual-brand cases.
+3. **unifiedcloudsensors.com DNA** — not sourced yet.
+4. **ThingsBoard cross-domain approach** for the live demo — still open (public iframe vs REST API vs subdomain+proxy).
+5. **YouTube video URLs** — placeholders still in place in `home.njk`.
+6. **M500 identity** — customer installation or UCS reference system? (privacy)
+7. **AWS account** — existing prod environment or fresh setup?
+8. **Request a Dealer form backend** — currently a `mailto:` fallback (static site, no server). Needs a real endpoint before launch if silent submission is required.
+9. **`sales@unifiedcloudsensors.com` inbox** — placeholder mailto target, confirm it exists/is monitored, or swap in the real sales inbox. (Note: now that sensweight.com and unifiedcloudsensors.com are separate, confirm which domain's inbox this should actually be.)
 
-## Design system (from leaflets)
-
-| Token | Value |
-|---|---|
-| Navy (authority) | `#091828` |
-| Electric Blue (brand) | `#1560E0` |
-| Teal (live/data) | `#00B4A6` |
-| Sky (secondary) | `#3D91D6` |
-| Cool Grey (bg) | `#ECF0F7` |
-| Amber (ROI/alerts) | `#D68C10` |
-
-Typography (original leaflet reference — superseded 2026-07-15 by Archivo/IBM Plex, see current tokens table above): `Segoe UI` (headings + body), `Cascadia Code / Consolas` (data labels, monospace UI).
-
-## Implementation phases (10 weeks total)
+## Implementation phases (original estimate, predates the 2-domain split — treat as directional only)
 
 | Phase | Weeks | Focus |
 |---|---|---|

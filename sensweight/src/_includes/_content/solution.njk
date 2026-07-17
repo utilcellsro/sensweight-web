@@ -1,0 +1,74 @@
+{% set t = translations[lang] %}
+{% set s = t.solutions[solutionKey] %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">{{ s.tagline }}</div>
+    <h1>{{ s.headline }}</h1>
+    <p class="page-hero-sub">{{ s.sub }}</p>
+    <div class="page-hero-badges">
+      <span class="hero-badge">{{ s.product }}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.capabilities_title }}</div>
+      <h2>{{ s.name }}</h2>
+    </div>
+    <div class="features-grid">
+      {% for c in s.capabilities %}
+      <div class="feature-card">
+        <div class="feature-icon">{{ "0" if loop.index < 10 }}{{ loop.index }}</div>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.steps_title }}</div>
+      <h2>{{ s.name }} — step by step</h2>
+    </div>
+    <div class="steps-grid">
+      {% for step in s.steps %}
+      <div class="step-card">
+        <div class="step-num">{{ step.num }}</div>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.video_title }}</div>
+      <h2>See it in action</h2>
+    </div>
+    <div class="vid-embed-wrap">
+      <div class="vid-placeholder">
+        <span>{{ t.video.placeholder }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="product-cta">
+  <div class="container">
+    <h2>Ready to get started?</h2>
+    <p>Talk to our team about deploying {{ s.name }} in your facility.</p>
+    <div class="product-cta-btns">
+      <a href="/demo/" class="btn btn-teal">{{ s.cta_demo }}</a>
+      <a href="#" class="btn btn-ghost">{{ s.cta_contact }}</a>
+    </div>
+  </div>
+</section>
