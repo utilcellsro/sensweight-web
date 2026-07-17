@@ -42,7 +42,7 @@ ucs_web/
 | Priority | `sensweight.com` only, for now — `unifiedcloudsensors.com` is deferred |
 | sensweight.com nav axis | **8 industries**, not the 5 product lines: belt scale, logistics/weighbridge, geotechnical, silos, recycling, concrete, green roofs, quarries. Source: `references/UCS-Web-DNA.html` |
 | sensweight.com brand scope | It's a **hub for all 5 Sens- brands** — SensWEIGHT isn't privileged over SensSILO/SensGEO/SensATMO/SensGREEN just because of the domain name. Industries are the navigational lens across all of them |
-| sensweight.com products | A products section (sensors/indicators hardware) is in scope, mocked for now — not fully speced |
+| sensweight.com hardware | A `/hardware/` section (sensors/indicators/junction boxes/gateways/accessories) is built, mocked — SKUs are illustrative, grounded in the real `references/roi-example-truckscale.jpg` quote, not a confirmed catalog |
 | sensweight.com language | **English only** — no CS/PL. The old trilingual (EN/CS/PL) decision was for the combined single-site plan and is superseded here |
 | sensweight.com hero | DNA hero adopted wholesale, full fidelity — not just tokens/colors |
 | sensweight.com ROI + demo | Reuse the existing ROI calculator and demo engine as-is, don't rebuild |
@@ -59,7 +59,7 @@ ucs_web/
 - **SensGEO™** — geotechnical inclination monitoring (construction)
 - **SensATMO™** — atmospheric/environmental monitoring
 - **SensGREEN™** — green roof/wall structural monitoring
-- **Hardware**: UCS X, X1, X2, X2-DIN modules + UCS Cloud platform
+- **Hardware**: UCS X, X1, X2, X2-DIN modules + UCS Cloud platform — plus the underlying components (load cells, indicators, junction boxes, accessories) catalogued at `/hardware/` (mocked, see Current state below)
 
 ## Industries → brand mapping (proposed, confirm before treating as final)
 
@@ -81,8 +81,8 @@ All 5 brands are equal citizens of the hub; this is which brand(s) apply per ind
 - **Monorepo reorg complete**: `sensweight/` holds the Eleventy build, `unifiedcloudsensors/` is an empty placeholder, `references/` holds shared brand/design material. Verified: `cd sensweight && npm install && npm start` boots at `localhost:8080/` (no `/en/` prefix), all pages return 200.
 - **Carried forward from pre-reorg WIP** (was uncommitted, already anticipated this pivot before the reorg conversation happened): homepage has an 8-industry radial hub section; the ROI calculator is rewired to a per-category rate formula matching `references/roi-example-truckscale.jpg` exactly (downtime, efficiency, weighing errors, fraud, calibration, structural, audit, multi-site — each a fixed rate × visitor-entered quantity); design tokens replaced (Chakra Petch display font, navy `#1D2C49`/blue `#476DB8`/ink `#2F2F2E` palette with `--ok`/`--warn`/`--alarm`/`--off` sensor-state colors — see table below).
 - **This reorg session removed**: the `/en/` URL prefix and the EN/CZ language switcher entirely (English-only now — flattened `src/en/*` up to `src/*`, deleted `src/cs/`, deleted the `cs:` block from `translations.js`, added `src/_data/lang.js` as a flat `"en"` global replacing the old per-directory `en.json`/`cs.json` convention).
-- **Not yet reorganized around the 8-industry taxonomy**: `/solutions/` still uses the old 6-item taxonomy (belt-scale, silo-inventory, truck-weighbridge, geotechnical, environmental, green-roof) rather than the DNA's 8 industries. The 5 product pages, demo hub + 5 demo pages, `/how-to-buy/`, `/request-a-dealer/` all still work but weren't touched by the industries pivot yet.
-- **Products (hardware) section**: not built yet — in scope, to be mocked.
+- **`/solutions/` remapped to the 8 DNA industries** (quarries, concrete, silos, recycling, logistics, beltscale, geotechnical, greenroofs), replacing the old 6-item taxonomy (belt-scale, silo-inventory, truck-weighbridge, geotechnical, environmental, green-roof). Direct content reuse for the 5 that mapped cleanly; new copy written for quarries/concrete/recycling; `environmental` retired as a standalone page (its angle folded into recycling as a secondary SensATMO capability — SensATMO still has its own product page). Solution entries now carry a `products` array (not a single `product` field) so dual-brand industries show both badges. Solutions-grid icons now reuse the homepage hub's inline SVGs instead of 3-letter text codes.
+- **`/hardware/` built**: 5 mocked categories — load cells & sensors, indicators & terminals, junction & summing boxes, IIoT edge gateways (cross-links to `/ucsx3/`), accessories & calibration. SKU codes (CLM8INOX, WDESK-BL, OPZWALIBI, M740) pulled from `references/roi-example-truckscale.jpg` so it reads as plausible rather than invented; page copy flags it as illustrative pending a real catalog. Linked from footer nav.
 
 ### Design tokens (current, from main.css — 2026-07-17)
 
