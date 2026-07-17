@@ -23,7 +23,7 @@ ucs_web/
 ├── references/             ← shared design/brand material, outside both builds
 │   ├── UCS-Web-DNA.html               ← sensweight's visual design source (tokens, fonts, hero/card styling) — its industries-hub concept was tried and then dropped, see Decisions below
 │   ├── roi-example-truckscale.jpg     ← real worked ROI example ("Truck Scale Digitization"), source for the ROI calculator's per-category rate formula
-│   ├── SEO_AIEO_Strategy.docx / .pdf
+│   ├── SEO_AIEO_Strategy.docx / .pdf   ← reviewed 2026-07-17, its 4-phase action plan is folded into "Implementation phases" below
 │   ├── ucs-relaunch-plan.html         ← original single-site plan, superseded, kept for history
 │   ├── ucs-logo-master.png
 │   ├── leaflets/                       ← 3 SensWEIGHT print-ready leaflets (brand/design reference)
@@ -106,21 +106,53 @@ Fonts: `Chakra Petch` (headings/display), `IBM Plex Sans` (body), `IBM Plex Mono
 
 ## Open questions
 
-1. **ROI formula generalization** — `references/roi-example-truckscale.jpg` gives one worked example (Truck Scale Digitization). Confirm whether its per-category rates apply site-wide or need variants.
-2. **unifiedcloudsensors.com DNA** — not sourced yet.
-3. **ThingsBoard cross-domain approach** for the live demo — still open (public iframe vs REST API vs subdomain+proxy).
-4. **YouTube video URLs** — placeholders still in place in `home.njk`.
-5. **M500 identity** — customer installation or UCS reference system? (privacy)
-6. **AWS account** — existing prod environment or fresh setup?
-7. **Dealer form backend** — currently a `mailto:` fallback (static site, no server), now living at the bottom of `/how-to-buy/`. Needs a real endpoint before launch if silent submission is required.
-8. **`sales@unifiedcloudsensors.com` inbox** — placeholder mailto target, confirm it exists/is monitored, or swap in the real sales inbox. (Note: now that sensweight.com and unifiedcloudsensors.com are separate, confirm which domain's inbox this should actually be.)
+Everything that used to live in this list is now tracked as a checklist item inside a specific phase below (Phase 4 has ROI formula/ThingsBoard/video IDs/M500 identity; Phase 5 has AWS/dealer-form-backend/sales-inbox). The one item that doesn't belong to sensweight.com's roadmap at all:
 
-## Implementation phases (original estimate, predates the 2-domain split — treat as directional only)
+1. **unifiedcloudsensors.com DNA** — not sourced yet. Separate domain, deferred, not part of the phases below.
 
-| Phase | Weeks | Focus |
-|---|---|---|
-| 1 | 1–2 | AWS infra + Eleventy template system + homepage |
-| 2 | 3–5 | Content migration (5 product lines, hardware, guides, FAQ) |
-| 3 | 6–7 | ThingsBoard demo + ROI calculator |
-| 4 | 8–9 | Video gallery, events/promotions, resources page |
-| 5 | 10 | QA, analytics, soft launch, DNS cutover |
+## Implementation phases — sensweight.com (current roadmap, written 2026-07-17)
+
+Supersedes the old 5-week estimate (that one predated the 2-domain split and was never phase-tracked against real work). Phase 1–2 fold in `references/SEO_AIEO_Strategy.docx`'s 4-phase action plan (reviewed 2026-07-17), adapted for a single English-only domain — the doc's EN/CS hreflang recommendations don't apply here since sensweight.com dropped CS. Phases aren't strictly sequential — 1–2 are cheap/high-leverage and can start immediately; 3–4 are ongoing; 5–6 gate an actual public launch.
+
+**Phase 1 — SEO/AIEO technical foundations** *(no design changes needed)*
+- [ ] Unique `<title>` + meta description per page (titles mostly exist already, descriptions don't)
+- [ ] `sitemap.xml` (Eleventy plugin) + `robots.txt`
+- [ ] Canonical tags on every page
+- [ ] Open Graph + Twitter Card meta tags (reuse existing logo/brand imagery)
+- [ ] Organization schema (JSON-LD), added once via `base.njk`
+- [ ] Favicon — currently missing entirely
+
+**Phase 2 — Structured data & citation-readiness**
+- [ ] Product schema (JSON-LD) on all 5 Solution pages + `/ucsx3/`
+- [ ] BreadcrumbList schema across Industry/Solution/Product pages
+- [ ] FAQPage schema with real FAQ content — start with 5–10 Q&A per major Solution page
+- [ ] Rewrite key opening paragraphs as self-contained, quotable definitions (doc's example: *"SensWEIGHT is a remote weighing monitor that reads up to 8 load cells in real time..."*) — this is what AI answer engines lift verbatim as citations
+
+**Phase 3 — Content depth & internal linking** *(ongoing)*
+- [ ] Glossary of industry/technical terms
+- [ ] Resources/knowledge-base section (install guides, technical bulletins, case studies)
+- [ ] Blog/articles cadence for freshness signals
+- [x] Deepen Industries→Solutions internal linking — the doc calls this out as already "the right pattern," repeat it wherever else it fits (e.g. Product pages linking back to the Industries/Solutions that use them)
+
+**Phase 4 — Replace remaining mocks with real data**
+- [ ] ROI formula generalization — `references/roi-example-truckscale.jpg` gives one worked example (Truck Scale Digitization); confirm whether its per-category rates apply site-wide or need variants
+- [ ] Real hardware SKU catalog + pricing for `/products/` (currently mocked, flagged as illustrative in the page copy itself)
+- [ ] ThingsBoard cross-domain approach for the live demo — public iframe vs REST API vs subdomain+proxy, still undecided
+- [ ] 3 YouTube video ID placeholders in `home.njk` need real IDs
+- [ ] M500 identity — customer installation or UCS reference system? (privacy sign-off needed before using its data publicly)
+
+**Phase 5 — Infra & launch mechanics**
+- [ ] AWS account — existing prod environment or fresh setup?
+- [ ] S3 + CloudFront + ACM + Route 53 setup
+- [ ] sensweight.com domain registration/DNS pointing
+- [ ] Real dealer-form backend (Lambda + API Gateway, or a third-party form service) — replacing the current `mailto:` fallback at the bottom of `/how-to-buy/`
+- [ ] Confirm the sales/dealer inbox that mailto target should actually point to
+- [ ] Privacy policy + terms of service — currently nonexistent
+- [ ] Analytics (GA4 or similar) — not set up; if cookie-based, needs a cookie notice too
+
+**Phase 6 — QA & soft launch**
+- [ ] Cross-browser/mobile visual QA (only structural/curl-level checks done so far this session)
+- [ ] Accessibility pass
+- [ ] Performance/Lighthouse pass
+- [ ] Human content proofread — most copy on the site is AI-written and hasn't had a human marketing review yet
+- [ ] Soft launch → monitor → full DNS cutover
