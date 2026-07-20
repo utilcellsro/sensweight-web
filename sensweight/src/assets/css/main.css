@@ -72,6 +72,17 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 .nav-links a:hover { color: var(--ink); background: var(--bg); }
 .nav-links a.active { color: var(--blue); font-weight: 600; }
 
+/* ── Breadcrumb ────────────────────────────────────────────── */
+.breadcrumb { background: var(--bg); border-bottom: 1px solid var(--border); }
+.breadcrumb-inner {
+  display: flex; align-items: center; gap: 8px;
+  height: 44px; font-size: 13px; font-family: var(--mono);
+}
+.breadcrumb a { color: var(--muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--blue); }
+.breadcrumb .crumb-sep { color: var(--muted2); }
+.breadcrumb .crumb-current { color: var(--ink); font-weight: 600; }
+
 /* ── Buttons ───────────────────────────────────────────────── */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
@@ -295,13 +306,6 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 }
 .card-link { font-size: 13px; font-weight: 600; color: var(--blue); display: flex; align-items: center; gap: 4px; transition: var(--t-fast); }
 .card-link:hover { text-decoration: none; gap: 9px; }
-
-/* ── Why grid ──────────────────────────────────────────────── */
-.why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 48px; }
-.why-item { display: flex; flex-direction: column; }
-.why-mark { width: 32px; height: 3px; background: var(--blue); margin-bottom: 20px; flex-shrink: 0; }
-.why-item h3 { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 10px; letter-spacing: -.2px; }
-.why-item p  { font-size: 16px; color: var(--text2); line-height: 1.7; }
 
 /* ── Demo CTA ──────────────────────────────────────────────── */
 .demo-cta-section {
@@ -709,6 +713,33 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   padding: 3px 10px; border-radius: var(--r);
 }
 .sol-link { font-size: .9rem; font-weight: 600; color: var(--blue); }
+
+.industry-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+.industry-mini-card {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  text-align: center; padding: 28px 14px 24px;
+  background: var(--white); border: 1px solid var(--border); border-top: 3px solid transparent;
+  border-radius: var(--rl); box-shadow: var(--sh);
+  text-decoration: none; transition: var(--t);
+}
+.industry-mini-card:hover {
+  border-top-color: var(--card-accent, var(--blue));
+  box-shadow: var(--shl); transform: translateY(-3px); text-decoration: none;
+}
+.industry-mini-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0;
+}
+.industry-mini-name { font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+
+@media (max-width: 900px) {
+  .industry-mini-grid { grid-template-columns: repeat(2, 1fr); }
+}
 
 /* ── Hardware catalog ──────────────────────────────────────── */
 .hardware-grid {

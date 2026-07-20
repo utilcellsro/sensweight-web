@@ -1,0 +1,685 @@
+<style>
+  :root {
+    --navy: #1D2C49;
+    --navy-deep: #141F35;
+    --blue: #476DB8;
+    --blue-dark: #2F4D89;
+    --blue-pale: #DCE5F4;
+    --ink: #2F2F2E;
+    --ink2: #484847;
+    --muted: #6F6F6E;
+    --muted2: #B9B9B8;
+    --paper: #F7F7F6;
+    --border: #ECECEB;
+    --ok: #3F8F6B;
+    --ok-bg: #E4F1EB;
+    --warn: #C98A2E;
+    --warn-bg: #F7EBD8;
+    --off: #9A9A99;
+    --off-bg: #EAEAE9;
+    --alarm: #BF4B41;
+    --alarm-bg: #F8E4E2;
+
+    --font-display: "Segoe UI Semibold", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "Cascadia Mono", Consolas, "SFMono-Regular", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--navy-deep);
+    overflow: hidden;
+  }
+
+  .deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--navy-deep);
+  }
+
+  .deck {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    transition: transform .5s cubic-bezier(.65,0,.35,1);
+    will-change: transform;
+  }
+
+  .slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6vh 8vw;
+    font-family: var(--font-body);
+    position: relative;
+    overflow-y: auto;
+  }
+
+  .slide--dark {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: var(--blue-pale);
+  }
+
+  .slide--light {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0 0 18px;
+  }
+
+  .slide--dark .eyebrow { color: rgba(220,229,244,.55); }
+  .slide--light .eyebrow { color: var(--blue); }
+
+  h1, h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-wrap: balance;
+    margin: 0 0 20px;
+    letter-spacing: -.01em;
+  }
+
+  h1 { font-size: clamp(34px, 5.4vw, 60px); line-height: 1.05; }
+  h2 { font-size: clamp(26px, 3.4vw, 38px); line-height: 1.12; }
+
+  .slide--dark h1, .slide--dark h2 { color: #fff; }
+
+  p.lede {
+    font-size: clamp(16px, 1.6vw, 20px);
+    line-height: 1.6;
+    max-width: 62ch;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .slide--dark p.lede { color: rgba(220,229,244,.75); }
+
+  .footer-meta {
+    position: absolute;
+    left: 8vw;
+    bottom: 4vh;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .5px;
+    color: var(--muted2);
+  }
+  .slide--dark .footer-meta { color: rgba(220,229,244,.4); }
+
+  /* --- Title slide --- */
+  .title-mark {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--blue-pale);
+    opacity: .6;
+    margin-bottom: 30px;
+  }
+  .title-date {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--blue-pale);
+    opacity: .8;
+    margin-top: 10px;
+  }
+  .hint {
+    position: absolute;
+    right: 8vw;
+    bottom: 4vh;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: .5px;
+    color: rgba(220,229,244,.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hint kbd {
+    border: 1px solid rgba(220,229,244,.35);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: var(--font-mono);
+  }
+
+  /* --- Two-domain slide --- */
+  .domain-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin: 18px 0 34px;
+    max-width: 980px;
+  }
+  .domain-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px 26px 22px;
+    background: #fff;
+  }
+  .domain-card h3 {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .domain-card .role {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .domain-card.presentational .role { background: var(--off-bg); color: var(--ink2); }
+  .domain-card.solutions .role { background: var(--blue-pale); color: var(--blue-dark); }
+  .domain-card p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .precedent-strip {
+    max-width: 980px;
+  }
+  .precedent-strip .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .precedent-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .precedent {
+    border-left: 2px solid var(--blue);
+    padding: 4px 0 4px 14px;
+  }
+  .precedent .who {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .precedent .what {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  /* --- IA flow slide --- */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 30px 0 36px;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 24px;
+    min-width: 190px;
+  }
+  .flow-step .tier {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 6px;
+  }
+  .flow-step .role {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .flow-arrow {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--muted2);
+    padding: 0 16px;
+  }
+  .attempts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 640px;
+  }
+  .attempt {
+    font-size: 13.5px;
+    color: var(--muted);
+    display: flex;
+    gap: 10px;
+  }
+  .attempt .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--off);
+    text-decoration: line-through;
+    white-space: nowrap;
+    padding-top: 1px;
+  }
+  .attempt.final .tag {
+    color: var(--ok);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* --- Live demo signpost --- */
+  .clickpath {
+    list-style: none;
+    margin: 26px 0 0;
+    padding: 0;
+    max-width: 520px;
+  }
+  .clickpath li {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(220,229,244,.15);
+    display: flex;
+    gap: 14px;
+    color: var(--blue-pale);
+  }
+  .clickpath li span.n {
+    color: rgba(220,229,244,.4);
+    width: 18px;
+  }
+  .url-chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    background: rgba(220,229,244,.1);
+    border: 1px solid rgba(220,229,244,.25);
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-top: 8px;
+  }
+
+  /* --- Milestones slide --- */
+  .progress-track {
+    display: flex;
+    gap: 6px;
+    max-width: 720px;
+    margin: 8px 0 8px;
+  }
+  .progress-seg {
+    height: 8px;
+    flex: 1;
+    border-radius: 4px;
+  }
+  .progress-seg.done { background: var(--ok); }
+  .progress-seg.progress { background: var(--warn); }
+  .progress-seg.pending { background: var(--off-bg); border: 1px solid var(--border); }
+  .progress-caption {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+
+  .milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 900px;
+  }
+  .milestone {
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    align-items: center;
+    gap: 18px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+  }
+  .milestone .idx {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted2);
+  }
+  .milestone .name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15.5px;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .milestone .desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .chip.done { background: var(--ok-bg); color: var(--ok); }
+  .chip.progress { background: var(--warn-bg); color: var(--warn); }
+  .chip.pending { background: var(--off-bg); color: var(--ink2); }
+  .milestone .date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted2);
+    display: block;
+    margin-top: 5px;
+  }
+
+  .section-note {
+    max-width: 900px;
+    margin-top: 22px;
+    padding: 14px 18px;
+    background: var(--blue-pale);
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--blue-dark);
+    line-height: 1.5;
+  }
+  .section-note strong { color: var(--ink); }
+
+  /* --- Closing --- */
+  .closing-stat {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: rgba(220,229,244,.7);
+    margin-top: 10px;
+  }
+
+  /* --- Nav --- */
+  .deck-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+    font-family: var(--font-mono);
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(220,229,244,.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background .2s ease, transform .2s ease;
+  }
+  .dot.active {
+    background: #fff;
+    transform: scale(1.3);
+  }
+  .nav-arrow {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(220,229,244,.2);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-arrow:hover { background: rgba(255,255,255,.16); }
+  .nav-arrow.prev { left: 20px; }
+  .nav-arrow.next { right: 20px; }
+  .counter {
+    position: fixed;
+    top: 24px;
+    right: 28px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(220,229,244,.5);
+    z-index: 10;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .deck { transition: none; }
+  }
+
+  @media (max-width: 720px) {
+    .deck-viewport { position: static; overflow: visible; height: auto; }
+    .deck { display: block; transform: none !important; transition: none; }
+    .slide { height: auto; min-height: 100vh; flex: none; padding: 8vh 6vw; }
+    .domain-pair, .precedent-row { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; align-items: stretch; }
+    .flow-arrow { transform: rotate(90deg); padding: 8px 0; }
+    .milestone { grid-template-columns: 1fr; }
+    .nav-arrow, .deck-nav, .counter, .hint { display: none; }
+  }
+</style>
+
+<div class="deck-viewport">
+  <div class="deck" id="deck">
+
+    <section class="slide slide--dark">
+      <div class="title-mark">UCS &middot; SENSWEIGHT.COM RELAUNCH</div>
+      <h1>Relaunch status &amp;<br>roadmap review</h1>
+      <p class="lede">Two-domain architecture, sensweight.com's information architecture, and where the six-phase build stands today.</p>
+      <div class="title-date">20 July 2026</div>
+      <div class="hint"><kbd>&rarr;</kbd> to begin</div>
+    </section>
+
+    <section class="slide slide--light">
+      <div class="eyebrow">Architecture</div>
+      <h2>One company, two domains</h2>
+      <p class="lede">unifiedcloudsensors.com carries the brand. sensweight.com carries the sale.</p>
+      <div class="domain-pair">
+        <div class="domain-card presentational">
+          <h3>unifiedcloudsensors.com</h3>
+          <span class="role">Presentational</span>
+          <p>Minimal, premium &ldquo;about us.&rdquo; Company story, safe to link from LinkedIn. No calculator, no demo, no per-industry content.</p>
+        </div>
+        <div class="domain-card solutions">
+          <h3>sensweight.com</h3>
+          <span class="role">Solutions-based</span>
+          <p>Where the depth lives: Industries &rarr; Solutions &rarr; Products, the ROI calculator, and the live monitoring demo.</p>
+        </div>
+      </div>
+      <div class="precedent-strip">
+        <div class="label">This split is an industry norm, not a new idea</div>
+        <div class="precedent-row">
+          <div class="precedent">
+            <span class="who">Bosch &rarr; Bosch Sensortec</span>
+            <span class="what">Same industry as us: corporate shell vs. the sensor business's own product-depth site.</span>
+          </div>
+          <div class="precedent">
+            <span class="who">Alphabet &rarr; Google</span>
+            <span class="what">abc.xyz is pure shell; google.com is where every product and sale happens.</span>
+          </div>
+          <div class="precedent">
+            <span class="who">Danaher &rarr; Fluke</span>
+            <span class="what">Closest to our scale: parent site routes out, operating company's domain sells.</span>
+          </div>
+        </div>
+      </div>
+      <div class="section-note"><strong>Launch order:</strong> sensweight.com ships first. The existing unifiedcloudsensors.com placeholder already links straight to it &mdash; real corporate-site design work starts only after sensweight.com is live.</div>
+      <div class="footer-meta">SENSWEIGHT.COM RELAUNCH &middot; 20 JUL 2026</div>
+    </section>
+
+    <section class="slide slide--light">
+      <div class="eyebrow">Information architecture</div>
+      <h2>Industries route. Solutions and Products deliver.</h2>
+      <p class="lede">Settled on the third iteration &mdash; a customer clicks their industry first, not a brand name.</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="tier">Industries</div>
+          <div class="role">Thin routing layer &mdash; &ldquo;find yourself,&rdquo; 8 pages</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="tier">Solutions</div>
+          <div class="role">5 dashboard-based monitoring systems</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="tier">Products</div>
+          <div class="role">The physical, touchable catalog</div>
+        </div>
+      </div>
+      <div class="attempts">
+        <div class="attempt"><span class="tag">Attempt 1</span> Industries as the main taxonomy + a homepage radial hub &mdash; the same 8 things shown twice.</div>
+        <div class="attempt"><span class="tag">Attempt 2</span> Dropped industries entirely &mdash; but customers think &ldquo;I run a quarry,&rdquo; not &ldquo;SensGEO.&rdquo;</div>
+        <div class="attempt final"><span class="tag">Landed</span> Industries route in, Solutions and Products hold all the real depth. Settled 17 Jul 2026.</div>
+      </div>
+      <div class="footer-meta">SENSWEIGHT.COM RELAUNCH &middot; 20 JUL 2026</div>
+    </section>
+
+    <section class="slide slide--dark">
+      <div class="eyebrow">Live walkthrough</div>
+      <h2>Switching to the live site</h2>
+      <div class="url-chip">sensweight.vercel.app</div>
+      <ol class="clickpath">
+        <li><span class="n">1</span> Homepage &mdash; hero: Industries &rarr; Products &rarr; Solutions, then a minimal Industries icon grid</li>
+        <li><span class="n">2</span> Homepage &mdash; "Ready to get started?" band routes straight to How to Buy</li>
+        <li><span class="n">3</span> An Industry page &mdash; breadcrumb trail, thin hero, recommended Solutions</li>
+        <li><span class="n">4</span> A Solution page &mdash; SensWEIGHT, the real depth</li>
+        <li><span class="n">5</span> Live demo &mdash; 8 load cells, radar plot, data table</li>
+        <li><span class="n">6</span> Products &mdash; the physical catalog</li>
+        <li><span class="n">7</span> How to Buy &mdash; buying flow into the dealer form</li>
+      </ol>
+      <div class="footer-meta">SENSWEIGHT.COM RELAUNCH &middot; 20 JUL 2026</div>
+    </section>
+
+    <section class="slide slide--light">
+      <div class="eyebrow">Roadmap</div>
+      <h2>Five milestones to launch</h2>
+      <div class="progress-track">
+        <div class="progress-seg done"></div>
+        <div class="progress-seg progress"></div>
+        <div class="progress-seg pending"></div>
+        <div class="progress-seg pending"></div>
+        <div class="progress-seg pending"></div>
+      </div>
+      <div class="progress-caption">1 of 5 complete &middot; 1 in progress &middot; 3 not started</div>
+
+      <div class="milestones">
+        <div class="milestone">
+          <div><span class="idx">M1</span><div class="name">Two-domain architecture &amp; IA</div></div>
+          <div class="desc">Domain split decided; Industries &rarr; Solutions &rarr; Products settled after three iterations.</div>
+          <div><span class="chip done">Done</span><span class="date">17 Jul 2026</span></div>
+        </div>
+        <div class="milestone">
+          <div><span class="idx">M2</span><div class="name">SEO / AIEO foundations</div></div>
+          <div class="desc">Meta tags, sitemap, schema markup, FAQ content. No design changes needed &mdash; can start anytime.</div>
+          <div><span class="chip pending">Not started</span></div>
+        </div>
+        <div class="milestone">
+          <div><span class="idx">M3</span><div class="name">Real content &amp; data</div></div>
+          <div class="desc">ROI formula, tokens, and text pass shipped. M500 &rarr; mock-data loop and ThingsBoard REST API resolve the two biggest unknowns.</div>
+          <div><span class="chip progress">In progress</span><span class="date">since 17 Jul 2026</span></div>
+        </div>
+        <div class="milestone">
+          <div><span class="idx">M4</span><div class="name">Infrastructure &amp; launch setup</div></div>
+          <div class="desc">AWS + domain decision, then S3/CloudFront/Route 53 and SES for the dealer form &mdash; known pattern now, not an open question.</div>
+          <div><span class="chip pending">Not started</span></div>
+        </div>
+        <div class="milestone">
+          <div><span class="idx">M5</span><div class="name">QA &amp; soft launch</div></div>
+          <div class="desc">Basic cross-browser and copy pass, privacy policy live, then soft launch &mdash; not a full polish pass.</div>
+          <div><span class="chip pending">Not started</span></div>
+        </div>
+        <div class="milestone">
+          <div><span class="idx">&mdash;</span><div class="name">unifiedcloudsensors.com</div></div>
+          <div class="desc">Placeholder already links to sensweight.com. Real design work starts only once sensweight.com ships.</div>
+          <div><span class="chip pending">Not started</span></div>
+        </div>
+      </div>
+      <div class="footer-meta">SENSWEIGHT.COM RELAUNCH &middot; 20 JUL 2026</div>
+    </section>
+
+    <section class="slide slide--dark">
+      <div class="eyebrow">Summary</div>
+      <h2>sensweight.com</h2>
+      <p class="lede">sensweight.vercel.app</p>
+      <div class="footer-meta">SENSWEIGHT.COM RELAUNCH &middot; 20 JUL 2026</div>
+    </section>
+
+  </div>
+</div>
+
+<div class="counter" id="counter">01 / 06</div>
+<button class="nav-arrow prev" id="prevBtn" aria-label="Previous slide">&larr;</button>
+<button class="nav-arrow next" id="nextBtn" aria-label="Next slide">&rarr;</button>
+<div class="deck-nav" id="dots"></div>
+
+<script>
+(function () {
+  var deck = document.getElementById('deck');
+  var slides = deck.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+  var dotsEl = document.getElementById('dots');
+  var counterEl = document.getElementById('counter');
+
+  for (var i = 0; i < total; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    (function (idx) {
+      dot.addEventListener('click', function () { go(idx); });
+    })(i);
+    dotsEl.appendChild(dot);
+  }
+  var dots = dotsEl.querySelectorAll('.dot');
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function render() {
+    deck.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
+    counterEl.textContent = pad(current + 1) + ' / ' + pad(total);
+  }
+
+  function go(idx) {
+    current = Math.max(0, Math.min(total - 1, idx));
+    render();
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', function () { go(current - 1); });
+  document.getElementById('nextBtn').addEventListener('click', function () { go(current + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { go(current + 1); }
+    if (e.key === 'ArrowLeft') { go(current - 1); }
+  });
+
+  render();
+})();
+</script>
