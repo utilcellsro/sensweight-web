@@ -117,7 +117,11 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
   background: linear-gradient(135deg, transparent 0%, rgba(71,109,184,.05) 100%);
   pointer-events: none;
 }
+.hero-top { display: flex; align-items: center; gap: 48px; justify-content: space-between; }
 .hero-content { position: relative; z-index: 1; max-width: 680px; }
+.hero-visual { flex: 0 0 auto; color: var(--blue-pale); opacity: .9; }
+.hero-visual svg { display: block; width: clamp(160px, 18vw, 260px); height: auto; }
+@media (max-width: 900px) { .hero-visual { display: none; } }
 .hero-tagline {
   font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
   color: var(--blue); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
