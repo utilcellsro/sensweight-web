@@ -222,7 +222,7 @@
     <div class="industry-mini-grid">
       {% for key in industryKeys %}
       <a class="industry-mini-card" href="/industries/{{ key }}/" style="--card-accent:{{ indColors[key] }}">
-        <span class="industry-mini-icon" style="background:{{ indColors[key] }}">{{ indIcons[key] | safe }}</span>
+        <span class="industry-mini-icon" style="background:color-mix(in srgb, {{ indColors[key] }} 15%, white); color:{{ indColors[key] }}">{{ indIcons[key] | safe }}</span>
         <span class="industry-mini-name">{{ t.industries.items[key].name }}</span>
       </a>
       {% endfor %}
