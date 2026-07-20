@@ -733,7 +733,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 }
 .industry-mini-icon {
   width: 52px; height: 52px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .industry-mini-name { font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.3; }
 

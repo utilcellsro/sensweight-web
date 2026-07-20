@@ -184,11 +184,34 @@
   }
   .domain-card.presentational .role { background: var(--off-bg); color: var(--ink2); }
   .domain-card.solutions .role { background: var(--blue-pale); color: var(--blue-dark); }
+  .domain-card.seo .role { background: var(--off-bg); color: var(--ink2); }
+  .domain-card.aieo .role { background: var(--blue-pale); color: var(--blue-dark); }
   .domain-card p {
     font-size: 14.5px;
     line-height: 1.55;
     color: var(--muted);
     margin: 0;
+  }
+  .check-list {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .check-list li {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.45;
+    padding-left: 16px;
+    position: relative;
+  }
+  .check-list li::before {
+    content: '\2014';
+    position: absolute;
+    left: 0;
+    color: var(--muted2);
   }
 
   .precedent-strip {
@@ -578,6 +601,38 @@
     </section>
 
     <section class="slide slide--light">
+      <div class="eyebrow">Discoverability</div>
+      <h2>Built to be found &mdash; by search engines and AI answer engines</h2>
+      <p class="lede">Classic SEO gets us ranked. AIEO gets us cited &mdash; quoted directly inside AI answers.</p>
+      <div class="domain-pair">
+        <div class="domain-card seo">
+          <h3>SEO foundations</h3>
+          <span class="role">Phase 1</span>
+          <ul class="check-list">
+            <li>Titles + meta descriptions per page</li>
+            <li>sitemap.xml + robots.txt</li>
+            <li>Canonical tags</li>
+            <li>Open Graph + Twitter Card meta</li>
+            <li>Organization schema (JSON-LD)</li>
+            <li>Favicon &mdash; currently missing</li>
+          </ul>
+        </div>
+        <div class="domain-card aieo">
+          <h3>AIEO / structured data</h3>
+          <span class="role">Phase 2</span>
+          <ul class="check-list">
+            <li>Product schema on all 5 Solution pages + UCS X3</li>
+            <li>BreadcrumbList schema &mdash; pairs with the breadcrumbs just shipped</li>
+            <li>FAQPage schema with real Q&amp;A content</li>
+            <li>Quotable, self-contained opening definitions per page</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-note">Neither phase needs design changes &mdash; cheap, high-leverage, can start anytime. Currently <strong>not started</strong>.</div>
+      <div class="footer-meta">SENSWEIGHT.COM RELAUNCH &middot; 20 JUL 2026</div>
+    </section>
+
+    <section class="slide slide--light">
       <div class="eyebrow">Roadmap</div>
       <h2>Five milestones to launch</h2>
       <div class="progress-track">
@@ -634,7 +689,7 @@
   </div>
 </div>
 
-<div class="counter" id="counter">01 / 06</div>
+<div class="counter" id="counter">01 / 07</div>
 <button class="nav-arrow prev" id="prevBtn" aria-label="Previous slide">&larr;</button>
 <button class="nav-arrow next" id="nextBtn" aria-label="Next slide">&rarr;</button>
 <div class="deck-nav" id="dots"></div>
