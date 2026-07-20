@@ -1,0 +1,40 @@
+{% set t = translations[lang] %}
+{% if pageKey and pageKey != 'home' %}
+<div class="breadcrumb">
+  <div class="container breadcrumb-inner">
+
+    {% if pageKey == 'industries' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><span class="crumb-current">Industries</span>
+
+    {% elif pageKey == 'industry' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><a href="/industries/">Industries</a><span class="crumb-sep">/</span><span class="crumb-current">{{ t.industries.items[industryKey].name }}</span>
+
+    {% elif pageKey == 'solutions' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><span class="crumb-current">Solutions</span>
+
+    {% elif pageKey in ['sensweight', 'senssilo', 'sensgeo', 'sensatmo', 'sensgreen'] %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><a href="/solutions/">Solutions</a><span class="crumb-sep">/</span><span class="crumb-current">{{ t.products[pageKey].name }}</span>
+
+    {% elif pageKey == 'products' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><span class="crumb-current">Products</span>
+
+    {% elif pageKey == 'ucsx3' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><a href="/products/">Products</a><span class="crumb-sep">/</span><span class="crumb-current">UCS X3</span>
+
+    {% elif pageKey == 'how-to-buy' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><span class="crumb-current">How to Buy</span>
+
+    {% elif pageKey == 'demo-hub' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><span class="crumb-current">Live Demo</span>
+
+    {% elif pageKey == 'demo' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><a href="/demo/">Live Demo</a><span class="crumb-sep">/</span><span class="crumb-current">{{ t.products[demoKey].name }}</span>
+
+    {% elif pageKey == 'events' %}
+      <a href="/">Home</a><span class="crumb-sep">/</span><span class="crumb-current">Events</span>
+
+    {% endif %}
+
+  </div>
+</div>
+{% endif %}

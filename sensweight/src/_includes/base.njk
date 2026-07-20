@@ -15,6 +15,7 @@
 </head>
 <body{% if demoKey %} data-demo-key="{{ demoKey }}"{% endif %}>
 {% include "nav.njk" %}
+{% include "breadcrumb.njk" %}
 {{ content | safe }}
 {% include "footer.njk" %}
 <script>
