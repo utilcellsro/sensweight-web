@@ -1,0 +1,107 @@
+{# ── ROI CALCULATOR ────────────────────────────────────────── #}
+<section class="section" id="roi">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ t.roi.section_title }}</div>
+      <h2>{{ t.roi.section_heading }}</h2>
+    </div>
+    <div class="roi-grid" data-locale="{{ t.roi.locale }}" data-currency="{{ t.roi.currency }}" data-payback-unit="{{ t.roi.payback_unit }}"
+      data-rate-downtime="{{ t.roi.rate_downtime }}" data-rate-efficiency="{{ t.roi.rate_efficiency }}"
+      data-rate-weighing_errors="{{ t.roi.rate_weighing_errors }}" data-rate-fraud="{{ t.roi.rate_fraud }}"
+      data-rate-calibration="{{ t.roi.rate_calibration }}" data-rate-structural="{{ t.roi.rate_structural }}"
+      data-rate-audit="{{ t.roi.rate_audit }}" data-rate-multisite="{{ t.roi.rate_multisite }}">
+
+      <div class="roi-inputs">
+        <div class="roi-field">
+          <label>{{ t.roi.label_downtime }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-downtime" type="number" min="0" step="1" value="{{ t.roi.def_downtime }}">
+            <span class="roi-unit">{{ t.roi.unit_downtime }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_efficiency }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-efficiency" type="number" min="0" step="1" value="{{ t.roi.def_efficiency }}">
+            <span class="roi-unit">{{ t.roi.unit_efficiency }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_weighing_errors }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-weighing_errors" type="number" min="0" step="1" value="{{ t.roi.def_weighing_errors }}">
+            <span class="roi-unit">{{ t.roi.unit_weighing_errors }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_fraud }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-fraud" type="number" min="0" step="1" value="{{ t.roi.def_fraud }}">
+            <span class="roi-unit">{{ t.roi.unit_fraud }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_calibration }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-calibration" type="number" min="0" step="1" value="{{ t.roi.def_calibration }}">
+            <span class="roi-unit">{{ t.roi.unit_calibration }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_structural }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-structural" type="number" min="0" step="1" value="{{ t.roi.def_structural }}">
+            <span class="roi-unit">{{ t.roi.unit_structural }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_audit }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-audit" type="number" min="0" step="1" value="{{ t.roi.def_audit }}">
+            <span class="roi-unit">{{ t.roi.unit_audit }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_multisite }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-multisite" type="number" min="0" step="1" value="{{ t.roi.def_multisite }}">
+            <span class="roi-unit">{{ t.roi.unit_multisite }}</span>
+          </div>
+        </div>
+        <div class="roi-field">
+          <label>{{ t.roi.label_syscost }}</label>
+          <div class="roi-input-row">
+            <input class="roi-input" id="r-syscost" type="number" min="0" step="500" value="{{ t.roi.def_syscost }}">
+            <span class="roi-unit">{{ t.roi.unit_syscost }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roi-results">
+        <div class="roi-result-title">{{ t.roi.result_title }}</div>
+        <div class="rrow highlight">
+          <div class="rlabel">{{ t.roi.res_total }}</div>
+          <div class="rval" id="res-total">—</div>
+        </div>
+        <div class="rrow">
+          <div class="rlabel">{{ t.roi.res_investment }}</div>
+          <div class="rval" id="res-investment">—</div>
+        </div>
+        <div class="rrow highlight">
+          <div class="rlabel">{{ t.roi.res_net }}</div>
+          <div class="rval" id="res-net">—</div>
+        </div>
+        <div class="rrow payback">
+          <div class="rlabel">{{ t.roi.res_payback }}</div>
+          <div class="rval" id="res-payback">—</div>
+        </div>
+        <div class="rrow">
+          <div class="rlabel">{{ t.roi.res_roi }}</div>
+          <div class="rval" id="res-roi">—</div>
+        </div>
+        <p class="roi-note">{{ t.roi.note }}</p>
+      </div>
+
+    </div>
+  </div>
+</section>

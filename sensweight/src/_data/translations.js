@@ -125,6 +125,7 @@ module.exports = {
       def_calibration: "100", def_structural: "1", def_audit: "200", def_multisite: "10",
       def_syscost: "4800",
       payback_unit: "mo.",
+      teaser: "See exact payback numbers on each Solution page",
     },
     video: {
       section_title: "In Action",

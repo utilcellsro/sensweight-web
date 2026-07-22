@@ -203,6 +203,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 /* ── Sections ──────────────────────────────────────────────── */
 .section     { padding: 80px 0; }
 .section-alt { background: var(--bg); }
+.roi-teaser { padding: 40px 0; }
+.roi-teaser-text { text-align: center; font-size: 18px; color: var(--text2); }
+.roi-teaser-text a { color: var(--blue); font-weight: 600; }
 .section-header { text-align: left; margin-bottom: 48px; }
 .section-tagline {
   font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
