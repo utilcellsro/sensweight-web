@@ -54,7 +54,7 @@ ucs_web/
 | Demo content | 8 load cells — radar/spider plot, data table, summary bar (unchanged) |
 | ROI calculator placement | Moved off the homepage — lives on each Solution page instead, next to that solution's own numbers (2026-07-22, chief's presentation feedback) |
 | Video carousel | Adding a carousel of videos (AI-generated first, real footage later) as a hero/section background, modeled on mt.com/cz/cs/home.html (2026-07-22) |
-| Content review/markup tool | **Google Workspace (Google Docs)**, not Confluence — for sharing drafts (starting with the Task 4 video-carousel brief) so the wider non-technical team can comment/suggest rather than only react after the fact. Content in scope is transient drafts, not permanent documentation, which favors Docs' low-friction comment mode over Confluence's wiki structure (2026-07-22, `TASKS.md` Task 6) |
+| Content review/markup tool | **Shared Drive folder** containing the live site preview link + `references/site-proposals.md` (a running proposals list team members comment on, discussed in meetings, status retroactively marked Integrated/Not integrated) — settled after two superseded passes (Google Docs comment mode on the video brief; live pinned comments on the rendered site via Vercel Comments/BugHerd-class tools). See `TASKS.md` Task 6 for the full history |
 
 ## The three tiers
 

@@ -11,7 +11,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [ ] Task 3 — Add the fraud/theft-prevention feature card to SensWEIGHT
 - [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
 - [x] Task 5 — Scope the safety/weight-logistics content (done 2026-07-22: two angles confirmed — operational safety for Logistics, and regulatory/compliance weight limits; structural/geotechnical-safety framing explicitly not selected; target pages left undecided, see Task 7)
-- [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (done 2026-07-22: **Google Workspace (Google Docs)** chosen over Confluence — content is transient/disposable drafts reviewed by a wider non-technical team, favors low-friction comment/suggestion mode over a permanent wiki space; pilot execution — publishing `video-carousel-prompts.md` to a Doc — still to actually happen)
+- [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (**final decision 2026-07-22, superseding two earlier passes**: a shared Drive folder containing (a) the live site preview link and (b) `references/site-proposals.md`, a running list of open site proposals — team adds comments/thoughts, discussed in meetings, status retroactively marked Integrated/Not integrated. Earlier passes — a Google Docs pilot of the video brief, then live pinned comments on the rendered site via Vercel Comments — were both superseded before being built. Remaining step: create the Drive folder and paste in the weblink + doc)
 - [ ] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT
 
 ---
@@ -107,13 +107,17 @@ The meeting notes only say "safety and weight logistics" came up — too vague t
 
 **Narrowed 2026-07-22:** team already has both Confluence and Google Workspace — narrowed to those two, exact pick still open ("let's decide"). Scope confirmed as **both**: pilot on `references/video-carousel-prompts.md` (Task 4's brief) AND a general mechanism reusable for future deliverables — not video-review-only.
 
-**Decided 2026-07-22: Google Workspace (Google Docs).** Content in scope (video briefs, copy drafts) is transient — reviewed, finalized, then the draft itself is disposable, unlike a permanent knowledge base. Reviewers are a wider non-technical team, not just the chief. Google Docs' comment/suggestion mode is near-universally familiar with no space/permissions setup, which fits better than Confluence's structured, persistent-wiki model. Google Docs natively supports both comment-only and full co-editing (suggestion mode), so the earlier "co-author vs annotate" question doesn't gate the tool choice.
+**Superseded pass 1 (2026-07-22): Google Workspace (Google Docs), publish the video brief.** Reasoning at the time: content in scope (video briefs, copy drafts) is transient, reviewers are a wider non-technical team, Google Docs' comment/suggestion mode is low-friction. Dropped before being built — see final decision below.
 
-**Remaining step (mechanical, not a decision):** publish `references/video-carousel-prompts.md` to a Google Doc with comment/suggestion access and share it with the chief/team as the pilot run.
+**Superseded pass 2 (2026-07-22): live pinned comments on the rendered site via Vercel Comments.** User reframed the ask mid-thread from "review a text brief" to "review the actual live website" (design + content together), which needs a tool that supports clicking directly on a rendered page. Researched options: Vercel Comments (free, built into the existing Vercel preview workflow, but reviewers need a Vercel account and external/non-team commenting may need a paid team tier — unconfirmed) vs. paid snippet tools BugHerd/Marker.io/Usersnap (no real free tier, $39–79+/mo) vs. several unfamiliar "free" sites (Simple Commenter, Annot.io, UX Peeker, Huddlekit) flagged as low-trust SEO-directory content, one of which proxies your live site through a third party. User moved on before picking one of these.
 
-**Done when:** the specifics above are captured from the user and a concrete tool/workflow is chosen (e.g. "publish `video-carousel-prompts.md` to Notion/Google Docs with comment access," or "open a PR and ask for inline review comments"). Stays a backlog item until scoped, same shape as Task 5.
+**Final decision 2026-07-22:** simpler than either pass above — a shared Drive folder containing (a) the live site preview link and (b) `references/site-proposals.md`, a running proposals list (colorful/animated design, trust badges vs value-led positioning, fraud/theft-prevention as primary value prop, safety/compliance content, hero video carousel, real hardware catalog, live-demo data source — pulled from CLAUDE.md's actual unresolved items). Team adds comments/thoughts directly in the doc, items get discussed in meetings, and the Status column is updated retroactively (Proposed → Discussed → Integrated / Not integrated) — same shape as the user's own memory-style running record.
 
-**Files:** none yet — decision task, not a build task.
+**Remaining step (mechanical, not a decision):** create the Drive folder, paste in the fresh preview link (`https://site-3nur7wp3k-zhenyachet91-7909s-projects.vercel.app` — currently Vercel-SSO-protected; user is generating a Protection Bypass share link from the Vercel dashboard's "Share" button on this deployment), and add `site-proposals.md`'s content as a Doc in that folder.
+
+**Done when:** the Drive folder exists with both the weblink and the proposals doc, and at least one meeting has produced a first round of Status updates in the doc.
+
+**Files:** `references/site-proposals.md` (new, doc-only, no code).
 
 ---
 
