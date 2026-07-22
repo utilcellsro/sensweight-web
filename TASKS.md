@@ -6,7 +6,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 
 ## Status
 
-- [ ] Task 1 — Extract the ROI calculator into a shared partial
+- [x] Task 1 — Extract the ROI calculator into a shared partial (done on `task/roi-calculator-partial`: new `roi-calculator.njk`, homepage now shows a teaser linking to `/solutions/`, `home.js` logic untouched)
 - [ ] Task 2 — Wire the ROI calculator onto each Solution page
 - [ ] Task 3 — Add the fraud/theft-prevention feature card to SensWEIGHT
 - [ ] Task 4 — Video carousel replacing the hero visual
