@@ -6,8 +6,8 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 
 ## Status
 
-- [ ] Task 1 — Extract the ROI calculator into a shared partial
-- [ ] Task 2 — Wire the ROI calculator onto each Solution page
+- [x] Task 1 — Extract the ROI calculator into a shared partial (done on `task/roi-calculator-partial`: new `roi-calculator.njk`, homepage now shows a teaser linking to `/solutions/`, `home.js` logic untouched)
+- [x] Task 2 — Wire the ROI calculator onto each Solution page (done on `task/roi-calculator-partial`: included in `product.njk` + `sensweight.njk` before each CTA strip, `home.js` added to both templates so the calc logic runs)
 - [ ] Task 3 — Add the fraud/theft-prevention feature card to SensWEIGHT
 - [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
 - [ ] Task 5 — Scope the safety/weight-logistics content (clarification, not a build task)
