@@ -3,3 +3,7 @@ _site/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Service account / API keys — never commit
+references/*.json
+*.serviceaccount.json
