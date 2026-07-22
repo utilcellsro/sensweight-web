@@ -10,8 +10,9 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 2 — Wire the ROI calculator onto each Solution page (done on `task/roi-calculator-partial`: included in `product.njk` + `sensweight.njk` before each CTA strip, `home.js` added to both templates so the calc logic runs)
 - [ ] Task 3 — Add the fraud/theft-prevention feature card to SensWEIGHT
 - [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
-- [ ] Task 5 — Scope the safety/weight-logistics content (clarification, not a build task)
-- [ ] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (clarification, not a build task)
+- [x] Task 5 — Scope the safety/weight-logistics content (done 2026-07-22: two angles confirmed — operational safety for Logistics, and regulatory/compliance weight limits; structural/geotechnical-safety framing explicitly not selected; target pages left undecided, see Task 7)
+- [ ] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (narrowed 2026-07-22: tool is Confluence or Google Workspace, still deciding between the two; scope confirmed as both the video-carousel-prompts.md pilot AND a general mechanism)
+- [ ] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT
 
 ---
 
@@ -88,6 +89,8 @@ The meeting notes only say "safety and weight logistics" came up — too vague t
 
 **Done when:** the specifics are captured from the user, and — if there's real content to add — a follow-up task is created for it.
 
+**Resolved 2026-07-22:** two angles confirmed — (1) operational safety for the Logistics industry (overload prevention, weighbridge/site safety, traffic/queueing at weigh points), and (2) regulatory/compliance weight limits (legal load limits, axle weight regs, certified weighing for audit). Structural/geotechnical-safety framing for SensGEO was explicitly **not** selected — leave SensGEO copy alone unless separately asked. Target pages (Industries/Logistics vs SensWEIGHT `usecases[]` vs both) left undecided — see Task 7.
+
 ---
 
 ### Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables
@@ -102,9 +105,23 @@ The meeting notes only say "safety and weight logistics" came up — too vague t
 - Who is "the team" — how many people, technical or non-technical? Decides whether a GitHub-native flow (PR comments on `references/*.md`) is viable or whether a no-login-friendly tool is needed.
 - Should this mechanism generalize to future deliverables (design directions, positioning calls) or is it scoped to video-concept review only for now?
 
+**Narrowed 2026-07-22:** team already has both Confluence and Google Workspace — narrowed to those two, exact pick still open ("let's decide"). Scope confirmed as **both**: pilot on `references/video-carousel-prompts.md` (Task 4's brief) AND a general mechanism reusable for future deliverables — not video-review-only. Still open: Confluence vs Google Docs, and the comment-only-vs-co-edit / team-size questions above.
+
 **Done when:** the specifics above are captured from the user and a concrete tool/workflow is chosen (e.g. "publish `video-carousel-prompts.md` to Notion/Google Docs with comment access," or "open a PR and ask for inline review comments"). Stays a backlog item until scoped, same shape as Task 5.
 
 **Files:** none yet — decision task, not a build task.
+
+---
+
+### Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT
+
+**Depends on:** Task 5's scoping (done above).
+
+Write real copy for the two confirmed angles: operational safety (overload prevention, weighbridge/site safety, traffic/queueing) and regulatory/compliance weight limits (legal load limits, axle weight regs, certified weighing for audit). Still open: which page(s) — `t.industries.items.logistics`, a new `usecases[]` entry on SensWEIGHT, or both — decide once a first draft makes the fit obvious rather than guessing now.
+
+**Done when:** copy exists and is placed on the agreed page(s), reviewed against the two confirmed angles above (no structural/geotechnical-safety content mixed in).
+
+**Files:** likely `sensweight/src/_data/translations.js` (`t.industries.items.logistics` and/or `t.sensweight`), exact scope TBD.
 
 ---
 

@@ -117,7 +117,7 @@ Chief (founder) reviewed the current design/positioning and pushed back in two p
 - **Design direction conflict** — chief wants a more colorful, animated/"movable" design. This directly contradicts the confirmed minimalist/SVG-icon preference (see memory `feedback_visual_style`, 2026-07-17: "colorful generated pictures could make it worse"). Unresolved.
 - **"We sell trust" positioning** — asked what drives ~65% of revenue, chief's answer was trust; proposal to add visual trust signals (approved/verified/certified stamps) referencing the European patent (EP 4 524 526), TRL 9 status, and validated pilots described in `references/UCS for JIC.docx` (a JIC/EU funding brief — reuse its facts, not its funding-pitch framing, on the actual site). User prefers leading with concrete real-world value over badge-driven trust signaling. Unresolved.
 - **Primary real value prop — leading candidate** — asked a second time what the actual primary product/service is, the answer was theft/fraud prevention: industrial customers lose money to weighing fraud/theft, and SensWEIGHT's monitoring catches it. User agrees this reads as real. This already exists as one of 8 rate categories in the ROI calculator (`references/roi-example-truckscale.jpg`) — candidate answer to the Phase 4 "confirm primary product/service" item below; consider elevating fraud/theft prevention into headline positioning, pending user sign-off.
-- **Implementation considerations raised in the meeting** — safety and weight-logistics operational aspects came up as things page content should eventually reflect; not yet scoped to specific pages (see Phase 3 below).
+- **Implementation considerations raised in the meeting** — safety and weight-logistics operational aspects came up as things page content should eventually reflect; scoped 2026-07-22 into operational safety (Logistics) + regulatory/compliance weight limits, target page(s) still TBD (see Phase 3 below and `TASKS.md` Task 7).
 
 ## Open questions
 
@@ -147,7 +147,7 @@ Supersedes the old 5-week estimate (that one predated the 2-domain split and was
 - [ ] Glossary of industry/technical terms
 - [ ] Resources/knowledge-base section (install guides, technical bulletins, case studies)
 - [ ] Blog/articles cadence for freshness signals
-- [ ] Reflect safety & weight-logistics operational considerations in content depth (raised in 2026-07-22 stakeholder meeting, not yet scoped to specific pages)
+- [ ] Reflect safety & weight-logistics operational considerations in content depth — scoped 2026-07-22: two angles confirmed (operational safety for Logistics — overload prevention, weighbridge/site safety, traffic/queueing; and regulatory/compliance weight limits — legal load limits, axle weight regs, certified weighing for audit); structural/geotechnical-safety framing explicitly not selected; target page(s) still TBD (see `TASKS.md` Task 7)
 - [x] Deepen Industries→Solutions internal linking — the doc calls this out as already "the right pattern," repeat it wherever else it fits (e.g. Product pages linking back to the Industries/Solutions that use them)
 
 **Phase 4 — Replace remaining mocks with real data**
