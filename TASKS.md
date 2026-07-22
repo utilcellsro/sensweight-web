@@ -9,8 +9,9 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [ ] Task 1 — Extract the ROI calculator into a shared partial
 - [ ] Task 2 — Wire the ROI calculator onto each Solution page
 - [ ] Task 3 — Add the fraud/theft-prevention feature card to SensWEIGHT
-- [ ] Task 4 — Video carousel replacing the hero visual
+- [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
 - [ ] Task 5 — Scope the safety/weight-logistics content (clarification, not a build task)
+- [ ] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (clarification, not a build task)
 
 ---
 
@@ -77,6 +78,8 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 
 **Verify:** hero autoplays muted/looped on desktop, falls back to a static poster under `prefers-reduced-motion` and on mobile widths; `npm run build` produces clean output with no broken asset links.
 
+**2026-07-22 update — on hold, conserved:** creative direction pivoted from an abstract vector-line animation to cinematic AI-generated video modeled on `mt.com/cz/cs/home.html`'s hero carousel (saved locally at `references/METTLER TOLEDO Balances & Scales for Industry, Lab, Retail - METTLER TOLEDO.html`). Full prompt brief — 4 concepts (trust, precision & monitoring, problem→solution→dashboard journey, fraud/theft prevention), trust ordered first, 2 discussion variants each — written to `references/video-carousel-prompts.md`. **Not yet sent for generation** — waiting on the user to get chief's sign-off/access to the paid video-gen tool. **Scope note surfaced in that brief:** mt.com's hero is a full-bleed video background with per-slide overlay text/CTA/pagination, which is a bigger structural change than this task's current "Done when" list (which only swaps the small `.hero-visual` SVG icon) — confirm with the user which scope applies before starting the code-integration part of this task.
+
 ---
 
 ### Task 5 — Scope the safety/weight-logistics content (clarification, not a build task)
@@ -84,6 +87,24 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 The meeting notes only say "safety and weight logistics" came up — too vague to write real copy from without guessing. This task is a short follow-up conversation (what specifically was raised — compliance? operational safety for the Logistics industry page? a geotechnical-safety angle?) before touching `t.industries.items.logistics` or adding `usecases[]` entries to SensWEIGHT/SensGEO. Stays a Phase 3 backlog item in CLAUDE.md until scoped.
 
 **Done when:** the specifics are captured from the user, and — if there's real content to add — a follow-up task is created for it.
+
+---
+
+### Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables
+
+**Why:** right now the pattern is one-way — the user prepares a finished proposal (e.g. the Task 4 video-carousel brief) and delivers it; the team/chief only react afterward, never touch the work itself. The user wants to distribute responsibility for these decisions instead of carrying them alone, starting with the video-carousel brief (`references/video-carousel-prompts.md`) as the pilot case.
+
+**Current state:** no shared collaboration surface has been identified yet. Nothing in project memory or CLAUDE.md references an existing team tool (Notion, Google Docs, Confluence, Slack, Figma, etc.) — this needs to come from the user, not be assumed.
+
+**Open questions (must resolve before this becomes a build/setup task):**
+- What surface does the team already use day-to-day, if any? (Notion, Google Workspace, Confluence/Jira, Slack threads, Figma comments, GitHub PR review on markdown files — all have very different "can non-technical people comment" tradeoffs.)
+- Is the goal comment/annotate on the user's draft, or genuinely propose edits/alternatives (co-authoring, not just reacting)?
+- Who is "the team" — how many people, technical or non-technical? Decides whether a GitHub-native flow (PR comments on `references/*.md`) is viable or whether a no-login-friendly tool is needed.
+- Should this mechanism generalize to future deliverables (design directions, positioning calls) or is it scoped to video-concept review only for now?
+
+**Done when:** the specifics above are captured from the user and a concrete tool/workflow is chosen (e.g. "publish `video-carousel-prompts.md` to Notion/Google Docs with comment access," or "open a PR and ask for inline review comments"). Stays a backlog item until scoped, same shape as Task 5.
+
+**Files:** none yet — decision task, not a build task.
 
 ---
 
