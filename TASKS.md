@@ -11,7 +11,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [ ] Task 3 — Add the fraud/theft-prevention feature card to SensWEIGHT
 - [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
 - [x] Task 5 — Scope the safety/weight-logistics content (done 2026-07-22: two angles confirmed — operational safety for Logistics, and regulatory/compliance weight limits; structural/geotechnical-safety framing explicitly not selected; target pages left undecided, see Task 7)
-- [ ] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (narrowed 2026-07-22: tool is Confluence or Google Workspace, still deciding between the two; scope confirmed as both the video-carousel-prompts.md pilot AND a general mechanism)
+- [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (done 2026-07-22: **Google Workspace (Google Docs)** chosen over Confluence — content is transient/disposable drafts reviewed by a wider non-technical team, favors low-friction comment/suggestion mode over a permanent wiki space; pilot execution — publishing `video-carousel-prompts.md` to a Doc — still to actually happen)
 - [ ] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT
 
 ---
@@ -105,7 +105,11 @@ The meeting notes only say "safety and weight logistics" came up — too vague t
 - Who is "the team" — how many people, technical or non-technical? Decides whether a GitHub-native flow (PR comments on `references/*.md`) is viable or whether a no-login-friendly tool is needed.
 - Should this mechanism generalize to future deliverables (design directions, positioning calls) or is it scoped to video-concept review only for now?
 
-**Narrowed 2026-07-22:** team already has both Confluence and Google Workspace — narrowed to those two, exact pick still open ("let's decide"). Scope confirmed as **both**: pilot on `references/video-carousel-prompts.md` (Task 4's brief) AND a general mechanism reusable for future deliverables — not video-review-only. Still open: Confluence vs Google Docs, and the comment-only-vs-co-edit / team-size questions above.
+**Narrowed 2026-07-22:** team already has both Confluence and Google Workspace — narrowed to those two, exact pick still open ("let's decide"). Scope confirmed as **both**: pilot on `references/video-carousel-prompts.md` (Task 4's brief) AND a general mechanism reusable for future deliverables — not video-review-only.
+
+**Decided 2026-07-22: Google Workspace (Google Docs).** Content in scope (video briefs, copy drafts) is transient — reviewed, finalized, then the draft itself is disposable, unlike a permanent knowledge base. Reviewers are a wider non-technical team, not just the chief. Google Docs' comment/suggestion mode is near-universally familiar with no space/permissions setup, which fits better than Confluence's structured, persistent-wiki model. Google Docs natively supports both comment-only and full co-editing (suggestion mode), so the earlier "co-author vs annotate" question doesn't gate the tool choice.
+
+**Remaining step (mechanical, not a decision):** publish `references/video-carousel-prompts.md` to a Google Doc with comment/suggestion access and share it with the chief/team as the pilot run.
 
 **Done when:** the specifics above are captured from the user and a concrete tool/workflow is chosen (e.g. "publish `video-carousel-prompts.md` to Notion/Google Docs with comment access," or "open a PR and ask for inline review comments"). Stays a backlog item until scoped, same shape as Task 5.
 
