@@ -52,6 +52,8 @@ ucs_web/
 | Hosting | AWS S3 + CloudFront + ACM + Route 53 — fully static, no server (unchanged) |
 | Demo access | Open to all visitors — no login gate |
 | Demo content | 8 load cells — radar/spider plot, data table, summary bar (unchanged) |
+| ROI calculator placement | Moved off the homepage — lives on each Solution page instead, next to that solution's own numbers (2026-07-22, chief's presentation feedback) |
+| Video carousel | Adding a carousel of videos (AI-generated first, real footage later) as a hero/section background, modeled on mt.com/cz/cs/home.html (2026-07-22) |
 
 ## The three tiers
 
@@ -104,6 +106,19 @@ ucs_web/
 
 Fonts: `Chakra Petch` (headings/display), `IBM Plex Sans` (body), `IBM Plex Mono` (data labels, monospace UI).
 
+## Active task plan
+
+**`TASKS.md` (repo root) is the current in-progress work** — 5 tasks from the JIC follow-through below, meant to be done one at a time, in order. Check it first before assuming what to work on next; it has file paths, "done when" criteria, and per-task verification already worked out. Update its checkboxes as tasks land.
+
+## Stakeholder feedback — JIC presentation (2026-07-22, unresolved)
+
+Chief (founder) reviewed the current design/positioning and pushed back in two places; user disagrees with both but is logging them rather than deciding unilaterally. Do not silently pick a side on either if this resurfaces — flag both positions.
+
+- **Design direction conflict** — chief wants a more colorful, animated/"movable" design. This directly contradicts the confirmed minimalist/SVG-icon preference (see memory `feedback_visual_style`, 2026-07-17: "colorful generated pictures could make it worse"). Unresolved.
+- **"We sell trust" positioning** — asked what drives ~65% of revenue, chief's answer was trust; proposal to add visual trust signals (approved/verified/certified stamps) referencing the European patent (EP 4 524 526), TRL 9 status, and validated pilots described in `references/UCS for JIC.docx` (a JIC/EU funding brief — reuse its facts, not its funding-pitch framing, on the actual site). User prefers leading with concrete real-world value over badge-driven trust signaling. Unresolved.
+- **Primary real value prop — leading candidate** — asked a second time what the actual primary product/service is, the answer was theft/fraud prevention: industrial customers lose money to weighing fraud/theft, and SensWEIGHT's monitoring catches it. User agrees this reads as real. This already exists as one of 8 rate categories in the ROI calculator (`references/roi-example-truckscale.jpg`) — candidate answer to the Phase 4 "confirm primary product/service" item below; consider elevating fraud/theft prevention into headline positioning, pending user sign-off.
+- **Implementation considerations raised in the meeting** — safety and weight-logistics operational aspects came up as things page content should eventually reflect; not yet scoped to specific pages (see Phase 3 below).
+
 ## Open questions
 
 Everything that used to live in this list is now tracked as a checklist item inside a specific phase below (Phase 4 has ROI formula/ThingsBoard/video IDs/M500 identity; Phase 5 has AWS/dealer-form-backend/sales-inbox). The one item that doesn't belong to sensweight.com's roadmap at all:
@@ -132,6 +147,7 @@ Supersedes the old 5-week estimate (that one predated the 2-domain split and was
 - [ ] Glossary of industry/technical terms
 - [ ] Resources/knowledge-base section (install guides, technical bulletins, case studies)
 - [ ] Blog/articles cadence for freshness signals
+- [ ] Reflect safety & weight-logistics operational considerations in content depth (raised in 2026-07-22 stakeholder meeting, not yet scoped to specific pages)
 - [x] Deepen Industries→Solutions internal linking — the doc calls this out as already "the right pattern," repeat it wherever else it fits (e.g. Product pages linking back to the Industries/Solutions that use them)
 
 **Phase 4 — Replace remaining mocks with real data**
@@ -139,6 +155,7 @@ Supersedes the old 5-week estimate (that one predated the 2-domain split and was
 - [ ] Real hardware SKU catalog + pricing for `/products/` (currently mocked, flagged as illustrative in the page copy itself)
 - [ ] ThingsBoard cross-domain approach for the live demo — public iframe vs REST API vs subdomain+proxy, still undecided
 - [ ] 3 YouTube video ID placeholders in `home.njk` need real IDs
+- [ ] Video carousel — generate a set of promo videos, then use them as a rotating carousel/background (hero or section-level), modeled on mt.com/cz/cs/home.html (2026-07-22, chief's feedback); reconcile with the YouTube-ID item above rather than building both
 - [ ] M500 identity — customer installation or UCS reference system? (privacy sign-off needed before using its data publicly)
 
 **Phase 5 — Infra & launch mechanics**
