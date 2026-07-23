@@ -27,7 +27,13 @@ When this moves to the shared Drive: paste each screenshot in as an actual image
 - **See UCS at work** — video section, currently 3 placeholder "video coming soon" tiles.
   *Notes:*
 
-- **ROI teaser + CTA** — one line pointing to the per-solution ROI calculators, then a closing "Ready to get started?" banner.
+- **ROI teaser** — one line pointing to the per-solution ROI calculators.
+  *Notes:*
+
+- **Certified & Patented** *(new, 2026-07-23)* — circular seal icon + 3 facts: granted European patent (EP 4 524 526), TRL 9 (commercially ready), pilot & commercial installations live. Added as a supporting trust signal, not the site's lead pitch — sits right before the closing CTA.
+  *Notes:*
+
+- **CTA** — closing "Ready to get started?" banner into How to Buy / Products.
   *Notes:*
 
 ---
