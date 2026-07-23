@@ -8,7 +8,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 
 - [x] Task 1 — Extract the ROI calculator into a shared partial (done on `task/roi-calculator-partial`: new `roi-calculator.njk`, homepage now shows a teaser linking to `/solutions/`, `home.js` logic untouched)
 - [x] Task 2 — Wire the ROI calculator onto each Solution page (done on `task/roi-calculator-partial`: included in `product.njk` + `sensweight.njk` before each CTA strip, `home.js` added to both templates so the calc logic runs)
-- [ ] Task 3 — Add an honest "Load Anomaly Detection" feature card to SensWEIGHT (reframed 2026-07-23 — fraud/theft is a video-carousel narrative, not a shippable feature claim; see detail below)
+- [x] Task 3 — DROPPED 2026-07-23 (was: fraud/theft feature card, then reframed to "Load Anomaly Detection" — turned out redundant with the existing "Predictive Drift Alerts" card; no code changed, see detail below)
 - [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
 - [x] Task 5 — Scope the safety/weight-logistics content (done 2026-07-22: two angles confirmed — operational safety for Logistics, and regulatory/compliance weight limits; structural/geotechnical-safety framing explicitly not selected; target pages left undecided, see Task 7)
 - [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (**final decision 2026-07-22, superseding two earlier passes**: a shared Drive folder containing (a) the live site preview link and (b) `references/site-proposals.md`, a running list of open site proposals — team adds comments/thoughts, discussed in meetings, status retroactively marked Integrated/Not integrated. Earlier passes — a Google Docs pilot of the video brief, then live pinned comments on the rendered site via Vercel Comments — were both superseded before being built. Remaining step: create the Drive folder and paste in the weblink + doc)
@@ -50,19 +50,13 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 
 ---
 
-### Task 3 — Add an honest "load anomaly detection" feature card to SensWEIGHT
+### Task 3 — DROPPED 2026-07-23 (was: add an honest "load anomaly detection" feature card to SensWEIGHT)
 
-**Reframed 2026-07-23:** fraud/theft prevention is a positioning/vision narrative for the video carousel (Task 4), not a real, shipped SensWEIGHT capability — a literal "stops weighing fraud & theft" feature-card claim would misrepresent the product. Dropped that framing entirely from site copy. What SensWEIGHT actually does today — flag unexpected weight discrepancies — is real and defensible, so the card is scoped to that instead.
+**Reframed once (2026-07-23):** fraud/theft prevention is a positioning/vision narrative for the video carousel (Task 4), not a real, shipped SensWEIGHT capability — a literal "stops weighing fraud & theft" feature-card claim would misrepresent the product. Reframed to "Load Anomaly Detection" (flags unexpected weight discrepancies) instead.
 
-**Independent of Tasks 1–2** (can be done any time).
+**Then dropped entirely, same day:** that replacement copy was never sourced from a real spec/document — it was a paraphrase invented on the spot to avoid the false fraud claim. On review, it turned out to duplicate an **existing** feature card already on `/sensweight/`: "Predictive Drift Alerts — Detects creep and drift weeks before tolerance is exceeded." Adding a second card for the same real capability would be redundant, not new content. User called this out and dropped the task. No code changes were made for Task 3 — SensWEIGHT's features grid is unchanged.
 
-**Done when:**
-- One new entry added to `t.sensweight.features[]` in `translations.js` (lines 162–199): `{ title: "Load Anomaly Detection", body: "Flags unexpected weight discrepancies in real time — an early signal for calibration drift, mechanical faults, or unusual load patterns." }`, using the existing `.feature-card` pattern already rendered by `_content/sensweight.njk`.
-- **Explicitly not touched in this task:** `t.sensweight.hero_sub`, the homepage `t.hero.sub`/headline, or any other page's copy, and no mention of fraud/theft anywhere in this card's copy.
-
-**Files:** `sensweight/src/_data/translations.js`.
-
-**Verify:** visit `/sensweight/`, confirm the new feature card renders in the features grid with the rest unchanged.
+**If a genuinely new SensWEIGHT feature card is wanted later:** source it from a real product document (e.g. `references/UCS for JIC.docx`, the leaflets) rather than inventing paraphrased capability language, and check it against the existing 6 cards in `t.sensweight.features[]` (`translations.js` lines 162–199) for overlap first.
 
 ---
 
