@@ -206,6 +206,19 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 .roi-teaser { padding: 40px 0; }
 .roi-teaser-text { text-align: center; font-size: 18px; color: var(--text2); }
 .roi-teaser-text a { color: var(--blue); font-weight: 600; }
+
+.trust-section { padding: 56px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.trust-grid { display: flex; align-items: center; gap: 40px; }
+.trust-seal { flex: 0 0 auto; color: var(--blue); opacity: .9; }
+.trust-content h2 { font-size: clamp(22px, 2.6vw, 30px); }
+.trust-content .section-sub { margin-top: 10px; margin-bottom: 22px; }
+.trust-items { display: flex; flex-wrap: wrap; gap: 28px 40px; }
+.trust-item { display: flex; flex-direction: column; gap: 4px; }
+.trust-item-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.trust-item-value { font-size: 16px; font-weight: 700; color: var(--ink); }
+@media (max-width: 700px) {
+  .trust-grid { flex-direction: column; align-items: flex-start; gap: 24px; }
+}
 .section-header { text-align: left; margin-bottom: 48px; }
 .section-tagline {
   font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
