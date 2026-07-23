@@ -132,6 +132,16 @@ module.exports = {
       section_heading: "See UCS at work",
       placeholder: "Video coming soon",
     },
+    trust: {
+      tagline: "Certified & Patented",
+      heading: "Built on a granted European patent, not a pitch deck",
+      sub: "SensWEIGHT's monitoring and diagnostic methodology is protected IP, already running in commercial and pilot installations.",
+      items: [
+        { label: "European Patent", value: "EP 4 524 526" },
+        { label: "Technology Readiness", value: "TRL 9 — commercially ready" },
+        { label: "Deployment", value: "Pilot & commercial installations live" },
+      ],
+    },
     home_cta: {
       heading: "Ready to get started?",
       sub: "Talk to our team and get a tailored quote for your site.",
