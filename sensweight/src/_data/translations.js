@@ -183,6 +183,8 @@ module.exports = {
         { title: "ERP / SCADA Ready",         body: "REST API, OPC-UA, Modbus TCP. Native SAP, Siemens, Allen-Bradley connectors." },
         { title: "Industrial-Grade Enclosure",body: "IP65/IP67, -40°C to +70°C, ATEX Zone 2 optional." },
         { title: "Redundant Connectivity",    body: "Ethernet with 4G failover and 72-hour local buffering." },
+        { title: "Overload & Site Safety Alerts", body: "Real-time overload and queue alerts at every weigh point — fewer collisions, overloaded departures, and blind congestion." },
+        { title: "Compliance-Ready Records",  body: "Audit-ready weight records for every load — stay within legal axle and gross vehicle weight limits." },
       ],
       specs_title: "Technical Specifications",
       specs: [
