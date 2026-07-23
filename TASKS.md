@@ -12,7 +12,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
 - [x] Task 5 — Scope the safety/weight-logistics content (done 2026-07-22: two angles confirmed — operational safety for Logistics, and regulatory/compliance weight limits; structural/geotechnical-safety framing explicitly not selected; target pages left undecided, see Task 7)
 - [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (**final decision 2026-07-22, superseding two earlier passes**: a shared Drive folder containing (a) the live site preview link and (b) `references/site-proposals.md`, a running list of open site proposals — team adds comments/thoughts, discussed in meetings, status retroactively marked Integrated/Not integrated. Earlier passes — a Google Docs pilot of the video brief, then live pinned comments on the rendered site via Vercel Comments — were both superseded before being built. Remaining step: create the Drive folder and paste in the weblink + doc)
-- [ ] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT
+- [x] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT (done 2026-07-23: two new SensWEIGHT feature cards — "Overload & Site Safety Alerts" and "Compliance-Ready Records" — placed on SensWEIGHT rather than the Logistics industry page, keeping that page thin per the settled IA)
 
 **Out-of-plan, shipped 2026-07-23:** the chief's "we sell trust" JIC ask (CLAUDE.md, previously logged unresolved) resurfaced — user initiated adding a real, factual trust signal (not the disputed badge-driven-as-primary-positioning version). Built as a supporting homepage section, not the site's lead pitch: minimalist circular seal icon + 3 sourced facts (granted EU patent EP 4 524 526, TRL 9, live pilot/commercial installations, from `references/UCS for JIC.docx`), placed between the ROI teaser and the closing CTA. Branched, built, verified via Playwright screenshot, merged to `main`, pushed to `origin/main` (`0aa6d63`). Also updated `references/site-walkthrough.md` + its Google Doc copy to reflect the new section. This doesn't resolve the design-style or trust-vs-value-prop conflicts in CLAUDE.md — still flag both if they resurface — it's a separate, narrower, factual addition the user chose to move on independently.
 
@@ -147,15 +147,17 @@ Filling the placeholder line hit one more snag: the Google Docs API (needed for 
 
 ---
 
-### Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT
+### Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT ✅ done 2026-07-23
 
 **Depends on:** Task 5's scoping (done above).
 
-Write real copy for the two confirmed angles: operational safety (overload prevention, weighbridge/site safety, traffic/queueing) and regulatory/compliance weight limits (legal load limits, axle weight regs, certified weighing for audit). Still open: which page(s) — `t.industries.items.logistics`, a new `usecases[]` entry on SensWEIGHT, or both — decide once a first draft makes the fit obvious rather than guessing now.
+Wrote real copy for the two confirmed angles: operational safety (overload prevention, weighbridge/site safety, traffic/queueing) and regulatory/compliance weight limits (legal load limits, axle weight regs, certified weighing for audit).
 
-**Done when:** copy exists and is placed on the agreed page(s), reviewed against the two confirmed angles above (no structural/geotechnical-safety content mixed in).
+**Placement decided:** SensWEIGHT's Key Features grid only — not `t.industries.items.logistics`. Putting real depth content on the Logistics industry page would reverse the settled "thin Industries" IA decision (industry pages are hero + routing only, no capabilities/specs — that was tried full-depth once already and deliberately reverted). Flagged to the user before proceeding; confirmed SensWEIGHT-only.
 
-**Files:** likely `sensweight/src/_data/translations.js` (`t.industries.items.logistics` and/or `t.sensweight`), exact scope TBD.
+**Shipped:** two new entries in `t.sensweight.features[]` (`translations.js`) — "Overload & Site Safety Alerts" (operational safety angle) and "Compliance-Ready Records" (regulatory/compliance angle). Chose Key Features over Application Areas (`usecases[]`) since these read as capabilities/benefits, matching the existing feature-card style, rather than physical installation types. Built on `task/safety-compliance-features`, verified via build + Playwright screenshot (8-card grid renders cleanly), merged to `main`, pushed.
+
+**Done when:** copy exists and is placed on the agreed page(s), reviewed against the two confirmed angles above (no structural/geotechnical-safety content mixed in). ✅
 
 ---
 
