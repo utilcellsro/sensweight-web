@@ -9,7 +9,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 1 — Extract the ROI calculator into a shared partial (done on `task/roi-calculator-partial`: new `roi-calculator.njk`, homepage now shows a teaser linking to `/solutions/`, `home.js` logic untouched)
 - [x] Task 2 — Wire the ROI calculator onto each Solution page (done on `task/roi-calculator-partial`: included in `product.njk` + `sensweight.njk` before each CTA strip, `home.js` added to both templates so the calc logic runs)
 - [x] Task 3 — DROPPED 2026-07-23 (was: fraud/theft feature card, then reframed to "Load Anomaly Detection" — turned out redundant with the existing "Predictive Drift Alerts" card; no code changed, see detail below)
-- [ ] Task 4 — Video carousel replacing the hero visual (**on hold, conserved** — creative brief drafted, see below, pending chief's sign-off/tool access)
+- [ ] Task 4 — Video carousel replacing the hero visual (**unblocked 2026-07-26** — user now has Magnific access; creative brief drafted, see below, ready to resume video generation)
 - [x] Task 5 — Scope the safety/weight-logistics content (done 2026-07-22: two angles confirmed — operational safety for Logistics, and regulatory/compliance weight limits; structural/geotechnical-safety framing explicitly not selected; target pages left undecided, see Task 7)
 - [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (**final decision 2026-07-22, superseding two earlier passes**: a shared Drive folder containing (a) the live site preview link and (b) `references/site-proposals.md`, a running list of open site proposals — team adds comments/thoughts, discussed in meetings, status retroactively marked Integrated/Not integrated. Earlier passes — a Google Docs pilot of the video brief, then live pinned comments on the rendered site via Vercel Comments — were both superseded before being built. Remaining step: create the Drive folder and paste in the weblink + doc)
 - [x] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT (done 2026-07-23: two new SensWEIGHT feature cards — "Overload & Site Safety Alerts" and "Compliance-Ready Records" — placed on SensWEIGHT rather than the Logistics industry page, keeping that page thin per the settled IA)
@@ -85,9 +85,11 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 
 **Next steps, in order:**
 1. Tomorrow: generate Concept 4's start image once free tokens reset, pick a variant (A — worker-first / B — equipment-first), log it the same way as 1–3.
-2. Once chief grants video-gen tool access: run each of the 4 start image + prompt pairs through Magnific's actual video generation (expect re-rolls, pick the cleanest/least "AI-plasticky" result per concept).
+2. ~~Once chief grants video-gen tool access~~ **Unblocked 2026-07-26 — user has Magnific access now.** Run each of the 4 start image + prompt pairs through Magnific's actual video generation (expect re-rolls, pick the cleanest/least "AI-plasticky" result per concept).
 3. Trim to spec length, strip audio, extract poster frames.
 4. Confirm the hero-rebuild scope question (mt.com's structural full-bleed-carousel pattern vs. just swapping the small `.hero-visual` SVG) before starting code integration.
+
+**2026-07-26 update — hero copy and video background decoupled, deliberately:** user confirmed the 3 patent-forward hero headline/sub-headline drafts (logged in CLAUDE.md's "Decisions already made") should be picked and built independently of this task — the headline is a text-overlay layer sitting on top of whatever hero background exists (today's static SVG, tomorrow's video carousel), not content that needs to wait on video production or be folded into the video's script. Don't block picking/shipping a headline on this task's progress, and don't fold patent messaging into the video concepts themselves unless separately asked.
 
 ---
 
