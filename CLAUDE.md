@@ -161,7 +161,7 @@ Supersedes the old 5-week estimate (that one predated the 2-domain split and was
 - [ ] Real hardware SKU catalog + pricing for `/products/` (currently mocked, flagged as illustrative in the page copy itself)
 - [ ] ThingsBoard cross-domain approach for the live demo — public iframe vs REST API vs subdomain+proxy, still undecided
 - [ ] 3 YouTube video ID placeholders in `home.njk` need real IDs
-- [ ] Video carousel — generate a set of promo videos, then use them as a rotating carousel/background (hero or section-level), modeled on mt.com/cz/cs/home.html (2026-07-22, chief's feedback); reconcile with the YouTube-ID item above rather than building both — unblocked 2026-07-26, user now has Magnific access for actual video generation (see `TASKS.md` Task 4)
+- [x] Video carousel — **done 2026-07-26 for 3 of 4 concepts** (weighbridge, silo, warehouse) — generated via Magnific, live in the homepage hero's `.hero-video-carousel` (minimal hero-visual-swap scope, not a full mt.com-style full-bleed rebuild). Concept 4 (field worker at dusk) intentionally skipped for the presentation deadline; pick up separately if wanted. See `TASKS.md` Task 4.
 - [ ] M500 identity — customer installation or UCS reference system? (privacy sign-off needed before using its data publicly)
 
 **Phase 5 — Infra & launch mechanics**
