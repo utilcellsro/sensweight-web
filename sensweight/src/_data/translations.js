@@ -175,6 +175,9 @@ module.exports = {
       hero_headline: "8-channel remote weighing. Industrial-grade. Cloud-connected.",
       hero_sub: "Monitor belt scales, weighbridges, and silos from anywhere — sub-gram accurate.",
       badges: ["IP65 / IP67", "OIML R60 C3", "24-bit Σ-Δ", "4G LTE Failover", "ATEX Zone 2"],
+      pitch_tagline: "What is SensWEIGHT?",
+      pitch_heading: "Continuous diagnostics, not annual guesswork",
+      pitch_body: "SensWEIGHT is a remote weighing monitor that continuously diagnoses the health of your weighbridge or belt scale — reading up to 8 load cells in real time to catch drift, imbalance, and failure before they cost you. Think of it as continuous vital-sign monitoring for your weighing equipment: instead of waiting for an annual calibration \"check-up\" to catch a problem after it's already cost you money, SensWEIGHT reads every load cell's micro-voltage signal around the clock, flagging the earliest signs of trouble — the same way a heart monitor catches an irregularity long before it becomes an emergency.",
       features_title: "Key Features",
       features: [
         { title: "Multi-Point Weighing",      body: "8 load cell inputs per node, synchronized 24-bit sampling." },
