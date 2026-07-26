@@ -91,6 +91,14 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 
 **2026-07-26 update — hero copy and video background decoupled, deliberately:** user confirmed the 3 patent-forward hero headline/sub-headline drafts (logged in CLAUDE.md's "Decisions already made") should be picked and built independently of this task — the headline is a text-overlay layer sitting on top of whatever hero background exists (today's static SVG, tomorrow's video carousel), not content that needs to wait on video production or be folded into the video's script. Don't block picking/shipping a headline on this task's progress, and don't fold patent messaging into the video concepts themselves unless separately asked.
 
+**2026-07-26 update — urgent deadline (tomorrow's presentation), code scaffold built ahead of real clips:** user needs actual video clips delivered by tomorrow. Confirmed scope: **live on the site** (not just raw clips) using the **minimal hero-visual swap** (not the full mt.com-style full-bleed rebuild) — chosen for reliability under deadline pressure. Concept 4 (field worker at dusk) explicitly **skipped** for this deadline; only Concepts 1–3 (weighbridge, silo, warehouse) are in scope.
+
+Built and merged to `main` (`1eff058`) ahead of the real clips existing: `.hero-visual` SVG replaced with a `.hero-video-carousel` container (3 crossfading slides), new `heroVideos.js` data file, crossfade script (`hero-carousel.js`, ~7s rotation, respects `prefers-reduced-motion`), CSS sized to the existing hero slot (not full-bleed). Each of the 3 slides currently falls back to its confirmed-on-brand start-image still (already copied into `sensweight/src/assets/images/hero/`) as a plain `<img>`, since `heroVideos.js`'s `mp4` field is `null` per entry — this means **the site is presentable right now even if real video generation runs late**.
+
+**Remaining to actually finish this task:** once the 3 Magnific-generated clips exist, trim to spec length (6–15s target), strip audio, save into `sensweight/src/assets/video/hero/`, and set each entry's `mp4` field in `heroVideos.js` — the `<video>` branch activates automatically, no other template/CSS changes needed. `ffmpeg` is confirmed available in this environment for the trim/audio-strip step.
+
+**Security note, same thread:** user pasted a live Magnific API key and a webhook signing secret directly into chat while trying to find a faster (API-based) generation path. Neither was written to any file or committed — flagged to the user to avoid pasting secrets into chat going forward and to consider rotating both. Magnific's API wasn't actually used (no verified docs found, `docs.magnific.ai` doesn't resolve) — generation is still expected to go through the Magnific web UI by hand.
+
 ---
 
 ### Task 5 — Scope the safety/weight-logistics content (clarification, not a build task)
