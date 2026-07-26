@@ -1,26 +1,27 @@
 {% set t = translations[lang] %}
 
 {# ── HERO ──────────────────────────────────────────────────── #}
-<section class="hero hero-dark">
+<section class="hero hero-dark hero-video-bg-section">
+  <div class="hero-video-carousel" aria-hidden="true">
+    {% for v in heroVideos %}
+    <div class="hero-video-slide{{ ' is-active' if loop.first }}" data-index="{{ loop.index0 }}">
+      {% if v.mp4 %}
+      <video class="hero-video" poster="{{ v.poster }}" muted playsinline loop preload="auto" {{ 'autoplay' if loop.first }}>
+        <source src="{{ v.mp4 }}" type="video/mp4">
+      </video>
+      {% else %}
+      <img class="hero-video" src="{{ v.poster }}" alt="{{ v.alt }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="hero-scrim" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-top">
       <div class="hero-content">
         <div class="hero-tagline">{{ t.hero.tagline }}</div>
         <h1>{{ t.hero.headline }}</h1>
         <p class="hero-sub">{{ t.hero.sub }}</p>
-      </div>
-      <div class="hero-visual hero-video-carousel" aria-hidden="true">
-        {% for v in heroVideos %}
-        <div class="hero-video-slide{{ ' is-active' if loop.first }}" data-index="{{ loop.index0 }}">
-          {% if v.mp4 %}
-          <video class="hero-video" poster="{{ v.poster }}" muted playsinline loop preload="{{ 'auto' if loop.first else 'none' }}" {{ 'autoplay' if loop.first }}>
-            <source src="{{ v.mp4 }}" type="video/mp4">
-          </video>
-          {% else %}
-          <img class="hero-video" src="{{ v.poster }}" alt="{{ v.alt }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
-          {% endif %}
-        </div>
-        {% endfor %}
       </div>
     </div>
     <div class="hero-tiles">
