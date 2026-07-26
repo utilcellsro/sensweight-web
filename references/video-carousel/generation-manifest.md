@@ -16,7 +16,7 @@ The original brief's 4 concepts (trust/seal, precision macro, abstract journey, 
 
 ## Concept 1 — Weighbridge / truck monitoring — based on brand images 5 & 6
 
-**Status:** start image generated and confirmed on-brand (2026-07-23) — real daylight industrial photo, wifi icon + glowing connection arc to a cloud-and-circuit badge closely matching the real UCS brand icon, no device/text/logo/faces. Video not yet generated (needs Magnific paid tier — free tier only covers image gen).
+**Status:** ✅ done 2026-07-26 — video generated via Magnific, confirmed on-brand. Raw output saved to `magnific_wide-shot-of-a-truck-stop_MXVEjgaDCm.mp4`; remuxed (faststart, no audio present) and integrated as `sensweight/src/assets/video/hero/hero-1-weighbridge.mp4`, poster extracted from the clip's own first frame.
 
 **Start image:** `images/concept-1-weighbridge-start.png` (generated via ChatGPT)
 
@@ -32,7 +32,7 @@ The original brief's 4 concepts (trust/seal, precision macro, abstract journey, 
 
 ## Concept 2 — Silo monitoring — based on brand images 7 & 8 — Variant A (continuous move)
 
-**Status:** start image generated and confirmed on-brand (2026-07-23) — real daylight silo photo, natural colors, wifi icon + glowing connection arc to the same cloud-and-circuit badge style used in Concept 1 (good cross-concept consistency), no device/text/logo/faces yet. Video not yet generated (needs Magnific paid tier).
+**Status:** ✅ done 2026-07-26 — video generated via Magnific, confirmed on-brand. Raw output saved to `magnific_concept-2-silo-monitoring_mCtr6wkhJQ.mp4`; remuxed (faststart, no audio present) and integrated as `sensweight/src/assets/video/hero/hero-2-silo.mp4`, poster extracted from the clip's own first frame.
 
 **Start image:** `images/concept-2-silo-a-start.png` (generated via ChatGPT)
 
@@ -48,7 +48,7 @@ The original brief's 4 concepts (trust/seal, precision macro, abstract journey, 
 
 ## Concept 3 — Warehouse / installation monitoring — based on brand images 1 & 3 — Variant A (continuous move)
 
-**Status:** start image generated and confirmed on-brand (2026-07-23) — real, believable warehouse/factory interior, natural industrial lighting, wifi icon on a control panel + glowing connection arc to the same cloud-and-circuit badge used in Concepts 1–2 (consistent across the set), no device/text/logo/faces yet. Video not yet generated (needs Magnific paid tier).
+**Status:** ✅ done 2026-07-26 — video generated via Magnific, confirmed on-brand. Raw output saved to `magnific_concept-3-warehouse-insta_fFasY9iCDY.mp4`; remuxed (faststart, no audio present) and integrated as `sensweight/src/assets/video/hero/hero-3-warehouse.mp4`, poster extracted from the clip's own first frame.
 
 **Start image:** `images/concept-3-warehouse-a-start.png` (generated via ChatGPT)
 
