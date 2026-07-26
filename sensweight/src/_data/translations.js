@@ -417,6 +417,9 @@ module.exports = {
       hero_headline: "Real-time silo and hopper inventory. By weight.",
       hero_sub: "Continuous tonnage for silos and tanks — fill alerts and reconciliation built in.",
       badges: ["IP65 / IP67", "Multi-silo", "REST API", "4G LTE Failover", "DIN Rail"],
+      pitch_tagline: "What is SensSILO?",
+      pitch_heading: "Continuous inventory, not periodic dips",
+      pitch_body: "SensSILO is a remote silo and hopper monitor that tracks your material reserves the way a continuous glucose monitor tracks blood sugar — constantly, automatically, without anyone climbing a ladder to take a manual reading. Instead of periodic physical dips that only tell you the level at the moment someone checked, SensSILO weighs every silo in real time, so a slow fill, an unexpected draw-down, or a stock level approaching empty gets flagged the instant it happens — not days later on the next scheduled walk-around.",
       features_title: "Key Features",
       features: [
         { title: "Real-Time Tonnage",       body: "Direct weight via load cells — no radar, no ultrasonics." },
