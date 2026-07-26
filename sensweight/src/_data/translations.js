@@ -3,8 +3,8 @@ module.exports = {
     nav: { home: "Home", industries: "Industries", solutions: "Solutions", products: "Products", events: "Events", demo: "Live Demo", contact: "Contact" },
     hero: {
       tagline: "Industrial IoT Weighing Monitoring",
-      headline: "Remote monitoring that pays for itself",
-      sub: "Real-time data, predictive alerts, proven ROI — purpose-built for industry.",
+      headline: "Stop Paying for Weighing Errors. Start Guaranteeing True Value.",
+      sub: "Uncalibrated and drifting load cells quietly bleed revenue — through fraud, missed overloads, and disputed loads. Unified Cloud Sensors' patented technology (EP 4 524 526) continuously diagnoses micro-voltage changes in every load cell, catching failures before they cost you — most sites see full payback within months.",
       tile1_title: "Industries", tile1_sub: "Find your industry, start here",
       tile2_title: "Products", tile2_sub: "Sensors, indicators, and hardware",
       tile3_title: "Solutions", tile3_sub: "Five dashboard-based monitoring systems",
