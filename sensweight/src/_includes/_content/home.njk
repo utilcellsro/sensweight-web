@@ -9,27 +9,18 @@
         <h1>{{ t.hero.headline }}</h1>
         <p class="hero-sub">{{ t.hero.sub }}</p>
       </div>
-      <div class="hero-visual" aria-hidden="true">
-        <svg width="260" height="158" viewBox="0 0 260 158" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="8" y="28" width="112" height="64" rx="3"/>
-          <rect x="18" y="38" width="26" height="20" rx="2"/>
-          <rect x="50" y="38" width="26" height="20" rx="2"/>
-          <rect x="82" y="38" width="26" height="20" rx="2"/>
-          <rect x="18" y="64" width="26" height="20" rx="2"/>
-          <rect x="50" y="64" width="26" height="20" rx="2"/>
-          <rect x="82" y="64" width="26" height="20" rx="2"/>
-          <path d="M120 44 H150 L178 74 V92 H120 Z"/>
-          <path d="M128 50 H146 L164 70 H128 Z"/>
-          <circle cx="44" cy="104" r="15"/>
-          <circle cx="150" cy="104" r="15"/>
-          <rect x="0" y="118" width="210" height="14" rx="2"/>
-          <path d="M28 132 V148 M182 132 V148"/>
-          <path d="M232 40 V118"/>
-          <rect x="210" y="8" width="44" height="28" rx="4"/>
-          <circle cx="222" cy="22" r="2.2" fill="currentColor" stroke="none"/>
-          <circle cx="230" cy="22" r="2.2" fill="var(--sky)" stroke="none"/>
-          <circle cx="238" cy="22" r="2.2" fill="currentColor" stroke="none"/>
-        </svg>
+      <div class="hero-visual hero-video-carousel" aria-hidden="true">
+        {% for v in heroVideos %}
+        <div class="hero-video-slide{{ ' is-active' if loop.first }}" data-index="{{ loop.index0 }}">
+          {% if v.mp4 %}
+          <video class="hero-video" poster="{{ v.poster }}" muted playsinline loop preload="{{ 'auto' if loop.first else 'none' }}" {{ 'autoplay' if loop.first }}>
+            <source src="{{ v.mp4 }}" type="video/mp4">
+          </video>
+          {% else %}
+          <img class="hero-video" src="{{ v.poster }}" alt="{{ v.alt }}" loading="{{ 'eager' if loop.first else 'lazy' }}">
+          {% endif %}
+        </div>
+        {% endfor %}
       </div>
     </div>
     <div class="hero-tiles">
@@ -330,3 +321,4 @@
 </section>
 
 <script src="/assets/js/home.js"></script>
+<script src="/assets/js/hero-carousel.js"></script>
