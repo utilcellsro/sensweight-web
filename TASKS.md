@@ -14,6 +14,14 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (**final decision 2026-07-22, superseding two earlier passes**: a shared Drive folder containing (a) the live site preview link and (b) `references/site-proposals.md`, a running list of open site proposals — team adds comments/thoughts, discussed in meetings, status retroactively marked Integrated/Not integrated. Earlier passes — a Google Docs pilot of the video brief, then live pinned comments on the rendered site via Vercel Comments — were both superseded before being built. Remaining step: create the Drive folder and paste in the weblink + doc)
 - [x] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT (done 2026-07-23: two new SensWEIGHT feature cards — "Overload & Site Safety Alerts" and "Compliance-Ready Records" — placed on SensWEIGHT rather than the Logistics industry page, keeping that page thin per the settled IA)
 - [x] Task 8 — Give the patent more visual/content focus in the Certified & Patented section (done 2026-07-27: patent pulled into its own bordered block with a larger number, TRL 9/Deployment remain as secondary facts below)
+- [x] Task 8b — Turn the homepage ROI teaser into real per-solution CTA buttons (done 2026-07-27, out-of-plan fix — see detail below Task 8)
+- [ ] Task 9 — Shorten the hero sub-headline copy (flagged in today's presentation, 2026-07-27 — logged, not yet drafted)
+- [ ] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (flagged 2026-07-27 — logged, not yet executed, needs scope confirmation first)
+- [ ] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (flagged 2026-07-27 — logged, not yet implemented)
+- [ ] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (flagged 2026-07-27 — logged, not yet implemented)
+- [ ] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (flagged 2026-07-27 — decided approach, not yet built; Phase 5 item)
+
+**Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
 
 **Out-of-plan, shipped 2026-07-23:** the chief's "we sell trust" JIC ask (CLAUDE.md, previously logged unresolved) resurfaced — user initiated adding a real, factual trust signal (not the disputed badge-driven-as-primary-positioning version). Built as a supporting homepage section, not the site's lead pitch: minimalist circular seal icon + 3 sourced facts (granted EU patent EP 4 524 526, TRL 9, live pilot/commercial installations, from `references/UCS for JIC.docx`), placed between the ROI teaser and the closing CTA. Branched, built, verified via Playwright screenshot, merged to `main`, pushed to `origin/main` (`0aa6d63`). Also updated `references/site-walkthrough.md` + its Google Doc copy to reflect the new section. This doesn't resolve the design-style or trust-vs-value-prop conflicts in CLAUDE.md — still flag both if they resurface — it's a separate, narrower, factual addition the user chose to move on independently.
 
@@ -191,6 +199,88 @@ Wrote real copy for the two confirmed angles: operational safety (overload preve
 **Verify:** `npm run build`, visual check via Playwright screenshot of the homepage `#certifications` section — patent number reads clearly larger/more prominent than the other two facts.
 
 **Done 2026-07-27:** shipped exactly per scope — `.patent-block` (bordered box, `--blue`/`--blue-pale` tokens, `--mono` font for the number, no new colors) sits above the existing `.trust-items` row (now just TRL 9 + Deployment). Detail line sourced verbatim-adjacent from `references/UCS for JIC.docx`. Verified via clean build + Playwright full-page screenshot of the homepage. Branch `task/patent-visual-focus`, merged `--no-ff`, pushed (`6f56580`).
+
+---
+
+### Task 9 — Shorten the hero sub-headline copy
+
+**Why:** flagged in today's presentation (2026-07-27) — the shipped hero sub-headline (`translations.js`, `t.hero.sub`) reads as too long for a hero:
+
+> "Uncalibrated and drifting load cells quietly bleed revenue — through fraud, missed overloads, and disputed loads. Unified Cloud Sensors' patented technology (EP 4 524 526) continuously diagnoses micro-voltage changes in every load cell, catching failures before they cost you — most sites see full payback within months."
+
+Three sentences, ~60 words — long for a sub-headline sitting under a 4-line H1.
+
+**Done when:** a tighter draft exists, keeping the value/problem framing and the patent-as-evidence line (per the 2026-07-26 headline decision — don't drop the patent reference, that's why option 3 was chosen over the other two drafts), reviewed and signed off before shipping.
+
+**Files:** `sensweight/src/_data/translations.js` (`t.hero.sub`).
+
+**Not yet started** — copy draft needed first, this is a content task not a code task.
+
+---
+
+### Task 10 — Move the repo to the `utilcellsro` GitHub organization
+
+**Why:** flagged in today's presentation (2026-07-27) — the repo currently lives under the personal account `echetvergov/ucs-frontend` (see memory `reference_ucs_git_repo`); should move to the company's `utilcellsro` GitHub org, as its own separate repo.
+
+**Open before starting — confirm with user:**
+- Transfer the existing repo (keeps issues/PR history, GitHub's native "transfer ownership" flow) vs. create a fresh repo under `utilcellsro` and push a copy?
+- New repo name — keep `ucs-frontend`, or rename now that it's org-owned?
+- Any CI/deploy hooks (Vercel project link, etc.) that need re-pointing after the move?
+
+**Flagging:** this is a hard-to-reverse infra action (changes remote ownership) — don't execute without an explicit go-ahead on the open questions above.
+
+**Done when:** repo lives under `utilcellsro`, local `origin` remote repointed, Vercel (or whatever's deploying it) confirmed still working against the new location.
+
+**Not yet started.**
+
+---
+
+### Task 11 — Swap the homepage hero tile order
+
+**Why:** flagged in today's presentation (2026-07-27) — swap the Solutions/Products tile order in the homepage hero.
+
+**Current state:** hero tiles render Industries → Products → Solutions (`home.njk`, three `.hero-tile` blocks after the hero copy; this order was itself a deliberate 2026-07-17 decision — see CLAUDE.md "Current state — 2026-07-17").
+
+**Done when:** tile order becomes **Industries → Solutions → Products** — swap the markup order of the Products and Solutions `.hero-tile` blocks in `home.njk` (no content/copy change, no CSS change expected).
+
+**Files:** `sensweight/src/_includes/_content/home.njk`.
+
+**Verify:** `npm run build`, visual check that the hero row now reads Industries / Solutions / Products left to right.
+
+**Not yet started.**
+
+---
+
+### Task 12 — Add a "UCS Cloud" tile to the Products catalog
+
+**Why:** flagged in today's presentation (2026-07-27) — the Products catalog doesn't have an entry for the cloud platform itself; add one, linking through to Solutions.
+
+**Current state (needs confirming before building):** `/products/` currently lists physical hardware only (load cells & sensors, indicators & terminals, junction & summing boxes, IIoT edge gateways, accessories & calibration) per CLAUDE.md's "three tiers" section. No existing product-card component links out to `/solutions/` — check `products.njk` structure before assuming the existing card template fits as-is.
+
+**Done when:** a new "UCS Cloud" tile/card exists on `/products/`, styled consistent with the other product entries, linking to `/solutions/` (or, if a single destination reads better, to the homepage's Solutions section) — real short copy describing the cloud platform (dashboards, alerts, ROI reporting — matches the existing "UCS Cloud, live" flow-diagram copy on the homepage), not a placeholder.
+
+**Files:** `sensweight/src/products.njk` or its content partial, `translations.js` (new copy).
+
+**Not yet started.**
+
+---
+
+### Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES
+
+**Why:** flagged in today's presentation (2026-07-27) — resolves the long-open Phase 5 backlog item ("Real dealer-form backend... replacing the current `mailto:` fallback"). Decided approach: **AWS SES**, triggered via Lambda + API Gateway, sending two emails per submission — a confirmation to the submitting client, and a notification to the sales team.
+
+**Current state:** `/how-to-buy/`'s dealer-request form is wired via `sensweight/src/assets/js/dealer-form.js`, which builds a `mailto:sales@unifiedcloudsensors.com` link and navigates to it on submit — no real backend, and `sales@...` is an unconfirmed placeholder address.
+
+**Open before starting — confirm with user:**
+- AWS account to build this in (Phase 5's existing open question — "existing prod environment or fresh setup?")
+- The real sales-team inbox SES should notify (placeholder `sales@unifiedcloudsensors.com` still unconfirmed)
+- SES sending domain/identity verification (needs DNS access on the sending domain)
+
+**Done when:** form POSTs to an API Gateway endpoint → Lambda → SES sends (1) a confirmation email to the client's submitted address and (2) a notification email to the sales inbox; `dealer-form.js` updated to POST instead of building a `mailto:` link; graceful error handling if the send fails.
+
+**Files:** new Lambda + API Gateway (infra, outside the Eleventy build), `sensweight/src/assets/js/dealer-form.js`.
+
+**Not yet started** — significant infra task, needs the AWS-account and sales-inbox questions answered first (Phase 5 backlog, CLAUDE.md).
 
 ---
 
