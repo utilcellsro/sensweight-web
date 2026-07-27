@@ -215,9 +215,17 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 /* ── Sections ──────────────────────────────────────────────── */
 .section     { padding: 80px 0; }
 .section-alt { background: var(--bg); }
-.roi-teaser { padding: 40px 0; }
-.roi-teaser-text { text-align: center; font-size: 18px; color: var(--text2); }
-.roi-teaser-text a { color: var(--blue); font-weight: 600; }
+.roi-teaser { padding: 48px 0; }
+.roi-teaser-inner { text-align: center; }
+.roi-teaser-heading { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 18px; }
+.roi-teaser-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.roi-teaser-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: 999px; border: 1.5px solid var(--blue);
+  color: var(--blue); font-weight: 600; font-size: 14px; background: #fff;
+  transition: background .15s, color .15s;
+}
+.roi-teaser-link:hover { background: var(--blue); color: #fff; text-decoration: none; }
 
 .trust-section { padding: 56px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .trust-grid { display: flex; align-items: center; gap: 40px; }
