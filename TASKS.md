@@ -13,6 +13,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 5 — Scope the safety/weight-logistics content (done 2026-07-22: two angles confirmed — operational safety for Logistics, and regulatory/compliance weight limits; structural/geotechnical-safety framing explicitly not selected; target pages left undecided, see Task 7)
 - [x] Task 6 — Define a shared-review mechanism so the team can comment/edit, not just receive finished deliverables (**final decision 2026-07-22, superseding two earlier passes**: a shared Drive folder containing (a) the live site preview link and (b) `references/site-proposals.md`, a running list of open site proposals — team adds comments/thoughts, discussed in meetings, status retroactively marked Integrated/Not integrated. Earlier passes — a Google Docs pilot of the video brief, then live pinned comments on the rendered site via Vercel Comments — were both superseded before being built. Remaining step: create the Drive folder and paste in the weblink + doc)
 - [x] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT (done 2026-07-23: two new SensWEIGHT feature cards — "Overload & Site Safety Alerts" and "Compliance-Ready Records" — placed on SensWEIGHT rather than the Logistics industry page, keeping that page thin per the settled IA)
+- [ ] Task 8 — Give the patent more visual/content focus in the Certified & Patented section (scoped 2026-07-27, in progress)
 
 **Out-of-plan, shipped 2026-07-23:** the chief's "we sell trust" JIC ask (CLAUDE.md, previously logged unresolved) resurfaced — user initiated adding a real, factual trust signal (not the disputed badge-driven-as-primary-positioning version). Built as a supporting homepage section, not the site's lead pitch: minimalist circular seal icon + 3 sourced facts (granted EU patent EP 4 524 526, TRL 9, live pilot/commercial installations, from `references/UCS for JIC.docx`), placed between the ROI teaser and the closing CTA. Branched, built, verified via Playwright screenshot, merged to `main`, pushed to `origin/main` (`0aa6d63`). Also updated `references/site-walkthrough.md` + its Google Doc copy to reflect the new section. This doesn't resolve the design-style or trust-vs-value-prop conflicts in CLAUDE.md — still flag both if they resurface — it's a separate, narrower, factual addition the user chose to move on independently.
 
@@ -170,6 +171,24 @@ Wrote real copy for the two confirmed angles: operational safety (overload preve
 **Shipped:** two new entries in `t.sensweight.features[]` (`translations.js`) — "Overload & Site Safety Alerts" (operational safety angle) and "Compliance-Ready Records" (regulatory/compliance angle). Chose Key Features over Application Areas (`usecases[]`) since these read as capabilities/benefits, matching the existing feature-card style, rather than physical installation types. Built on `task/safety-compliance-features`, verified via build + Playwright screenshot (8-card grid renders cleanly), merged to `main`, pushed.
 
 **Done when:** copy exists and is placed on the agreed page(s), reviewed against the two confirmed angles above (no structural/geotechnical-safety content mixed in). ✅
+
+---
+
+### Task 8 — Give the patent more visual/content focus in the Certified & Patented section
+
+**Why:** logged 2026-07-26 as a refinement request (see CLAUDE.md "Stakeholder feedback" + memory) — the shipped 2026-07-23 version treats the patent as one line among three equal facts (patent / TRL 9 / deployment). User wants the patent specifically to stand out more, to differentiate from other weighing companies.
+
+**Scope confirmed 2026-07-27:** "larger dedicated patent block" — keep the existing 3-fact layout and section, but pull the patent fact out into its own bigger sub-block (prominent patent number, certificate-style treatment) above the remaining two facts (TRL 9, Deployment), rather than reordering or splitting into a whole separate section.
+
+**Done when:**
+- `t.trust` in `translations.js` restructured: `patent: { label, number, detail }` pulled out of the `items[]` array; `items[]` keeps only TRL 9 + Deployment.
+- `detail` copy sourced from `references/UCS for JIC.docx` ("covering the monitoring and diagnostic methodology of industrial weighing systems"), not invented.
+- `home.njk`'s trust section renders a new `.patent-block` (label + large number + detail line) before the existing `.trust-items` row.
+- New `.patent-block` CSS in `main.css` — certificate-style bordered box using existing tokens only (`--blue`/`--blue-pale`/`--blue-dark`/`--mono`), no new colors. `--navy` not used for text (existing token rule: navy is bg/chrome only, never text).
+
+**Files:** `translations.js`, `home.njk`, `main.css` (all under `sensweight/src/`).
+
+**Verify:** `npm run build`, visual check via Playwright screenshot of the homepage `#certifications` section — patent number reads clearly larger/more prominent than the other two facts.
 
 ---
 
