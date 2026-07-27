@@ -136,8 +136,12 @@ module.exports = {
       tagline: "Certified & Patented",
       heading: "Built on a granted European patent, not a pitch deck",
       sub: "SensWEIGHT's monitoring and diagnostic methodology is protected IP, already running in commercial and pilot installations.",
+      patent: {
+        label: "Granted European Patent",
+        number: "EP 4 524 526",
+        detail: "Covers the monitoring and diagnostic methodology of industrial weighing systems — the core of what SensWEIGHT does, not a peripheral feature.",
+      },
       items: [
-        { label: "European Patent", value: "EP 4 524 526" },
         { label: "Technology Readiness", value: "TRL 9 — commercially ready" },
         { label: "Deployment", value: "Pilot & commercial installations live" },
       ],

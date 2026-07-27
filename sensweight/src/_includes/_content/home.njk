@@ -297,6 +297,11 @@
       <div class="section-tagline">{{ t.trust.tagline }}</div>
       <h2>{{ t.trust.heading }}</h2>
       <p class="section-sub">{{ t.trust.sub }}</p>
+      <div class="patent-block">
+        <span class="patent-block-label">{{ t.trust.patent.label }}</span>
+        <span class="patent-block-number">{{ t.trust.patent.number }}</span>
+        <p class="patent-block-detail">{{ t.trust.patent.detail }}</p>
+      </div>
       <div class="trust-items">
         {% for item in t.trust.items %}
         <div class="trust-item">
