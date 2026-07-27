@@ -277,8 +277,15 @@
 
 {# ── ROI CALCULATOR TEASER (full calculator lives on each Solution page) #}
 <section class="section section-alt roi-teaser">
-  <div class="container">
-    <p class="roi-teaser-text">{{ t.roi.teaser }} <a href="/solutions/">&rarr;</a></p>
+  <div class="container roi-teaser-inner">
+    <p class="roi-teaser-heading">{{ t.roi.teaser_heading }}</p>
+    <div class="roi-teaser-links">
+      <a href="/sensweight/#roi" class="roi-teaser-link">{{ t.products.sensweight.name }} &rarr;</a>
+      <a href="/senssilo/#roi" class="roi-teaser-link">{{ t.products.senssilo.name }} &rarr;</a>
+      <a href="/sensgeo/#roi" class="roi-teaser-link">{{ t.products.sensgeo.name }} &rarr;</a>
+      <a href="/sensatmo/#roi" class="roi-teaser-link">{{ t.products.sensatmo.name }} &rarr;</a>
+      <a href="/sensgreen/#roi" class="roi-teaser-link">{{ t.products.sensgreen.name }} &rarr;</a>
+    </div>
   </div>
 </section>
 
