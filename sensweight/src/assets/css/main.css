@@ -724,6 +724,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); }
 }
 .form-field textarea { resize: vertical; min-height: 120px; font-family: var(--font); }
 .form-note { font-size: 13px; color: var(--muted); }
+.dealer-form-status { font-size: 14px; font-weight: 600; color: var(--ok); min-height: 1.4em; }
+.dealer-form-status.is-error { color: var(--alarm); }
 @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
 
 /* ── Solutions grid / cards ─────────────────────────────────── */
