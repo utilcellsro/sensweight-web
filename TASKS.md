@@ -16,7 +16,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 8 — Give the patent more visual/content focus in the Certified & Patented section (done 2026-07-27: patent pulled into its own bordered block with a larger number, TRL 9/Deployment remain as secondary facts below)
 - [x] Task 8b — Turn the homepage ROI teaser into real per-solution CTA buttons (done 2026-07-27, out-of-plan fix — see detail below Task 8)
 - [ ] Task 9 — Shorten the hero sub-headline copy (flagged in today's presentation, 2026-07-27 — logged, not yet drafted)
-- [ ] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (flagged 2026-07-27 — logged, not yet executed, needs scope confirmation first)
+- [x] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (done 2026-07-30: transferred `echetvergov/ucs-frontend` → `utilcellsro/sensweight-web`, local `origin` repointed, old URL redirects)
 - [ ] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (flagged 2026-07-27 — logged, not yet implemented)
 - [ ] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (flagged 2026-07-27 — logged, not yet implemented)
 - [ ] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (flagged 2026-07-27 — decided approach, not yet built; Phase 5 item)
@@ -231,7 +231,9 @@ Three sentences, ~60 words — long for a sub-headline sitting under a 4-line H1
 
 **Done when:** repo lives under `utilcellsro`, local `origin` remote repointed, Vercel (or whatever's deploying it) confirmed still working against the new location.
 
-**Not yet started.**
+**Done 2026-07-30:** confirmed via direct questions — (1) transfer ownership (not fresh repo + copy), (2) renamed to `sensweight-web` (was `ucs-frontend`), (3) Vercel re-link left to the user to handle separately. Confirmed `echetvergov` has admin role in `utilcellsro` (`gh api orgs/utilcellsro/memberships/echetvergov`), so the transfer completed instantly with no separate acceptance step. Executed via `gh api repos/echetvergov/ucs-frontend/transfer -f new_owner=utilcellsro -f new_name=sensweight-web`. Verified: `utilcellsro/sensweight-web` exists and is the real repo (same `id`); the old `echetvergov/ucs-frontend` URL now redirects to it (GitHub's automatic post-transfer redirect). Local `origin` repointed (`git remote set-url origin https://github.com/utilcellsro/sensweight-web.git`), `git fetch origin` succeeds, `main` still tracks `origin/main` cleanly.
+
+**Outstanding (user's own follow-up, not part of this task's done-when):** Vercel project's Git integration still points at the old GitHub location — user will re-link it themselves.
 
 ---
 
