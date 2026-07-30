@@ -19,7 +19,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (done 2026-07-30: transferred `echetvergov/ucs-frontend` → `utilcellsro/sensweight-web`, local `origin` repointed, old URL redirects)
 - [ ] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (flagged 2026-07-27 — logged, not yet implemented)
 - [ ] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (flagged 2026-07-27 — logged, not yet implemented)
-- [ ] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (flagged 2026-07-27 — decided approach, not yet built; Phase 5 item)
+- [~] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (infra PR open, frontend wired — see detail below; AWS apply + first live test still outstanding)
 
 **Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
 
@@ -282,7 +282,18 @@ Three sentences, ~60 words — long for a sub-headline sitting under a 4-line H1
 
 **Files:** new Lambda + API Gateway (infra, outside the Eleventy build), `sensweight/src/assets/js/dealer-form.js`.
 
-**Not yet started** — significant infra task, needs the AWS-account and sales-inbox questions answered first (Phase 5 backlog, CLAUDE.md).
+**2026-07-30 update — hosting pivot + infra built, apply/test still outstanding:** user decided against Vercel for the company site — real infra now goes through the existing `terraform-cloud` repo (Terraform Cloud–managed, VCS-connected to `dev`, manual apply only) instead. This also settled Phase 5's open AWS-account question: same account as everything else (`008568556096`, `eu-central-1`).
+
+Confirmed via direct questions: (1) CloudFront **default domain only for now** — sensweight.com currently 301-redirects to a live site at `en.sensweight.eu`, so DNS cutover is deliberately deferred, not part of this task; (2) SES sender `no-reply@unifiedcloudsensors.com` (domain already verified, production-enabled, no new SES setup needed — confirmed via read-only `aws sesv2` calls); (3) sales-notify recipient `e.chetvergov@unifiedcloudsensors.com` (placeholder until a real sales inbox is confirmed — same open item as before, just re-scoped to a different placeholder).
+
+Built on `task/sensweight-web-hosting` in `terraform-cloud` (extends `modules/s3/main.tf` following the exact existing `sales_department_order`/`jira_proxy` pattern — S3+CloudFront+OAC, Lambda+HTTP API Gateway, IAM scoped to `ses:SendEmail` on the `unifiedcloudsensors.com` identity). One real deviation from that pattern: added a CloudFront Function to rewrite directory-style paths to their `index.html`, since Eleventy's real multi-page output has no implicit index behavior on an OAC/REST-API S3 origin (unlike the SPA apps this pattern was written for) — and deliberately did *not* reuse the SPA "redirect all errors to index.html" trick, since that would silently serve the homepage for real broken links. Hit and fixed one real dependency cycle (CloudFront distribution ↔ API Gateway ↔ Lambda, via CORS/`ALLOWED_ORIGIN` referencing the CloudFront domain) by using `*` for both — acceptable since this is a public, cookie-less form endpoint. `terraform validate` passes locally. PR open: `utilcellsro/terraform-cloud#115` into `dev`.
+
+`dealer-form.js` updated on `main` (`dd2443e`): POSTs JSON to `/api/dealer-request` instead of building a `mailto:` link, added a status line under the submit button for success/error feedback.
+
+**Not done yet:**
+- PR #115 needs review + merge into `dev`, then a manual Apply in the TFC UI (auto-apply is off) — I can't push that button myself without a TFC token.
+- Once applied: `aws s3 sync` the built `_site/` to the new bucket (chosen explicitly over setting up CI/CD now — that's its own later task), then a real end-to-end test of the dealer form against the live API Gateway endpoint (confirm both emails actually land).
+- Real sales inbox is still just a placeholder (`e.chetvergov@unifiedcloudsensors.com`) — repoint `sensweight_ses_notify_email` in `terraform-cloud/environments/prod/main.tf` once a real one is confirmed.
 
 ---
 
