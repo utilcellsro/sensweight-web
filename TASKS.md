@@ -20,6 +20,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [ ] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (flagged 2026-07-27 — logged, not yet implemented)
 - [ ] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (flagged 2026-07-27 — logged, not yet implemented)
 - [~] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (infra applied to AWS, site deployed and live on the CloudFront default domain; first live test surfaced a real SES IAM bug — fix PR #116 open, needs merge + apply + retest — see detail below)
+- [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
 
 **Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
 
@@ -300,7 +301,28 @@ Built on `task/sensweight-web-hosting` in `terraform-cloud` (extends `modules/s3
 - PR #116 needs review + merge into `dev`, then a manual Apply in the TFC UI (same as #115 — I can't push that button myself without a TFC token).
 - Once applied: re-run the live dealer-form test (POST to the API Gateway endpoint, or submit via the live CloudFront URL) and confirm both the sales-notification and client-confirmation emails actually land this time.
 - Real sales inbox is still just a placeholder (`e.chetvergov@unifiedcloudsensors.com`) — repoint `sensweight_ses_notify_email` in `terraform-cloud/environments/prod/main.tf` once a real one is confirmed.
-- No CI/CD for the site build — every future content/code change to `sensweight/` needs a manual `npm run build` + `aws s3 sync` to reach the live bucket (deliberate, per earlier decision not to set up CI/CD yet).
+- ~~No CI/CD for the site build~~ Superseded by Task 14 below — `/deploy-live` now runs a real GitHub Actions build+sync+invalidate pipeline. It's still a manually-triggered pipeline, not auto-deploy-on-merge, by design.
+
+---
+
+### Task 14 — Non-programmer dev workflow: task branches, Docker preview, GitHub Actions deploy
+
+**Why:** user wants a colleague — not a programmer, no AWS account — to be able to pick up tasks, implement them via chat, preview the result, and ship, without ever touching AWS or needing deep git knowledge.
+
+**Shipped 2026-07-31**, branch `task/dev-workflow-tooling`, merged `--no-ff` into `main` (user confirmed "yes, merge it" before merging):
+
+- **Four project slash commands** in `.claude/commands/` (same plain-markdown format as `ucs-status`/`ucs-log`):
+  - `/new-task` — reads `TASKS.md` for the next pending item (or lets the user describe a new one in plain language, appending it to the Status list), then creates and checks out a `task/<slug>` branch off up-to-date `main`.
+  - `/local-deploy` — builds and runs the site in Docker (`Dockerfile` + `docker-compose.yml` at repo root; multi-stage, node build → nginx serve, so it's Docker-Desktop-only, no Node/npm needed) at `http://localhost:8080`.
+  - `/finish-task` — the merge gate: summarizes what changed in plain language, requires explicit user confirmation, then `--no-ff` merges into `main`, pushes, deletes the branch. This is what implements "merge only after asking the person with a list of changes."
+  - `/deploy-live` — triggers the new `.github/workflows/deploy.yml` GitHub Action (`gh workflow run`), watches it, reports the live URL or a plain-language failure summary.
+- **`ONBOARDING.md`** (repo root) — the colleague-facing walkthrough: one-time setup (Claude Code, Docker Desktop, GitHub access) then the everyday 4-command loop, plus an explicit "what you never need to worry about" section (AWS, breaking the live site, merge conflicts).
+- **AWS auth for the deploy workflow**: reuses the org's existing shared `GitHubActionRole` (OIDC via `token.actions.githubusercontent.com`, trusts `utilcellsro/*` repos org-wide, `AdministratorAccess` attached) — the user's explicit call after seeing this was the org's real existing pattern (`infrastructure-project`'s `frontdesk-app-deploy-prod.yml`), rather than building new narrower per-app IAM. Flagged plainly that this role is broad; pre-existing decision, not something introduced here.
+- 5 non-secret repo variables set on `utilcellsro/sensweight-web`: `AWS_ACCESS_ROLE_ARN`, `AWS_DEFAULT_REGION`, `SENSWEIGHT_S3_BUCKET`, `SENSWEIGHT_CLOUDFRONT_DISTRIBUTION_ID`, `SENSWEIGHT_LIVE_URL`.
+
+**Real bug found and fixed while verifying `/deploy-live` end-to-end** (caught by actually running it, not by inspection): first live run failed with STS `AccessDenied` on `AssumeRoleWithWebIdentity`. Root cause via CloudTrail — GitHub now embeds immutable org/repo numeric IDs in the OIDC `sub` claim (`repo:utilcellsro@69041429/sensweight-web@1284001247:ref:refs/heads/main`), not the plain form the shared `GitHubActionRole`'s trust policy expected, likely triggered by this repo's 2026-07-30 transfer/rename. This role is shared production infra (frontdesk, terrasense, rma, sales-department-order all depend on it too) — flagged to the user before touching it; user confirmed "apply it now." Fixed via `aws iam update-assume-role-policy` (confirmed not Terraform-managed first) — purely additive, added `repo:utilcellsro@*/*` alongside the existing `repo:utilcellsro/*` pattern. Re-ran the deploy end to end after the fix: full green run (build → OIDC auth → S3 sync → CloudFront invalidation) in ~20s.
+
+**Done when:** colleague can run all 4 commands without AWS access ✅. Outstanding: colleague still needs GitHub repo access (`gh auth login`, added as a collaborator on `utilcellsro/sensweight-web`) — the one credential-adjacent setup step, per `ONBOARDING.md`.
 
 ---
 
