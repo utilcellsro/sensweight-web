@@ -19,7 +19,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (done 2026-07-30: transferred `echetvergov/ucs-frontend` → `utilcellsro/sensweight-web`, local `origin` repointed, old URL redirects)
 - [ ] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (flagged 2026-07-27 — logged, not yet implemented)
 - [ ] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (flagged 2026-07-27 — logged, not yet implemented)
-- [~] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (infra PR open, frontend wired — see detail below; AWS apply + first live test still outstanding)
+- [~] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (infra applied to AWS, site deployed and live on the CloudFront default domain; first live test surfaced a real SES IAM bug — fix PR #116 open, needs merge + apply + retest — see detail below)
 
 **Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
 
@@ -290,10 +290,17 @@ Built on `task/sensweight-web-hosting` in `terraform-cloud` (extends `modules/s3
 
 `dealer-form.js` updated on `main` (`dd2443e`): POSTs JSON to `/api/dealer-request` instead of building a `mailto:` link, added a status line under the submit button for success/error feedback.
 
+**2026-07-31 update — PR #115 applied, infra live, real bug found + fixed (PR #116 open):**
+- User applied PR #115 in the TFC UI. Confirmed via direct AWS read calls (`008568556096`, using temp creds the user pasted in chat — never persisted to disk): S3 bucket `sensweight-com-website-prod`, CloudFront distribution `d3onkrnmhl2kuy.cloudfront.net` ("Sensweight prod distribution"), API Gateway `sensweight-dealer-form-api-prod`, Lambda `sensweight-dealer-form-prod` all exist.
+- Built `sensweight/_site/` and ran `aws s3 sync --delete` to the new bucket. Verified via curl: homepage/industries/solution pages all 200, directory-path CloudFront Function rewrite works, a genuinely broken URL returns 403 (not a silent homepage fallback), assets load. **The site is now live at `https://d3onkrnmhl2kuy.cloudfront.net/`** (CloudFront default domain only — DNS cutover from `en.sensweight.eu` still deliberately not done).
+- Ran the real end-to-end dealer-form test (both a direct API POST and the user's own live-site submission hit the same failure): **502, SES `AccessDenied`**. Root cause: the Lambda's IAM policy granted `ses:SendEmail` on the SES **domain** identity (`identity/unifiedcloudsensors.com`), but SES authorizes `SendEmail` against the exact **Source address** string used in the call (`no-reply@unifiedcloudsensors.com`) — domain and address identity ARNs don't match each other for IAM purposes even though both are verified under the same domain.
+- Fixed in `terraform-cloud` (`modules/s3/main.tf` policy resource now uses `var.sensweight_ses_sender_email`; removed the now-unused `sensweight_ses_identity_domain` variable from `variables.tf` + `environments/prod/main.tf`). `terraform validate` passes. Branch `fix/dealer-form-ses-identity-arn`, **PR open: `utilcellsro/terraform-cloud#116` into `dev`, not yet merged/applied.**
+
 **Not done yet:**
-- PR #115 needs review + merge into `dev`, then a manual Apply in the TFC UI (auto-apply is off) — I can't push that button myself without a TFC token.
-- Once applied: `aws s3 sync` the built `_site/` to the new bucket (chosen explicitly over setting up CI/CD now — that's its own later task), then a real end-to-end test of the dealer form against the live API Gateway endpoint (confirm both emails actually land).
+- PR #116 needs review + merge into `dev`, then a manual Apply in the TFC UI (same as #115 — I can't push that button myself without a TFC token).
+- Once applied: re-run the live dealer-form test (POST to the API Gateway endpoint, or submit via the live CloudFront URL) and confirm both the sales-notification and client-confirmation emails actually land this time.
 - Real sales inbox is still just a placeholder (`e.chetvergov@unifiedcloudsensors.com`) — repoint `sensweight_ses_notify_email` in `terraform-cloud/environments/prod/main.tf` once a real one is confirmed.
+- No CI/CD for the site build — every future content/code change to `sensweight/` needs a manual `npm run build` + `aws s3 sync` to reach the live bucket (deliberate, per earlier decision not to set up CI/CD yet).
 
 ---
 
