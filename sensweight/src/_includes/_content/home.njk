@@ -113,30 +113,6 @@
         </div>
       </div>
 
-      {# SensSILO — level bars #}
-      <div class="product-card product-card-live" style="--card-accent:var(--ok)">
-        <div class="product-card-header">
-          <div class="product-card-header-top">
-            <span class="product-card-header-label">Silo inventory dashboard</span>
-            <span class="product-card-live-badge"><span class="live-dot live-dot--green"></span>live</span>
-          </div>
-          <div class="pc-silos">
-            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill" style="height:82%"></span></span><span class="pc-silo-label">A · 82%</span></div>
-            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill" style="height:47%"></span></span><span class="pc-silo-label">B · 47%</span></div>
-            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill pc-silo-fill--amber" style="height:19%"></span></span><span class="pc-silo-label pc-silo-label--amber">C · 19%</span></div>
-            <div class="pc-silo"><span class="pc-silo-track"><span class="pc-silo-fill pc-silo-fill--teal" style="height:64%"></span></span><span class="pc-silo-label">D · 64%</span></div>
-          </div>
-        </div>
-        <div class="product-card-body">
-          <h3>{{ t.products.senssilo.name }}</h3>
-          <p>{{ t.products.senssilo.desc }}</p>
-          <div class="product-card-footer">
-            <span class="product-badge" style="color:var(--ok);background:rgba(63,143,107,.10)">{{ t.products.senssilo.badge }}</span>
-            <a href="/senssilo/" class="card-link">Learn more &rarr;</a>
-          </div>
-        </div>
-      </div>
-
       {# SensGEO — tilt gauge #}
       <div class="product-card product-card-live" style="--card-accent:var(--sky)">
         <div class="product-card-header">
@@ -183,31 +159,17 @@
         </div>
       </div>
 
-      {# SensGREEN — load + moisture donut #}
-      <div class="product-card product-card-live" style="--card-accent:var(--blue-dark)">
-        <div class="product-card-header">
-          <div class="product-card-header-top">
-            <span class="product-card-header-label">Green roof dashboard</span>
-            <span class="product-card-live-badge"><span class="live-dot live-dot--green"></span>live</span>
-          </div>
-          <div class="pc-donut-row">
-            <div class="pc-donut" style="--pct:74%"><span class="pc-donut-value">74%</span></div>
-            <div class="pc-donut-details">
-              <div><span class="pc-stat-label">LOAD</span><span class="pc-stat-value">312 kg/m²</span></div>
-              <div><span class="pc-stat-label">MOISTURE</span><span class="pc-stat-value pc-stat-value--teal">32%</span></div>
-            </div>
-          </div>
-        </div>
+      {# Custom — not a live dashboard, no product-card-header #}
+      <div class="product-card" style="--card-accent:var(--muted)">
         <div class="product-card-body">
-          <h3>{{ t.products.sensgreen.name }}</h3>
-          <p>{{ t.products.sensgreen.desc }}</p>
+          <h3>{{ t.custom_solution.title }}</h3>
+          <p>{{ t.custom_solution.desc }}</p>
           <div class="product-card-footer">
-            <span class="product-badge" style="color:var(--blue-dark);background:rgba(47,77,137,.10)">{{ t.products.sensgreen.badge }}</span>
-            <a href="/sensgreen/" class="card-link">Learn more &rarr;</a>
+            <span class="product-badge" style="color:var(--muted);background:var(--bg)">{{ t.custom_solution.badge }}</span>
+            <a href="/how-to-buy/" class="card-link">{{ t.custom_solution.cta }} &rarr;</a>
           </div>
         </div>
       </div>
-
 
     </div>
   </div>
