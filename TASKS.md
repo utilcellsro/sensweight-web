@@ -17,7 +17,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 8b — Turn the homepage ROI teaser into real per-solution CTA buttons (done 2026-07-27, out-of-plan fix — see detail below Task 8)
 - [ ] Task 9 — Shorten the hero sub-headline copy (flagged in today's presentation, 2026-07-27 — logged, not yet drafted)
 - [x] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (done 2026-07-30: transferred `echetvergov/ucs-frontend` → `utilcellsro/sensweight-web`, local `origin` repointed, old URL redirects)
-- [ ] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (flagged 2026-07-27 — logged, not yet implemented)
+- [x] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (done 2026-09-01 on `task/hero-tile-order-swap`: swapped the Products/Solutions `.hero-tile` block order in `home.njk`, no copy/CSS change)
 - [ ] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (flagged 2026-07-27 — logged, not yet implemented)
 - [~] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (infra applied to AWS, site deployed and live on the CloudFront default domain; first live test surfaced a real SES IAM bug — fix PR #116 open, needs merge + apply + retest — see detail below)
 - [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
@@ -250,7 +250,7 @@ Three sentences, ~60 words — long for a sub-headline sitting under a 4-line H1
 
 **Verify:** `npm run build`, visual check that the hero row now reads Industries / Solutions / Products left to right.
 
-**Not yet started.**
+**Done 2026-09-01:** swapped the Products and Solutions `.hero-tile` markup blocks in `home.njk` (Solutions block now comes second, Products third) — hrefs/translation keys stayed attached to their own content, only physical order changed. Verified via `npm run build` + grep of `_site/index.html`'s `hero-tile-title` spans: renders Industries → Solutions → Products. Branch `task/hero-tile-order-swap`.
 
 ---
 
@@ -297,9 +297,10 @@ Built on `task/sensweight-web-hosting` in `terraform-cloud` (extends `modules/s3
 - Ran the real end-to-end dealer-form test (both a direct API POST and the user's own live-site submission hit the same failure): **502, SES `AccessDenied`**. Root cause: the Lambda's IAM policy granted `ses:SendEmail` on the SES **domain** identity (`identity/unifiedcloudsensors.com`), but SES authorizes `SendEmail` against the exact **Source address** string used in the call (`no-reply@unifiedcloudsensors.com`) — domain and address identity ARNs don't match each other for IAM purposes even though both are verified under the same domain.
 - Fixed in `terraform-cloud` (`modules/s3/main.tf` policy resource now uses `var.sensweight_ses_sender_email`; removed the now-unused `sensweight_ses_identity_domain` variable from `variables.tf` + `environments/prod/main.tf`). `terraform validate` passes. Branch `fix/dealer-form-ses-identity-arn`, **PR open: `utilcellsro/terraform-cloud#116` into `dev`, not yet merged/applied.**
 
+**2026-09-01 update — PR #116 confirmed merged + applied, endpoint working:** `gh pr view 116` shows it merged into `dev` on 2026-07-31. A fresh live POST to `https://d3onkrnmhl2kuy.cloudfront.net/api/dealer-request` now returns `200 {"ok": true}` (previously `502`/SES `AccessDenied` before the fix) — confirms the Apply happened and the Lambda→SES path no longer errors at the IAM layer.
+
 **Not done yet:**
-- PR #116 needs review + merge into `dev`, then a manual Apply in the TFC UI (same as #115 — I can't push that button myself without a TFC token).
-- Once applied: re-run the live dealer-form test (POST to the API Gateway endpoint, or submit via the live CloudFront URL) and confirm both the sales-notification and client-confirmation emails actually land this time.
+- Inbox-side confirmation still open: haven't verified the actual confirmation + sales-notification emails landed (can't check mail inboxes from here) — worth a quick human check of `e.chetvergov@unifiedcloudsensors.com` for the test submission sent this session.
 - Real sales inbox is still just a placeholder (`e.chetvergov@unifiedcloudsensors.com`) — repoint `sensweight_ses_notify_email` in `terraform-cloud/environments/prod/main.tf` once a real one is confirmed.
 - ~~No CI/CD for the site build~~ Superseded by Task 14 below — `/deploy-live` now runs a real GitHub Actions build+sync+invalidate pipeline. It's still a manually-triggered pipeline, not auto-deploy-on-merge, by design.
 
