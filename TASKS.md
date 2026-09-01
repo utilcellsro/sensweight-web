@@ -21,7 +21,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (done 2026-09-01 on `task/ucs-cloud-product-tile`: new 6th `hw-card` entry in `products_page.categories`, reuses the existing card/sku-row markup, last row links to `/solutions/`)
 - [x] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (done 2026-09-01: PR #116 SES IAM fix confirmed merged + applied, live end-to-end test confirmed both emails delivered to the placeholder sales inbox — user's call to keep the placeholder for now rather than repoint to a real inbox)
 - [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
-- [ ] Task 15 — Add a real header nav: About Us, Contacts, News (flagged 2026-09-01 — logged, not yet implemented; site currently has no header nav links at all, just the logo)
+- [x] Task 15 — Add a real header nav: About Us, Contacts, News (done 2026-09-01 on `task/header-nav-about-contact-news`: new `/about/` + `/contact/` pages with real sourced content, News reuses `/events/`, footer's dead Contact link fixed)
 - [ ] Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN cards, add one "Custom, built to your site" card (flagged 2026-09-01 — logged, not yet implemented; SensSILO/SensGREEN pages themselves are untouched, homepage-grid-only change)
 - [ ] Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range (flagged 2026-09-01 — logged, not yet implemented)
 - [ ] Task 18 — Global ™ → ® swap across the site (flagged 2026-09-01 — logged, not yet implemented; user confirmed marks are actually registered)
@@ -355,7 +355,14 @@ Built on `task/sensweight-web-hosting` in `terraform-cloud` (extends `modules/s3
 
 **Files:** `_includes/nav.njk`, `_includes/footer.njk`, new `about.njk`, `contact.njk` (and `news.njk` if not reusing `/events/`), `translations.js` (nav labels + new page copy).
 
-**Not yet started.**
+**Done 2026-09-01:** resolved the open question first — user confirmed reusing `/events/` for News rather than building a redundant page. Built:
+- `nav.njk` now sets `t = translations[lang]` and renders a real `.nav-links` row (About Us / Contacts / News) next to the logo — reusing pre-existing but previously-unused `.nav-links` CSS (hover/active states, mobile-hide) already in `main.css`.
+- New `/about/` page (`about.njk` + `_content/about.njk`): hero + narrative paragraph grounded in real, already-approved facts (company description from CLAUDE.md, patent EP 4 524 526, TRL 9, Ostrovačice HQ) reusing the existing `.trust-items`/`.trust-item` label-value pattern for a 3-fact strip, closing CTA into `/how-to-buy/`. No invented claims (founding date, team size, etc.) — deliberately left out since nothing sources them.
+- New `/contact/` page (`contact.njk` + `_content/contact.njk`): real company name/address/phone/email, sourced live from the actual legacy site at `en.sensweight.eu`'s footer (`nám. V. Mrštíka 40, 664 81 Ostrovačice, Czech Republic`, `+420 546 427 053`, `info@sensweight.eu`) per user's "grab from sensweight web" instruction — not invented. Email rendered as a real `mailto:` link. Closing CTA into `/how-to-buy/` for actual lead capture, rather than building a second contact form (keeps the settled "How to Buy + dealer request merged into one page" IA decision intact).
+- Footer's dead `<a href="#">` Contact link repointed to `/contact/`.
+- `translations.js`: added `nav.about`/`nav.news` (kept existing `nav.contact` but changed its label from "Contact" to "Contacts" to match the requested header wording), new `about_page` and `contact_page` objects.
+
+Verified via `npm run build` (28 files, 2 new pages write cleanly) + a local `npm start` + Chrome screenshot check of the homepage header, `/about/`, and `/contact/` — nav renders cleanly, active-page highlighting works, facts/contact info render correctly, mailto link works. Branch `task/header-nav-about-contact-news`.
 
 ---
 
