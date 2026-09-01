@@ -399,6 +399,15 @@ module.exports = {
             { code: "Calibration", name: "Single- or multi-range certification", spec: "On-site or factory, ISO-traceable" },
           ],
         },
+        {
+          name: "UCS Cloud",
+          desc: "The platform every sensor and gateway above reports into — not a separate purchase, the system that makes the hardware useful.",
+          skus: [
+            { code: "Dashboards",   name: "Live per-site monitoring",   spec: "Real-time weight, level, and structural data, continuously updated" },
+            { code: "Alerts",       name: "SMS, email & webhook",       spec: "Configurable thresholds — catch problems before they cost you" },
+            { code: "ROI Reporting", name: "Payback tracking built in", spec: "See it running on every Solution →", url: "solutions" },
+          ],
+        },
       ],
     },
     events: {
