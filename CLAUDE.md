@@ -6,8 +6,8 @@ This file is auto-loaded every session. Read it before doing anything else.
 
 **Unified Cloud Sensors, s.r.o.** (Ostrovačice, Czech Republic) is an IIoT company making remote monitoring systems for industrial weighing. The company owns **two domains**, which are now built as **two separate sites in this one monorepo**:
 
-- **`sensweight.com`** — the real product/industry sales site, organized around a three-tier IA: **Industries** (thin routing layer, "find yourself") → **Solutions** / **Products** (the real depth). See below. **This is where all active work happens right now.**
-- **`unifiedcloudsensors.com`** — a small, separate, minimal/premium corporate "about us" page, safe to link from LinkedIn. Not started. Own design DNA (not yet sourced). Scoped for later — do not build unless asked.
+- **`sensweight.com`** — the real product/industry sales site, organized around a three-tier IA: **Industries** (thin routing layer, "find yourself") → **Solutions** / **Products** (the real depth). See below. **Conserved as of 2026-09-01 — all `TASKS.md` items done, deployed, verified live. No known open work; check with the user for new asks before assuming there's more to do here.**
+- **`unifiedcloudsensors.com`** — a small, separate, minimal/premium corporate "about us" page, safe to link from LinkedIn. **Priority as of 2026-09-01 — active work starts now.** See "unifiedcloudsensors.com" section below.
 
 This supersedes the original plan of one combined trilingual site on `unifiedcloudsensors.eu` → `.com`. That plan is dead; see "Decisions already made" below for what replaced it.
 
@@ -47,7 +47,8 @@ ucs_web/
 | sensweight.com language | **English only** — no CS/PL. The old trilingual (EN/CS/PL) decision was for the combined single-site plan and is superseded here |
 | sensweight.com hero | DNA visual style adopted (tokens, fonts, card treatments) — the DNA's own industries-hub navigation concept went through iteration (see above) before landing on the thin-routing-layer version |
 | sensweight.com ROI + demo | Reuse the existing ROI calculator and demo engine as-is, don't rebuild |
-| unifiedcloudsensors.com | Different DNA (not yet sourced), minimal/premium, corporate tone — scoped later |
+| unifiedcloudsensors.com — DNA | **Sourced 2026-09-01.** Not a from-scratch different DNA — reuses sensweight's existing color family (Navy/Blue/Blue Dark/Blue Pale/Ink tokens, see the shared table below) but pushed **darker and more premium**: navy-dominant backgrounds (not just chrome/never-text as on sensweight), more negative space, no dashboard/sensor-state UI (no `--ok`/`--warn`/`--alarm`/`--off`), restrained typography. User's own words: "let's use palette from the DNA but I need more premium and maybe let's have it darker than sensweight." Fonts TBD when the visual draft is reviewed — start from Chakra Petch/IBM Plex Sans as the shared baseline, adjust weight/tracking for the more premium feel rather than introducing new families outright. |
+| unifiedcloudsensors.com — content scope | **Confirmed 2026-09-01:** company story/about (patent EP 4 524 526, TRL 9, Ostrovačice HQ — same sourced facts as sensweight's `/about/`, reframed corporate-tone), Team/Leadership, Press/News, Careers, plus Contact. No ROI calculator, no demo, no per-industry content — those stay sensweight-only. |
 | Build tool | Eleventy (11ty) v3 — one template set, single English translation object (`translations.en`) |
 | Hosting | AWS S3 + CloudFront + ACM + Route 53 — fully static, no server (unchanged) |
 | Demo access | Open to all visitors — no login gate |
@@ -142,9 +143,7 @@ Chief (founder) reviewed the current design/positioning and pushed back in two p
 
 ## Open questions
 
-Everything that used to live in this list is now tracked as a checklist item inside a specific phase below (Phase 4 has ROI formula/ThingsBoard/video IDs/M500 identity; Phase 5 has AWS/dealer-form-backend/sales-inbox). The one item that doesn't belong to sensweight.com's roadmap at all:
-
-1. **unifiedcloudsensors.com DNA** — not sourced yet. Separate domain, deferred, not part of the phases below.
+Everything that used to live in this list is now tracked as a checklist item inside a specific phase below (Phase 4 has ROI formula/ThingsBoard/video IDs/M500 identity; Phase 5 has AWS/dealer-form-backend/sales-inbox). unifiedcloudsensors.com's DNA was the one item that didn't belong to sensweight.com's roadmap at all — **resolved 2026-09-01, see "Decisions already made"** — that domain's own plan now lives in the "unifiedcloudsensors.com" section below.
 
 ## Implementation phases — sensweight.com (current roadmap, written 2026-07-17)
 
@@ -194,3 +193,13 @@ Supersedes the old 5-week estimate (that one predated the 2-domain split and was
 - [ ] Performance/Lighthouse pass
 - [ ] Human content proofread — most copy on the site is AI-written and hasn't had a human marketing review yet
 - [ ] Soft launch → monitor → full DNS cutover
+
+## unifiedcloudsensors.com (active work started 2026-09-01)
+
+Small, separate, minimal/premium corporate "about us" site — distinct from sensweight.com's product/industry sales content, safe to link from LinkedIn. Currently just a disposable placeholder (`unifiedcloudsensors/README.md` + a plain static `index.html`, no build step, no design system) — real design/build work starts now.
+
+**DNA (sourced 2026-09-01):** not an invented-from-scratch different palette — reuses sensweight's existing color family (Navy `#1D2C49` / Blue `#476DB8` / Blue Dark `#2F4D89` / Blue Pale `#DCE5F4` / Ink `#2F2F2E`, see sensweight's design tokens table above) but pushed **darker and more premium**: navy-dominant backgrounds (not chrome-only/never-text like on sensweight), more negative space, no dashboard/sensor-state UI (drop `--ok`/`--warn`/`--alarm`/`--off` entirely — nothing here is live monitoring data). Typography starts from the same Chakra Petch/IBM Plex Sans baseline, adjusted (weight/tracking/scale) for a more premium feel rather than introducing new font families — confirm once a visual draft exists.
+
+**Content scope (confirmed 2026-09-01):** company story/about (patent EP 4 524 526, TRL 9, Ostrovačice HQ — same sourced facts as sensweight's `/about/`, reframed corporate-tone, not duplicated verbatim), Team/Leadership, Press/News, Careers, Contact. Explicitly out of scope: ROI calculator, live demo, per-industry content — those stay sensweight-only.
+
+**Not yet decided:** exact page structure (single long-scroll page vs. separate routes per section), whether this becomes its own Eleventy project mirroring `sensweight/`'s structure or something lighter, real team/leadership names and photos, real press mentions, real open roles for Careers. Don't invent placeholder content for these — flag and ask rather than fabricate names/quotes/press coverage.
