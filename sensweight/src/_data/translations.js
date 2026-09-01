@@ -24,6 +24,12 @@ module.exports = {
     },
     products_section_title: "Solutions",
     products_subtitle: "Five dashboard-based monitoring solutions. One unified cloud platform.",
+    custom_solution: {
+      title: "Custom, Built to Your Site",
+      desc: "Every other monitoring need — built to your requirements. If it isn't one of the systems above, we'll engineer and deploy exactly what your site needs.",
+      badge: "CUSTOM",
+      cta: "Talk to us",
+    },
     solutions_index: {
       tagline: "Solutions", heading: "Five monitoring systems. One cloud dashboard.",
       sub: "UCS hardware paired with a purpose-built cloud dashboard for each system.",
