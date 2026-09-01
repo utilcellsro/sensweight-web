@@ -21,6 +21,11 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (done 2026-09-01 on `task/ucs-cloud-product-tile`: new 6th `hw-card` entry in `products_page.categories`, reuses the existing card/sku-row markup, last row links to `/solutions/`)
 - [x] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (done 2026-09-01: PR #116 SES IAM fix confirmed merged + applied, live end-to-end test confirmed both emails delivered to the placeholder sales inbox — user's call to keep the placeholder for now rather than repoint to a real inbox)
 - [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
+- [ ] Task 15 — Add a real header nav: About Us, Contacts, News (flagged 2026-09-01 — logged, not yet implemented; site currently has no header nav links at all, just the logo)
+- [ ] Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN cards, add one "Custom, built to your site" card (flagged 2026-09-01 — logged, not yet implemented; SensSILO/SensGREEN pages themselves are untouched, homepage-grid-only change)
+- [ ] Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range (flagged 2026-09-01 — logged, not yet implemented)
+- [ ] Task 18 — Global ™ → ® swap across the site (flagged 2026-09-01 — logged, not yet implemented; user confirmed marks are actually registered)
+- [ ] Task 19 — Temporarily comment out the ROI calculator sitewide (flagged 2026-09-01 — logged, not yet implemented; a hold, not a removal — must stay a one-line uncomment to restore)
 
 **Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
 
@@ -333,6 +338,96 @@ Built on `task/sensweight-web-hosting` in `terraform-cloud` (extends `modules/s3
 **Real bug found and fixed while verifying `/deploy-live` end-to-end** (caught by actually running it, not by inspection): first live run failed with STS `AccessDenied` on `AssumeRoleWithWebIdentity`. Root cause via CloudTrail — GitHub now embeds immutable org/repo numeric IDs in the OIDC `sub` claim (`repo:utilcellsro@69041429/sensweight-web@1284001247:ref:refs/heads/main`), not the plain form the shared `GitHubActionRole`'s trust policy expected, likely triggered by this repo's 2026-07-30 transfer/rename. This role is shared production infra (frontdesk, terrasense, rma, sales-department-order all depend on it too) — flagged to the user before touching it; user confirmed "apply it now." Fixed via `aws iam update-assume-role-policy` (confirmed not Terraform-managed first) — purely additive, added `repo:utilcellsro@*/*` alongside the existing `repo:utilcellsro/*` pattern. Re-ran the deploy end to end after the fix: full green run (build → OIDC auth → S3 sync → CloudFront invalidation) in ~20s.
 
 **Done when:** colleague can run all 4 commands without AWS access ✅. Outstanding: colleague still needs GitHub repo access (`gh auth login`, added as a collaborator on `utilcellsro/sensweight-web`) — the one credential-adjacent setup step, per `ONBOARDING.md`.
+
+---
+
+### Task 15 — Add a real header nav: About Us, Contacts, News
+
+**Why:** flagged 2026-09-01 — user wants real header navigation.
+
+**Current state (confirmed via code read):** `_includes/nav.njk` renders only the logo, no links at all. `_includes/footer.njk` has a footer nav (Home / Industries / Solutions / Products / Live Demo / Contact) but "Contact" is a dead `<a href="#">` link — no real contact page exists. No About Us page exists. `/events/` (`events.njk`, "Events & Promotions") exists and covers promotions/events/news/newsletter in one page, but isn't linked from either nav or footer today.
+
+**Confirmed 2026-09-01:** build all 3 as real pages on sensweight.com, linked from a new header nav — not just wiring links to placeholders.
+
+**Open question to resolve when this is picked up:** should "News" reuse the existing `/events/` page (it already has a "Latest News" section), or does the user want a distinct `/news/` page? Check before building — building a redundant second page would duplicate `/events/`.
+
+**Done when:** `nav.njk` has a real nav-links row (About Us / Contacts / News) next to the logo; `/about/` and `/contact/` exist as real pages with real short copy (not placeholders); News points at either a new `/news/` page or the existing `/events/` page (per the resolved open question above); footer's dead `#` Contact link is repointed to the real `/contact/` page.
+
+**Files:** `_includes/nav.njk`, `_includes/footer.njk`, new `about.njk`, `contact.njk` (and `news.njk` if not reusing `/events/`), `translations.js` (nav labels + new page copy).
+
+**Not yet started.**
+
+---
+
+### Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN, add a "Custom, built to your site" card
+
+**Why:** flagged 2026-09-01 — trim the homepage's 5-card Solutions grid down to the 3 flagship live systems, representing the rest as bespoke/custom work rather than off-the-shelf products.
+
+**Current state (confirmed via code read):** `home.njk`'s `#solutions` section (`.product-grid`) has 5 `.product-card-live` entries pulling from `t.products.*`: SensWEIGHT, SensSILO, SensGEO, SensATMO, SensGREEN, each with a small live-dashboard mock header + name/desc/badge/link footer.
+
+**Confirmed 2026-09-01:** remove the SensSILO and SensGREEN cards from this homepage grid only. Replace them with one new card, "Custom, built to your site" — headline along the lines of "Every other monitoring need — built to your requirements", linking to `/how-to-buy/`.
+
+**Explicitly out of scope — don't touch:** the `/senssilo/` and `/sensgreen/` Solution pages themselves stay fully live and linked from `/solutions/` and from `/industries/silos/` and `/industries/greenroofs/` (their industry routing) — this task is a homepage-grid-only trim, not a product removal.
+
+**Done when:** homepage Solutions grid shows 4 cards — SensWEIGHT, SensGEO, SensATMO, and the new "Custom" card; new card styled consistent with the existing `.product-card` pattern (doesn't need a live-dashboard mock header, just a CTA-style card is fine); SensSILO/SensGREEN untouched everywhere else on the site.
+
+**Files:** `home.njk`, `translations.js` (new card copy).
+
+**Not yet started.**
+
+---
+
+### Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range
+
+**Why:** flagged 2026-09-01.
+
+**Current state (confirmed via code read):** `translations.js`, `sensweight.specs[]` (lines 197–210), 12 rows.
+
+**Confirmed 2026-09-01:** remove 5 rows — Measurement range, Accuracy, Sampling rate, A/D resolution, Load cell excitation — so the table's first row becomes Connectivity. Also widen Power input from `"12–36 V DC, < 7 W typical"` to start at 9 V (matches the UCS X3 gateway's own `9–36 V DC` range) — new value: `"9–36 V DC, < 7 W typical"`.
+
+**Done when:** `sensweight.specs[]` has 7 rows starting with Connectivity, Power input reads "9–36 V DC, < 7 W typical".
+
+**Files:** `translations.js`.
+
+**Verify:** `npm run build`, visual check of `/sensweight/`'s Technical Specifications table.
+
+**Not yet started.**
+
+---
+
+### Task 18 — Global ™ → ® swap
+
+**Why:** flagged 2026-09-01 — user confirmed the product-name trademarks (SensWEIGHT, SensSILO, SensGEO, SensATMO, SensGREEN, etc.) are actually registered, not just claimed — the ™ symbol (unregistered-mark claim) used throughout the site is now incorrect; ® is the legally correct symbol for a registered mark.
+
+**Current state (confirmed via code read):** 23 occurrences of "™" in `translations.js` across hero taglines, product names (`t.products.*.name`), industry-page body copy, and per-Solution `hero_tagline`/pitch copy.
+
+**Confirmed 2026-09-01:** replace every "™" with "®" sitewide — not a footer disclaimer, a direct swap.
+
+**Done when:** zero "™" remain anywhere in `translations.js` (or elsewhere on the site — confirm no hardcoded ™ in any `.njk` template), all 23+ converted to "®".
+
+**Files:** `translations.js` (primary), double-check `.njk` templates for any hardcoded ™ not sourced from translations.
+
+**Verify:** `npm run build`, then grep `_site/` for "™" (expect 0 matches) and for "®" (expect the same count that "™" had before).
+
+**Not yet started.**
+
+---
+
+### Task 19 — Temporarily comment out the ROI calculator sitewide
+
+**Why:** flagged 2026-09-01 — a temporary hold, not a permanent removal; must stay a one-line uncomment to restore later.
+
+**Current state (confirmed via code read):** the ROI calculator is a shared partial (`_includes/_content/roi-calculator.njk`, built in Task 1), included on all 5 Solution pages — via `product.njk` (SensSILO/SensGEO/SensATMO/SensGREEN) and `sensweight.njk` (SensWEIGHT) — right before each page's closing CTA strip. The homepage (`home.njk`) has a "See exact payback numbers" ROI-teaser section with 5 pill-style buttons (Task 8b), each deep-linking to `/{solution}/#roi`.
+
+**Confirmed scope 2026-09-01:** comment out everywhere — the 5 Solution-page calculators, and also adjust the homepage's 5 ROI teaser buttons so they don't point at a now-missing `#roi` anchor.
+
+**Done when:** the `{% include "_content/roi-calculator.njk" %}` calls in `product.njk` and `sensweight.njk` are wrapped in a Nunjucks comment (`{# ... #}`), not deleted — a one-line uncomment restores them; the homepage's 5 ROI teaser buttons are either hidden/commented too, or changed to link to the plain solution page (without `#roi`) instead of a dead anchor — pick whichever reads cleaner when this is built.
+
+**Files:** `product.njk`, `sensweight.njk`, `home.njk` (ROI teaser section).
+
+**Verify:** `npm run build`, confirm no ROI calculator renders on any of the 5 Solution pages, and no homepage link points at a missing anchor.
+
+**Not yet started.**
 
 ---
 
