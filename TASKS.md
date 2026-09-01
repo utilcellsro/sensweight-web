@@ -23,7 +23,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
 - [x] Task 15 — Add a real header nav: About Us, Contacts, News (done 2026-09-01 on `task/header-nav-about-contact-news`: new `/about/` + `/contact/` pages with real sourced content, News reuses `/events/`, footer's dead Contact link fixed)
 - [x] Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN cards, add one "Custom, built to your site" card (done 2026-09-01 on `task/homepage-solutions-trim`: SensSILO/SensGREEN pages themselves untouched, verified via grep)
-- [ ] Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range (flagged 2026-09-01 — logged, not yet implemented)
+- [x] Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range (done 2026-09-01 on `task/sensweight-specs-trim`: 12 rows → 7, table now starts with Connectivity, power input widened to 9–36 V DC)
 - [ ] Task 18 — Global ™ → ® swap across the site (flagged 2026-09-01 — logged, not yet implemented; user confirmed marks are actually registered)
 - [ ] Task 19 — Temporarily comment out the ROI calculator sitewide (flagged 2026-09-01 — logged, not yet implemented; a hold, not a removal — must stay a one-line uncomment to restore)
 
@@ -402,7 +402,7 @@ Verified via `npm run build` + local `npm start` + Chrome screenshot of the home
 
 **Verify:** `npm run build`, visual check of `/sensweight/`'s Technical Specifications table.
 
-**Not yet started.**
+**Done 2026-09-01:** removed the 5 rows (Measurement range, Accuracy, Sampling rate, A/D resolution, Load cell excitation) from `sensweight.specs[]`; table now starts with Connectivity, followed by Protocol output, Power input, Protection, Operating temp, Certifications, Data retention (7 rows). Power input widened to "9–36 V DC, < 7 W typical". Verified via `npm run build` + grep of `_site/sensweight/index.html`'s `<tr>` labels in order, and confirmed zero occurrences of the 5 removed labels remain. Branch `task/sensweight-specs-trim`, merged `--no-ff`, pushed (`780e2b6`).
 
 ---
 
