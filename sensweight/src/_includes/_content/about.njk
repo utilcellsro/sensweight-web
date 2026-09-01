@@ -1,0 +1,36 @@
+{% set t = translations[lang] %}
+{% set h = t.about_page %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">{{ h.tagline }}</div>
+    <h1>{{ h.heading }}</h1>
+    <p class="page-hero-sub">{{ h.sub }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-sub">{{ h.body }}</p>
+    </div>
+    <div class="trust-items">
+      {% for fact in h.facts %}
+      <div class="trust-item">
+        <span class="trust-item-label">{{ fact.label }}</span>
+        <span class="trust-item-value">{{ fact.value }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="product-cta">
+  <div class="container">
+    <h2>{{ h.cta_heading }}</h2>
+    <p>{{ h.cta_sub }}</p>
+    <div class="product-cta-btns">
+      <a href="/how-to-buy/" class="btn btn-teal">{{ h.cta_buy }}</a>
+    </div>
+  </div>
+</section>

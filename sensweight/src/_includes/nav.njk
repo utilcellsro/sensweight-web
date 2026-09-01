@@ -1,7 +1,13 @@
+{% set t = translations[lang] %}
 <nav class="nav">
   <div class="container nav-inner">
     <a class="nav-logo" href="/">
       <img class="nav-logo-img" src="/assets/images/ucs-logo.png" alt="Unified Cloud Sensors">
     </a>
+    <div class="nav-links">
+      <a href="/about/">{{ t.nav.about }}</a>
+      <a href="/contact/">{{ t.nav.contact }}</a>
+      <a href="/events/">{{ t.nav.news }}</a>
+    </div>
   </div>
 </nav>
