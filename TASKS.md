@@ -18,7 +18,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [ ] Task 9 — Shorten the hero sub-headline copy (flagged in today's presentation, 2026-07-27 — logged, not yet drafted)
 - [x] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (done 2026-07-30: transferred `echetvergov/ucs-frontend` → `utilcellsro/sensweight-web`, local `origin` repointed, old URL redirects)
 - [x] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (done 2026-09-01 on `task/hero-tile-order-swap`: swapped the Products/Solutions `.hero-tile` block order in `home.njk`, no copy/CSS change)
-- [ ] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (flagged 2026-07-27 — logged, not yet implemented)
+- [x] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (done 2026-09-01 on `task/ucs-cloud-product-tile`: new 6th `hw-card` entry in `products_page.categories`, reuses the existing card/sku-row markup, last row links to `/solutions/`)
 - [~] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (infra applied to AWS, site deployed and live on the CloudFront default domain; first live test surfaced a real SES IAM bug — fix PR #116 open, needs merge + apply + retest — see detail below)
 - [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
 
@@ -264,7 +264,7 @@ Three sentences, ~60 words — long for a sub-headline sitting under a 4-line H1
 
 **Files:** `sensweight/src/products.njk` or its content partial, `translations.js` (new copy).
 
-**Not yet started.**
+**Done 2026-09-01:** confirmed the existing `hw-card` component (icon + name + desc + `hw-sku-list`) fit as-is — added a 6th category entry to `products_page.categories` in `translations.js` ("UCS Cloud", desc framing it as the platform the hardware reports into, not a separate purchase) with 3 sku-style rows (Dashboards, Alerts, ROI Reporting) reusing the existing `sku.url` link mechanism so the last row links to `/solutions/` ("See it running on every Solution →"). Added a matching cloud-check icon (same glyph as the homepage flow diagram's "UCS Cloud, live" node) and a 6th color (`--navy`, used as icon background only, consistent with the token's bg-only rule) to `products.njk`'s icon/color arrays. Verified via `npm run build` + grep of `_site/products/index.html`: all 6 cards render with distinct icons/colors, the ROI Reporting row's `<a href="/solutions/">` renders correctly. Branch `task/ucs-cloud-product-tile`.
 
 ---
 
