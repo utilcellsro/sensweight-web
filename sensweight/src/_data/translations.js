@@ -1,6 +1,6 @@
 module.exports = {
   en: {
-    nav: { home: "Home", industries: "Industries", solutions: "Solutions", products: "Products", events: "Events", demo: "Live Demo", contact: "Contact" },
+    nav: { home: "Home", industries: "Industries", solutions: "Solutions", products: "Products", events: "Events", demo: "Live Demo", about: "About Us", contact: "Contacts", news: "News" },
     hero: {
       tagline: "Industrial IoT Weighing Monitoring",
       headline: "Stop Paying for Weighing Errors. Start Guaranteeing True Value.",
@@ -409,6 +409,34 @@ module.exports = {
           ],
         },
       ],
+    },
+    about_page: {
+      tagline: "About Us",
+      heading: "Industrial IoT for weighing, built in Ostrovačice",
+      sub: "Unified Cloud Sensors, s.r.o. designs and deploys remote monitoring systems for industrial weighing — sensors, edge hardware, and cloud software delivered as one system.",
+      body: "We build the full stack behind SensWEIGHT™, SensSILO™, SensGEO™, SensATMO™, and SensGREEN™ — from load cells and edge gateways through installation to the cloud dashboards that run on top of them. Our patented diagnostic methodology (EP 4 524 526) is TRL 9 — commercially ready — with pilot and commercial installations already live.",
+      facts: [
+        { label: "Headquarters", value: "Ostrovačice, Czech Republic" },
+        { label: "Patent", value: "EP 4 524 526 — granted European patent" },
+        { label: "Readiness", value: "TRL 9 — commercially ready" },
+      ],
+      cta_heading: "Want to see it running on your site?",
+      cta_sub: "Talk to us about specifying a system for your facility.",
+      cta_buy: "How to Buy →",
+    },
+    contact_page: {
+      tagline: "Contacts",
+      heading: "Get in touch",
+      sub: "Questions about a system, a quote, or partnering as a dealer — reach us directly, or start the buying process below.",
+      company_name: "Unified Cloud Sensors, s.r.o.",
+      details: [
+        { label: "Address", value: "nám. V. Mrštíka 40, 664 81 Ostrovačice, Czech Republic" },
+        { label: "Phone", value: "+420 546 427 053" },
+        { label: "Email", value: "info@sensweight.eu" },
+      ],
+      cta_heading: "Ready to spec a system?",
+      cta_sub: "Our 3-step buying process starts with a site assessment.",
+      cta_buy: "How to Buy →",
     },
     events: {
       page_title: "Events & Promotions", page_tagline: "Stay connected",

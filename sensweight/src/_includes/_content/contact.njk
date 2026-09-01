@@ -1,0 +1,36 @@
+{% set t = translations[lang] %}
+{% set h = t.contact_page %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">{{ h.tagline }}</div>
+    <h1>{{ h.heading }}</h1>
+    <p class="page-hero-sub">{{ h.sub }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ h.company_name }}</h2>
+    </div>
+    <div class="trust-items">
+      {% for d in h.details %}
+      <div class="trust-item">
+        <span class="trust-item-label">{{ d.label }}</span>
+        <span class="trust-item-value">{% if d.label == "Email" %}<a href="mailto:{{ d.value }}">{{ d.value }}</a>{% else %}{{ d.value }}{% endif %}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="product-cta">
+  <div class="container">
+    <h2>{{ h.cta_heading }}</h2>
+    <p>{{ h.cta_sub }}</p>
+    <div class="product-cta-btns">
+      <a href="/how-to-buy/" class="btn btn-teal">{{ h.cta_buy }}</a>
+    </div>
+  </div>
+</section>
