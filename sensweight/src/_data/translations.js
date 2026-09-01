@@ -44,25 +44,25 @@ module.exports = {
         quarries: {
           name: "Quarries & Gravel Pits", tagline: "Aggregate output and pit-wall safety in one system",
           headline: "Weigh every load out. Watch every wall for movement.",
-          sub: "SensWEIGHT™ weighs every load out. SensGEO™ watches the walls for movement.",
+          sub: "SensWEIGHT® weighs every load out. SensGEO® watches the walls for movement.",
           solutions: ["sensweight", "sensgeo"],
         },
         concrete: {
           name: "Concrete Plants", tagline: "Precision batching, honest deliveries",
           headline: "Every batch weighed right. Every truck loaded to spec.",
-          sub: "SensWEIGHT™ keeps every batch and every delivery weighed to spec.",
+          sub: "SensWEIGHT® keeps every batch and every delivery weighed to spec.",
           solutions: ["sensweight"],
         },
         silos: {
           name: "Silos & Storage", tagline: "Real-time inventory by weight",
           headline: "No more manual silo dips. Accurate inventory, automatically.",
-          sub: "SensSILO™ delivers real-time tonnage and low-stock alerts — no manual dips.",
+          sub: "SensSILO® delivers real-time tonnage and low-stock alerts — no manual dips.",
           solutions: ["senssilo"],
         },
         recycling: {
           name: "Recycling", tagline: "Weigh the material. Watch the air.",
           headline: "Know what came in, what went out, and what's in the air between.",
-          sub: "SensWEIGHT™ tracks material in and out. SensATMO™ keeps air quality in check.",
+          sub: "SensWEIGHT® tracks material in and out. SensATMO® keeps air quality in check.",
           solutions: ["sensweight", "sensatmo"],
         },
         logistics: {
@@ -74,29 +74,29 @@ module.exports = {
         beltscale: {
           name: "Belt Scale Operations", tagline: "Continuous gravimetric flow measurement",
           headline: "Know exactly how much is moving — in real time.",
-          sub: "SensWEIGHT™ replaces manual sampling and flags off-spec material before it ships.",
+          sub: "SensWEIGHT® replaces manual sampling and flags off-spec material before it ships.",
           solutions: ["sensweight"],
         },
         geotechnical: {
           name: "Geotechnical & Construction", tagline: "Construction and civil infrastructure",
           headline: "Catch settlement and movement before it becomes failure.",
-          sub: "SensGEO™ streams live structural data — catching movement before it becomes failure.",
+          sub: "SensGEO® streams live structural data — catching movement before it becomes failure.",
           solutions: ["sensgeo"],
         },
         greenroofs: {
           name: "Green Roofs & Structures", tagline: "Sustainable architecture structural monitoring",
           headline: "Beautiful. But safe.",
-          sub: "SensGREEN™ monitors structural load — keeping weight limits and saturation in check.",
+          sub: "SensGREEN® monitors structural load — keeping weight limits and saturation in check.",
           solutions: ["sensgreen"],
         },
       },
     },
     products: {
-      sensweight: { name: "SensWEIGHT™", desc: "Remote weighing monitor for belt scales, weighbridges, and silo inventory.", badge: "FLAGSHIP" },
-      senssilo:   { name: "SensSILO™",   desc: "Continuous silo and container level monitoring with fill and low-stock alerts.", badge: "LEVEL" },
-      sensgeo:    { name: "SensGEO™",    desc: "Geotechnical inclination and displacement monitoring for construction sites.", badge: "GEO" },
-      sensatmo:   { name: "SensATMO™",   desc: "Atmospheric and environmental monitoring for industrial and clean-room sites.", badge: "ENVIRO" },
-      sensgreen:  { name: "SensGREEN™",  desc: "Structural load monitoring for green roofs and living walls.", badge: "GREEN" },
+      sensweight: { name: "SensWEIGHT®", desc: "Remote weighing monitor for belt scales, weighbridges, and silo inventory.", badge: "FLAGSHIP" },
+      senssilo:   { name: "SensSILO®",   desc: "Continuous silo and container level monitoring with fill and low-stock alerts.", badge: "LEVEL" },
+      sensgeo:    { name: "SensGEO®",    desc: "Geotechnical inclination and displacement monitoring for construction sites.", badge: "GEO" },
+      sensatmo:   { name: "SensATMO®",   desc: "Atmospheric and environmental monitoring for industrial and clean-room sites.", badge: "ENVIRO" },
+      sensgreen:  { name: "SensGREEN®",  desc: "Structural load monitoring for green roofs and living walls.", badge: "GREEN" },
       ucsx3:      { name: "UCS X3", desc: "Industrial IoT gateway — 4G, Ethernet, Wi-Fi 6, edge AI.", badge: "HARDWARE" },
     },
     demo_cta: {
@@ -181,7 +181,7 @@ module.exports = {
     },
 
     sensweight: {
-      hero_tagline: "SensWEIGHT™ — Weighing Monitor",
+      hero_tagline: "SensWEIGHT® — Weighing Monitor",
       hero_headline: "8-channel remote weighing. Industrial-grade. Cloud-connected.",
       hero_sub: "Monitor belt scales, weighbridges, and silos from anywhere — sub-gram accurate.",
       badges: ["IP65 / IP67", "OIML R60 C3", "24-bit Σ-Δ", "4G LTE Failover", "ATEX Zone 2"],
@@ -249,7 +249,7 @@ module.exports = {
         { label: "Certifications", value: "CE, RoHS, FCC, carrier certified (AT&T / Verizon)" },
       ],
       compat_title: "Compatible With All SensXXX Lines",
-      compat: ["SensWEIGHT™", "SensSILO™", "SensGEO™", "SensATMO™", "SensGREEN™"],
+      compat: ["SensWEIGHT®", "SensSILO®", "SensGEO®", "SensATMO®", "SensGREEN®"],
     },
     demo_hub: {
       tagline: "Live Demo",
@@ -263,7 +263,7 @@ module.exports = {
       sensweight: {
         count: 8,
         system: "M500 Reference System",
-        title: "SensWEIGHT™ Live Demo",
+        title: "SensWEIGHT® Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "Total Load",
         label_avg: "Avg per Cell",
@@ -281,7 +281,7 @@ module.exports = {
       senssilo: {
         count: 6,
         system: "6-Silo Reference Site",
-        title: "SensSILO™ Live Demo",
+        title: "SensSILO® Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "Combined Fill",
         label_avg: "Avg Fill Level",
@@ -299,7 +299,7 @@ module.exports = {
       sensgeo: {
         count: 6,
         system: "6-Node Slope Reference Site",
-        title: "SensGEO™ Live Demo",
+        title: "SensGEO® Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "Max Tilt",
         label_avg: "Avg Tilt",
@@ -317,7 +317,7 @@ module.exports = {
       sensatmo: {
         count: 6,
         system: "Multi-Parameter Reference Node",
-        title: "SensATMO™ Live Demo",
+        title: "SensATMO® Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "CO₂ Level",
         label_avg: "Comfort Index",
@@ -335,7 +335,7 @@ module.exports = {
       sensgreen: {
         count: 6,
         system: "6-Zone Green Roof Reference Site",
-        title: "SensGREEN™ Live Demo",
+        title: "SensGREEN® Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "Total Load",
         label_avg: "Avg Load",
@@ -415,7 +415,7 @@ module.exports = {
       tagline: "About Us",
       heading: "Industrial IoT for weighing, built in Ostrovačice",
       sub: "Unified Cloud Sensors, s.r.o. designs and deploys remote monitoring systems for industrial weighing — sensors, edge hardware, and cloud software delivered as one system.",
-      body: "We build the full stack behind SensWEIGHT™, SensSILO™, SensGEO™, SensATMO™, and SensGREEN™ — from load cells and edge gateways through installation to the cloud dashboards that run on top of them. Our patented diagnostic methodology (EP 4 524 526) is TRL 9 — commercially ready — with pilot and commercial installations already live.",
+      body: "We build the full stack behind SensWEIGHT®, SensSILO®, SensGEO®, SensATMO®, and SensGREEN® — from load cells and edge gateways through installation to the cloud dashboards that run on top of them. Our patented diagnostic methodology (EP 4 524 526) is TRL 9 — commercially ready — with pilot and commercial installations already live.",
       facts: [
         { label: "Headquarters", value: "Ostrovačice, Czech Republic" },
         { label: "Patent", value: "EP 4 524 526 — granted European patent" },
@@ -455,7 +455,7 @@ module.exports = {
       newsletter_note: "We respect your privacy. Unsubscribe at any time.",
     },
     senssilo: {
-      hero_tagline: "SensSILO™ — Silo Level Monitor",
+      hero_tagline: "SensSILO® — Silo Level Monitor",
       hero_headline: "Real-time silo and hopper inventory. By weight.",
       hero_sub: "Continuous tonnage for silos and tanks — fill alerts and reconciliation built in.",
       badges: ["IP65 / IP67", "Multi-silo", "REST API", "4G LTE Failover", "DIN Rail"],
@@ -492,7 +492,7 @@ module.exports = {
       cta_demo: "See Live Demo →", cta_contact: "Request a Quote",
     },
     sensgeo: {
-      hero_tagline: "SensGEO™ — Geotechnical Monitor",
+      hero_tagline: "SensGEO® — Geotechnical Monitor",
       hero_headline: "Structural movement detection. Before it becomes a problem.",
       hero_sub: "MEMS inclination and displacement sensors — alerting engineers before failure.",
       badges: ["±0.01° Resolution", "SIL-2 Compatible", "IP67", "4G LTE", "Battery Backup"],
@@ -526,7 +526,7 @@ module.exports = {
       cta_demo: "See Live Demo →", cta_contact: "Request a Quote",
     },
     sensatmo: {
-      hero_tagline: "SensATMO™ — Environmental Monitor",
+      hero_tagline: "SensATMO® — Environmental Monitor",
       hero_headline: "Multi-parameter environmental sensing. Industrial-grade.",
       hero_sub: "Temperature, humidity, CO₂, dust, and VOCs — monitored with compliance logging.",
       badges: ["Multi-parameter", "IP54", "5-year data retention", "Compliance logging", "HACCP ready"],
@@ -562,7 +562,7 @@ module.exports = {
       cta_demo: "See Live Demo →", cta_contact: "Request a Quote",
     },
     sensgreen: {
-      hero_tagline: "SensGREEN™ — Green Roof Monitor",
+      hero_tagline: "SensGREEN® — Green Roof Monitor",
       hero_headline: "Structural load monitoring for sustainable architecture.",
       hero_sub: "Weight-based monitoring for green roofs — structural limits, always in check.",
       badges: ["IP65 / IP67", "Load cell based", "10-year data retention", "CE certified"],
