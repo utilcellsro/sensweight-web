@@ -15,7 +15,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 7 — Draft safety/compliance content for Logistics + SensWEIGHT (done 2026-07-23: two new SensWEIGHT feature cards — "Overload & Site Safety Alerts" and "Compliance-Ready Records" — placed on SensWEIGHT rather than the Logistics industry page, keeping that page thin per the settled IA)
 - [x] Task 8 — Give the patent more visual/content focus in the Certified & Patented section (done 2026-07-27: patent pulled into its own bordered block with a larger number, TRL 9/Deployment remain as secondary facts below)
 - [x] Task 8b — Turn the homepage ROI teaser into real per-solution CTA buttons (done 2026-07-27, out-of-plan fix — see detail below Task 8)
-- [ ] Task 9 — Shorten the hero sub-headline copy (flagged in today's presentation, 2026-07-27 — logged, not yet drafted)
+- [x] Task 9 — Shorten the hero sub-headline copy (done 2026-09-01 on `task/hero-sub-headline-shorten`: ~60 words → ~30 words, patent reference kept, user picked from 3 drafted options)
 - [x] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (done 2026-07-30: transferred `echetvergov/ucs-frontend` → `utilcellsro/sensweight-web`, local `origin` repointed, old URL redirects)
 - [x] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (done 2026-09-01 on `task/hero-tile-order-swap`: swapped the Products/Solutions `.hero-tile` block order in `home.njk`, no copy/CSS change)
 - [x] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (done 2026-09-01 on `task/ucs-cloud-product-tile`: new 6th `hw-card` entry in `products_page.categories`, reuses the existing card/sku-row markup, last row links to `/solutions/`)
@@ -215,7 +215,11 @@ Three sentences, ~60 words — long for a sub-headline sitting under a 4-line H1
 
 **Files:** `sensweight/src/_data/translations.js` (`t.hero.sub`).
 
-**Not yet started** — copy draft needed first, this is a content task not a code task.
+**Done 2026-09-01:** drafted 3 tightened options (trimmed two-sentence, single punchy sentence, patent-first framing), presented for sign-off — user picked the trimmed two-sentence version, keeping the original problem→patent-evidence structure and dropping the "most sites see full payback within months" clause plus some filler wording. Shipped:
+
+> "Uncalibrated load cells quietly bleed revenue through fraud, missed overloads, and disputed loads. Our patented technology (EP 4 524 526) catches failures before they cost you — payback in months."
+
+~30 words / 2 sentences, down from ~60 words / 3 sentences. Patent reference (EP 4 524 526) kept per the 2026-07-26 decision. Verified via `npm run build` + grep of `_site/index.html`. Branch `task/hero-sub-headline-shorten`.
 
 ---
 
