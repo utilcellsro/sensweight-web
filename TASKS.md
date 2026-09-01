@@ -24,7 +24,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 15 — Add a real header nav: About Us, Contacts, News (done 2026-09-01 on `task/header-nav-about-contact-news`: new `/about/` + `/contact/` pages with real sourced content, News reuses `/events/`, footer's dead Contact link fixed)
 - [x] Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN cards, add one "Custom, built to your site" card (done 2026-09-01 on `task/homepage-solutions-trim`: SensSILO/SensGREEN pages themselves untouched, verified via grep)
 - [x] Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range (done 2026-09-01 on `task/sensweight-specs-trim`: 12 rows → 7, table now starts with Connectivity, power input widened to 9–36 V DC)
-- [ ] Task 18 — Global ™ → ® swap across the site (flagged 2026-09-01 — logged, not yet implemented; user confirmed marks are actually registered)
+- [x] Task 18 — Global ™ → ® swap across the site (done 2026-09-01 on `task/tm-to-r-swap`: 55 occurrences across `translations.js` + 12 `.njk` template files, 0 remain)
 - [ ] Task 19 — Temporarily comment out the ROI calculator sitewide (flagged 2026-09-01 — logged, not yet implemented; a hold, not a removal — must stay a one-line uncomment to restore)
 
 **Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
@@ -420,7 +420,7 @@ Verified via `npm run build` + local `npm start` + Chrome screenshot of the home
 
 **Verify:** `npm run build`, then grep `_site/` for "™" (expect 0 matches) and for "®" (expect the same count that "™" had before).
 
-**Not yet started.**
+**Done 2026-09-01:** the 23-count logged above was `translations.js` only, as of the count taken 2026-07-27 — by the time this was picked up, `translations.js` alone had grown to 24 occurrences (new copy added by later tasks, e.g. the "at a glance" heading), and 12 `.njk` template files (page titles, the `how-to-buy` dropdown options, demo page titles) also had hardcoded "™" not sourced from translations — 31 more, for 55 total. All 55 swapped to "®" via a sitewide find/replace across every file matched by `grep -rl "™" src/`. Verified via `npm run build` + grep of `_site/`: 0 "™" remain, 93 "®" present (higher than 55 since several product names render on multiple pages — homepage, `/solutions/`, industry pages — each pulling the same translation string). Branch `task/tm-to-r-swap`, merged `--no-ff`, pushed (`45445c5`).
 
 ---
 
