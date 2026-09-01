@@ -221,6 +221,12 @@ Three sentences, ~60 words — long for a sub-headline sitting under a 4-line H1
 
 ~30 words / 2 sentences, down from ~60 words / 3 sentences. Patent reference (EP 4 524 526) kept per the 2026-07-26 decision. Verified via `npm run build` + grep of `_site/index.html`. Branch `task/hero-sub-headline-shorten`.
 
+**Reopened + done again, 2026-09-01 — still too long, cut to one sentence:** after deploying, user flagged the ~30-word v1 as still too long. Drafted 3 further-tightened one-sentence options (~14–18 words); user picked the "cause + patent fix" version. Shipped:
+
+> "Uncalibrated load cells bleed revenue. Our patented technology (EP 4 524 526) catches it before it costs you."
+
+~17 words / 1 sentence. Patent reference still kept. Verified via `npm run build` + grep of `_site/index.html`. Branch `task/hero-sub-headline-shorten-v2`.
+
 ---
 
 ### Task 10 — Move the repo to the `utilcellsro` GitHub organization
