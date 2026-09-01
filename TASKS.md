@@ -25,7 +25,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN cards, add one "Custom, built to your site" card (done 2026-09-01 on `task/homepage-solutions-trim`: SensSILO/SensGREEN pages themselves untouched, verified via grep)
 - [x] Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range (done 2026-09-01 on `task/sensweight-specs-trim`: 12 rows → 7, table now starts with Connectivity, power input widened to 9–36 V DC)
 - [x] Task 18 — Global ™ → ® swap across the site (done 2026-09-01 on `task/tm-to-r-swap`: 55 occurrences across `translations.js` + 12 `.njk` template files, 0 remain)
-- [ ] Task 19 — Temporarily comment out the ROI calculator sitewide (flagged 2026-09-01 — logged, not yet implemented; a hold, not a removal — must stay a one-line uncomment to restore)
+- [x] Task 19 — Temporarily comment out the ROI calculator sitewide (done 2026-09-01 on `task/roi-calculator-hold`: 5 Solution-page includes + homepage teaser section all wrapped in Nunjucks comments)
 
 **Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
 
@@ -438,7 +438,7 @@ Verified via `npm run build` + local `npm start` + Chrome screenshot of the home
 
 **Verify:** `npm run build`, confirm no ROI calculator renders on any of the 5 Solution pages, and no homepage link points at a missing anchor.
 
-**Not yet started.**
+**Done 2026-09-01:** picked the "comment out the whole teaser section" option over relinking the 5 buttons to plain solution pages — the teaser's own heading copy ("See exact payback for your setup") stops being true once the calculator is hidden, so relinking without hiding the section would leave a promise the page doesn't deliver on. `product.njk` and `sensweight.njk`'s `{% include "_content/roi-calculator.njk" %}` calls each wrapped in a one-line `{# ... #}` comment. `home.njk`'s `roi-teaser` `<section>` (heading + 5 `#roi`-anchored buttons) wrapped in a single `{# ... #}` block comment — restoring either is a one-step "delete the comment markers" edit, no logic changed. Verified via `npm run build` + grep of `_site/`: zero `roi-grid`/`roi-teaser`/`id="roi"`/`#roi` matches across the homepage and all 5 Solution pages (only dormant CSS/JS selectors remain, harmless). Branch `task/roi-calculator-hold`, merged `--no-ff`, pushed (`09e21e1`).
 
 ---
 
