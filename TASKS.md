@@ -22,7 +22,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (done 2026-09-01: PR #116 SES IAM fix confirmed merged + applied, live end-to-end test confirmed both emails delivered to the placeholder sales inbox — user's call to keep the placeholder for now rather than repoint to a real inbox)
 - [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
 - [x] Task 15 — Add a real header nav: About Us, Contacts, News (done 2026-09-01 on `task/header-nav-about-contact-news`: new `/about/` + `/contact/` pages with real sourced content, News reuses `/events/`, footer's dead Contact link fixed)
-- [ ] Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN cards, add one "Custom, built to your site" card (flagged 2026-09-01 — logged, not yet implemented; SensSILO/SensGREEN pages themselves are untouched, homepage-grid-only change)
+- [x] Task 16 — Homepage Solutions grid: drop SensSILO + SensGREEN cards, add one "Custom, built to your site" card (done 2026-09-01 on `task/homepage-solutions-trim`: SensSILO/SensGREEN pages themselves untouched, verified via grep)
 - [ ] Task 17 — Trim SensWEIGHT's Technical Specifications table + widen power input range (flagged 2026-09-01 — logged, not yet implemented)
 - [ ] Task 18 — Global ™ → ® swap across the site (flagged 2026-09-01 — logged, not yet implemented; user confirmed marks are actually registered)
 - [ ] Task 19 — Temporarily comment out the ROI calculator sitewide (flagged 2026-09-01 — logged, not yet implemented; a hold, not a removal — must stay a one-line uncomment to restore)
@@ -380,7 +380,11 @@ Verified via `npm run build` (28 files, 2 new pages write cleanly) + a local `np
 
 **Files:** `home.njk`, `translations.js` (new card copy).
 
-**Not yet started.**
+**Done 2026-09-01:** removed the SensSILO and SensGREEN `.product-card-live` blocks from `home.njk`'s `#solutions` grid; added one new `.product-card` (no `.product-card-header` mock — deliberately simpler/lighter than the 3 live-dashboard cards, visually reads as "different from the rest" without new CSS) titled "Custom, Built to Your Site", linking to `/how-to-buy/`. New copy lives in its own `t.custom_solution` object in `translations.js` rather than inside `t.products.*`, since that object is reused elsewhere (dealer-form dropdown, ROI teaser, industries mapping) where a fake "custom" product entry didn't belong.
+
+Confirmed `/senssilo/`, `/sensgreen/`, `/solutions/`, `/industries/silos/`, and `/industries/greenroofs/` are all untouched — grepped `_site/` post-build to verify. The grid is `grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))`, so the 4th card wraps to its own row at wider viewports — normal responsive-grid behavior (reflows to 2×2 at narrower widths), no special-case CSS added for it.
+
+Verified via `npm run build` + local `npm start` + Chrome screenshot of the homepage grid. Branch `task/homepage-solutions-trim`.
 
 ---
 
