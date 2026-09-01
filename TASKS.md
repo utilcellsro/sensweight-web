@@ -19,7 +19,7 @@ Full background: see CLAUDE.md's "Stakeholder feedback — JIC presentation (202
 - [x] Task 10 — Move the repo to the `utilcellsro` GitHub organization as its own separate repo (done 2026-07-30: transferred `echetvergov/ucs-frontend` → `utilcellsro/sensweight-web`, local `origin` repointed, old URL redirects)
 - [x] Task 11 — Swap the homepage hero tile order to Industries → Solutions → Products (done 2026-09-01 on `task/hero-tile-order-swap`: swapped the Products/Solutions `.hero-tile` block order in `home.njk`, no copy/CSS change)
 - [x] Task 12 — Add a "UCS Cloud" tile to the Products catalog, linking through to Solutions (done 2026-09-01 on `task/ucs-cloud-product-tile`: new 6th `hw-card` entry in `products_page.categories`, reuses the existing card/sku-row markup, last row links to `/solutions/`)
-- [~] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (infra applied to AWS, site deployed and live on the CloudFront default domain; first live test surfaced a real SES IAM bug — fix PR #116 open, needs merge + apply + retest — see detail below)
+- [x] Task 13 — Real dealer-form backend: Lambda + API Gateway + AWS SES, emailing both client and salesman (done 2026-09-01: PR #116 SES IAM fix confirmed merged + applied, live end-to-end test confirmed both emails delivered to the placeholder sales inbox — user's call to keep the placeholder for now rather than repoint to a real inbox)
 - [x] Task 14 — Non-programmer dev workflow for a colleague: `/new-task`, `/local-deploy`, `/finish-task`, `/deploy-live` slash commands + Docker preview + GitHub Actions deploy (done 2026-07-31: merged to `main`, verified end-to-end including a real shared-IAM-role bug found and fixed along the way — see detail below)
 
 **Out-of-plan, shipped 2026-07-27 (Task 8b):** the homepage ROI teaser was one plain 18px sentence with a small inline text link to the generic `/solutions/` index — easy to miss, and it didn't route into any specific solution's numbers (a previously-logged open item, CLAUDE.md "ROI teaser routing," 2026-07-26). Replaced with a heading + 5 pill-style buttons, one per solution, each deep-linking to that page's own `#roi` calculator anchor. Branch `task/roi-teaser-per-solution`, merged `--no-ff`, pushed (`0f8e221`).
@@ -303,10 +303,9 @@ Built on `task/sensweight-web-hosting` in `terraform-cloud` (extends `modules/s3
 
 **2026-09-01 update — PR #116 confirmed merged + applied, endpoint working:** `gh pr view 116` shows it merged into `dev` on 2026-07-31. A fresh live POST to `https://d3onkrnmhl2kuy.cloudfront.net/api/dealer-request` now returns `200 {"ok": true}` (previously `502`/SES `AccessDenied` before the fix) — confirms the Apply happened and the Lambda→SES path no longer errors at the IAM layer.
 
-**Not done yet:**
-- Inbox-side confirmation still open: haven't verified the actual confirmation + sales-notification emails landed (can't check mail inboxes from here) — worth a quick human check of `e.chetvergov@unifiedcloudsensors.com` for the test submission sent this session.
-- Real sales inbox is still just a placeholder (`e.chetvergov@unifiedcloudsensors.com`) — repoint `sensweight_ses_notify_email` in `terraform-cloud/environments/prod/main.tf` once a real one is confirmed.
-- ~~No CI/CD for the site build~~ Superseded by Task 14 below — `/deploy-live` now runs a real GitHub Actions build+sync+invalidate pipeline. It's still a manually-triggered pipeline, not auto-deploy-on-merge, by design.
+**Done 2026-09-01 — end-to-end confirmed working, task closed:** user confirmed both the client-confirmation email and the sales-notification email for this session's test submission landed at `e.chetvergov@unifiedcloudsensors.com`. Full path verified: form → API Gateway → Lambda → SES → both emails delivered. User's explicit call: keep the placeholder sales inbox (`e.chetvergov@unifiedcloudsensors.com`) for now rather than repoint to a real one — revisit `sensweight_ses_notify_email` in `terraform-cloud/environments/prod/main.tf` if/when a real sales inbox is confirmed later.
+
+~~No CI/CD for the site build~~ Superseded by Task 14 below — `/deploy-live` now runs a real GitHub Actions build+sync+invalidate pipeline. It's still a manually-triggered pipeline, not auto-deploy-on-merge, by design.
 
 ---
 
