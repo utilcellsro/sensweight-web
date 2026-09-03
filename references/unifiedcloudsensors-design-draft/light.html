@@ -3,28 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unified Cloud Sensors — Homepage Draft</title>
+<title>Unified Cloud Sensors — Homepage Draft (Light)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: #0C0D10;
-      color: #DCE5F4;
+      background: #F7F7F6;
+      color: #2F2F2E;
       font-family: 'IBM Plex Sans', system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     h1, h2 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; margin: 0; }
     p { margin: 0; }
-    a { color: #DCE5F4; text-decoration: none; transition: color 200ms cubic-bezier(0.2,0,0,1); }
-    a:hover { color: #7ED3F0; }
+    a { color: #2F2F2E; text-decoration: none; transition: color 200ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #476DB8; }
     .overline {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 12px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #7ED3F0;
+      color: #476DB8;
     }
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: center;
@@ -35,10 +35,10 @@
     }
     .btn-primary:hover { background: #7ED3F0; color: #1D2C49; transform: translateY(-1px); }
     .nav-link { font-size: 14px; font-weight: 400; padding-bottom: 4px; border-bottom: 1px solid transparent; transition: border-color 200ms cubic-bezier(0.2,0,0,1), color 200ms cubic-bezier(0.2,0,0,1); }
-    .nav-link:hover { border-bottom-color: #7ED3F0; }
+    .nav-link:hover { border-bottom-color: #476DB8; }
     .card-flat {
       background: transparent;
-      border: 1px dashed rgba(220,229,244,0.18);
+      border: 1px dashed rgba(47,47,46,0.20);
     }
     .solution-tile {
       position: relative;
@@ -55,8 +55,8 @@
     .team-tile:hover img { filter: grayscale(0%) contrast(1.05) brightness(1) !important; }
     .carousel-btn { transition: opacity 200ms cubic-bezier(0.2,0,0,1); opacity: 0.85; }
     .carousel-btn:hover { opacity: 1; }
-    .rule-v { width: 1px; align-self: stretch; background: rgba(220,229,244,0.14); }
-    .rule-h { height: 1px; background: rgba(220,229,244,0.14); }
+    .rule-v { width: 1px; align-self: stretch; background: rgba(47,47,46,0.12); }
+    .rule-h { height: 1px; background: rgba(47,47,46,0.12); }
     @keyframes riseIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -68,32 +68,32 @@
 </style>
 </head>
 <body>
-<div style="width: 100%; min-height: 100%; background: #0C0D10; position: relative; overflow: hidden;">
+<div style="width: 100%; min-height: 100%; background: #F7F7F6; position: relative; overflow: hidden;">
 
   <!-- NAV -->
-  <div style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px 56px; background: rgba(12,13,16,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,229,244,0.08);">
+  <div style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px 56px; background: rgba(247,247,246,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(47,47,46,0.08);">
     <div style="display: flex; align-items: center; gap: 12px;">
-      <img src="ucs-mark.png" alt="UCS" style="height: 24px; width: auto; display: block;">
+      <img src="ucs-mark.png" alt="UCS" style="height: 24px; width: auto; display: block; filter: invert(1) brightness(0.15);">
       <span class="overline" style="font-size: 12px;">Unified Cloud Sensors</span>
     </div>
     <div style="display: flex; align-items: center; gap: 40px;">
       <a href="#solutions" class="nav-link">Solutions</a>
       <a href="#story" class="nav-link">About</a>
       <a href="#team" class="nav-link">Team</a>
-      <button aria-label="Menu" style="background: none; border: none; padding: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #DCE5F4;">
+      <button aria-label="Menu" style="background: none; border: none; padding: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #2F2F2E;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
     </div>
   </div>
 
-  <!-- HERO -->
+  <!-- HERO (kept as a deliberate dark photographic panel, same as the dark version) -->
   <div style="position: relative; overflow: hidden;">
     <div style="position: absolute; inset: 0; z-index: 0;">
       <img src="senssilo.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,13,16,0.55) 0%, rgba(12,13,16,0.78) 55%, #0C0D10 100%);"></div>
     </div>
     <div style="position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 180px 56px 160px; display: flex; flex-direction: column; gap: 32px;">
-      <span class="overline rise">Unified Cloud Sensors, s.r.o. — Ostravačice, Czech Republic</span>
+      <span class="overline rise" style="color: #7ED3F0;">Unified Cloud Sensors, s.r.o. — Ostravačice, Czech Republic</span>
       <h1 class="rise rise-2" style="font-weight: 700; font-size: 96px; line-height: 1.02; letter-spacing: -0.02em; color: #FFFFFF; max-width: 1180px;">
         We turn industrial<br>guesswork into proof.
       </h1>
@@ -109,9 +109,9 @@
   </div>
 
   <!-- ESSENCE / PULL QUOTE -->
-  <div style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08); border-bottom: 1px solid rgba(220,229,244,0.08);">
+  <div style="position: relative; z-index: 1; border-top: 1px solid rgba(47,47,46,0.08); border-bottom: 1px solid rgba(47,47,46,0.08);">
     <div style="max-width: 1400px; margin: 0 auto; padding: 88px 56px;">
-      <p style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; line-height: 1.4; color: #DCE5F4; max-width: 980px;">
+      <p style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 34px; line-height: 1.4; color: #2F2F2E; max-width: 980px;">
         "Industrial weighing has always run on assumptions. We replace them with proof — a patented diagnostic method, live data, and installations that speak for themselves."
       </p>
     </div>
@@ -123,9 +123,9 @@
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <span class="overline">01 — Solutions</span>
-          <h2 style="font-weight: 700; font-size: 44px; color: #FFFFFF;">What we build, in the field</h2>
+          <h2 style="font-weight: 700; font-size: 44px; color: #2F2F2E;">What we build, in the field</h2>
         </div>
-        <a href="https://sensweight.com/solutions/" class="nav-link" style="color: #7ED3F0; flex-shrink: 0;">See all solutions on sensweight.com →</a>
+        <a href="https://sensweight.com/solutions/" class="nav-link" style="color: #476DB8; flex-shrink: 0;">See all solutions on sensweight.com →</a>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
@@ -136,9 +136,9 @@
           </div>
           <div class="solution-tile-scrim"></div>
           <div class="solution-tile-label">
-            <span class="overline" style="color: #476DB8;">Flagship</span>
+            <span class="overline" style="color: #7EA4D8;">Flagship</span>
             <span style="display: block; margin-top: 6px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; color: #FFFFFF;">SensWEIGHT®</span>
-            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #7EA4D8;">Remote weighing monitor for belt scales, weighbridges, and silo inventory.</p>
+            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #DCE5F4;">Remote weighing monitor for belt scales, weighbridges, and silo inventory.</p>
           </div>
         </a>
 
@@ -150,7 +150,7 @@
           <div class="solution-tile-label">
             <span class="overline" style="color: #7ED3F0;">Geo</span>
             <span style="display: block; margin-top: 6px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; color: #FFFFFF;">SensGEO®</span>
-            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #7EA4D8;">Geotechnical inclination and displacement monitoring for construction sites.</p>
+            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #DCE5F4;">Geotechnical inclination and displacement monitoring for construction sites.</p>
           </div>
         </a>
 
@@ -162,15 +162,15 @@
           <div class="solution-tile-label">
             <span class="overline" style="color: #C98A2E;">Enviro</span>
             <span style="display: block; margin-top: 6px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; color: #FFFFFF;">SensATMO®</span>
-            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #7EA4D8;">Atmospheric and environmental monitoring for industrial and clean-room sites.</p>
+            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #DCE5F4;">Atmospheric and environmental monitoring for industrial and clean-room sites.</p>
           </div>
         </a>
 
-        <a href="https://sensweight.com/how-to-buy/" class="solution-tile" style="background: transparent; border: 1px dashed rgba(220,229,244,0.18); display: flex; align-items: center; justify-content: center;">
+        <a href="https://sensweight.com/how-to-buy/" class="solution-tile" style="background: #FFFFFF; border: 1px dashed rgba(47,47,46,0.20); display: flex; align-items: center; justify-content: center;">
           <div style="text-align: center; padding: 32px;">
-            <span class="overline" style="color: rgba(220,229,244,0.5);">Custom</span>
-            <span style="display: block; margin-top: 10px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; color: #FFFFFF;">Built to Your Site</span>
-            <p style="margin-top: 10px; font-size: 13px; line-height: 1.5; color: #7EA4D8;">Every other monitoring need — engineered to your exact requirements.</p>
+            <span class="overline" style="color: rgba(47,47,46,0.45);">Custom</span>
+            <span style="display: block; margin-top: 10px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; color: #2F2F2E;">Built to Your Site</span>
+            <p style="margin-top: 10px; font-size: 13px; line-height: 1.5; color: #6F6F6E;">Every other monitoring need — engineered to your exact requirements.</p>
           </div>
         </a>
 
@@ -179,10 +179,10 @@
   </div>
 
   <!-- STORY / STAT WALL -->
-  <div id="story" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
+  <div id="story" style="position: relative; z-index: 1; border-top: 1px solid rgba(47,47,46,0.08);">
     <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 40px; display: flex; flex-direction: column; gap: 24px; max-width: 760px;">
       <span class="overline">02 — Our Story</span>
-      <p style="font-size: 17px; line-height: 1.8; color: #7EA4D8;">
+      <p style="font-size: 17px; line-height: 1.8; color: #6F6F6E;">
         Unified Cloud Sensors is an industrial technology company based in Ostravačice, building the diagnostic systems that catch equipment failures before they cost real money. What started as one patented diagnostic methodology now runs in commercial and pilot installations — proof verified in the field, not a pitch deck.
       </p>
     </div>
@@ -191,26 +191,26 @@
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Granted Patent</span>
-        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">EP 4 524 526</span>
-        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Covers the monitoring and diagnostic methodology of industrial weighing systems.</p>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #2F2F2E; white-space: nowrap;">EP 4 524 526</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">Covers the monitoring and diagnostic methodology of industrial weighing systems.</p>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Readiness</span>
-        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Field-Proven</span>
-        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Technology Readiness Level 9 — the highest classification there is: commercially proven, not a lab prototype.</p>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #2F2F2E; white-space: nowrap;">Field-Proven</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">Technology Readiness Level 9 — the highest classification there is: commercially proven, not a lab prototype.</p>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Deployment</span>
-        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Live Today</span>
-        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Pilot and commercial installations already running.</p>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #2F2F2E; white-space: nowrap;">Live Today</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">Pilot and commercial installations already running.</p>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Cost of Certainty</span>
-        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #7ED3F0; white-space: nowrap;">~0.5%</span>
-        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">What a fully installed UCS system typically costs, measured against the value of the equipment it protects.</p>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #476DB8; white-space: nowrap;">~0.5%</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">What a fully installed UCS system typically costs, measured against the value of the equipment it protects.</p>
       </div>
 
     </div>
@@ -223,28 +223,28 @@
 
       <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;">
 
-        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
-          <span class="overline" style="color: rgba(220,229,244,0.4);">01</span>
-          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Savings</span>
-          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Remote monitoring cuts site visits and catches costly failures before they happen.</p>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(47,47,46,0.14);">
+          <span class="overline" style="color: rgba(47,47,46,0.38);">01</span>
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #2F2F2E;">Savings</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">Remote monitoring cuts site visits and catches costly failures before they happen.</p>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
-          <span class="overline" style="color: rgba(220,229,244,0.4);">02</span>
-          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Professionalism</span>
-          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Every sensor is selected and installed to match the site — not a generic catalog spec.</p>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(47,47,46,0.14);">
+          <span class="overline" style="color: rgba(47,47,46,0.38);">02</span>
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #2F2F2E;">Professionalism</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">Every sensor is selected and installed to match the site — not a generic catalog spec.</p>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
-          <span class="overline" style="color: rgba(220,229,244,0.4);">03</span>
-          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Trust</span>
-          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">We work as a long-term partner, not a one-time vendor — built for fair, lasting collaboration.</p>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(47,47,46,0.14);">
+          <span class="overline" style="color: rgba(47,47,46,0.38);">03</span>
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #2F2F2E;">Trust</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">We work as a long-term partner, not a one-time vendor — built for fair, lasting collaboration.</p>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
-          <span class="overline" style="color: rgba(220,229,244,0.4);">04</span>
-          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Long-Term Service</span>
-          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Systems are supported and upgraded for the life of the installation, not left to run unmaintained.</p>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(47,47,46,0.14);">
+          <span class="overline" style="color: rgba(47,47,46,0.38);">04</span>
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; color: #2F2F2E;">Long-Term Service</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #6F6F6E;">Systems are supported and upgraded for the life of the installation, not left to run unmaintained.</p>
         </div>
 
       </div>
@@ -252,12 +252,12 @@
   </div>
 
   <!-- TEAM -->
-  <div id="team" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
+  <div id="team" style="position: relative; z-index: 1; background: #FFFFFF; border-top: 1px solid rgba(47,47,46,0.08); border-bottom: 1px solid rgba(47,47,46,0.08);">
     <div style="max-width: 1400px; margin: 0 auto; padding: 120px 56px; display: flex; flex-direction: column; gap: 56px;">
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <span class="overline">04 — Leadership</span>
-          <h2 style="font-weight: 700; font-size: 44px; color: #FFFFFF;">The team behind the technology</h2>
+          <h2 style="font-weight: 700; font-size: 44px; color: #2F2F2E;">The team behind the technology</h2>
         </div>
       </div>
 
@@ -268,7 +268,7 @@
             <img src="Jorge.jpg" alt="Jorge Truffin" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(100%) contrast(1.05) brightness(0.95);">
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px;">
-            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17px; color: #DCE5F4;">Jorge Truffin</span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17px; color: #2F2F2E;">Jorge Truffin</span>
             <span class="overline" style="font-size: 11px;">CEO</span>
           </div>
         </div>
@@ -278,13 +278,13 @@
             <img src="Nikola.jpg" alt="Nikola Avramovic" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(100%) contrast(1.05) brightness(0.95);">
           </div>
           <div style="display: flex; flex-direction: column; gap: 6px;">
-            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17px; color: #DCE5F4;">Nikola Avramovic</span>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17px; color: #2F2F2E;">Nikola Avramovic</span>
             <span class="overline" style="font-size: 11px;">COO</span>
           </div>
         </div>
 
         <div class="card-flat" style="aspect-ratio: 1 / 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center;">
-          <span class="overline" style="font-size: 11px; color: rgba(220,229,244,0.35);">More profiles coming soon</span>
+          <span class="overline" style="font-size: 11px; color: rgba(47,47,46,0.35);">More profiles coming soon</span>
         </div>
 
       </div>
@@ -292,14 +292,14 @@
   </div>
 
   <!-- UPDATES (real content from the company's LinkedIn page, not third-party press) -->
-  <div id="press" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
+  <div id="press" style="position: relative; z-index: 1;">
     <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px; display: flex; flex-direction: column; gap: 40px;">
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <span class="overline">05 — Updates</span>
-          <h2 style="font-weight: 700; font-size: 36px; color: #FFFFFF;">From our LinkedIn</h2>
+          <h2 style="font-weight: 700; font-size: 36px; color: #2F2F2E;">From our LinkedIn</h2>
         </div>
-        <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" class="nav-link" style="color: #7ED3F0; flex-shrink: 0;">Follow us on LinkedIn →</a>
+        <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" class="nav-link" style="color: #476DB8; flex-shrink: 0;">Follow us on LinkedIn →</a>
       </div>
 
       <!-- Static snapshot of the live canvas's auto-advancing carousel, frozen on its first item -->
@@ -309,7 +309,7 @@
         <div style="width: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 48px 20px;">
           <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; max-width: 760px;">
             <span class="overline" style="font-size: 12px;">18.12.2025</span>
-            <p style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #FFFFFF;">PF 2026 — season's greetings to our partners and clients.</p>
+            <p style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #2F2F2E;">PF 2026 — season's greetings to our partners and clients.</p>
             <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" class="overline" style="font-size: 11px;">LinkedIn →</a>
           </div>
         </div>
@@ -318,30 +318,30 @@
 
         <div style="display: flex; align-items: center; gap: 28px; padding-top: 24px;">
           <button class="carousel-btn" aria-label="Previous update" style="background: none; border: none; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#476DB8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: #7ED3F0;"></span></button>
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: #476DB8;"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(47,47,46,0.22);"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(47,47,46,0.22);"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(47,47,46,0.22);"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(47,47,46,0.22);"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(47,47,46,0.22);"></span></button>
           </div>
           <button class="carousel-btn" aria-label="Next update" style="background: none; border: none; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#476DB8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- CAREERS -->
-  <div id="careers" style="position: relative; z-index: 1; overflow: hidden; border-top: 1px solid rgba(220,229,244,0.08);">
+  <!-- CAREERS (kept as a deliberate dark photographic panel, same as the dark version) -->
+  <div id="careers" style="position: relative; z-index: 1; overflow: hidden; border-top: 1px solid rgba(47,47,46,0.08);">
     <img src="sensatmo.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
     <div style="position: absolute; inset: 0; background: linear-gradient(90deg, #0C0D10 30%, rgba(12,13,16,0.55) 75%, rgba(12,13,16,0.25) 100%);"></div>
     <div style="position: relative; max-width: 1400px; margin: 0 auto; padding: 140px 56px; display: flex; flex-direction: column; gap: 28px; max-width: 760px;">
-      <span class="overline">06 — Careers</span>
+      <span class="overline" style="color: #7ED3F0;">06 — Careers</span>
       <h2 style="font-weight: 700; font-size: 52px; color: #FFFFFF; line-height: 1.15; letter-spacing: -0.01em;">Help us build the future of industrial monitoring.</h2>
       <p style="font-size: 16px; line-height: 1.75; color: #7EA4D8; max-width: 560px;">
         We're a small, patent-backed engineering team based in Ostravačice. If you want to build hardware and cloud systems that keep real industrial sites honest, we'd like to hear from you.
@@ -353,7 +353,7 @@
   </div>
 
   <!-- CONTACT / FOOTER -->
-  <div id="contact" style="position: relative; z-index: 1; background: #F7F7F6;">
+  <div id="contact" style="position: relative; z-index: 1; background: #FFFFFF; border-top: 1px solid rgba(47,47,46,0.08);">
     <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 48px;">
       <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px; padding-bottom: 56px;">
 
