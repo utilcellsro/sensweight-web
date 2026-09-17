@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unified Cloud Sensors — Homepage Draft</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #1D2C49;
+      color: #DCE5F4;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2 { font-family: 'Chakra Petch', system-ui, sans-serif; margin: 0; }
+    p { margin: 0; }
+    a { color: #DCE5F4; text-decoration: none; transition: color 200ms cubic-bezier(0.2,0,0,1); }
+    a:hover { color: #7ED3F0; }
+    .overline {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #7ED3F0;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 48px; padding: 0 28px; border-radius: 6px; border: none;
+      background: #476DB8; color: #FFFFFF;
+      font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15px;
+      transition: background 200ms cubic-bezier(0.2,0,0,1), transform 200ms cubic-bezier(0.2,0,0,1);
+    }
+    .btn-primary:hover { background: #7ED3F0; color: #1D2C49; transform: translateY(-1px); }
+    .nav-link { font-size: 14px; font-weight: 400; padding-bottom: 4px; border-bottom: 1px solid transparent; transition: border-color 200ms cubic-bezier(0.2,0,0,1), color 200ms cubic-bezier(0.2,0,0,1); }
+    .nav-link:hover { border-bottom-color: #7ED3F0; }
+    .card-flat {
+      background: transparent;
+      border: 1px dashed rgba(220,229,244,0.18);
+    }
+    .solution-tile {
+      position: relative;
+      display: block;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      color: #DCE5F4;
+    }
+    .solution-tile-bg { position: absolute; inset: 0; transition: transform 500ms cubic-bezier(0.2,0,0,1); }
+    .solution-tile:hover .solution-tile-bg { transform: scale(1.045); }
+    .solution-tile-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,13,16,0) 45%, rgba(12,13,16,0.92) 100%); }
+    .solution-tile-label { position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 26px; }
+    .team-tile img { transition: filter 400ms cubic-bezier(0.2,0,0,1); }
+    .team-tile:hover img { filter: grayscale(0%) contrast(1.05) brightness(1) !important; }
+    .carousel-btn { transition: opacity 200ms cubic-bezier(0.2,0,0,1); opacity: 0.85; }
+    .carousel-btn:hover { opacity: 1; }
+    .rule-v { width: 1px; align-self: stretch; background: rgba(220,229,244,0.14); }
+    .rule-h { height: 1px; background: rgba(220,229,244,0.14); }
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .rise { animation: riseIn 600ms cubic-bezier(0.2,0,0,1) both; }
+    .rise-2 { animation-delay: 120ms; }
+    .rise-3 { animation-delay: 240ms; }
+
+</style>
+</head>
+<body>
+<div style="width: 100%; min-height: 100%; background: #1D2C49; position: relative; overflow: hidden;">
+
+  <!-- NAV -->
+  <div style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px 56px; background: rgba(12,13,16,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,229,244,0.08);">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <img src="ucs-mark.png" alt="UCS" style="height: 24px; width: auto; display: block;">
+      <span class="overline" style="font-size: 12px;">Unified Cloud Sensors</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 40px;">
+      <a href="#solutions" class="nav-link">Solutions</a>
+      <a href="#story" class="nav-link">About</a>
+      <a href="#team" class="nav-link">Team</a>
+      <a href="#contact" style="font-size: 14px; color: #FFFFFF; font-weight: 600; text-decoration: none; transition: color 0.3s;"><strong>Get in Touch</strong></a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="position: relative; overflow: hidden;">
+    <div style="position: absolute; inset: 0; z-index: 0;">
+      <img src="senssilo.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,13,16,0.55) 0%, rgba(12,13,16,0.78) 55%, #1D2C49 100%);"></div>
+    </div>
+    <div style="position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 180px 56px 160px; display: flex; flex-direction: column; gap: 32px;">
+      <span class="overline rise">Unified Cloud Sensors, s.r.o. — Czech Republic</span>
+      <h1 class="rise rise-2" style="font-weight: 700; font-size: 96px; line-height: 1.02; letter-spacing: -0.02em; color: #FFFFFF; max-width: 1180px;">
+        We turn industrial<br>guesswork into proof.
+      </h1>
+      <div class="rise rise-3" style="margin-top: 12px; max-width: 1180px;">
+        <p style="max-width: 480px; font-size: 17px; line-height: 1.65; color: #7EA4D8;">
+          Industrial weighing has always run on assumptions. We replace them with proof — a patented diagnostic method, live data, and installations that speak for themselves.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOLUTIONS -->
+  <div id="solutions" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 120px; display: flex; flex-direction: column; gap: 56px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <span class="overline">01 — Solutions</span>
+          <h2 style="font-weight: 700; font-size: 44px; color: #FFFFFF;">What we build, in the field</h2>
+        </div>
+        <a href="https://sensweight.com/solutions/" target="_blank" class="nav-link" style="color: #7ED3F0; flex-shrink: 0;">See all solutions on sensweight.com →</a>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+
+        <a href="https://sensweight.com/sensweight/" target="_blank" class="solution-tile">
+          <div class="solution-tile-bg" style="background: #12141A;">
+            <img src="sensweight.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div class="solution-tile-scrim"></div>
+          <div class="solution-tile-label">
+            <span class="overline" style="color: #476DB8;">Flagship</span>
+            <span style="display: block; margin-top: 6px; font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 22px; color: #FFFFFF;">SensWEIGHT Bridge</span>
+            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #7EA4D8;">Remote weighing monitor for belt scales, weighbridges, and silo inventory.</p>
+          </div>
+        </a>
+
+        <a href="https://sensweight.com/senssilo/" target="_blank" class="solution-tile">
+          <div class="solution-tile-bg" style="background: #12141A;">
+            <img src="senssilo.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div class="solution-tile-scrim"></div>
+          <div class="solution-tile-label">
+            <span class="overline" style="color: #7ED3F0;">Level</span>
+            <span style="display: block; margin-top: 6px; font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 22px; color: #FFFFFF;">SensSILO</span>
+            <p style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #7EA4D8;">Continuous silo and container level monitoring with fill and low-stock alerts.</p>
+          </div>
+        </a>
+
+        <a href="https://sensweight.com/how-to-buy/" target="_blank" class="solution-tile" style="background: transparent; border: 1px dashed rgba(220,229,244,0.18); display: flex; align-items: center; justify-content: center;">
+          <div style="text-align: center; padding: 32px;">
+            <span class="overline" style="color: rgba(220,229,244,0.5);">Custom</span>
+            <span style="display: block; margin-top: 10px; font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 22px; color: #FFFFFF;">Built to Your Site</span>
+            <p style="margin-top: 10px; font-size: 13px; line-height: 1.5; color: #7EA4D8;">Every other monitoring need — engineered to your exact requirements.</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- STORY / STAT WALL -->
+  <div id="story" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 40px; display: flex; flex-direction: column; gap: 24px;">
+      <span class="overline">02 — Our Story</span>
+      <p style="font-size: 17px; line-height: 1.8; color: #7EA4D8;">
+        Unified Cloud Sensors is an industrial technology company building the diagnostic systems that catch equipment failures before they cost real money. What started as one patented diagnostic methodology now runs in commercial and pilot installations — proof verified in the field, not a pitch deck.
+      </p>
+    </div>
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 40px 56px 120px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px;">
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span class="overline">Granted Patent</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">EP 4 524 526</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Covers the monitoring and diagnostic methodology of industrial weighing systems.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span class="overline">Readiness</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Field-Proven</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Technology Readiness Level 9 — the highest classification there is: commercially proven, not a lab prototype.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span class="overline">Deployment</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Live Today</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Pilot and commercial installations already running.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span class="overline">Cost of Certainty</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #7ED3F0; white-space: nowrap;">~0.5%</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">What a fully installed UCS system typically costs, measured against the value of the equipment it protects.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VALUES -->
+  <div id="values" style="position: relative; z-index: 1;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 120px; display: flex; flex-direction: column; gap: 56px;">
+      <span class="overline">03 — What We Stand For</span>
+
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;">
+
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
+          <span class="overline" style="color: rgba(220,229,244,0.4);">01</span>
+          <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Savings</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Remote monitoring cuts site visits and catches costly failures before they happen.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
+          <span class="overline" style="color: rgba(220,229,244,0.4);">02</span>
+          <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Professionalism</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Every sensor is selected and installed to match the site — not a generic catalog spec.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
+          <span class="overline" style="color: rgba(220,229,244,0.4);">03</span>
+          <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Trust</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">We work as a long-term partner, not a one-time vendor — built for fair, lasting collaboration.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
+          <span class="overline" style="color: rgba(220,229,244,0.4);">04</span>
+          <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; color: #FFFFFF;">Long-Term Service</span>
+          <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Systems are supported and upgraded for the life of the installation, not left to run unmaintained.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div id="team" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 120px 56px; display: flex; flex-direction: column; gap: 56px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <span class="overline">04 — Leadership</span>
+          <h2 style="font-weight: 700; font-size: 44px; color: #FFFFFF;">The team behind the technology</h2>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="team-tile" style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden;">
+            <img src="Jorge.jpg" alt="Jorge Truffin" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(100%) contrast(1.05) brightness(0.95);">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 17px; color: #DCE5F4;">Jorge Truffin</span>
+            <span class="overline" style="font-size: 11px;">CEO</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="team-tile" style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden;">
+            <img src="Nikola.jpg" alt="Nikola Avramovic" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(100%) contrast(1.05) brightness(0.95);">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 17px; color: #DCE5F4;">Nikola Avramovic</span>
+            <span class="overline" style="font-size: 11px;">COO</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="team-tile" style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden;">
+            <img src="Evgeny.jpg" alt="Evgeny Chetvergov" style="width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(100%) contrast(1.05) brightness(0.95);">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 17px; color: #DCE5F4;">Evgeny Chetvergov</span>
+            <span class="overline" style="font-size: 11px;">CTO</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- UPDATES (real content from the company's LinkedIn page, not third-party press) -->
+  <div id="press" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px; display: flex; flex-direction: column; gap: 40px;">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <span class="overline">05 — Updates</span>
+          <h2 style="font-weight: 700; font-size: 36px; color: #FFFFFF;">From our LinkedIn</h2>
+        </div>
+        <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="nav-link" style="color: #7ED3F0; flex-shrink: 0;">Follow us on LinkedIn →</a>
+      </div>
+
+      <!-- Static snapshot of the live canvas's auto-advancing carousel, frozen on its first item -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+        <div class="rule-h" style="width: 100%;"></div>
+
+        <div style="width: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 48px 20px;">
+          <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; max-width: 760px;">
+            <span class="overline" style="font-size: 12px;">2026</span>
+            <p style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #FFFFFF;">Unified Cloud Sensors becoming member of UPC UA.</p>
+            <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="overline" style="font-size: 11px;" target="_blank">LinkedIn →</a>
+          </div>
+        </div>
+
+        <div class="rule-h" style="width: 100%;"></div>
+
+        <div style="width: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 48px 20px;">
+          <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; max-width: 760px;">
+            <span class="overline" style="font-size: 12px;">2025</span>
+            <p style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #FFFFFF;">New design of UCS-X3 case.</p>
+            <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="overline" style="font-size: 11px;" target="_blank">LinkedIn →</a>
+          </div>
+        </div>
+
+        <div class="rule-h" style="width: 100%;"></div>
+
+        <div style="width: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 48px 20px;">
+          <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; max-width: 760px;">
+            <span class="overline" style="font-size: 12px;">18.12.2025</span>
+            <p style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #FFFFFF;">PF 2026 — season's greetings to our partners and clients.</p>
+            <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="overline" style="font-size: 11px;" target="_blank">LinkedIn →</a>
+          </div>
+        </div>
+
+        <div class="rule-h" style="width: 100%;"></div>
+
+        <div style="display: flex; align-items: center; gap: 28px; padding-top: 24px;">
+          <button class="carousel-btn" aria-label="Previous update" style="background: none; border: none; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: #7ED3F0;"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
+            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
+          </div>
+          <button class="carousel-btn" aria-label="Next update" style="background: none; border: none; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAREERS -->
+  <div id="careers" style="position: relative; z-index: 1; overflow: hidden; border-top: 1px solid rgba(220,229,244,0.08);">
+    <img src="sensatmo.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(90deg, #1D2C49 30%, rgba(12,13,16,0.55) 75%, rgba(12,13,16,0.25) 100%);"></div>
+    <div style="position: relative; max-width: 1400px; margin: 0 auto; padding: 140px 56px; display: flex; flex-direction: column; gap: 28px;">
+      <span class="overline">06 — Careers</span>
+      <h2 style="font-weight: 700; font-size: 52px; color: #FFFFFF; line-height: 1.15; letter-spacing: -0.01em;">Help us build the future of industrial monitoring.</h2>
+      <p style="font-size: 16px; line-height: 1.75; color: #7EA4D8;">
+        We are a fully dedicated and focused engineering team. If you want to build hardware and cloud systems that keep real industrial sites honest, we'd like to hear from you.
+      </p>
+      <div style="margin-top: 12px;">
+        <a href="mailto:info@unifiedcloudsensors.com?subject=Careers%20at%20Unified%20Cloud%20Sensors" class="btn-primary">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT / FOOTER -->
+  <div id="contact" style="position: relative; z-index: 1; background: #F7F7F6;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 48px;">
+      <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px; padding-bottom: 56px;">
+
+        <div style="grid-column: span 5; display: flex; flex-direction: column; gap: 18px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img src="ucs-mark.png" alt="UCS" style="height: 28px; width: auto; display: block;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #1D2C49;">Unified Cloud Sensors, s.r.o.</span>
+          </div>
+          <p style="font-size: 14px; line-height: 1.8; color: #6F6F6E;">
+            Czech Republic
+          </p>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #6F6F6E;">IČ 23272686</span>
+          <a href="tel:+420546427053" style="font-size: 14px; color: #2F2F2E;">+420 546 427 053</a>
+          <a href="mailto:info@unifiedcloudsensors.com" style="font-size: 14px; color: #2F2F2E;" target="_blank">info@unifiedcloudsensors.com</a>
+        </div>
+
+        <div style="grid-column: span 3; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Company</span>
+          <a href="#solutions" style="font-size: 14px; color: #6F6F6E;">Solutions</a>
+          <a href="#story" style="font-size: 14px; color: #6F6F6E;">About</a>
+          <a href="#values" style="font-size: 14px; color: #6F6F6E;">Values</a>
+          <a href="#team" style="font-size: 14px; color: #6F6F6E;">Team</a>
+          <a href="#press" style="font-size: 14px; color: #6F6F6E;">Updates</a>
+          <a href="#careers" style="font-size: 14px; color: #6F6F6E;">Careers</a>
+        </div>
+
+        <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Products</span>
+          <a href="https://sensweight.com" target="_blank" style="font-size: 14px; color: #6F6F6E;">sensweight.com — SensWEIGHT &amp; Solutions</a>
+        </div>
+
+      </div>
+
+      <div style="height: 1px; background: #ECECEB;"></div>
+
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6F6F6E; padding-top: 24px;">
+        © 2026 Unified Cloud Sensors, s.r.o. — All rights reserved.
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
