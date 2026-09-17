@@ -55,6 +55,7 @@
     .team-tile:hover img { filter: grayscale(0%) contrast(1.05) brightness(1) !important; }
     .carousel-btn { transition: opacity 200ms cubic-bezier(0.2,0,0,1); opacity: 0.85; }
     .carousel-btn:hover { opacity: 1; }
+    #updatesTrack::-webkit-scrollbar { display: none; }
     .rule-v { width: 1px; align-self: stretch; background: rgba(220,229,244,0.14); }
     .rule-h { height: 1px; background: rgba(220,229,244,0.14); }
     @keyframes riseIn {
@@ -285,56 +286,64 @@
         <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="nav-link" style="color: #7ED3F0; flex-shrink: 0;">Follow us on LinkedIn →</a>
       </div>
 
-      <!-- Static snapshot of the live canvas's auto-advancing carousel, frozen on its first item -->
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-        <div class="rule-h" style="width: 100%;"></div>
-
-        <div style="width: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 48px 20px;">
-          <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; max-width: 760px;">
-            <span class="overline" style="font-size: 12px;">2026</span>
-            <p style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #FFFFFF;">Unified Cloud Sensors becoming member of UPC UA.</p>
-            <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="overline" style="font-size: 11px;" target="_blank">LinkedIn →</a>
-          </div>
+      <!-- Horizontal scrolling carousel. Data-driven from UPDATES_DATA below — add a real image + linkedin url per item when available, no JS framework needed to swap content. -->
+      <div style="position: relative;">
+        <div id="updatesTrack" style="display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 8px; -ms-overflow-style: none; scrollbar-width: none;">
+          <!-- update-card items are generated below by a tiny inline script from UPDATES_DATA -->
         </div>
 
-        <div class="rule-h" style="width: 100%;"></div>
-
-        <div style="width: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 48px 20px;">
-          <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; max-width: 760px;">
-            <span class="overline" style="font-size: 12px;">2025</span>
-            <p style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #FFFFFF;">New design of UCS-X3 case.</p>
-            <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="overline" style="font-size: 11px;" target="_blank">LinkedIn →</a>
-          </div>
-        </div>
-
-        <div class="rule-h" style="width: 100%;"></div>
-
-        <div style="width: 100%; min-height: 180px; display: flex; align-items: center; justify-content: center; padding: 48px 20px;">
-          <div style="display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; max-width: 760px;">
-            <span class="overline" style="font-size: 12px;">18.12.2025</span>
-            <p style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 24px; line-height: 1.45; color: #FFFFFF;">PF 2026 — season's greetings to our partners and clients.</p>
-            <a href="https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" target="_blank" class="overline" style="font-size: 11px;" target="_blank">LinkedIn →</a>
-          </div>
-        </div>
-
-        <div class="rule-h" style="width: 100%;"></div>
-
-        <div style="display: flex; align-items: center; gap: 28px; padding-top: 24px;">
-          <button class="carousel-btn" aria-label="Previous update" style="background: none; border: none; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; padding-top: 28px;">
+          <button onclick="document.getElementById('updatesTrack').scrollBy({left: -364, behavior: 'smooth'})" aria-label="Previous update" style="background: none; border: 1px solid rgba(220,229,244,0.18); border-radius: 6px; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 200ms cubic-bezier(0.2,0,0,1);" onmouseover="this.style.borderColor='#7ED3F0'" onmouseout="this.style.borderColor='rgba(220,229,244,0.18)'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: #7ED3F0;"></span></button>
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
-            <button class="carousel-btn" aria-label="Go to update" style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><span style="display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(220,229,244,0.28);"></span></button>
-          </div>
-          <button class="carousel-btn" aria-label="Next update" style="background: none; border: none; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          <button onclick="document.getElementById('updatesTrack').scrollBy({left: 364, behavior: 'smooth'})" aria-label="Next update" style="background: none; border: 1px solid rgba(220,229,244,0.18); border-radius: 6px; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 200ms cubic-bezier(0.2,0,0,1);" onmouseover="this.style.borderColor='#7ED3F0'" onmouseout="this.style.borderColor='rgba(220,229,244,0.18)'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7ED3F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
           </button>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    // Manually curated for now — LinkedIn's company-page API needs Marketing Developer
+    // Platform partner approval, and the page itself isn't scrapable (login wall).
+    // Add a real "image" path here once available; "url" can point at the specific
+    // post once we have real permalinks (currently the shared company feed for all).
+    var UPDATES_DATA = [
+      { date: "2026",       title: "Unified Cloud Sensors becoming member of UPC UA.",        image: null, url: "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" },
+      { date: "2025",       title: "New design of UCS-X3 case.",                               image: null, url: "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" },
+      { date: "18.12.2025", title: "PF 2026 — season's greetings to our partners and clients.", image: null, url: "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" }
+    ];
+
+    var track = document.getElementById('updatesTrack');
+    UPDATES_DATA.forEach(function (item) {
+      var card = document.createElement('div');
+      card.style.cssText = 'flex: 0 0 340px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 16px;';
+
+      var imageBox = document.createElement('div');
+      if (item.image) {
+        imageBox.style.cssText = 'aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden;';
+        var img = document.createElement('img');
+        img.src = item.image;
+        img.alt = '';
+        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+        imageBox.appendChild(img);
+      } else {
+        imageBox.style.cssText = 'aspect-ratio: 4 / 3; border-radius: 6px; border: 1px dashed rgba(220,229,244,0.18); display: flex; align-items: center; justify-content: center;';
+        imageBox.innerHTML = '<span class="overline" style="color: rgba(220,229,244,0.4);">Photo coming soon</span>';
+      }
+      card.appendChild(imageBox);
+
+      var body = document.createElement('div');
+      body.style.cssText = 'display: flex; flex-direction: column; gap: 10px;';
+      body.innerHTML =
+        '<span class="overline" style="font-size: 11px;">' + item.date + '</span>' +
+        '<a href="' + item.url + '" target="_blank" style="font-family: \'Chakra Petch\', sans-serif; font-weight: 600; font-size: 18px; line-height: 1.4; color: #FFFFFF;">' + item.title + '</a>';
+      card.appendChild(body);
+
+      track.appendChild(card);
+    });
+  </script>
 
   <!-- CAREERS -->
   <div id="careers" style="position: relative; z-index: 1; overflow: hidden; border-top: 1px solid rgba(220,229,244,0.08);">
