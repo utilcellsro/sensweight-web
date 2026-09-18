@@ -66,6 +66,25 @@
     .rise-2 { animation-delay: 120ms; }
     .rise-3 { animation-delay: 240ms; }
 
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000; padding: 24px;
+      background: rgba(12,13,16,0.75);
+      display: none; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-panel {
+      position: relative; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
+      background: #F7F7F6; border-radius: 6px; padding: 40px;
+      animation: riseIn 320ms cubic-bezier(0.2,0,0,1) both;
+    }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; border-radius: 6px;
+      transition: background 200ms cubic-bezier(0.2,0,0,1);
+    }
+    .modal-close:hover { background: rgba(29,44,73,0.08); }
+
 </style>
 </head>
 <body>
@@ -74,7 +93,7 @@
   <!-- NAV -->
   <div style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px 56px; background: rgba(12,13,16,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,229,244,0.08);">
     <div style="display: flex; align-items: center; gap: 12px;">
-      <img src="ucs-mark.png" alt="UCS" style="height: 24px; width: auto; display: block;">
+      <img src="ucs-mark-white.png" alt="UCS" style="height: 24px; width: auto; display: block;">
       <span class="overline" style="font-size: 12px;">Unified Cloud Sensors</span>
     </div>
     <div style="display: flex; align-items: center; gap: 40px;">
@@ -166,31 +185,29 @@
       </p>
     </div>
 
-    <div style="max-width: 1400px; margin: 0 auto; padding: 8px 56px 40px;">
-      <div style="display: flex; flex-direction: column; gap: 16px; padding: 32px; border: 1px solid rgba(220,229,244,0.14); border-radius: 6px;">
-        <span class="overline">Granted Patent</span>
-        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 52px; line-height: 1; color: #FFFFFF; white-space: nowrap;">EP 4 524 526</span>
-        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8; max-width: 520px;">Covers the monitoring and diagnostic methodology of industrial weighing systems.</p>
-      </div>
-    </div>
+    <div style="max-width: 1400px; margin: 0 auto; padding: 40px 56px 120px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px;">
 
-    <div style="max-width: 1400px; margin: 0 auto; padding: 0 56px 120px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px;">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <span class="overline">Granted Patent</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; line-height: 1; color: #FFFFFF; white-space: nowrap;">EP 4 524 526</span>
+        <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Covers the monitoring and diagnostic methodology of industrial weighing systems.</p>
+      </div>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Readiness</span>
-        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Field-Proven</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Field-Proven</span>
         <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Technology Readiness Level 9 — the highest classification there is: commercially proven, not a lab prototype.</p>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Deployment</span>
-        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Live Today</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; line-height: 1; color: #FFFFFF; white-space: nowrap;">Live Today</span>
         <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">Pilot and commercial installations already running.</p>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Cost of Certainty</span>
-        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 38px; line-height: 1; color: #7ED3F0; white-space: nowrap;">~0.5%</span>
+        <span style="font-family: 'Chakra Petch', sans-serif; font-weight: 600; font-size: 19px; line-height: 1; color: #7ED3F0; white-space: nowrap;">~0.5%</span>
         <p style="font-size: 14px; line-height: 1.6; color: #7EA4D8;">What a fully installed UCS system typically costs, measured against the value of the equipment it protects.</p>
       </div>
 
@@ -318,7 +335,7 @@
     var UPDATES_DATA = [
       { date: "2026",       title: "Unified Cloud Sensors becoming member of UPC UA.",        image: null, url: "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" },
       { date: "2025",       title: "New design of UCS-X3 case.",                               image: null, url: "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" },
-      { date: "18.12.2025", title: "PF 2026 — season's greetings to our partners and clients.", image: null, url: "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" }
+      { date: "18.12.2025", title: "PF 2026 — season's greetings to our partners and clients.", image: "update-pf2026.jpg", url: "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all" }
     ];
 
     var track = document.getElementById('updatesTrack');
@@ -349,6 +366,17 @@
 
       track.appendChild(card);
     });
+
+    // Client-side only for now — no backend wired up yet (see sensweight.com's real
+    // Lambda+SES dealer form for the pattern to follow once this needs one).
+    function handleFormSubmit(event, formName) {
+      event.preventDefault();
+      var form = document.getElementById(formName + 'Form');
+      var thanks = document.getElementById(formName + 'FormThanks');
+      form.querySelectorAll('input, textarea, button').forEach(function (el) { el.style.display = 'none'; });
+      thanks.style.display = 'block';
+      return false;
+    }
   </script>
 
   <!-- CAREERS -->
@@ -358,19 +386,29 @@
     <div style="position: relative; max-width: 1400px; margin: 0 auto; padding: 140px 56px; display: flex; flex-direction: column; gap: 28px;">
       <span class="overline">06 — Careers</span>
       <h2 style="font-weight: 700; font-size: 52px; color: #FFFFFF; line-height: 1.15; letter-spacing: -0.01em;">Help us build the future of industrial monitoring.</h2>
-      <p style="font-size: 16px; line-height: 1.75; color: #7EA4D8;">
+      <p style="font-size: 16px; line-height: 1.75; color: #7EA4D8; max-width: 520px;">
         We are a fully dedicated and focused engineering team. If you want to build hardware and cloud systems that keep real industrial sites honest, we'd like to hear from you.
       </p>
+
       <div style="margin-top: 12px;">
-        <a href="mailto:info@unifiedcloudsensors.com?subject=Careers%20at%20Unified%20Cloud%20Sensors" class="btn-primary">Get in Touch</a>
+        <button type="button" onclick="openModal('careers')" class="btn-primary" style="cursor: pointer; border: none;">Send Application</button>
       </div>
     </div>
   </div>
 
   <!-- CONTACT / FOOTER -->
   <div id="contact" style="position: relative; z-index: 1; background: #F7F7F6;">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 48px;">
-      <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px; padding-bottom: 56px;">
+    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 0;">
+      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding-bottom: 96px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">07 — Get in Touch</span>
+        <h2 style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 36px; color: #1D2C49; line-height: 1.15;">Let's talk about your site.</h2>
+        <p style="font-size: 15px; line-height: 1.7; color: #6F6F6E; max-width: 420px;">Tell us a bit about what you're monitoring and we'll get back to you.</p>
+        <button type="button" onclick="openModal('contact')" class="btn-primary" style="cursor: pointer; border: none; margin-top: 8px;">Send Message</button>
+      </div>
+
+      <div style="height: 1px; background: #ECECEB;"></div>
+
+      <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px; padding: 56px 0;">
 
         <div style="grid-column: span 5; display: flex; flex-direction: column; gap: 18px;">
           <div style="display: flex; align-items: center; gap: 12px;">
@@ -404,12 +442,71 @@
 
       <div style="height: 1px; background: #ECECEB;"></div>
 
-      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6F6F6E; padding-top: 24px;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #6F6F6E; padding: 24px 0 48px;">
         © 2026 Unified Cloud Sensors, s.r.o. — All rights reserved.
       </div>
     </div>
   </div>
 
 </div>
+
+<!-- MODALS -->
+<div id="contactModalOverlay" class="modal-overlay" onclick="if (event.target === this) closeModal('contact')">
+  <div class="modal-panel">
+    <button type="button" class="modal-close" onclick="closeModal('contact')" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F2F2E" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Get in Touch</span>
+    <h2 style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 26px; color: #1D2C49; margin-top: 10px; margin-bottom: 24px;">Let's talk about your site.</h2>
+    <form id="contactForm" onsubmit="return handleFormSubmit(event, 'contact')" style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <input type="text" name="name" placeholder="Name" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
+        <input type="email" name="email" placeholder="Email" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
+      </div>
+      <input type="text" name="company" placeholder="Company (optional)" style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
+      <textarea name="message" placeholder="Message" required rows="4" style="padding: 14px 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; resize: vertical;"></textarea>
+      <div>
+        <button type="submit" class="btn-primary" style="cursor: pointer; border: none;">Send Message</button>
+      </div>
+    </form>
+    <p id="contactFormThanks" style="display: none; font-size: 15px; color: #476DB8; line-height: 1.6;">Thanks — we've received your message and will be in touch.</p>
+  </div>
+</div>
+
+<div id="careersModalOverlay" class="modal-overlay" onclick="if (event.target === this) closeModal('careers')">
+  <div class="modal-panel">
+    <button type="button" class="modal-close" onclick="closeModal('careers')" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F2F2E" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Careers</span>
+    <h2 style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 26px; color: #1D2C49; margin-top: 10px; margin-bottom: 24px;">Help us build the future of industrial monitoring.</h2>
+    <form id="careersForm" onsubmit="return handleFormSubmit(event, 'careers')" style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <input type="text" name="name" placeholder="Name" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
+        <input type="email" name="email" placeholder="Email" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
+      </div>
+      <textarea name="message" placeholder="What would you bring to the team?" required rows="4" style="padding: 14px 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; resize: vertical;"></textarea>
+      <div>
+        <button type="submit" class="btn-primary" style="cursor: pointer; border: none;">Send Application</button>
+      </div>
+    </form>
+    <p id="careersFormThanks" style="display: none; font-size: 15px; color: #476DB8; line-height: 1.6;">Thanks — we've received your message and will be in touch.</p>
+  </div>
+</div>
+
+<script>
+  function openModal(name) {
+    document.getElementById(name + 'ModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(name) {
+    document.getElementById(name + 'ModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeModal('contact'); closeModal('careers'); }
+  });
+</script>
+
 </body>
 </html>
