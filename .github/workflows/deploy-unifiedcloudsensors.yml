@@ -1,0 +1,63 @@
+name: Deploy unifiedcloudsensors.com to AWS
+run-name: Deploy unifiedcloudsensors.com No. ${{ github.run_number }} by @${{ github.actor }}
+
+# Manual only, on purpose — same deliberate-step convention as the
+# sensweight.com deploy workflow.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    env:
+      APP_DIR: unifiedcloudsensors
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # This is a single static page, not an Eleventy build — stage only the
+      # real site files into a clean directory (index_v6.html becomes the
+      # real index.html; dev-only docs/assets scratch folder stay out).
+      - name: Stage site files
+        run: |
+          mkdir -p _deploy
+          cp ${{ env.APP_DIR }}/index_v6.html _deploy/index.html
+          cp ${{ env.APP_DIR }}/*.jpg _deploy/ 2>/dev/null || true
+          cp ${{ env.APP_DIR }}/*.png _deploy/ 2>/dev/null || true
+          cp ${{ env.APP_DIR }}/*.ico _deploy/ 2>/dev/null || true
+          cp ${{ env.APP_DIR }}/robots.txt _deploy/
+          cp ${{ env.APP_DIR }}/sitemap.xml _deploy/
+          ls -la _deploy
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-session-name: "github-actions-unifiedcloudsensors-deploy"
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+          role-to-assume: ${{ vars.AWS_ACCESS_ROLE_ARN }}
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync _deploy s3://${{ vars.UNIFIEDCLOUDSENSORS_S3_BUCKET }} --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ vars.UNIFIEDCLOUDSENSORS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+      - name: Deployment summary
+        run: |
+          echo "## Deployment successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Live URL:** ${{ vars.UNIFIEDCLOUDSENSORS_LIVE_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **S3 bucket:** \`${{ vars.UNIFIEDCLOUDSENSORS_S3_BUCKET }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployed by:** @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
