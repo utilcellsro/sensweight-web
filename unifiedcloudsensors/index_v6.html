@@ -85,21 +85,60 @@
     }
     .modal-close:hover { background: rgba(29,44,73,0.08); }
 
+    .update-card { flex: 0 0 340px; }
+
+    @media (max-width: 860px) {
+      .section-pad { padding-left: 20px !important; padding-right: 20px !important; }
+
+      .nav-bar { padding-top: 16px !important; padding-bottom: 16px !important; }
+      .nav-secondary-link { display: none !important; }
+
+      .hero-content { padding-top: 120px !important; padding-bottom: 64px !important; }
+      .hero-h1 { font-size: 44px !important; }
+
+      .section-h2 { font-size: 30px !important; }
+      .solutions-content { padding-top: 64px !important; padding-bottom: 64px !important; }
+      .solutions-header { flex-direction: column !important; align-items: flex-start !important; }
+      .solutions-grid { grid-template-columns: 1fr !important; }
+
+      .story-intro { padding-top: 64px !important; padding-bottom: 16px !important; }
+      .story-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; padding-top: 24px !important; padding-bottom: 64px !important; gap: 32px !important; }
+
+      .values-content { padding-top: 64px !important; padding-bottom: 64px !important; }
+      .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 28px !important; }
+
+      .team-content { padding-top: 64px !important; padding-bottom: 64px !important; }
+      .team-grid { grid-template-columns: 1fr !important; max-width: 320px; }
+
+      .updates-content { padding-top: 64px !important; padding-bottom: 64px !important; }
+      .update-card { flex: 0 0 260px !important; }
+
+      .careers-content { padding-top: 80px !important; padding-bottom: 80px !important; }
+      .careers-h2 { font-size: 34px !important; }
+
+      .contact-content { padding-top: 64px !important; }
+      .footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .footer-col { grid-column: auto !important; }
+
+      .modal-panel { padding: 24px !important; }
+      .modal-form-row { grid-template-columns: 1fr !important; }
+    }
+
 </style>
 </head>
 <body>
 <div style="width: 100%; min-height: 100%; background: #1D2C49; position: relative; overflow: hidden;">
 
   <!-- NAV -->
-  <div style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px 56px; background: rgba(12,13,16,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,229,244,0.08);">
+  <div class="nav-bar section-pad" style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px 56px; background: rgba(12,13,16,0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,229,244,0.08);">
     <div style="display: flex; align-items: center; gap: 12px;">
       <img src="ucs-mark-white.png" alt="UCS" style="height: 24px; width: auto; display: block;">
       <span class="overline" style="font-size: 12px;">Unified Cloud Sensors</span>
     </div>
     <div style="display: flex; align-items: center; gap: 40px;">
-      <a href="#solutions" class="nav-link">Solutions</a>
-      <a href="#story" class="nav-link">About</a>
-      <a href="#team" class="nav-link">Team</a>
+      <a href="#solutions" class="nav-link nav-secondary-link">Solutions</a>
+      <a href="#story" class="nav-link nav-secondary-link">About</a>
+      <a href="#team" class="nav-link nav-secondary-link">Team</a>
       <a href="javascript:void(0)" onclick="openModal('contact')" style="font-size: 14px; color: #FFFFFF; font-weight: 600; text-decoration: none; transition: color 0.3s;"><strong>Get in Touch</strong></a>
     </div>
   </div>
@@ -110,9 +149,9 @@
       <img src="senssilo.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;">
       <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,13,16,0.55) 0%, rgba(12,13,16,0.78) 55%, #1D2C49 100%);"></div>
     </div>
-    <div style="position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 180px 56px 160px; display: flex; flex-direction: column; gap: 32px;">
+    <div class="hero-content section-pad" style="position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 180px 56px 160px; display: flex; flex-direction: column; gap: 32px;">
       <span class="overline rise">Unified Cloud Sensors, s.r.o. — Czech Republic</span>
-      <h1 class="rise rise-2" style="font-weight: 700; font-size: 96px; line-height: 1.02; letter-spacing: -0.02em; color: #FFFFFF; max-width: 1180px;">
+      <h1 class="rise rise-2 hero-h1" style="font-weight: 700; font-size: 96px; line-height: 1.02; letter-spacing: -0.02em; color: #FFFFFF; max-width: 1180px;">
         We turn industrial<br>guesswork into proof
       </h1>
       <div class="rise rise-3" style="margin-top: 12px; max-width: 1180px;">
@@ -125,16 +164,16 @@
 
   <!-- SOLUTIONS -->
   <div id="solutions" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 120px; display: flex; flex-direction: column; gap: 56px;">
-      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
+    <div class="solutions-content section-pad" style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 120px; display: flex; flex-direction: column; gap: 56px;">
+      <div class="solutions-header" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <span class="overline">01 — Solutions</span>
-          <h2 style="font-weight: 700; font-size: 44px; color: #FFFFFF;">What we build, in the field</h2>
+          <h2 class="section-h2" style="font-weight: 700; font-size: 44px; color: #FFFFFF;">What we build, in the field</h2>
         </div>
         <a href="https://sensweight.com/solutions/" target="_blank" class="nav-link" style="color: #7ED3F0; flex-shrink: 0;">See all solutions on sensweight.com →</a>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <div class="solutions-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
 
         <a href="https://sensweight.com/sensweight/" target="_blank" class="solution-tile">
           <div class="solution-tile-bg" style="background: #12141A;">
@@ -178,14 +217,14 @@
 
   <!-- STORY / STAT WALL -->
   <div id="story" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 40px; display: flex; flex-direction: column; gap: 24px;">
+    <div class="story-intro section-pad" style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 40px; display: flex; flex-direction: column; gap: 24px;">
       <span class="overline">02 — Our Story</span>
       <p style="font-size: 16px; line-height: 1.6; color: #7EA4D8; max-width: 520px;">
         We build the diagnostic systems that catch industrial equipment failures before they cost real money — proof verified in the field, not a pitch deck.
       </p>
     </div>
 
-    <div style="max-width: 1400px; margin: 0 auto; padding: 40px 56px 120px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px;">
+    <div class="story-grid section-pad" style="max-width: 1400px; margin: 0 auto; padding: 40px 56px 120px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px;">
 
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <span class="overline">Granted Patent</span>
@@ -216,10 +255,10 @@
 
   <!-- VALUES -->
   <div id="values" style="position: relative; z-index: 1;">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 120px; display: flex; flex-direction: column; gap: 56px;">
+    <div class="values-content section-pad" style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 120px; display: flex; flex-direction: column; gap: 56px;">
       <span class="overline">03 — What We Stand For</span>
 
-      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;">
+      <div class="values-grid" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px;">
 
         <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 20px; border-top: 1px solid rgba(220,229,244,0.14);">
           <span class="overline" style="color: rgba(220,229,244,0.4);">01</span>
@@ -251,15 +290,15 @@
 
   <!-- TEAM -->
   <div id="team" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 120px 56px; display: flex; flex-direction: column; gap: 56px;">
+    <div class="team-content section-pad" style="max-width: 1400px; margin: 0 auto; padding: 120px 56px; display: flex; flex-direction: column; gap: 56px;">
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <span class="overline">04 — Leadership</span>
-          <h2 style="font-weight: 700; font-size: 44px; color: #FFFFFF;">The team behind the technology</h2>
+          <h2 class="section-h2" style="font-weight: 700; font-size: 44px; color: #FFFFFF;">The team behind the technology</h2>
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <div class="team-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
 
         <div style="display: flex; flex-direction: column; gap: 16px;">
           <div class="team-tile" style="width: 100%; aspect-ratio: 1 / 1; overflow: hidden;">
@@ -300,7 +339,7 @@
 
   <!-- UPDATES (real content from the company's LinkedIn page, not third-party press) -->
   <div id="press" style="position: relative; z-index: 1; border-top: 1px solid rgba(220,229,244,0.08);">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px; display: flex; flex-direction: column; gap: 40px;">
+    <div class="updates-content section-pad" style="max-width: 1400px; margin: 0 auto; padding: 96px 56px; display: flex; flex-direction: column; gap: 40px;">
       <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <span class="overline">05 — Updates</span>
@@ -341,7 +380,8 @@
     var track = document.getElementById('updatesTrack');
     UPDATES_DATA.forEach(function (item) {
       var card = document.createElement('div');
-      card.style.cssText = 'flex: 0 0 340px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 16px;';
+      card.className = 'update-card';
+      card.style.cssText = 'scroll-snap-align: start; display: flex; flex-direction: column; gap: 16px;';
 
       var imageBox = document.createElement('div');
       if (item.image) {
@@ -383,9 +423,9 @@
   <div id="careers" style="position: relative; z-index: 1; overflow: hidden; border-top: 1px solid rgba(220,229,244,0.08);">
     <img src="sensatmo.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
     <div style="position: absolute; inset: 0; background: linear-gradient(90deg, #1D2C49 30%, rgba(12,13,16,0.55) 75%, rgba(12,13,16,0.25) 100%);"></div>
-    <div style="position: relative; max-width: 1400px; margin: 0 auto; padding: 140px 56px; display: flex; flex-direction: column; gap: 28px;">
+    <div class="careers-content section-pad" style="position: relative; max-width: 1400px; margin: 0 auto; padding: 140px 56px; display: flex; flex-direction: column; gap: 28px;">
       <span class="overline">06 — Careers</span>
-      <h2 style="font-weight: 700; font-size: 52px; color: #FFFFFF; line-height: 1.15; letter-spacing: -0.01em;">Help us build the future of industrial monitoring.</h2>
+      <h2 class="careers-h2" style="font-weight: 700; font-size: 52px; color: #FFFFFF; line-height: 1.15; letter-spacing: -0.01em;">Help us build the future of industrial monitoring.</h2>
       <p style="font-size: 16px; line-height: 1.75; color: #7EA4D8; max-width: 520px;">
         We are a fully dedicated and focused engineering team. If you want to build hardware and cloud systems that keep real industrial sites honest, we'd like to hear from you.
       </p>
@@ -398,10 +438,10 @@
 
   <!-- CONTACT / FOOTER -->
   <div id="contact" style="position: relative; z-index: 1; background: #F7F7F6;">
-    <div style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 0;">
-      <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px; padding: 0 0 56px;">
+    <div class="contact-content section-pad" style="max-width: 1400px; margin: 0 auto; padding: 96px 56px 0;">
+      <div class="footer-grid" style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px; padding: 0 0 56px;">
 
-        <div style="grid-column: span 5; display: flex; flex-direction: column; gap: 18px;">
+        <div class="footer-col" style="grid-column: span 5; display: flex; flex-direction: column; gap: 18px;">
           <div style="display: flex; align-items: center; gap: 12px;">
             <img src="ucs-mark.png" alt="UCS" style="height: 28px; width: auto; display: block;">
             <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: #1D2C49;">Unified Cloud Sensors, s.r.o.</span>
@@ -414,7 +454,7 @@
           <a href="mailto:info@unifiedcloudsensors.com" style="font-size: 14px; color: #2F2F2E;" target="_blank">info@unifiedcloudsensors.com</a>
         </div>
 
-        <div style="grid-column: span 3; display: flex; flex-direction: column; gap: 12px;">
+        <div class="footer-col" style="grid-column: span 3; display: flex; flex-direction: column; gap: 12px;">
           <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Company</span>
           <a href="#solutions" style="font-size: 14px; color: #6F6F6E;">Solutions</a>
           <a href="#story" style="font-size: 14px; color: #6F6F6E;">About</a>
@@ -424,7 +464,7 @@
           <a href="#careers" style="font-size: 14px; color: #6F6F6E;">Careers</a>
         </div>
 
-        <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
+        <div class="footer-col" style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
           <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Products</span>
           <a href="https://sensweight.com" target="_blank" style="font-size: 14px; color: #6F6F6E;">sensweight.com — SensWEIGHT &amp; Solutions</a>
         </div>
@@ -450,7 +490,7 @@
     <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Get in Touch</span>
     <h2 style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 26px; color: #1D2C49; margin-top: 10px; margin-bottom: 24px;">Let's talk about your site.</h2>
     <form id="contactForm" onsubmit="return handleFormSubmit(event, 'contact')" style="display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="modal-form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
         <input type="text" name="name" placeholder="Name" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
         <input type="email" name="email" placeholder="Email" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
       </div>
@@ -472,7 +512,7 @@
     <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8;">Careers</span>
     <h2 style="font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 26px; color: #1D2C49; margin-top: 10px; margin-bottom: 24px;">Help us build the future of industrial monitoring.</h2>
     <form id="careersForm" onsubmit="return handleFormSubmit(event, 'careers')" style="display: flex; flex-direction: column; gap: 16px;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="modal-form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
         <input type="text" name="name" placeholder="Name" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
         <input type="email" name="email" placeholder="Email" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
       </div>
