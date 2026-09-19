@@ -85,3 +85,16 @@ These four commands cover the full loop for building and shipping a change — s
 ```
 /deploy-live
 ```
+
+---
+
+## unifiedcloudsensors.com — the same loop, for the "about us" site
+
+A separate, smaller site in this same repo (`unifiedcloudsensors/index_v6.html`) — one static HTML file, no build step. Same 4-command loop, prefixed `unified-` instead of using `TASKS.md`/Docker (this site has neither):
+
+- `/unified-new-task` — describe what you want changed, get a branch
+- `/unified-local-deploy` — just open `unifiedcloudsensors/index_v6.html` directly in a browser, no Docker/localhost needed
+- `/unified-finish-task` — plain-English summary, your yes, merges to `main`
+- `/unified-deploy-live` — publishes to https://unifiedcloudsensors.com via the same kind of GitHub Action, no AWS access needed
+
+See `ONBOARDING.md`'s "Updating unifiedcloudsensors.com instead" section for the full walkthrough.
