@@ -45,3 +45,31 @@ When you're ready for the change to actually appear on the real site, run this. 
 - `/local-deploy` fails to build → tell Claude, it'll explain what broke in plain terms.
 - `/deploy-live` fails → Claude will show you which step failed and a link to the details. Share that link with the project owner if you're not sure what to do next.
 - Anything AWS/infrastructure-related that genuinely needs fixing (not just a content/code change) — flag it to the project owner rather than trying to resolve it yourself; that layer is intentionally kept out of your hands.
+
+---
+
+## Updating unifiedcloudsensors.com instead (the "about us" corporate page)
+
+This is a **separate site** in the same project — the small, minimal "about us" page at unifiedcloudsensors.com, distinct from sensweight.com's product/industry site above. If your task is a wording change, a new Careers listing, a new Updates item, or a team photo — this is the site you want, and the process is actually simpler: no Docker, no build step at all, since it's a single self-contained page.
+
+Same one-time setup as above (Claude Code + GitHub access) — if you've already done that for sensweight.com, you're already set up for this too, since it's the same repo.
+
+### 1. `/unified-new-task` — start
+
+Tell Claude what you want changed on unifiedcloudsensors.com, in your own words. It sets up a clean branch for it.
+
+### 2. Just describe what you want, in chat
+
+Same as sensweight.com — talk to Claude like a developer sitting next to you. It edits `unifiedcloudsensors/index_v6.html` directly.
+
+### 3. `/unified-local-deploy` — see it for yourself
+
+No Docker, no localhost URL — just open `unifiedcloudsensors/index_v6.html` directly in your browser (double-click it) and refresh after each change. Everything previews correctly except actually submitting the Contact/Careers forms, which only work on the real deployed site.
+
+### 4. `/unified-finish-task` — lock in the change
+
+Same as sensweight.com: plain-English summary, your explicit yes required, then merges into `main`. Still doesn't publish anything.
+
+### 5. `/unified-deploy-live` — publish it
+
+Runs the GitHub Action that publishes to the real live site at **https://unifiedcloudsensors.com**. Same "no AWS, all through GitHub" model as sensweight.com's `/deploy-live`.
