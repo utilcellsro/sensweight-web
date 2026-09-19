@@ -447,14 +447,43 @@
       track.appendChild(card);
     });
 
-    // Client-side only for now — no backend wired up yet (see sensweight.com's real
-    // Lambda+SES dealer form for the pattern to follow once this needs one).
+    // Backend: Lambda + API Gateway + SES, same shape as sensweight.com's dealer
+    // form — see terraform-cloud PR #128. Routed same-origin via CloudFront's
+    // /api/* behavior, no CORS needed.
+    var SUBMIT_LABELS = { contact: 'Send Message', careers: 'Send Application' };
+
     function handleFormSubmit(event, formName) {
       event.preventDefault();
       var form = document.getElementById(formName + 'Form');
       var thanks = document.getElementById(formName + 'FormThanks');
-      form.querySelectorAll('input, textarea, button').forEach(function (el) { el.style.display = 'none'; });
-      thanks.style.display = 'block';
+      var submitBtn = form.querySelector('button[type="submit"]');
+
+      var payload = { form: formName };
+      new FormData(form).forEach(function (value, key) { payload[key] = value; });
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      fetch('/api/contact-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) { if (!res.ok) { throw new Error('Request failed'); } return res.json(); })
+        .then(function () {
+          form.querySelectorAll('input, textarea, button').forEach(function (el) { el.style.display = 'none'; });
+          thanks.textContent = "Thanks — we've received your message and will be in touch.";
+          thanks.style.color = '#476DB8';
+          thanks.style.display = 'block';
+        })
+        .catch(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = SUBMIT_LABELS[formName] || 'Send';
+          thanks.textContent = 'Something went wrong — please email us directly at info@unifiedcloudsensors.com.';
+          thanks.style.color = '#BF4B41';
+          thanks.style.display = 'block';
+        });
+
       return false;
     }
   </script>
