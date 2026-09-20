@@ -31,6 +31,15 @@ jobs:
         run: |
           mkdir -p _deploy
           cp ${{ env.APP_DIR }}/index_v6.html _deploy/index.html
+          for f in ${{ env.APP_DIR }}/*.html; do
+            base="$(basename "$f")"
+            # index_v6.html is already staged as index.html above; index.html
+            # itself is the old disposable placeholder, not the real site —
+            # skip both so neither overwrites the real homepage.
+            [ "$base" = "index_v6.html" ] && continue
+            [ "$base" = "index.html" ] && continue
+            cp "$f" _deploy/
+          done
           cp ${{ env.APP_DIR }}/*.jpg _deploy/ 2>/dev/null || true
           cp ${{ env.APP_DIR }}/*.png _deploy/ 2>/dev/null || true
           cp ${{ env.APP_DIR }}/*.ico _deploy/ 2>/dev/null || true
