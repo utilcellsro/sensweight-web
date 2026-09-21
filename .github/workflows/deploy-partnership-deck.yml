@@ -1,0 +1,49 @@
+name: Deploy partnership-deck.unifiedcloudsensors.com to AWS
+run-name: Deploy partnership-deck No. ${{ github.run_number }} by @${{ github.actor }}
+
+# Manual only, on purpose — same deliberate-step convention as the
+# sensweight.com and unifiedcloudsensors.com deploy workflows.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    env:
+      APP_DIR: unifiedcloudsensors/partnership-deck
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-session-name: "github-actions-partnership-deck-deploy"
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
+          role-to-assume: ${{ vars.AWS_ACCESS_ROLE_ARN }}
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync ${{ env.APP_DIR }} s3://${{ vars.PARTNERSHIP_DECK_S3_BUCKET }} --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ vars.PARTNERSHIP_DECK_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+      - name: Deployment summary
+        run: |
+          echo "## Deployment successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Live URL:** ${{ vars.PARTNERSHIP_DECK_LIVE_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **S3 bucket:** \`${{ vars.PARTNERSHIP_DECK_S3_BUCKET }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployed by:** @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unified Cloud Sensors - Business Model</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg-light: #F7F7F6;
+      --card-bg: #ffffff;
+      --text-main: #2F2F2E;
+      --text-muted: #6F6F6E;
+      --text-title: #2F2F2E;
+      --ucs-blue: #476DB8;
+      --ucs-blue-dark: #2F4D89;
+      --ucs-navy: #1D2C49;
+      --blue-pale: #DCE5F4;
+      --accent-green: #3F8F6B;
+      --border-color: #ECECEB;
+      --success-green: #3F8F6B;
+      --alarm: #BF4B41;
+      --warn: #C98A2E;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+
+    h1, h2, h3, h4 { font-family: 'Chakra Petch', system-ui, sans-serif; font-weight: 700; }
+
+    body {
+      background-color: var(--bg-light); color: var(--text-main); overflow: hidden;
+      height: 100vh; width: 100vw;
+    }
+
+    .deck-container { width: 100%; height: 100vh; position: relative; }
+
+    .slide {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0; visibility: hidden; transition: opacity 0.4s ease, transform 0.4s ease;
+      transform: scale(0.98); padding: 70px 80px 80px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .slide.active { opacity: 1; visibility: visible; transform: scale(1); }
+
+    .top-header { position: fixed; top: 35px; left: 80px; right: 80px; z-index: 10; }
+    .slide-title { font-family: 'Chakra Petch', system-ui, sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--text-title); text-align: center; padding-bottom: 8px; }
+    .title-line { width: 100%; height: 2px; background: var(--border-color); margin-top: 4px; }
+
+    .footer-bar { position: fixed; bottom: 20px; left: 80px; right: 80px; display: flex; justify-content: space-between; align-items: center; z-index: 100; font-size: 0.85rem; color: var(--text-muted); }
+    .ucs-logo-wrap { display: flex; align-items: center; gap: 12px; }
+
+    .controls { position: fixed; bottom: 15px; right: 20px; z-index: 101; display: flex; align-items: center; gap: 10px; }
+    
+    .lang-switcher { padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border-color); background: #fff; color: var(--text-main); font-weight: 600; font-size: 0.8rem; cursor: pointer; outline: none; }
+
+    .btn { background: #ffffff; border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 700; transition: all 0.2s; font-size: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .btn:hover { background: var(--ucs-blue); color: #fff; border-color: var(--ucs-blue); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; align-items: center; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 24px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); }
+    .card-highlight { border-color: var(--ucs-blue); box-shadow: 0 6px 16px rgba(71, 109, 184, 0.1); }
+
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; }
+    .badge-blue { background: rgba(71, 109, 184, 0.1); color: var(--ucs-blue-dark); border: 1px solid var(--ucs-blue); }
+    .badge-green { background: rgba(63, 143, 107, 0.1); color: var(--accent-green); border: 1px solid var(--accent-green); }
+
+    .stat-number { font-family: 'Chakra Petch', system-ui, sans-serif; font-size: 2.3rem; font-weight: 700; color: var(--ucs-blue-dark); }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+    th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border-color); }
+    th { background: rgba(71, 109, 184, 0.06); color: var(--ucs-blue-dark); font-weight: 700; }
+    .roi-tag { font-size: 0.85rem; color: var(--accent-green); font-weight: bold; margin-top: 8px; }
+    .highlight-text { color: var(--ucs-blue); font-weight: bold; }
+
+    .roi-input { width: 80px; padding: 4px; border: 1px solid var(--border-color); border-radius: 6px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; }
+    .roi-input:focus { outline: none; border-color: var(--ucs-blue); }
+    .qty-input { background-color: rgba(201, 138, 46, 0.12); color: var(--ucs-blue-dark); font-weight: bold; }
+    .savings-input { background-color: #ffffff; }
+
+    .dyn-curr, .inv-calculated, .calculated,
+    #hwUnitPrice, #subUnitPrice, #dashUnitPrice,
+    #roiTotalInvestment, #roiTotalSavings, #roiNetReturn {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Title Bar -->
+  <div class="top-header" id="topHeaderBar">
+    <div class="slide-title" id="slideMainTitle"></div>
+    <div class="title-line" id="titleLine"></div>
+  </div>
+
+  <div class="deck-container">
+    <!-- Slide 1: Hero Cover -->
+    <div class="slide active" id="slide-1" data-title-key="s1_t">
+      <div style="text-align: center; max-width: 950px; margin: 0 auto;">
+        <div class="ucs-logo-wrap" style="justify-content: center; margin-bottom: 40px;">
+          <img src="ucs-logo-horizontal.png" alt="Unified Cloud Sensors Logo" style="height: 80px; width: auto; max-width: 100%; object-fit: contain;" />
+        </div>
+        <h1 style="font-size: 2.5rem; color: var(--text-title); font-weight: 700; margin-bottom: 20px;" data-i18n="s1_h1"></h1>
+        <p style="font-size: 1.35rem; color: var(--text-muted); line-height: 1.6; max-width: 800px; margin: 0 auto 40px auto; font-weight: 500;" data-i18n="s1_sub"></p>
+      </div>
+    </div>
+
+    <!-- Slide 2: Why Remote Weighing Service -->
+    <div class="slide" id="slide-2" data-title-key="s2_t">
+      <div class="grid-2">
+        <div>
+          <div class="card" style="margin-bottom: 20px;">
+            <h3 style="color: #BF4B41; margin-bottom: 10px;" data-i18n="s2_b1_t"></h3>
+            <p style="color: var(--text-muted); line-height: 1.6;" data-i18n="s2_b1_d"></p>
+          </div>
+          <div class="card card-highlight">
+            <h3 style="color: var(--ucs-blue); margin-bottom: 10px;" data-i18n="s2_b2_t"></h3>
+            <p style="color: var(--text-main); line-height: 1.6;" data-i18n="s2_b2_d"></p>
+          </div>
+        </div>
+        <div>
+          <img src="weighbridge-monitoring.png" alt="Weighbridge Monitoring" style="width: 100%; border-radius: 6px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.06);" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Hardware Options -->
+    <div class="slide" id="slide-3" data-title-key="s3_t">
+      <div class="grid-2">
+        <div class="card card-highlight">
+          <span class="badge badge-blue">Model UCS-X2</span>
+          <h3 style="margin: 10px 0; color: var(--ucs-blue-dark);" data-i18n="s3_b1_t"></h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
+            <li data-i18n="s3_b1_l1"></li>
+            <li data-i18n="s3_b1_l2"></li>
+            <li data-i18n="s3_b1_l3"></li>
+            <li data-i18n="s3_b1_l4"></li>
+          </ul>
+          <div class="stat-number"><span class="dyn-curr" data-base="600"></span> <span style="font-size: 0.9rem; color: var(--text-muted);" data-i18n="s3_dev"></span></div>
+        </div>
+        <div class="card card-highlight">
+          <span class="badge badge-green">Model UCS-X3</span>
+          <h3 style="margin: 10px 0; color: var(--accent-green);" data-i18n="s3_b2_t"></h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 20px; margin-bottom: 20px;">
+            <li data-i18n="s3_b2_l1"></li>
+            <li data-i18n="s3_b2_l2"></li>
+            <li data-i18n="s3_b2_l3"></li>
+            <li data-i18n="s3_b2_l4"></li>
+          </ul>
+          <div class="stat-number" style="color: var(--accent-green);"><span class="dyn-curr" data-base="600"></span> <span style="font-size: 0.9rem; color: var(--text-muted);" data-i18n="s3_dev"></span></div>
+        </div>
+      </div>
+      <div style="margin-top: 25px; text-align: center; color: var(--ucs-blue-dark); font-weight: 700; font-size: 1rem;" data-i18n="s3_tip"></div>
+    </div>
+
+    <!-- Slide 4: Dashboard Fees -->
+    <div class="slide" id="slide-4" data-title-key="s4_t">
+      <div style="background: rgba(71, 109, 184, 0.08); border-left: 4px solid var(--ucs-blue); padding: 10px 15px; margin-bottom: 20px; border-radius: 4px; font-size: 0.9rem;" data-i18n="s4_note"></div>
+      <div class="grid-4">
+        <div class="card">
+          <span class="badge badge-blue">Basic</span>
+          <div class="stat-number" style="margin: 15px 0;"><span class="dyn-curr" data-base="0"></span></div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="s4_b_d"></p>
+        </div>
+        <div class="card">
+          <span class="badge badge-blue">Advanced</span>
+          <div class="stat-number" style="margin: 15px 0;"><span class="dyn-curr" data-base="800"></span></div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="s4_a_d"></p>
+        </div>
+        <div class="card">
+          <span class="badge badge-blue">Professional</span>
+          <div class="stat-number" style="margin: 15px 0;"><span class="dyn-curr" data-base="1600"></span></div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="s4_p_d"></p>
+        </div>
+        <div class="card">
+          <span class="badge badge-blue">Enterprise</span>
+          <div class="stat-number" style="margin: 15px 0; font-size: 1.5rem;" data-i18n="s4_e_c"></div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="s4_e_d"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Tiers & ROI Impact -->
+    <div class="slide" id="slide-5" data-title-key="s5_t">
+      <div class="grid-4">
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-blue">Basic</span>
+            <div style="font-size: 1.4rem; font-weight: 800; margin: 8px 0; color: var(--ucs-blue-dark);"><span class="dyn-curr" data-base="59"></span> <span style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="s5_mo"></span></div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="s5_b_d"></p>
+          </div>
+          <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+            <div class="roi-tag" data-i18n="s5_b_r"></div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;" data-i18n="s5_b_rd"></p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-green">Advanced</span>
+            <div style="font-size: 1.4rem; font-weight: 800; margin: 8px 0; color: var(--accent-green);"><span class="dyn-curr" data-base="99"></span> <span style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="s5_mo"></span></div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="s5_a_d"></p>
+          </div>
+          <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+            <div class="roi-tag" data-i18n="s5_a_r"></div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;" data-i18n="s5_a_rd"></p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-blue">Professional</span>
+            <div style="font-size: 1.4rem; font-weight: 800; margin: 8px 0; color: var(--ucs-blue-dark);"><span class="dyn-curr" data-base="199"></span> <span style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="s5_mo"></span></div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="s5_p_d"></p>
+          </div>
+          <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+            <div class="roi-tag" data-i18n="s5_p_r"></div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;" data-i18n="s5_p_rd"></p>
+          </div>
+        </div>
+        <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-green">Enterprise</span>
+            <div style="font-size: 1.4rem; font-weight: 800; margin: 8px 0; color: var(--accent-green);"><span class="dyn-curr" data-base="299"></span> <span style="font-size: 0.75rem; color: var(--text-muted);" data-i18n="s5_mo"></span></div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="s5_e_d"></p>
+          </div>
+          <div style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+            <div class="roi-tag" data-i18n="s5_e_r"></div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;" data-i18n="s5_e_rd"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Interactive ROI Calculator -->
+    <div class="slide" id="slide-6" data-title-key="s6_t">
+      <div class="card" style="padding: 15px 24px; overflow-y: auto; max-height: 80vh;">
+        
+        <h4 style="margin-bottom: 8px; color: var(--ucs-blue-dark);" data-i18n="s6_inv_title">UCS Investment</h4>
+        <table id="investmentTable" style="width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 25px;">
+          <thead>
+            <tr>
+              <th data-i18n="s6_th_prod" style="width: 20%;">Product</th>
+              <th data-i18n="s6_th_desc">Description</th>
+              <th style="text-align: right;" data-i18n="s6_th_unit">Unit Price</th>
+              <th style="text-align: center;" data-i18n="s6_th4">Qty</th>
+              <th style="text-align: right;" data-i18n="s6_th_total">Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <select id="hwSelect" class="roi-input" style="width: 100%; font-weight: 600;" onchange="updateInvestmentPrices()">
+                  <option value="600">UCS-X2</option>
+                  <option value="600" selected>UCS-X3</option>
+                </select>
+              </td>
+              <td data-i18n="s6_hw_desc">IIoT edge unit</td>
+              <td style="text-align: right;" id="hwUnitPrice">600.00 €</td>
+              <td style="text-align: center;"><input type="number" id="hwQty" class="roi-input qty-input" value="1" step="1" oninput="calculateROI()"></td>
+              <td style="text-align: right; font-weight: 600;" id="hwTotal" class="inv-calculated">600.00 €</td>
+            </tr>
+            <tr>
+              <td>
+                <select id="subSelect" class="roi-input" style="width: 100%; font-weight: 600;" onchange="updateInvestmentPrices()">
+                  <option value="59" selected>Basic</option>
+                  <option value="99">Advanced</option>
+                  <option value="199">Professional</option>
+                  <option value="299">Enterprise</option>
+                </select>
+              </td>
+              <td data-i18n="s6_sub_desc">Subscription (Months)</td>
+              <td style="text-align: right;" id="subUnitPrice">59.00 €</td>
+              <td style="text-align: center;"><input type="number" id="subQty" class="roi-input qty-input" value="12" step="1" oninput="calculateROI()"></td>
+              <td style="text-align: right; font-weight: 600;" id="subTotal" class="inv-calculated">708.00 €</td>
+            </tr>
+            <!-- NEW ROW: Custom Visual Interface (from Slide 4) -->
+            <tr>
+              <td>
+                <select id="dashSelect" class="roi-input" style="width: 100%; font-weight: 600;" onchange="updateInvestmentPrices()">
+                  <option value="0" selected>Basic</option>
+                  <option value="800">Advanced</option>
+                  <option value="1600">Professional</option>
+                </select>
+              </td>
+              <td data-i18n="s6_dash_desc">Custom Visual Interface (One-time setup)</td>
+              <td style="text-align: right;" id="dashUnitPrice">0.00 €</td>
+              <td style="text-align: center;"><input type="number" id="dashQty" class="roi-input qty-input" value="1" step="1" oninput="calculateROI()"></td>
+              <td style="text-align: right; font-weight: 600;" id="dashTotal" class="inv-calculated">0.00 €</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" style="text-align: right; font-weight: bold; background: var(--blue-pale); color: var(--ucs-blue-dark);" data-i18n="s6_inv_total">TOTAL INVESTMENT:</td>
+              <td style="text-align: right; font-weight: bold; background: var(--blue-pale); color: var(--ucs-blue-dark);" id="roiTotalInvestment">1,308.00 €</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <h4 style="margin-bottom: 8px; color: var(--ucs-blue-dark);" data-i18n="s6_sav_title">Estimated Savings</h4>
+        <table id="roiTable" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+          <thead>
+            <tr>
+              <th data-i18n="s6_th1" style="width: 20%;">Metric</th>
+              <th data-i18n="s6_th2">Description</th>
+              <th style="text-align: right;" data-i18n="s6_th3">Estimated Savings</th>
+              <th style="text-align: center;" data-i18n="s6_th4">Qty</th>
+              <th style="text-align: right;" data-i18n="s6_th_total">Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="s6_r1m"></td><td data-i18n="s6_r1d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="50.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="20" step="1"></td>
+              <td class="calculated" style="text-align: right;">1,000.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r2m"></td><td data-i18n="s6_r2d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="10.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="20" step="1"></td>
+              <td class="calculated" style="text-align: right;">200.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r3m"></td><td data-i18n="s6_r3d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="5.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="100" step="1"></td>
+              <td class="calculated" style="text-align: right;">500.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r4m"></td><td data-i18n="s6_r4d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="50.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="5" step="1"></td>
+              <td class="calculated" style="text-align: right;">250.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r5m"></td><td data-i18n="s6_r5d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="50.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="10" step="1"></td>
+              <td class="calculated" style="text-align: right;">500.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r6m"></td><td data-i18n="s6_r6d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="5.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="150" step="1"></td>
+              <td class="calculated" style="text-align: right;">750.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r7m"></td><td data-i18n="s6_r7d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="2000.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="0" step="1"></td>
+              <td class="calculated" style="text-align: right;">0.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r8m"></td><td data-i18n="s6_r8d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="50.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="150" step="1"></td>
+              <td class="calculated" style="text-align: right;">7,500.00 €</td>
+            </tr>
+            <tr>
+              <td data-i18n="s6_r9m"></td><td data-i18n="s6_r9d"></td>
+              <td style="text-align: right;"><input type="number" class="roi-input savings-input" value="10.00" step="1"></td>
+              <td style="text-align: center;"><input type="number" class="roi-input qty-input" value="50" step="1"></td>
+              <td class="calculated" style="text-align: right;">500.00 €</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" style="text-align: right; background: var(--blue-pale); font-weight: bold;" data-i18n="s6_tot"></td>
+              <td style="text-align: right; background: var(--blue-pale); font-weight: bold;" id="roiTotalSavings">11,200.00 €</td>
+            </tr>
+            <tr>
+              <td colspan="4" style="text-align: right; font-weight: bold; padding-top: 15px;" data-i18n="s6_roi"></td>
+              <td style="text-align: right; font-weight: 900; color: var(--success-green); font-size: 1.15rem; padding-top: 15px; background: var(--blue-pale);" id="roiNetReturn">9,892.00 €</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- Slide 7: Save Your Time and Money -->
+    <div class="slide" id="slide-7" data-title-key="s7_t">
+      <div class="grid-2">
+        <div class="card card-highlight">
+          <h3 style="margin-bottom: 20px; color: var(--ucs-blue-dark);" data-i18n="s7_b1_t"></h3>
+          <div style="display: flex; flex-direction: column; gap: 15px; color: var(--text-main);">
+            <div data-i18n="s7_b1_l1"></div>
+            <div data-i18n="s7_b1_l2"></div>
+            <div data-i18n="s7_b1_l3"></div>
+            <div data-i18n="s7_b1_l4"></div>
+          </div>
+        </div>
+        <div class="card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; border-color: var(--accent-green);">
+          <h3 style="color: var(--accent-green); font-size: 1.4rem; margin-bottom: 15px;" data-i18n="s7_b2_t"></h3>
+          <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 15px;" data-i18n="s7_b2_tip"></p>
+          <div style="background: rgba(93, 133, 214, 0.08); border: 1px solid var(--accent-green); padding: 12px; border-radius: 6px; color: var(--text-main); font-size: 0.9rem;" data-i18n="s7_b2_n"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Partner Margins -->
+    <div class="slide" id="slide-8" data-title-key="s8_t">
+      <div class="grid-3" style="margin-bottom: 25px;">
+        <div class="card">
+          <span class="badge badge-blue" data-i18n="s8_b1_t"></span>
+          <div class="stat-number" style="margin: 15px 0;">10%</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="s8_b1_d"></p>
+        </div>
+        <div class="card">
+          <span class="badge badge-blue" data-i18n="s8_b2_t"></span>
+          <div class="stat-number" style="margin: 15px 0;">10%</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="s8_b2_d"></p>
+        </div>
+        <div class="card">
+          <span class="badge badge-green" data-i18n="s8_b3_t"></span>
+          <div class="stat-number" style="margin: 15px 0; color: var(--accent-green);">15%</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="s8_b3_d"></p>
+        </div>
+      </div>
+      <div class="card" style="background: rgba(71, 109, 184, 0.08); border: 1.5px solid var(--ucs-blue); text-align: center; padding: 20px;">
+        <h3 style="color: var(--ucs-blue-dark); font-size: 1.3rem;" data-i18n="s8_up_t"></h3>
+        <p style="color: var(--text-main); font-size: 1.1rem; margin-top: 5px;" data-i18n="s8_up_d"></p>
+      </div>
+    </div>
+
+    <!-- Slide 9: Volume Discounts -->
+    <div class="slide" id="slide-9" data-title-key="s9_t">
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="s9_th1"></th><th data-i18n="s9_th2"></th><th data-i18n="s9_th3"></th><th data-i18n="s9_th4"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td data-i18n="s9_u1"></td><td>0%</td><td><span class="dyn-curr" data-base="59.00"></span></td><td><span class="dyn-curr" data-base="0.00"></span></td></tr>
+            <tr><td data-i18n="s9_u2"></td><td>5%</td><td><span class="dyn-curr" data-base="56.05"></span></td><td><span class="dyn-curr" data-base="35.40"></span></td></tr>
+            <tr><td data-i18n="s9_u3"></td><td>10%</td><td><span class="dyn-curr" data-base="53.10"></span></td><td><span class="dyn-curr" data-base="70.80"></span></td></tr>
+            <tr><td data-i18n="s9_u4"></td><td>15%</td><td><span class="dyn-curr" data-base="50.15"></span></td><td><span class="dyn-curr" data-base="106.20"></span></td></tr>
+            <tr><td data-i18n="s9_u5"></td><td>20%</td><td><span class="dyn-curr" data-base="47.20"></span></td><td><span class="dyn-curr" data-base="141.60"></span></td></tr>
+            <tr><td data-i18n="s9_u6"></td><td>25%</td><td><span class="dyn-curr" data-base="44.25"></span></td><td><span class="dyn-curr" data-base="177.00"></span></td></tr>
+            <tr><td data-i18n="s9_u7"></td><td>30%</td><td><span class="dyn-curr" data-base="41.30"></span></td><td><span class="dyn-curr" data-base="212.40"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Slide 10: Why UCS Products -->
+    <div class="slide" id="slide-10" data-title-key="s10_t">
+      <div class="grid-2">
+        <div class="card card-highlight">
+          <h3 style="color: var(--ucs-blue-dark); margin-bottom: 15px;" data-i18n="s10_b1_t"></h3>
+          <ul style="color: var(--text-muted); line-height: 2; margin-left: 20px;">
+            <li data-i18n="s10_b1_l1"></li><li data-i18n="s10_b1_l2"></li><li data-i18n="s10_b1_l3"></li><li data-i18n="s10_b1_l4"></li>
+          </ul>
+        </div>
+        <div class="card" style="text-align: center; border-color: var(--accent-green);">
+          <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;" data-i18n="s10_b2_s"></div>
+          <div class="stat-number" style="font-size: 4rem; margin: 10px 0; color: var(--accent-green);">&gt; 99%</div>
+          <div style="color: var(--text-main); font-weight: 700;" data-i18n="s10_b2_t"></div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 15px;" data-i18n="s10_b2_d"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Contact -->
+    <div class="slide" id="slide-11" data-title-key="s11_t">
+      <div style="max-width: 1050px; margin: 0 auto; width: 100%;">
+        <div style="text-align: center; margin-bottom: 40px;">
+          <h2 style="font-size: 2.1rem; color: var(--text-title); font-weight: 700; line-height: 1.4;" data-i18n="s11_h1"></h2>
+          <h3 style="font-size: 1.6rem; color: var(--text-muted); font-weight: 700; margin-top: 10px;" data-i18n="s11_h2"></h3>
+        </div>
+        <div class="grid-2" style="align-items: stretch;">
+          <div class="card card-highlight" style="display: flex; flex-direction: column; justify-content: center; padding: 30px;">
+            <div style="font-size: 1.2rem; font-weight: 800; color: var(--ucs-blue-dark); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;" data-i18n="s11_exec"></div>
+            <div style="display: flex; flex-direction: column; gap: 14px; font-size: 1.05rem;">
+              <div><strong>Ing. Nikola Avramović</strong> <span style="color: var(--ucs-blue); font-size: 0.9rem; margin-left: 6px; font-weight: bold;">COO</span></div>
+              <div>📱 <strong>M:</strong> +420 725 169 063</div>
+              <div>✉️ <strong>E:</strong> n.avramovic@unifiedcloudsensors.com</div>
+              <div>🌐 <strong>W:</strong> www.unifiedcloudsensors.com</div>
+            </div>
+          </div>
+          <div class="card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-color: var(--ucs-blue); background: #ffffff; padding: 30px;">
+            <div class="ucs-logo-wrap" style="margin-bottom: 20px;">
+              <img src="ucs-logo-horizontal.png" alt="Unified Cloud Sensors Logo" style="height: 60px; width: auto; object-fit: contain;" />
+            </div>
+            <p style="color: var(--text-muted); font-size: 1.05rem; font-weight: 600;" data-i18n="s11_f"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div>www.unifiedcloudsensors.com</div>
+    <div class="ucs-logo-wrap"><img src="ucs-logo-horizontal.png" alt="UCS Logo" style="height: 24px; width: auto; object-fit: contain;" /></div>
+  </div>
+
+  <div class="controls">
+    <select class="lang-switcher" id="langSwitcher" onchange="changeLanguage(this.value)">
+      <option value="en">English (EUR)</option>
+      <option value="cs">Čeština (CZK)</option>
+      <option value="sk">Slovenčina (EUR)</option>
+      <option value="es">Español (EUR)</option>
+      <option value="de">Deutsch (EUR)</option>
+      <option value="pl">Polski (PLN)</option>
+      <option value="sr">Srpski (RSD)</option>
+      <option value="ro">Română (RON)</option>
+      <option value="bg">Български (BGN)</option>
+    </select>
+    <button class="btn" id="prevBtn" onclick="changeSlide(-1)" data-i18n="btn_p"></button>
+    <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);" id="slideCounter">1 / 11</div>
+    <button class="btn" id="nextBtn" onclick="changeSlide(1)" data-i18n="btn_n"></button>
+  </div>
+
+  <script>
+    // --- Currency Engine Setup ---
+    const currencies = {
+      en: { code: 'EUR', rate: 1, locale: 'en-US' },
+      cs: { code: 'CZK', rate: 25, locale: 'cs-CZ' },
+      sk: { code: 'EUR', rate: 1, locale: 'sk-SK' },
+      es: { code: 'EUR', rate: 1, locale: 'es-ES' },
+      de: { code: 'EUR', rate: 1, locale: 'de-DE' },
+      pl: { code: 'PLN', rate: 4.3, locale: 'pl-PL' },
+      sr: { code: 'RSD', rate: 117, locale: 'sr-RS' },
+      ro: { code: 'RON', rate: 5, locale: 'ro-RO' },
+      bg: { code: 'BGN', rate: 1.95, locale: 'bg-BG' }
+    };
+    
+    const i18n = {
+      en: {
+        s1_t:"",s1_h1:"Continuous Remote Service System",s1_sub:"Discover what you're missing — Continuous Remote Service System for Next Weighing Generation",
+        s2_t:"Why to have remote weighing service?",s2_b1_t:"The Industrial Reality",s2_b1_d:"Industrial processes are complex, every minute of downtime means losses.<br><br><strong style='color:var(--text-main)'>\"If you don't measure it, you can't control it. If you don't control it, you lose MONEY!\"</strong>",s2_b2_t:"The UCS Value Guarantee",s2_b2_d:"Unified Cloud Sensors deliver instant operational overview, early warning anomaly detection, and complete capital investment protection—providing <strong>verified and validated true data—not just raw values!</strong>",
+        s3_t:"Initial Investment - UCS-X Hardware",s3_b1_t:"NB-IoT Communication Gateway",s3_b1_l1:"NB-IoT communication modules",s3_b1_l2:"Accumulator for at least 2 days without power",s3_b1_l3:"Robust design and fast startup",s3_b1_l4:"Universal for various industrial applications",s3_dev:"/ device",s3_b2_t:"4G Industrial Linux Gateway",s3_b2_l1:"4G high-speed connectivity supporting",s3_b2_l2:"Linux OS Edge Processing Engine",s3_b2_l3:"Faster processing than UCS-X2",s3_b2_l4:"Universal scalability across industrial scales",s3_tip:"💡 The investment is about the same as one emergency intervention!",
+        s4_t:"Custom Visual Interface",s4_note:"📌 <strong>Note:</strong> All dashboard software fees listed below are <strong>ONE-TIME PAYMENTS</strong> for platform configuration.",s4_b_d:"Default setup: Small and medium-sized businesses with 1-10 scales.",s4_a_d:"One-time setup cost: Medium-sized companies with 10-100 scales.",s4_p_d:"One-time setup cost for larger scale deployments.",s4_e_c:"Custom",s4_e_d:"One-time setup cost: Large corporations (weight labeling) with >100 scales.",
+        s5_t:"Tiers & ROI Impact",s5_mo:"/ scale / mo",s5_b_d:"Cost reduction and essential operational monitoring for single sites.",s5_b_r:"<span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / yr savings",s5_b_rd:"Immediate payback: stops revenue leaks by catching immediate system failures.",s5_a_d:"Process optimization & predictive maintenance with up to 90% ML accuracy.",s5_a_r:"<span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / yr savings",s5_a_rd:"< 90 days payback: avoids outages in large plants, saving up to <span class='dyn-curr' data-base='454856'></span>.",s5_p_d:"ERP integration, RESTful APIs, and OPC UA protocol support for smart factories.",s5_p_r:"<span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / yr savings",s5_p_rd:"< 60 days payback: eliminates weighbridge manipulation & logistics fraud.",s5_e_d:"Full AI suite, automated compliance, multi-site control & SLAs.",s5_e_r:"<span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / yr savings",s5_e_rd:"Highly scalable payback: massive value across batch control (<span class='dyn-curr' data-base='646000' data-compact='true'></span>) and ports (<span class='dyn-curr' data-base='1000000' data-compact='true'></span>).",
+        s6_inv_title:"UCS Investment",s6_th_prod:"Product",s6_th_desc:"Description",s6_th_unit:"Unit Price",s6_th_total:"Total Price",s6_hw_desc:"IIoT edge unit",s6_sub_desc:"Subscription (Months)",s6_dash_desc:"Custom Visual Interface (One-time setup)",s6_inv_total:"TOTAL INVESTMENT:",
+        s6_sav_title:"Estimated Savings",s6_t:"Interactive ROI Calculator",s6_th1:"Metric",s6_th2:"Description",s6_th3:"Estimated Savings",s6_th4:"Qty",s6_th5:"Price",s6_r1m:"Downtime",s6_r1d:"One hour downtime cost",s6_r2m:"Efficiency",s6_r2d:"Automated analytics and material flow in hours",s6_r3m:"Weighing Errors",s6_r3d:"Load cell malfunction per 1% per 1 ton",s6_r4m:"Fraud Weighing",s6_r4d:"Weighbridge Fraud Protection",s6_r5m:"Downtime",s6_r5d:"Downtime Savings in hours",s6_r6m:"Calibration Protection",s6_r6d:"Compounding weight measurement drift 1% per 1 ton",s6_r7m:"Structural stress",s6_r7d:"Structural damage occurs per one weighing system",s6_r8m:"Financial Management",s6_r8d:"Mistakes in financial management per hour",s6_r9m:"Multi-Site Analytics",s6_r9d:"Eradicates regional data management per hours",s6_tot:"TOTAL PRICE (ESTIMATED SAVINGS):",s6_roi:"ESTIMATED RETURN ON INVESTMENT:",
+        s7_t:"Save your time and money",s7_b1_t:"The Regular Monthly Fee Ensures:",s7_b1_l1:"🛡️ <strong>Security:</strong> Continuous cybersecurity audits & standard compliance.",s7_b1_l2:"⚙️ <strong>Updates & Remote Service:</strong> Online maintenance without technician visits.",s7_b1_l3:"☁️ <strong>New Features:</strong> Constant access to platform enhancements.",s7_b1_l4:"💎 <strong>Protection of Investment:</strong> Guaranteed ROI with zero obsolescence.",s7_b2_t:"You invest in savings that come every month",s7_b2_tip:"💡 <strong>Typical Example:</strong> Monthly subscription is less than the cost of a single technician visit!",s7_b2_n:"Regular updates = no obsolescence, always compliant with standards and cybersecurity audits.",
+        s8_t:"Partner Margins Structure",s8_b1_t:"1. System Integrator (SI)",s8_b1_d:"Margin for platform integrators and software partners.",s8_b2_t:"2. Distributor (DIS)",s8_b2_d:"Wholesale distribution margin for bulk deployments.",s8_b3_t:"3. Dealer (D)",s8_b3_d:"Resale margin for regional scale partners.",s8_up_t:"🔥 End-User Engagement Upside",s8_up_d:"Partners working directly with end users can reach <strong>UP TO 35% MARGIN ARR!</strong>",
+        s9_t:"Volume Discounts for End Users",s9_th1:"SaaS Units Tier",s9_th2:"Discount (%)",s9_th3:"Monthly Price / Scale",s9_th4:"Annual Savings / Scale",s9_u1:"1 – 9 Units",s9_u2:"10 – 49 Units",s9_u3:"50 – 99 Units",s9_u4:"100 – 199 Units",s9_u5:"200 – 499 Units",s9_u6:"500 – 999 Units",s9_u7:"1000+ Units",
+        s10_t:"Why UCS products?",s10_b1_t:"Product Advantages",s10_b1_l1:"Transparent pricing, no hidden costs",s10_b1_l2:"Fast Return on Investment, proven savings",s10_b1_l3:"Scalable upgrade options for every client",s10_b1_l4:"Support, security, innovation for every customer type",s10_b2_s:"ML Anomaly Detection Accuracy",s10_b2_t:"Accuracy Rate",s10_b2_d:"There is no other way to be efficient, effective, with online optimization <strong>HERE AND NOW!</strong>",
+        s11_t:"Why to be Partner with UCS",s11_h1:"You are <span class='highlight-text' style='font-size:2.4rem'>here</span> and <span class='highlight-text' style='font-size:2.4rem'>now</span> to choose the <span class='highlight-text' style='font-size:2.4rem'>only way to rise</span>",s11_h2:"Don't let <span class='highlight-text' style='color:#BF4B41'>fears and doubts</span> to take you out of the game!",s11_exec:"Executive Contact",s11_f:"Your Remote and Continuous Monitoring System",btn_p:"Prev",btn_n:"Next"
+      },
+      cs: {
+        s1_t:"",s1_h1:"Systém kontinuálního vzdáleného servisu",s1_sub:"Objevte, o co přicházíte — Systém kontinuálního vzdáleného servisu pro novou generaci vážení",
+        s2_t:"Proč mít vzdálený vážní servis?",s2_b1_t:"Průmyslová realita",s2_b1_d:"Průmyslové procesy jsou složité, každá minuta prostojů znamená ztráty.<br><br><strong style='color:var(--text-main)'>\"Pokud to neměříte, nemůžete to řídit. Pokud to neřídíte, ztrácíte PENÍZE!\"</strong>",s2_b2_t:"Záruka hodnoty UCS",s2_b2_d:"Unified Cloud Sensors přináší okamžitý provozní přehled, včasné varování před anomáliemi a kompletní ochranu investic—poskytuje <strong>ověřená a validovaná skutečná data—nejen hrubé hodnoty!</strong>",
+        s3_t:"Počáteční investice - UCS-X Hardware",s3_b1_t:"Komunikační brána NB-IoT",s3_b1_l1:"Komunikační moduly NB-IoT",s3_b1_l2:"Akumulátor pro minimálně 2 dny bez napájení",s3_b1_l3:"Robustní design a rychlý start",s3_b1_l4:"Univerzální pro různé průmyslové aplikace",s3_dev:"/ zařízení",s3_b2_t:"Průmyslová Linux brána 4G",s3_b2_l1:"Podpora vysokorychlostního připojení 4G",s3_b2_l2:"Edge Processing Engine s OS Linux",s3_b2_l3:"Rychlejší zpracování než UCS-X2",s3_b2_l4:"Univerzální škálovatelnost napříč průmyslovými vahami",s3_tip:"💡 Investice je zhruba stejná jako jeden nouzový servisní zásah!",
+        s4_t:"Vlastní vizuální rozhraní",s4_note:"📌 <strong>Poznámka:</strong> Všechny níže uvedené poplatky za software jsou <strong>JEDNORÁZOVÉ PLATBY</strong> za konfiguraci platformy.",s4_b_d:"Výchozí nastavení: Malé a střední podniky s 1-10 vahami.",s4_a_d:"Jednorázové nastavení: Střední podniky s 10-100 vahami.",s4_p_d:"Jednorázové nastavení pro rozsáhlejší nasazení.",s4_e_c:"Na míru",s4_e_d:"Jednorázové nastavení: Velké korporace s >100 vahami.",
+        s5_t:"Úrovně a dopad na ROI",s5_mo:"/ váha / měs",s5_b_d:"Snížení nákladů a základní provozní dohled pro jednotlivé pobočky.",s5_b_r:"Úspora <span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / rok",s5_b_rd:"Okamžitá návratnost: zastavuje úniky tržeb okamžitým odhalením chyb.",s5_a_d:"Optimalizace procesů a prediktivní údržba s přesností ML až 90 %.",s5_a_r:"Úspora <span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / rok",s5_a_rd:"Návratnost < 90 dní: předchází výpadkům ve velkých provozech.",s5_p_d:"Integrace ERP, RESTful API a podpora protokolu OPC UA pro chytré továrny.",s5_p_r:"Úspora <span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / rok",s5_p_rd:"Návratnost < 60 dní: eliminuje manipulaci s váhami a logistické podvody.",s5_e_d:"Kompletní sada AI, automatizovaná shoda s předpisy, kontrola více poboček a SLA.",s5_e_r:"Úspora <span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / rok",s5_e_rd:"Vysoce škálovatelná návratnost: masivní přínos pro řízení dávek a přístavy.",
+        s6_inv_title:"Investice UCS",s6_th_prod:"Produkt",s6_th_desc:"Popis",s6_th_unit:"Jednotková cena",s6_th_total:"Celková cena",s6_hw_desc:"IIoT edge jednotka",s6_sub_desc:"Předplatné (Měsíce)",s6_dash_desc:"Vlastní vizuální rozhraní (Jednorázově)",s6_inv_total:"CELKOVÁ INVESTICE:",
+        s6_sav_title:"Odhadované Úspory",s6_t:"Interaktivní kalkulačka ROI",s6_th1:"Metrika",s6_th2:"Popis",s6_th3:"Odhadovaná úspora",s6_th4:"Mn.",s6_th5:"Cena",s6_r1m:"Prostoje",s6_r1d:"Náklady na hodinu prostojů",s6_r2m:"Efektivita",s6_r2d:"Automatizovaná analytika a materiálový tok v hodinách",s6_r3m:"Chyby vážení",s6_r3d:"Porucha snímače zátěže (1 % na 1 tunu)",s6_r4m:"Podvody při vážení",s6_r4d:"Ochrana proti podvodům na mostních vahách",s6_r5m:"Prostoje",s6_r5d:"Úspory prostojů v hodinách",s6_r6m:"Ochrana kalibrace",s6_r6d:"Složený posun měření (1 % na 1 tunu)",s6_r7m:"Strukturální napětí",s6_r7d:"Konstrukční poškození jednoho vážicího systému",s6_r8m:"Finanční řízení",s6_r8d:"Chyby ve finančním řízení za hodinu",s6_r9m:"Analytika více poboček",s6_r9d:"Odstraňuje lokální správu dat (hodiny)",s6_tot:"CELKOVÁ CENA (ODHADOVANÉ ÚSPORY):",s6_roi:"ODHADOVANÁ NÁVRATNOST INVESTICE (ROI):",
+        s7_t:"Šetřete svůj čas a peníze",s7_b1_t:"Pravidelný měsíční poplatek zajišťuje:",s7_b1_l1:"🛡️ <strong>Bezpečnost:</strong> Průběžné audity kyberbezpečnosti a dodržování norem.",s7_b1_l2:"⚙️ <strong>Aktualizace a vzdálený servis:</strong> Údržba online bez návštěv techniků.",s7_b1_l3:"☁️ <strong>Nové funkce:</strong> Neustálý přístup k vylepšením platformy.",s7_b1_l4:"💎 <strong>Ochrana investice:</strong> Garantované ROI s nulovým zastaráváním.",s7_b2_t:"Investujete do úspor, které přicházejí každý měsíc",s7_b2_tip:"💡 <strong>Typický příklad:</strong> Měsíční předplatné je nižší než cena jednoho výjezdu technika!",s7_b2_n:"Pravidelné aktualizace = žádné zastarávání, vždy v souladu se standardy.",
+        s8_t:"Struktura partnerských marží",s8_b1_t:"1. Systémový integrátor (SI)",s8_b1_d:"Marže pro integrátory platforem a softwarové partnery.",s8_b2_t:"2. Distributor (DIS)",s8_b2_d:"Velkoobchodní distribuční marže pro hromadná nasazení.",s8_b3_t:"3. Dealer (D)",s8_b3_d:"Maloobchodní marže pro regionální partnery.",s8_up_t:"🔥 Potenciál pro koncové uživatele",s8_up_d:"Partneři pracující přímo s koncovými uživateli mohou dosáhnout <strong>AŽ 35% ARR MARŽE!</strong>",
+        s9_t:"Množstevní slevy",s9_th1:"Úroveň SaaS (jednotky)",s9_th2:"Sleva (%)",s9_th3:"Měsíční cena / váha",s9_th4:"Roční úspora / váha",s9_u1:"1 – 9 jednotek",s9_u2:"10 – 49 jednotek",s9_u3:"50 – 99 jednotek",s9_u4:"100 – 199 jednotek",s9_u5:"200 – 499 jednotek",s9_u6:"500 – 999 jednotek",s9_u7:"1000+ jednotek",
+        s10_t:"Proč produkty UCS?",s10_b1_t:"Výhody produktu",s10_b1_l1:"Transparentní ceny, žádné skryté poplatky",s10_b1_l2:"Rychlá návratnost investice, prokázané úspory",s10_b1_l3:"Škálovatelné možnosti upgradu pro každého",s10_b1_l4:"Podpora, bezpečnost, inovace pro všechny typy zákazníků",s10_b2_s:"Přesnost ML detekce anomálií",s10_b2_t:"Míra přesnosti",s10_b2_d:"Neexistuje jiný způsob, jak být efektivní s online optimalizací <strong>TADY A TEĎ!</strong>",
+        s11_t:"Proč být partnerem UCS",s11_h1:"Jste <span class='highlight-text' style='font-size:2.4rem'>tady</span> a <span class='highlight-text' style='font-size:2.4rem'>teď</span>, abyste si vybrali <span class='highlight-text' style='font-size:2.4rem'>jedinou cestu k růstu</span>",s11_h2:"Nedovolte, aby vás <span class='highlight-text' style='color:#BF4B41'>obavy a pochybnosti</span> vyřadily ze hry!",s11_exec:"Exekutivní kontakt",s11_f:"Váš systém pro vzdálený a kontinuální monitoring",btn_p:"Předchozí",btn_n:"Další"
+      },
+      sk: {
+        s1_t:"",s1_h1:"Systém kontinuálneho vzdialeného servisu",s1_sub:"Objavte, o čo prichádzate — Systém kontinuálneho vzdialeného servisu pre novú generáciu váženia",
+        s2_t:"Prečo mať vzdialený vážiaci servis?",s2_b1_t:"Priemyselná realita",s2_b1_d:"Priemyselné procesy sú zložité, každá minúta prestojov znamená straty.<br><br><strong style='color:var(--text-main)'>\"Ak to nemeriate, nemôžete to riadiť. Ak to neriadite, strácate PENIAZE!\"</strong>",s2_b2_t:"Záruka hodnoty UCS",s2_b2_d:"Unified Cloud Sensors prináša okamžitý prevádzkový prehľad, včasné varovanie pred anomáliami a kompletnú ochranu investícií—poskytuje <strong>overené a validované skutočné dáta—nielen hrubé hodnoty!</strong>",
+        s3_t:"Počiatočná investícia - UCS-X Hardware",s3_b1_t:"Komunikačná brána NB-IoT",s3_b1_l1:"Komunikačné moduly NB-IoT",s3_b1_l2:"Akumulátor pre minimálne 2 dni bez napájania",s3_b1_l3:"Robustný dizajn a rýchly štart",s3_b1_l4:"Univerzálne pre rôzne priemyselné aplikácie",s3_dev:"/ zariadenie",s3_b2_t:"Priemyselná Linux brána 4G",s3_b2_l1:"Podpora vysokorýchlostného pripojenenia 4G",s3_b2_l2:"Edge Processing Engine s OS Linux",s3_b2_l3:"Rýchlejšie spracovanie ako UCS-X2",s3_b2_l4:"Univerzálna škálovateľnosť naprieč priemyselnými váhami",s3_tip:"💡 Investícia je zhruba rovnaká ako jeden núdzový servisný zásah!",
+        s4_t:"Vlastné vizuálne rozhranie",s4_note:"📌 <strong>Poznámka:</strong> Všetky nižšie uvedené poplatky za softvér sú <strong>JEDNORAZOVÉ PLATBY</strong> za konfiguráciu platformy.",s4_b_d:"Predvolené nastavenie: Malé a stredné podniky s 1-10 váhami.",s4_a_d:"Jednorazové nastavenie: Stredné podniky s 10-100 váhami.",s4_p_d:"Jednorazové nastavenie pre rozsiahlejšie nasadenie.",s4_e_c:"Na mieru",s4_e_d:"Jednorazové nastavení: Veľké korporácie s >100 váhami.",
+        s5_t:"Úrovne a dopad na ROI",s5_mo:"/ váha / mes",s5_b_d:"Zníženie nákladov a základný prevádzkový dohľad pre jednotlivé pobočky.",s5_b_r:"Úspora <span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / rok",s5_b_rd:"Okamžitá návratnosť: zastavuje úniky tržeb okamžitým odhalením chýb.",s5_a_d:"Optimalizácia procesov a prediktívna údržba s presnosťou ML až 90 %.",s5_a_r:"Úspora <span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / rok",s5_a_rd:"Návratnosť < 90 dní: predchádza výpadkom vo veľkých prevádzkach.",s5_p_d:"Integrácia ERP, RESTful API a podpora protokolu OPC UA pre inteligentné továrne.",s5_p_r:"Úspora <span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / rok",s5_p_rd:"Návratnosť < 60 dní: eliminuje manipuláciu s váhami a logistické podvody.",s5_e_d:"Kompletná sada AI, automatizovaná zhoda s predpismi, kontrola viacerých pobočiek.",s5_e_r:"Úspora <span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / rok",s5_e_rd:"Vysoko škálovateľná návratnosť: masívny prínos pre prístavy a riadenie dávok.",
+        s6_inv_title:"Investícia UCS",s6_th_prod:"Produkt",s6_th_desc:"Popis",s6_th_unit:"Jednotková cena",s6_th_total:"Celková cena",s6_hw_desc:"IIoT edge jednotka",s6_sub_desc:"Predplatné (Mesiace)",s6_dash_desc:"Vlastné vizuálne rozhranie (Jednorazovo)",s6_inv_total:"CELKOVÁ INVESTÍCIA:",
+        s6_sav_title:"Odhadované Úspory",s6_t:"Interaktívna kalkulačka ROI",s6_th1:"Metrika",s6_th2:"Popis",s6_th3:"Odhadovaná úspora",s6_th4:"Mn.",s6_th5:"Cena",s6_r1m:"Prestoje",s6_r1d:"Náklady na hodinu prestojov",s6_r2m:"Efektivita",s6_r2d:"Automatizovaná analytika v hodinách",s6_r3m:"Chyby váženia",s6_r3d:"Porucha snímača (1 % na 1 tonu)",s6_r4m:"Podvody pri vážení",s6_r4d:"Ochrana proti podvodom na mostových váhach",s6_r5m:"Prestoje",s6_r5d:"Úspory prestojov v hodinách",s6_r6m:"Ochrana kalibrácie",s6_r6d:"Zložený posun merania (1 % na 1 tonu)",s6_r7m:"Štrukturálne napätie",s6_r7d:"Konštrukčné poškodenie vážiaceho systému",s6_r8m:"Finančné riadenie",s6_r8d:"Chyby vo finančnom riadení za hodinu",s6_r9m:"Analytika pobočiek",s6_r9d:"Odstraňuje lokálnu správu dát",s6_tot:"CELKOVÁ CENA (ODHADOVANÉ ÚSPORY):",s6_roi:"ODHADOVANÁ NÁVRATNOSŤ INVESTÍCIE (ROI):",
+        s7_t:"Šetrite svoj čas a peniaze",s7_b1_t:"Pravidelný mesačný poplatok zaisťuje:",s7_b1_l1:"🛡️ <strong>Bezpečnosť:</strong> Priebežné audity kyberbezpečnosti a dodržiavanie noriem.",s7_b1_l2:"⚙️ <strong>Aktualizácia a vzdialený servis:</strong> Údržba bez návštev technikov.",s7_b1_l3:"☁️ <strong>Nové funkcie:</strong> Neustály prístup k vylepšeniam platformy.",s7_b1_l4:"💎 <strong>Ochrana investície:</strong> Garantované ROI s nulovým zastarávaním.",s7_b2_t:"Investujete do úspor, ktoré prichádzajú každý mesiac",s7_b2_tip:"💡 <strong>Typický príklad:</strong> Mesačné predplatné je nižšie ako cena výjazdu technika!",s7_b2_n:"Pravidelné aktualizácie = žiadne zastarávanie.",
+        s8_t:"Štruktúra partnerských marží",s8_b1_t:"1. Systémový integrátor",s8_b1_d:"Marže pre integrátorov a softvérových partnerov.",s8_b2_t:"2. Distribútor",s8_b2_d:"Veľkoobchodná distribučná marža.",s8_b3_t:"3. Predajca (Dealer)",s8_b3_d:"Maloobchodná marža pre regionálnych partnerov.",s8_up_t:"🔥 Potenciál pre koncových užívateľov",s8_up_d:"Partneri pracujúci priamo s koncovými užívateľmi môžu dosiahnuť <strong>AŽ 35% ARR MARŽU!</strong>",
+        s9_t:"Množstevné zľavy",s9_th1:"Úroveň SaaS (jednotky)",s9_th2:"Zľava (%)",s9_th3:"Mesačná cena / váha",s9_th4:"Ročná úspora / váha",s9_u1:"1 – 9 jednotiek",s9_u2:"10 – 49 jednotek",s9_u3:"50 – 99 jednotiek",s9_u4:"100 – 199 jednotiek",s9_u5:"200 – 499 jednotiek",s9_u6:"500 – 999 jednotiek",s9_u7:"1000+ jednotiek",
+        s10_t:"Prečo produkty UCS?",s10_b1_t:"Výhody produktu",s10_b1_l1:"Transparentné ceny, žiadne skryté poplatky",s10_b1_l2:"Rýchla návratnosť investície, preukázané úspory",s10_b1_l3:"Škálovateľné možnosti upgradu pre každého",s10_b1_l4:"Podpora, bezpečnosť, inovácia pre všetky typy zákazníkov",s10_b2_s:"Presnosť ML detekcie anomálií",s10_b2_t:"Miera presnosti",s10_b2_d:"Neexistuje iný spôsob, ako byť efektívny s online optimalizáciou <strong>TU A TERAZ!</strong>",
+        s11_t:"Prečo byť partnerom UCS",s11_h1:"Ste <span class='highlight-text' style='font-size:2.4rem'>tu</span> a <span class='highlight-text' style='font-size:2.4rem'>teraz</span>, aby ste si vybrali <span class='highlight-text' style='font-size:2.4rem'>jedinú cestu k rastu</span>",s11_h2:"Nedovoľte, aby vás <span class='highlight-text' style='color:#BF4B41'>obavy a pochybnosti</span> vyradili z hry!",s11_exec:"Exekutívny kontakt",s11_f:"Váš systém pre vzdialený a kontinuálny monitoring",btn_p:"Predchádzajúci",btn_n:"Ďalší"
+      },
+      es: {
+        s1_t:"",s1_h1:"Sistema de Servicio Remoto Continuo",s1_sub:"Descubra lo que se está perdiendo — Sistema de Servicio Remoto Continuo para la Próxima Generación de Pesaje",
+        s2_t:"¿Por qué tener un servicio de pesaje remoto?",s2_b1_t:"La Realidad Industrial",s2_b1_d:"Los procesos industriales son complejos, cada minuto de inactividad significa pérdidas.<br><br><strong style='color:var(--text-main)'>\"Si no lo mides, no lo puedes controlar. ¡Si no lo controlas, pierdes DINERO!\"</strong>",s2_b2_t:"La Garantía de Valor de UCS",s2_b2_d:"Unified Cloud Sensors ofrece una visión operativa instantánea, detección temprana de anomalías y protección completa de la inversión, proporcionando <strong>datos verdaderos verificados y validados, ¡no solo valores brutos!</strong>",
+        s3_t:"Inversión Inicial - Hardware UCS-X",s3_b1_t:"Gateway de Comunicación NB-IoT",s3_b1_l1:"Módulos de comunicación NB-IoT",s3_b1_l2:"Acumulador para al menos 2 días sin energía",s3_b1_l3:"Diseño robusto y arranque rápido",s3_b1_l4:"Universal para diversas aplicaciones industriales",s3_dev:"/ dispositivo",s3_b2_t:"Gateway Linux Industrial 4G",s3_b2_l1:"Conectividad 4G de alta velocidad",s3_b2_l2:"Motor de Procesamiento Edge con SO Linux",s3_b2_l3:"Procesamiento más rápido que el UCS-X2",s3_b2_l4:"Escalabilidad universal",s3_tip:"💡 ¡La inversión es casi igual que una sola intervención de emergencia!",
+        s4_t:"Interfaz Visual Personalizada",s4_note:"📌 <strong>Nota:</strong> Todas las tarifas de software mencionadas son <strong>PAGOS ÚNICOS</strong> de configuración.",s4_b_d:"Configuración por defecto: Pequeñas y medianas empresas (1-10 básculas).",s4_a_d:"Costo único: Medianas empresas (10-100 básculas).",s4_p_d:"Costo único para despliegues a gran escala.",s4_e_c:"Personalizado",s4_e_d:"Costo único: Grandes corporaciones con >100 básculas.",
+        s5_t:"Niveles y Retorno de Inversión (ROI)",s5_mo:"/ báscula / mes",s5_b_d:"Reducción de costos y monitoreo esencial.",s5_b_r:"Ahorro de <span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / año",s5_b_rd:"Recuperación inmediata: detiene las fugas de ingresos.",s5_a_d:"Optimización con precisión de IA hasta 90%.",s5_a_r:"Ahorro de <span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / año",s5_a_rd:"< 90 días de recuperación en grandes plantas.",s5_p_d:"Integración ERP, APIs RESTful y protocolo OPC UA.",s5_p_r:"Ahorro de <span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / año",s5_p_rd:"< 60 días de recuperación: elimina fraudes logísticos.",s5_e_d:"IA completa, control multisitio y SLAs.",s5_e_r:"Ahorro de <span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / año",s5_e_rd:"Recuperación masiva en puertos y control de lotes.",
+        s6_inv_title:"Inversión de UCS",s6_th_prod:"Producto",s6_th_desc:"Descripción",s6_th_unit:"Precio Unitario",s6_th_total:"Precio Total",s6_hw_desc:"Unidad IIoT Edge",s6_sub_desc:"Suscripción (Meses)",s6_dash_desc:"Interfaz Visual Personalizada (Pago único)",s6_inv_total:"INVERSIÓN TOTAL:",
+        s6_sav_title:"Ahorros Estimados",s6_t:"Calculadora de ROI Interactiva",s6_th1:"Métrica",s6_th2:"Descripción",s6_th3:"Ahorro Estimado",s6_th4:"Cant.",s6_th5:"Precio",s6_r1m:"Inactividad",s6_r1d:"Costo por hora de inactividad",s6_r2m:"Eficiencia",s6_r2d:"Analítica automatizada y flujo de material (horas)",s6_r3m:"Errores de pesaje",s6_r3d:"Fallo en celda de carga por 1% por tonelada",s6_r4m:"Fraude de Pesaje",s6_r4d:"Protección contra fraude en básculas",s6_r5m:"Inactividad",s6_r5d:"Ahorro de inactividad en horas",s6_r6m:"Protección de Calibración",s6_r6d:"Desviación de medida 1% por tonelada",s6_r7m:"Estrés estructural",s6_r7d:"Daño estructural por sistema de pesaje",s6_r8m:"Gestión Financiera",s6_r8d:"Errores financieros por hora",s6_r9m:"Analítica Multisitio",s6_r9d:"Erradica la gestión regional de datos",s6_tot:"PRECIO TOTAL (AHORRO ESTIMADO):",s6_roi:"RETORNO DE INVERSIÓN ESTIMADO (ROI):",
+        s7_t:"Ahorre su tiempo y dinero",s7_b1_t:"La Tarifa Mensual Garantiza:",s7_b1_l1:"🛡️ <strong>Seguridad:</strong> Auditorías continuas y normativas.",s7_b1_l2:"⚙️ <strong>Actualizaciones:</strong> Mantenimiento sin visitas técnicas.",s7_b1_l3:"☁️ <strong>Nuevas Funciones:</strong> Acceso a mejoras constantes.",s7_b1_l4:"💎 <strong>Protección de Inversión:</strong> Cero obsolescencia.",s7_b2_t:"Invierte en ahorros mensuales",s7_b2_tip:"💡 <strong>Ejemplo Típico:</strong> ¡La suscripción mensual es menor al costo de una visita técnica!",s7_b2_n:"Actualizaciones regulares = siempre al día con auditorías de ciberseguridad.",
+        s8_t:"Estructura de Márgenes",s8_b1_t:"1. Integrador (SI)",s8_b1_d:"Margen para integradores de plataformas.",s8_b2_t:"2. Distribuidor",s8_b2_d:"Margen de distribución al por mayor.",s8_b3_t:"3. Distribuidor Local",s8_b3_d:"Margen de reventa regional.",s8_up_t:"🔥 Ventaja para el Usuario Final",s8_up_d:"Los socios pueden alcanzar <strong>¡HASTA UN 35% DE MARGEN ARR!</strong>",
+        s9_t:"Descuentos por Volumen",s9_th1:"Nivel (Unidades SaaS)",s9_th2:"Descuento (%)",s9_th3:"Precio Mensual / Báscula",s9_th4:"Ahorro Anual / Báscula",s9_u1:"1 – 9 Unidades",s9_u2:"10 – 49 Unidades",s9_u3:"50 – 99 Unidades",s9_u4:"100 – 199 Unidades",s9_u5:"200 – 499 Unidades",s9_u6:"500 – 999 Unidades",s9_u7:"1000+ Unidades",
+        s10_t:"¿Por qué productos UCS?",s10_b1_t:"Ventajas del Producto",s10_b1_l1:"Precios transparentes, sin costos ocultos",s10_b1_l2:"Retorno de inversión rápido",s10_b1_l3:"Opciones de actualización escalables",s10_b1_l4:"Soporte, seguridad e innovación",s10_b2_s:"Precisión de Detección (IA)",s10_b2_t:"Tasa de Precisión",s10_b2_d:"No hay otra manera de ser eficiente con la optimización en línea <strong>¡AQUÍ Y AHORA!</strong>",
+        s11_t:"¿Por qué ser socio de UCS?",s11_h1:"Estás <span class='highlight-text' style='font-size:2.4rem'>aquí</span> y <span class='highlight-text' style='font-size:2.4rem'>ahora</span> para elegir la <span class='highlight-text' style='font-size:2.4rem'>única forma de avanzar</span>",s11_h2:"¡No dejes que los <span class='highlight-text' style='color:#BF4B41'>miedos y dudas</span> te saquen del juego!",s11_exec:"Contacto Ejecutivo",s11_f:"Su Sistema de Monitoreo Remoto Continuo",btn_p:"Anterior",btn_n:"Siguiente"
+      },
+      de: {
+        s1_t:"",s1_h1:"Kontinuierliches Fernwartungssystem",s1_sub:"Entdecken Sie, was Ihnen fehlt — Kontinuierliches Fernwartungssystem für die nächste Wiegegeneration",
+        s2_t:"Warum ein Remote-Wäge-Service?",s2_b1_t:"Die industrielle Realität",s2_b1_d:"Industrieprozesse sind komplex, jede Minute Ausfallzeit bedeutet Verluste.<br><br><strong style='color:var(--text-main)'>\"Wenn Sie es nicht messen, können Sie es nicht kontrollieren. Wenn Sie es nicht kontrollieren, verlieren Sie GELD!\"</strong>",s2_b2_t:"Die UCS-Wertgarantie",s2_b2_d:"Unified Cloud Sensors liefert sofortigen Betriebsüberblick, frühzeitige Anomalieerkennung und vollständigen Investitionsschutz—und bietet <strong>verifizierte und validierte echte Daten, nicht nur Rohwerte!</strong>",
+        s3_t:"Anfangsinvestition - UCS-X Hardware",s3_b1_t:"NB-IoT-Kommunikations-Gateway",s3_b1_l1:"NB-IoT-Kommunikationsmodule",s3_b1_l2:"Akkumulator für mindestens 2 Tage ohne Strom",s3_b1_l3:"Robustes Design und schneller Start",s3_b1_l4:"Universell für verschiedene Industrieanwendungen",s3_dev:"/ Gerät",s3_b2_t:"4G Industrie-Linux-Gateway",s3_b2_l1:"4G-Hochgeschwindigkeitskonnektivität",s3_b2_l2:"Linux OS Edge Processing Engine",s3_b2_l3:"Schnellere Verarbeitung als UCS-X2",s3_b2_l4:"Universelle Skalierbarkeit",s3_tip:"💡 Die Investition entspricht in etwa einem einzigen Noteinsatz!",
+        s4_t:"Benutzerdefinierte visuelle Schnittstelle",s4_note:"📌 <strong>Hinweis:</strong> Alle Dashboard-Gebühren sind <strong>EINMALIGE ZAHLUNGEN</strong> für die Plattformkonfiguration.",s4_b_d:"Standard-Setup: Kleine/mittlere Unternehmen (1-10 Waagen).",s4_a_d:"Einmalige Kosten: Mittlere Unternehmen (10-100 Waagen).",s4_p_d:"Einmalige Kosten für größere Bereitstellungen.",s4_e_c:"Individuell",s4_e_d:"Einmalige Kosten: Großkonzerne mit >100 Waagen.",
+        s5_t:"SaaS-Stufen & ROI",s5_mo:"/ Waage / Mo",s5_b_d:"Kostenreduzierung und grundlegende Überwachung.",s5_b_r:"<span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / Jahr Ersparnis",s5_b_rd:"Sofortige Amortisation: stoppt Umsatzlecks.",s5_a_d:"Prozessoptimierung mit bis zu 90% KI-Genauigkeit.",s5_a_r:"<span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / Jahr Ersparnis",s5_a_rd:"< 90 Tage Amortisation bei großen Anlagen.",s5_p_d:"ERP-Integration, RESTful APIs und OPC UA.",s5_p_r:"<span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / Jahr Ersparnis",s5_p_rd:"< 60 Tage Amortisation: eliminiert Logistikbetrug.",s5_e_d:"Volle KI-Suite, Multi-Site-Kontrolle & SLAs.",s5_e_r:"<span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / Jahr Ersparnis",s5_e_rd:"Massive Ersparnis bei Chargensteuerung und in Häfen.",
+        s6_inv_title:"UCS Investition",s6_th_prod:"Produkt",s6_th_desc:"Beschreibung",s6_th_unit:"Stückpreis",s6_th_total:"Gesamtpreis",s6_hw_desc:"IIoT-Edge-Einheit",s6_sub_desc:"Abonnement (Monate)",s6_dash_desc:"Benutzerdefinierte visuelle Schnittstelle (Einmalig)",s6_inv_total:"GESAMTINVESTITION:",
+        s6_sav_title:"Geschätzte Einsparungen",s6_t:"Interaktiver ROI-Rechner",s6_th1:"Metrik",s6_th2:"Beschreibung",s6_th3:"Geschätzte Einsparungen",s6_th4:"Menge",s6_th5:"Preis",s6_r1m:"Ausfallzeit",s6_r1d:"Kosten für eine Stunde Ausfallzeit",s6_r2m:"Effizienz",s6_r2d:"Automatisierte Analytik (Stunden)",s6_r3m:"Wiegefehler",s6_r3d:"Wägezellenfehlfunktion pro 1% pro 1 Tonne",s6_r4m:"Wiegebetrug",s6_r4d:"Schutz vor Brückenwaagenbetrug",s6_r5m:"Ausfallzeit",s6_r5d:"Einsparungen bei Ausfallzeiten (Stunden)",s6_r6m:"Kalibrierungsschutz",s6_r6d:"Messabweichung (1% pro 1 Tonne)",s6_r7m:"Strukturelle Belastung",s6_r7d:"Strukturschaden pro Wiegesystem",s6_r8m:"Finanzmanagement",s6_r8d:"Finanzfehler pro Stunde",s6_r9m:"Multi-Site-Analytik",s6_r9d:"Eliminiert regionale Datenverwaltung",s6_tot:"GESAMTPREIS (GESCHÄTZTE EINSPARUNGEN):",s6_roi:"GESCHÄTZTE KAPITALRENDITE (ROI):",
+        s7_t:"Sparen Sie Zeit und Geld",s7_b1_t:"Die monatliche Gebühr garantiert:",s7_b1_l1:"🛡️ <strong>Sicherheit:</strong> Cybersicherheitsaudits & Standards.",s7_b1_l2:"⚙️ <strong>Updates:</strong> Wartung ohne Technikerbesuche.",s7_b1_l3:"☁️ <strong>Neue Funktionen:</strong> Ständiger Zugriff auf Verbesserungen.",s7_b1_l4:"💎 <strong>Investitionsschutz:</strong> Null Veralterung.",s7_b2_t:"Sie investieren in monatliche Einsparungen",s7_b2_tip:"💡 <strong>Typisches Beispiel:</strong> Das Monatsabo kostet weniger als ein einziger Technikerbesuch!",s7_b2_n:"Regelmäßige Updates = immer konform mit Standards.",
+        s8_t:"Partner-Margenstruktur",s8_b1_t:"1. Systemintegrator",s8_b1_d:"Marge für Plattformintegratoren.",s8_b2_t:"2. Distributor",s8_b2_d:"Großhandelsmarge für Massenbereitstellungen.",s8_b3_t:"3. Händler (Dealer)",s8_b3_d:"Wiederverkaufsmarge für regionale Partner.",s8_up_t:"🔥 Endbenutzer-Vorteil",s8_up_d:"Partner können <strong>BIS ZU 35% ARR-MARGE ERREICHEN!</strong>",
+        s9_t:"Mengenrabatte",s9_th1:"SaaS-Einheiten",s9_th2:"Rabatt (%)",s9_th3:"Monatlicher Preis / Waage",s9_th4:"Jährliche Ersparnis / Waage",s9_u1:"1 – 9 Einheiten",s9_u2:"10 – 49 Einheiten",s9_u3:"50 – 99 Einheiten",s9_u4:"100 – 199 Einheiten",s9_u5:"200 – 499 Einheiten",s9_u6:"500 – 999 Einheiten",s9_u7:"1000+ Einheiten",
+        s10_t:"Warum UCS-Produkte?",s10_b1_t:"Produktvorteile",s10_b1_l1:"Transparente Preise, keine versteckten Kosten",s10_b1_l2:"Schneller ROI, bewiesene Einsparungen",s10_b1_l3:"Skalierbare Upgrade-Optionen",s10_b1_l4:"Support, Sicherheit, Innovation",s10_b2_s:"Genauigkeit der KI-Erkennung",s10_b2_t:"Genauigkeitsrate",s10_b2_d:"Es gibt keinen anderen Weg zu echter Effizienz <strong>HIER UND JETZT!</strong>",
+        s11_t:"Warum Partner von UCS werden?",s11_h1:"Sie sind <span class='highlight-text' style='font-size:2.4rem'>hier</span> und <span class='highlight-text' style='font-size:2.4rem'>jetzt</span>, um den <span class='highlight-text' style='font-size:2.4rem'>einzigen Weg nach oben</span> zu wählen",s11_h2:"Lassen Sie sich nicht von <span class='highlight-text' style='color:#BF4B41'>Ängsten und Zweifeln</span> aufhalten!",s11_exec:"Executive Kontakt",s11_f:"Ihr Remote- und Kontinuierliches Überwachungssystem",btn_p:"Zurück",btn_n:"Weiter"
+      },
+      pl: {
+        s1_t:"",s1_h1:"System Ciągłego Serwisu Zdalnego",s1_sub:"Odkryj, co tracisz — System Ciągłego Serwisu Zdalnego dla nowej generacji ważenia",
+        s2_t:"Dlaczego warto mieć zdalny serwis wagowy?",s2_b1_t:"Przemysłowa Rzeczywistość",s2_b1_d:"Procesy przemysłowe są złożone, każda minuta przestoju to straty.<br><br><strong style='color:var(--text-main)'>\"Jeśli tego nie mierzysz, nie możesz tego kontrolować. Jeśli nie kontrolujesz, tracisz PIENIĄDZE!\"</strong>",s2_b2_t:"Gwarancja Wartości UCS",s2_b2_d:"Unified Cloud Sensors zapewnia natychmiastowy podgląd operacyjny, wczesne wykrywanie anomalii i kompletną ochronę inwestycji—dostarczając <strong>zweryfikowane prawdziwe dane—a nie tylko surowe wartości!</strong>",
+        s3_t:"Początkowa inwestycja - sprzęt UCS-X",s3_b1_t:"Bramka Komunikacyjna NB-IoT",s3_b1_l1:"Moduły komunikacyjne NB-IoT",s3_b1_l2:"Akumulator na co najmniej 2 dni bez zasilania",s3_b1_l3:"Solidna konstrukcja i szybki start",s3_b1_l4:"Uniwersalna dla różnych aplikacji",s3_dev:"/ urządzenie",s3_b2_t:"Przemysłowa Bramka Linux 4G",s3_b2_l1:"Szybka łączność 4G",s3_b2_l2:"Silnik Przetwarzania Edge (Linux OS)",s3_b2_l3:"Szybsze przetwarzanie niż UCS-X2",s3_b2_l4:"Uniwersalna skalowalność",s3_tip:"💡 Inwestycja to równowartość jednej awaryjnej interwencji serwisowej!",
+        s4_t:"Niestandardowy Interfejs Wizualny",s4_note:"📌 <strong>Uwaga:</strong> Wszystkie opłaty za oprogramowanie to <strong>JEDNORAZOWE PŁATNOŚCI</strong> za konfigurację platformy.",s4_b_d:"Domyślna konfiguracja: Małe/średnie firmy (1-10 wag).",s4_a_d:"Jednorazowy koszt: Średnie firmy (10-100 wag).",s4_p_d:"Jednorazowy koszt dla większych wdrożeń.",s4_e_c:"Na życzenie",s4_e_d:"Jednorazowy koszt: Duże korporacje >100 wag.",
+        s5_t:"Pakiety SaaS i Wpływ na ROI",s5_mo:"/ waga / m-c",s5_b_d:"Redukcja kosztów i podstawowy monitoring.",s5_b_r:"Oszczędność <span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / rok",s5_b_rd:"Natychmiastowy zwrot: powstrzymuje wycieki przychodów.",s5_a_d:"Optymalizacja procesów i predykcyjne utrzymanie ruchu (AI 90%).",s5_a_r:"Oszczędność <span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / rok",s5_a_rd:"< 90 dni zwrotu w dużych zakładach.",s5_p_d:"Integracja ERP, RESTful API i protokół OPC UA.",s5_p_r:"Oszczędność <span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / rok",s5_p_rd:"< 60 dni zwrotu: eliminuje oszustwa logistyczne.",s5_e_d:"Pełny pakiet AI, pełna zgodność, SLA.",s5_e_r:"Oszczędność <span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / rok",s5_e_rd:"Skalowalny zwrot z inwestycji w portach.",
+        s6_inv_title:"Inwestycja UCS",s6_th_prod:"Produkt",s6_th_desc:"Opis",s6_th_unit:"Cena Jednostkowa",s6_th_total:"Cena Całkowita",s6_hw_desc:"Jednostka IIoT Edge",s6_sub_desc:"Subskrypcja (Miesiące)",s6_dash_desc:"Niestandardowy Interfejs Wizualny (Jednorazowo)",s6_inv_total:"CAŁKOWITA INWESTYCJA:",
+        s6_sav_title:"Szacunkowe Oszczędności",s6_t:"Interaktywny kalkulator ROI",s6_th1:"Metryka",s6_th2:"Opis",s6_th3:"Szacunkowe Oszczędności",s6_th4:"Ilość",s6_th5:"Cena",s6_r1m:"Przestoje",s6_r1d:"Koszt godziny przestoju",s6_r2m:"Wydajność",s6_r2d:"Zautomatyzowana analityka (godziny)",s6_r3m:"Błędy ważenia",s6_r3d:"Awaria czujnika wagowego (1% na tonę)",s6_r4m:"Oszustwa wagowe",s6_r4d:"Ochrona przed oszustwami na wagach pomostowych",s6_r5m:"Przestoje",s6_r5d:"Oszczędności przestojów w godzinach",s6_r6m:"Ochrona Kalibracji",s6_r6d:"Dryft pomiaru wagi (1% na tonę)",s6_r7m:"Naprężenia strukturalne",s6_r7d:"Uszkodzenia strukturalne systemu",s6_r8m:"Zarządzanie finansami",s6_r8d:"Błędy w zarządzaniu finansami (godzina)",s6_r9m:"Analityka Multi-Site",s6_r9d:"Eliminuje lokalne zarządzanie danymi",s6_tot:"CAŁKOWITA CENA (SZACUNKOWE OSZCZĘDNOŚCI):",s6_roi:"SZACUNKOWY ZWROT Z INWESTYCJI (ROI):",
+        s7_t:"Oszczędzaj czas i pieniądze",s7_b1_t:"Miesięczna Opłata Gwarantuje:",s7_b1_l1:"🛡️ <strong>Bezpieczeństwo:</strong> Ciągłe audyty cyberbezpieczeństwa.",s7_b1_l2:"⚙️ <strong>Aktualizacje:</strong> Utrzymanie bez wizyt techników.",s7_b1_l3:"☁️ <strong>Nowe Funkcje:</strong> Stały dostęp do ulepszeń platformy.",s7_b1_l4:"💎 <strong>Ochrona Inwestycji:</strong> Brak przestarzałości.",s7_b2_t:"Inwestujesz w oszczędności każdego miesiąca",s7_b2_tip:"💡 <strong>Typowy Przykład:</strong> Miesięczny abonament jest niższy niż koszt jednej wizyty technika!",s7_b2_n:"Regularne aktualizacje = pełna zgodność ze standardami.",
+        s8_t:"Struktura Marż Partnerskich",s8_b1_t:"1. Integrator Systemów",s8_b1_d:"Marża dla partnerów oprogramowania.",s8_b2_t:"2. Dystrybutor",s8_b2_d:"Hurtowa marża dla wdrożeń masowych.",s8_b3_t:"3. Dealer",s8_b3_d:"Marża odsprzedaży dla partnerów regionalnych.",s8_up_t:"🔥 Potencjał dla Użytkowników Końcowych",s8_up_d:"Partnerzy mogą osiągnąć <strong>NAWET 35% MARŻY ARR!</strong>",
+        s9_t:"Rabaty Ilościowe",s9_th1:"Poziom SaaS (jednostki)",s9_th2:"Rabat (%)",s9_th3:"Miesięczna Cena / Waga",s9_th4:"Roczna Oszczędność / Waga",s9_u1:"1 – 9 jednostek",s9_u2:"10 – 49 jednostek",s9_u3:"50 – 99 jednostek",s9_u4:"100 – 199 jednostek",s9_u5:"200 – 499 jednostek",s9_u6:"500 – 99 jednostek",s9_u7:"1000+ jednostek",
+        s10_t:"Dlaczego produkty UCS?",s10_b1_t:"Zalety Produktu",s10_b1_l1:"Przejrzyste ceny, brak ukrytych kosztów",s10_b1_l2:"Szybki zwrot z inwestycji",s10_b1_l3:"Skalowalne opcje aktualizacji",s10_b1_l4:"Wsparcie, bezpieczeństwo, innowacje",s10_b2_s:"Dokładność Wykrywania AI",s10_b2_t:"Wskaźnik Dokładności",s10_b2_d:"Nie ma innego sposobu na bycie wydajnym z optymalizacją online <strong>TU I TERAZ!</strong>",
+        s11_t:"Dlaczego warto być Partnerem UCS",s11_h1:"Jesteś <span class='highlight-text' style='font-size:2.4rem'>tu</span> i <span class='highlight-text' style='font-size:2.4rem'>teraz</span>, aby wybrać <span class='highlight-text' style='font-size:2.4rem'>jedyną drogę do rozwoju</span>",s11_h2:"Nie pozwól, aby <span class='highlight-text' style='color:#BF4B41'>strach i wątpliwości</span> wyeliminowały Cię z gry!",s11_exec:"Kontakt dla Kadry Zarządzającej",s11_f:"Twój Zdalny System Ciągłego Monitorowania",btn_p:"Poprzedni",btn_n:"Następny"
+      },
+      sr: {
+        s1_t:"",s1_h1:"Sistem kontinuiranog daljinskog servisa",s1_sub:"Otkrijte šta propuštate — Sistem kontinuiranog daljinskog servisa za novu generaciju vaganja",
+        s2_t:"Zašto imati daljinski servis vaganja?",s2_b1_t:"Industrijska realnost",s2_b1_d:"Industrijski procesi su složeni, svaki minut zastoja znači gubitak.<br><br><strong style='color:var(--text-main)'>\"Ako ga ne merite, ne možete ga kontrolisati. Ako ga ne kontrolišete, gubite NOVAC!\"</strong>",s2_b2_t:"UCS Garancija Vrednosti",s2_b2_d:"Unified Cloud Sensors pruža trenutni operativni pregled, rano upozoravanje na anomalije i potpunu zaštitu investicija—pružajući <strong>proverene stvarne podatke—a ne samo sirove vrednosti!</strong>",
+        s3_t:"Početna investicija - UCS-X Hardver",s3_b1_t:"NB-IoT Komunikacioni Gateway",s3_b1_l1:"NB-IoT komunikacioni moduli",s3_b1_l2:"Akumulator za najmanje 2 dana bez struje",s3_b1_l3:"Robustan dizajn i brzo pokretanje",s3_b1_l4:"Univerzalno za razne aplikacije",s3_dev:"/ uređaj",s3_b2_t:"4G Industrijski Linux Gateway",s3_b2_l1:"4G visoka brzina povezivanja",s3_b2_l2:"Edge Processing Engine na Linuxu",s3_b2_l3:"Brža obrada od UCS-X2",s3_b2_l4:"Univerzalna skalabilnost",s3_tip:"💡 Investicija je otprilike ista kao i jedna hitna servisna intervencija!",
+        s4_t:"Prilagođeni Vizuelni Interfejs",s4_note:"📌 <strong>Napomena:</strong> Sve naknade za softver su <strong>JEDNOKRATNA PLAĆANJA</strong> za konfiguraciju platforme.",s4_b_d:"Osnovna podešavanja (1-10 vaga).",s4_a_d:"Srednje kompanije (10-100 vaga).",s4_p_d:"Jednokratni trošak za veće implementacije.",s4_e_c:"Prilagođeno",s4_e_d:"Za velike korporacije (>100 vaga).",
+        s5_t:"SaaS Nivoi i ROI",s5_mo:"/ vaga / mes",s5_b_d:"Smanjenje troškova i osnovno praćenje.",s5_b_r:"Ušteda <span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / god",s5_b_rd:"Trenutni povrat: zaustavlja gubitak prihoda.",s5_a_d:"Optimizacija procesa (90% AI tačnost).",s5_a_r:"Ušteda <span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / god",s5_a_rd:"< 90 dana povrat u velikim postrojenjima.",s5_p_d:"ERP integracija, RESTful API i OPC UA.",s5_p_r:"Ušteda <span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / god",s5_p_rd:"< 60 dana povrat: eliminiše prevare u logistici.",s5_e_d:"Kompletan AI paket, usklađenost, SLA.",s5_e_r:"Ušteda <span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / god",s5_e_rd:"Masovni povrat u lukama i velikim postrojenjima.",
+        s6_inv_title:"UCS Investicija",s6_th_prod:"Proizvod",s6_th_desc:"Opis",s6_th_unit:"Jedinična Cena",s6_th_total:"Ukupna Cena",s6_hw_desc:"IIoT edge jedinica",s6_sub_desc:"Pretplata (Meseci)",s6_dash_desc:"Prilagođeni Vizuelni Interfejs (Jednokratno)",s6_inv_total:"UKUPNA INVESTICIJA:",
+        s6_sav_title:"Procenjena Ušteda",s6_t:"Interaktivni ROI kalkulator",s6_th1:"Metrika",s6_th2:"Opis",s6_th3:"Procenjena Ušteda",s6_th4:"Kol.",s6_th5:"Cena",s6_r1m:"Zastoj",s6_r1d:"Cena sata zastoja",s6_r2m:"Efikasnost",s6_r2d:"Automatizovana analitika u satima",s6_r3m:"Greške pri merenju",s6_r3d:"Kvar senzora (1% po toni)",s6_r4m:"Prevare u merenju",s6_r4d:"Zaštita od prevara na kolskim vagama",s6_r5m:"Zastoj",s6_r5d:"Ušteda zastoja u satima",s6_r6m:"Zaštita Kalibracije",s6_r6d:"Zanošenje merenja (1% po toni)",s6_r7m:"Strukturno naprezanje",s6_r7d:"Strukturna oštećenja mernog sistema",s6_r8m:"Finansijsko Upravljanje",s6_r8d:"Greške u finansijama (po satu)",s6_r9m:"Analitika Više Lokacija",s6_r9d:"Eliminiše regionalno upravljanje podacima",s6_tot:"UKUPNA CENA (PROCENJENA UŠTEDA):",s6_roi:"PROCENJENI POVRAT INVESTICIJE (ROI):",
+        s7_t:"Uštedite vreme i novac",s7_b1_t:"Mesečna Naknada Obezbeđuje:",s7_b1_l1:"🛡️ <strong>Bezbednost:</strong> Cyber revizije i usklađenost.",s7_b1_l2:"⚙️ <strong>Ažuriranja:</strong> Održavanje bez dolaska tehničara.",s7_b1_l3:"☁️ <strong>Nove Funkcije:</strong> Stalan pristup poboljšanjima.",s7_b1_l4:"💎 <strong>Zaštita Investicije:</strong> Nema zastarevanja hardvera.",s7_b2_t:"Ulažete u uštede koje dolaze svakog meseca",s7_b2_tip:"💡 <strong>Tipičan Primer:</strong> Mesečna pretplata je manja od cene jednog dolaska tehničara!",s7_b2_n:"Redovna ažuriranja = uvek usklađeno sa standardima.",
+        s8_t:"Struktura Partnerskih Marži",s8_b1_t:"1. Sistem Integrator",s8_b1_d:"Marža za softverske partnere.",s8_b2_t:"2. Distributer",s8_b2_d:"Veleprodajna marža za masovne implementacije.",s8_b3_t:"3. Diler",s8_b3_d:"Marža preprodaje za regionalne partnere.",s8_up_t:"🔥 Potencijal za Krajnje Korisnike",s8_up_d:"Partneri mogu ostvariti <strong>DO 35% ARR MARŽE!</strong>",
+        s9_t:"Količinski popusti",s9_th1:"SaaS Nivo (uređaji)",s9_th2:"Popust (%)",s9_th3:"Mesečna Cena / Vaga",s9_th4:"Godišnja Ušteda / Vaga",s9_u1:"1 – 9 uređaja",s9_u2:"10 – 49 uređaja",s9_u3:"50 – 99 uređaja",s9_u4:"100 – 199 uređaja",s9_u5:"200 – 499 uređaja",s9_u6:"500 – 999 uređaja",s9_u7:"1000+ uređaja",
+        s10_t:"Zašto UCS proizvodi?",s10_b1_t:"Prednosti Proizvoda",s10_b1_l1:"Transparentne cene, bez skrivenih troškova",s10_b1_l2:"Brz povrat investicije",s10_b1_l3:"Skalabilne opcije za nadogradnju",s10_b1_l4:"Podrška, sigurnost, inovacije",s10_b2_s:"AI Preciznost",s10_b2_t:"Stopa Preciznosti",s10_b2_d:"Ne postoji drugi način da budete efikasni sa online optimizacijom <strong>OVDE I SADA!</strong>",
+        s11_t:"Zašto biti UCS Partner",s11_h1:"Vi ste <span class='highlight-text' style='font-size:2.4rem'>ovde</span> i <span class='highlight-text' style='font-size:2.4rem'>sada</span> da izaberete <span class='highlight-text' style='font-size:2.4rem'>jedini put za uspeh</span>",s11_h2:"Ne dozvolite da vas <span class='highlight-text' style='color:#BF4B41'>strahovi i sumnje</span> izbace iz igre!",s11_exec:"Izvršni Kontakt",s11_f:"Vaš Daljinski Sistem za Kontinuirano Praćenje",btn_p:"Nazad",btn_n:"Napred"
+      },
+      ro: {
+        s1_t:"",s1_h1:"Sistem Continuu de Servicii de la Distanță",s1_sub:"Descoperiți ce pierdeți — Sistem Continuu de Servicii de la Distanță pentru Următoarea Generație de Cântărire",
+        s2_t:"De ce să aveți serviciu de cântărire la distanță?",s2_b1_t:"Realitatea Industrială",s2_b1_d:"Procesele industriale sunt complexe, fiecare minut de nefuncționare înseamnă pierderi.<br><br><strong style='color:var(--text-main)'>\"Dacă nu îl măsurați, nu îl puteți controla. Dacă nu controlați, pierdeți BANI!\"</strong>",s2_b2_t:"Garanția Valorii UCS",s2_b2_d:"Unified Cloud Sensors oferă o imagine de ansamblu instantanee, detectarea anomaliilor și protecția capitalului—furnizând <strong>date adevărate validate—nu doar valori brute!</strong>",
+        s3_t:"Investiție Inițială - Hardware UCS-X",s3_b1_t:"Gateway de Comunicare NB-IoT",s3_b1_l1:"Module de comunicare NB-IoT",s3_b1_l2:"Acumulator pentru cel puțin 2 zile",s3_b1_l3:"Design robust și pornire rapidă",s3_b1_l4:"Universal pentru aplicații industriale",s3_dev:"/ dispozitiv",s3_b2_t:"Gateway Linux Industrial 4G",s3_b2_l1:"Conectivitate 4G de mare viteză",s3_b2_l2:"Motor de procesare Edge (Linux)",s3_b2_l3:"Procesare mai rapidă",s3_b2_l4:"Scalabilitate universală",s3_tip:"💡 Investiția este aproximativ aceeași cu o singură intervenție de urgență!",
+        s4_t:"Interfață Vizuală Personalizată",s4_note:"📌 <strong>Notă:</strong> Toate taxele pentru software sunt <strong>PLĂȚI UNICE</strong> pentru configurare.",s4_b_d:"Setare implicită (1-10 cântare).",s4_a_d:"Cost unic configurare (10-100 cântare).",s4_p_d:"Cost unic pentru implementări mari.",s4_e_c:"Personalizat",s4_e_d:"Cost unic: Corporații mari (>100 cântare).",
+        s5_t:"Niveluri SaaS și Impact ROI",s5_mo:"/ cântar / lună",s5_b_d:"Reducerea costurilor și monitorizare esențială.",s5_b_r:"Economii de <span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / an",s5_b_rd:"Recuperare imediată a investiției.",s5_a_d:"Optimizarea proceselor (acuratețe ML 90%).",s5_a_r:"Economii de <span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / an",s5_a_rd:"< 90 de zile recuperare în fabrici mari.",s5_p_d:"Integrare ERP, API-uri și protocol OPC UA.",s5_p_r:"Economii de <span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / an",s5_p_rd:"< 60 de zile recuperare: elimină frauda.",s5_e_d:"Suită completă AI, control multi-site.",s5_e_r:"Economii de <span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / an",s5_e_rd:"Recuperare scalabilă masivă.",
+        s6_inv_title:"Investiție UCS",s6_th_prod:"Produs",s6_th_desc:"Descriere",s6_th_unit:"Preț Unitar",s6_th_total:"Preț Total",s6_hw_desc:"Unitate IIoT Edge",s6_sub_desc:"Abonament (Luni)",s6_dash_desc:"Interfață Vizuală Personalizată (Plată unică)",s6_inv_total:"INVESTIȚIE TOTALĂ:",
+        s6_sav_title:"Economii Estimate",s6_t:"Calculator ROI Interactiv",s6_th1:"Metrică",s6_th2:"Descriere",s6_th3:"Economii Estimate",s6_th4:"Cant.",s6_th5:"Preț",s6_r1m:"Timp de nefuncționare",s6_r1d:"Cost o oră de nefuncționare",s6_r2m:"Eficiență",s6_r2d:"Analitică automatizată (ore)",s6_r3m:"Erori Cântărire",s6_r3d:"Defecțiune senzor (1% per tonă)",s6_r4m:"Fraude",s6_r4d:"Protecție împotriva fraudei",s6_r5m:"Nefuncționare",s6_r5d:"Economii de nefuncționare (ore)",s6_r6m:"Protecție Calibrare",s6_r6d:"Derivare măsurătoare (1% per tonă)",s6_r7m:"Stres Structural",s6_r7d:"Daune structurale ale sistemului",s6_r8m:"Management Financiar",s6_r8d:"Greșeli financiare pe oră",s6_r9m:"Analitică Multi-Site",s6_r9d:"Eradicarea managementului datelor locale",s6_tot:"PREȚ TOTAL (ECONOMII ESTIMATE):",s6_roi:"RENTABILITATEA ESTIMATĂ A INVESTIȚIEI (ROI):",
+        s7_t:"Economisiți timp și bani",s7_b1_t:"Taxa lunară asigură:",s7_b1_l1:"🛡️ <strong>Securitate:</strong> Audituri cibernetice și standarde.",s7_b1_l2:"⚙️ <strong>Actualizări:</strong> Întreținere fără vizite tehnice.",s7_b1_l3:"☁️ <strong>Funcții Noi:</strong> Acces constant la îmbunătățiri.",s7_b1_l4:"💎 <strong>Protecția Investiției:</strong> Zero uzură morală.",s7_b2_t:"Investiți în economii lunare",s7_b2_tip:"💡 <strong>Exemplu Tipic:</strong> Abonamentul lunar este mai mic decât costul unei vizite tehnice!",s7_b2_n:"Actualizări regulate = mereu conform cu standardele.",
+        s8_t:"Structura de Marje a Partenerilor",s8_b1_t:"1. Integrator de Sistem",s8_b1_d:"Marjă pentru partenerii software.",s8_b2_t:"2. Distribuitor",s8_b2_d:"Marjă de distribuție angro.",s8_b3_t:"3. Dealer",s8_b3_d:"Marjă de revânzare regională.",s8_up_t:"🔥 Potențial pentru Utilizatori Finali",s8_up_d:"Partenerii pot ajunge <strong>PÂNĂ LA 35% MARJĂ ARR!</strong>",
+        s9_t:"Reduceri de Volum",s9_th1:"Nivel (unități)",s9_th2:"Reducere (%)",s9_th3:"Preț Lunar / Cântar",s9_th4:"Economii Anuale / Cântar",s9_u1:"1 – 9 Unități",s9_u2:"10 – 49 Unități",s9_u3:"50 – 99 Unități",s9_u4:"100 – 199 Unități",s9_u5:"200 – 499 Unități",s9_u6:"500 – 999 Unități",s9_u7:"1000+ Unități",
+        s10_t:"De ce produsele UCS?",s10_b1_t:"Avantajele Produsului",s10_b1_l1:"Prețuri transparente, fără costuri ascunse",s10_b1_l2:"Rentabilitate rapidă a investiției",s10_b1_l3:"Opțiuni de upgrade scalabile",s10_b1_l4:"Suport, securitate, inovație",s10_b2_s:"Acuratețe Detectare Anomalii ML",s10_b2_t:"Rata de Precizie",s10_b2_d:"Nu există o altă modalitate de a fi eficient cu optimizarea online <strong>AICI ȘI ACUM!</strong>",
+        s11_t:"De ce să fiți Partener UCS",s11_h1:"Sunteți <span class='highlight-text' style='font-size:2.4rem'>aici</span> și <span class='highlight-text' style='font-size:2.4rem'>acum</span> pentru a alege <span class='highlight-text' style='font-size:2.4rem'>singura cale de creștere</span>",s11_h2:"Nu lăsați <span class='highlight-text' style='color:#BF4B41'>fricile și îndoielile</span> să vă scoată din joc!",s11_exec:"Contact Executiv",s11_f:"Sistemul Dumneavoastră de Monitorizare de la Distanță",btn_p:"Înapoi",btn_n:"Următorul"
+      },
+      bg: {
+        s1_t:"",s1_h1:"Система за Непрекъснато Дистанционно Обслужване",s1_sub:"Открийте какво пропускате — Система за непрекъснато дистанционно обслужване за следващото поколение претегляне",
+        s2_t:"Защо да имате дистанционно обслужване за претегляне?",s2_b1_t:"Индустриалната реалност",s2_b1_d:"Индустриалните процеси са сложни, всяка минута престой означава загуби.<br><br><strong style='color:var(--text-main)'>\"Ако не го измервате, не можете да го контролирате. Ако не го контролирате, губите ПАРИ!\"</strong>",s2_b2_t:"Гаранцията за стойност на UCS",s2_b2_d:"Unified Cloud Sensors осигуряват незабавен оперативен преглед, ранно откриване на аномалии и защита—осигурявайки <strong>валидирани истински данни—а не само сурови стойности!</strong>",
+        s3_t:"Първоначална инвестиция - UCS-X Хардуер",s3_b1_t:"NB-IoT Комуникационен Гейтуей",s3_b1_l1:"NB-IoT комуникационни модули",s3_b1_l2:"Акумулатор за най-малко 2 дни без ток",s3_b1_l3:"Здрав дизайн и бързо стартиране",s3_b1_l4:"Универсален за различни приложения",s3_dev:"/ устройство",s3_b2_t:"4G Индустриален Linux Гейтуей",s3_b2_l1:"4G високоскоростна свързаност",s3_b2_l2:"Edge Processing Engine (Linux OS)",s3_b2_l3:"По-бърза обработка от UCS-X2",s3_b2_l4:"Универсална мащабируемост",s3_tip:"💡 Инвестицията е приблизително същата като една спешна намеса!",
+        s4_t:"Персонализиран Визуален Интерфейс",s4_note:"📌 <strong>Забележка:</strong> Всички такси за софтуер са <strong>ЕДНОКРАТНИ ПЛАЩАНИЯ</strong> за конфигурация.",s4_b_d:"По подразбиране: Малък бизнес (1-10 везни).",s4_a_d:"Еднократна цена (10-100 везни).",s4_p_d:"Еднократна цена за по-големи внедрявания.",s4_e_c:"По поръчка",s4_e_d:"Еднократна цена: Големи корпорации (>100 везни).",
+        s5_t:"SaaS Нива и ROI Въздействие",s5_mo:"/ везна / мес",s5_b_d:"Намаляване на разходите и основен мониторинг.",s5_b_r:"Спестявания <span class='dyn-curr' data-base='3000'></span> – <span class='dyn-curr' data-base='15000'></span> / год.",s5_b_rd:"Незабавна възвръщаемост.",s5_a_d:"Оптимизация на процесите (до 90% ML точност).",s5_a_r:"Спестявания <span class='dyn-curr' data-base='15000'></span> – <span class='dyn-curr' data-base='450000'></span> / год.",s5_a_rd:"< 90 дни възвръщаемост в големи заводи.",s5_p_d:"ERP интеграция, RESTful API и OPC UA.",s5_p_r:"Спестявания <span class='dyn-curr' data-base='25000'></span> – <span class='dyn-curr' data-base='110000'></span> / год.",s5_p_rd:"< 60 дни възвръщаемост: елиминира измами.",s5_e_d:"Пълна AI функционалност, SLA.",s5_e_r:"Спестявания <span class='dyn-curr' data-base='100000'></span> – <span class='dyn-curr' data-base='1300000' data-compact='true'></span> / год.",s5_e_rd:"Мащабируема възвръщаемост за пристанища.",
+        s6_inv_title:"Инвестиция UCS",s6_th_prod:"Продукт",s6_th_desc:"Описание",s6_th_unit:"Ед. Цена",s6_th_total:"Обща Цена",s6_hw_desc:"IIoT Edge устройство",s6_sub_desc:"Абонамент (Месеци)",s6_dash_desc:"Персонализиран визуален интерфейс (Еднократно)",s6_inv_total:"ОБЩО ИНВЕСТИЦИЯ:",
+        s6_sav_title:"Очаквани Спестявания",s6_t:"Интерактивен ROI калкулатор",s6_th1:"Метрика",s6_th2:"Описание",s6_th3:"Прогнозирани Спестявания",s6_th4:"Кол.",s6_th5:"Цена",s6_r1m:"Престой",s6_r1d:"Разход за час престой",s6_r2m:"Ефективност",s6_r2d:"Автоматизирани анализи (часове)",s6_r3m:"Грешки",s6_r3d:"Повреда на сензор (1% на тон)",s6_r4m:"Измами",s6_r4d:"Защита от измами при претегляне",s6_r5m:"Престой",s6_r5d:"Спестяване от престои в часове",s6_r6m:"Калибриране",s6_r6d:"Отклонение при измерване (1% на тон)",s6_r7m:"Структурно Напрежение",s6_r7d:"Структурни повреди",s6_r8m:"Финансово Управление",s6_r8d:"Финансови грешки (на час)",s6_r9m:"Мулти-сайт Анализи",s6_r9d:"Елиминира локално управление на данни",s6_tot:"ОБЩА ЦЕНА (ОЧАКВАНИ СПЕСТЯВАНИЯ):",s6_roi:"ОЧАКВАНА ВЪЗВРЪЩАЕМОСТ НА ИНВЕСТИЦИЯТА (ROI):",
+        s7_t:"Спестете време и пари",s7_b1_t:"Месечната Такса Гарантира:",s7_b1_l1:"🛡️ <strong>Сигурност:</strong> Одити по киберсигурност.",s7_b1_l2:"⚙️ <strong>Актуализации:</strong> Поддръжка без посещения на техници.",s7_b1_l3:"☁️ <strong>Нови Функции:</strong> Постоянен достъп до подобрения.",s7_b1_l4:"💎 <strong>Защита на Инвестицията:</strong> Нулево остаряване.",s7_b2_t:"Инвестирате в спестявания всеки месец",s7_b2_tip:"💡 <strong>Типичен пример:</strong> Месечният абонамент е по-малък от цената на едно посещение на техник!",s7_b2_n:"Редовни актуализации = винаги в съответствие със стандартите.",
+        s8_t:"Структура на Партньорските Маржове",s8_b1_t:"1. Системен Интегратор",s8_b1_d:"Марж за софтуерни партньори.",s8_b2_t:"2. Дистрибутор",s8_b2_d:"Марж за дистрибуция на едро.",s8_b3_t:"3. Дилър",s8_b3_d:"Марж за препродажба (регионални партньори).",s8_up_t:"🔥 Потенциал за Крайни Потребители",s8_up_d:"Партньорите могат да достигнат <strong>ДО 35% ARR МАРЖ!</strong>",
+        s9_t:"Обемни Отстъпки",s9_th1:"SaaS Ниво (единици)",s9_th2:"Отстъпка (%)",s9_th3:"Месечна Цена / Везна",s9_th4:"Годишни Спестявания",s9_u1:"1 – 9 Единици",s9_u2:"10 – 49 Единици",s9_u3:"50 – 99 Единици",s9_u4:"100 – 199 Единици",s9_u5:"200 – 499 Единици",s9_u6:"500 – 999 Единици",s9_u7:"1000+ Единици",
+        s10_t:"Защо UCS продукти?",s10_b1_t:"Предимства",s10_b1_l1:"Прозрачни цени, без скрити такси",s10_b1_l2:"Бърза възвръщаемост на инвестицията",s10_b1_l3:"Опции за мащабируемо надграждане",s10_b1_l4:"Поддръжка, сигурност, иновации",s10_b2_s:"Точност на ML за откриване на аномалии",s10_b2_t:"Степен на точност",s10_b2_d:"Няма друг начин да бъдете ефективни с онлайн оптимизация <strong>ТУК И СЕГА!</strong>",
+        s11_t:"Защо да сте партньор на UCS",s11_h1:"Вие сте <span class='highlight-text' style='font-size:2.4rem'>тук</span> и <span class='highlight-text' style='font-size:2.4rem'>сега</span>, за да изберете <span class='highlight-text' style='font-size:2.4rem'>единствения път към успеха</span>",s11_h2:"Не позволявайте на <span class='highlight-text' style='color:#BF4B41'>страховете и съмненията</span> да ви извадят от играта!",s11_exec:"Контакт за Ръководството",s11_f:"Вашата Система за Непрекъснат Дистанционен Мониторинг",btn_p:"Предишен",btn_n:"Следващ"
+      }
+    };
+
+    let currentLanguage = 'en';
+    let currentSlide = 6; // Set to 6 directly for your review
+    const totalSlides = 11;
+
+    // Core function to handle currency localization and rate math
+    function formatCurrency(localVal) {
+      const c = currencies[currentLanguage];
+      return new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.code, maximumFractionDigits: 2 }).format(localVal);
+    }
+
+    // Function to update dynamically marked base currencies from the DOM
+    function updateDynamicCurrencies() {
+      const c = currencies[currentLanguage];
+      document.querySelectorAll('.dyn-curr').forEach(el => {
+        const base = parseFloat(el.getAttribute('data-base')) || 0;
+        const isCompact = el.hasAttribute('data-compact');
+        
+        let formatted = '';
+        if (isCompact) {
+          formatted = new Intl.NumberFormat(c.locale, { 
+            style: 'currency', 
+            currency: c.code, 
+            notation: "compact", 
+            maximumFractionDigits: 1 
+          }).format(base * c.rate);
+        } else {
+          const hasDecimals = base % 1 !== 0;
+          formatted = new Intl.NumberFormat(c.locale, { 
+            style: 'currency', 
+            currency: c.code, 
+            minimumFractionDigits: hasDecimals ? 2 : 0,
+            maximumFractionDigits: hasDecimals ? 2 : 0
+          }).format(base * c.rate);
+        }
+        el.innerHTML = formatted;
+      });
+    }
+
+    function updateInvestmentPrices() {
+      const c = currencies[currentLanguage];
+      const hwBase = parseFloat(document.getElementById('hwSelect').value) || 0;
+      const subBase = parseFloat(document.getElementById('subSelect').value) || 0;
+      const dashBase = parseFloat(document.getElementById('dashSelect').value) || 0;
+
+      // Update the unit prices dynamically
+      document.getElementById('hwUnitPrice').innerText = formatCurrency(hwBase * c.rate);
+      document.getElementById('subUnitPrice').innerText = formatCurrency(subBase * c.rate);
+      document.getElementById('dashUnitPrice').innerText = formatCurrency(dashBase * c.rate);
+      
+      calculateROI(); // trigger full recalc
+    }
+
+    function calculateROI() {
+      const c = currencies[currentLanguage];
+
+      // 1. Calculate Investment Top Table
+      const hwBase = parseFloat(document.getElementById('hwSelect').value) || 0;
+      const hwQty = parseFloat(document.getElementById('hwQty').value) || 0;
+      const hwTotalLocal = (hwBase * c.rate) * hwQty;
+      document.getElementById('hwTotal').innerText = formatCurrency(hwTotalLocal);
+
+      const subBase = parseFloat(document.getElementById('subSelect').value) || 0;
+      const subQty = parseFloat(document.getElementById('subQty').value) || 0;
+      const subTotalLocal = (subBase * c.rate) * subQty;
+      document.getElementById('subTotal').innerText = formatCurrency(subTotalLocal);
+
+      const dashBase = parseFloat(document.getElementById('dashSelect').value) || 0;
+      const dashQty = parseFloat(document.getElementById('dashQty').value) || 0;
+      const dashTotalLocal = (dashBase * c.rate) * dashQty;
+      document.getElementById('dashTotal').innerText = formatCurrency(dashTotalLocal);
+
+      const totalInvLocal = hwTotalLocal + subTotalLocal + dashTotalLocal;
+      document.getElementById('roiTotalInvestment').innerText = formatCurrency(totalInvLocal);
+
+      // 2. Calculate Savings Bottom Table
+      let totalSavingsLocal = 0;
+      const rows = document.querySelectorAll('#roiTable tbody tr');
+      
+      rows.forEach(row => {
+        const savingsInput = row.querySelector('.savings-input');
+        const qtyInput = row.querySelector('.qty-input');
+        const totalCell = row.querySelector('.calculated');
+        
+        if (savingsInput && qtyInput && totalCell) {
+          const savings = parseFloat(savingsInput.value) || 0;
+          const qty = parseFloat(qtyInput.value) || 0;
+          const rowTotalLocal = savings * qty;
+          
+          totalCell.innerText = formatCurrency(rowTotalLocal);
+          totalSavingsLocal += rowTotalLocal;
+        }
+      });
+      
+      document.getElementById('roiTotalSavings').innerText = formatCurrency(totalSavingsLocal);
+      
+      // 3. Final Net Return Comparison (Savings - Investment)
+      const netReturnLocal = totalSavingsLocal - totalInvLocal;
+      const netReturnEl = document.getElementById('roiNetReturn');
+      
+      netReturnEl.innerText = formatCurrency(netReturnLocal);
+      
+      // Paint it Green if they save money, Red if it's a loss
+      if (netReturnLocal > 0) {
+        netReturnEl.style.color = 'var(--success-green)'; 
+      } else {
+        netReturnEl.style.color = '#BF4B41'; 
+      }
+    }
+
+    function changeLanguage(lang) {
+      const oldRate = currencies[currentLanguage].rate;
+      currentLanguage = lang;
+      const newRate = currencies[currentLanguage].rate;
+      
+      // Auto-scale all dynamic user input values to match the newly selected currency!
+      const conversionRatio = newRate / oldRate;
+      document.querySelectorAll('.savings-input').forEach(input => {
+        const oldVal = parseFloat(input.value) || 0;
+        input.value = (oldVal * conversionRatio).toFixed(2);
+      });
+
+      // Update text nodes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang] && i18n[lang][key]) {
+          el.innerHTML = i18n[lang][key];
+        } else if (i18n['en'][key]) {
+          el.innerHTML = i18n['en'][key];
+        }
+      });
+      
+      updateDynamicCurrencies();
+      updateInvestmentPrices(); // Will also trigger CalculateROI() automatically
+      updateSlide();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Bind event listeners to savings dynamic inputs
+      document.querySelectorAll('.roi-input').forEach(input => {
+        input.addEventListener('input', calculateROI);
+      });
+      
+      // Init Language (will execute the first calc run)
+      changeLanguage('en'); 
+    });
+
+    function updateSlide() {
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+          const titleKey = slide.getAttribute('data-title-key');
+          const titleElem = document.getElementById('slideMainTitle');
+          const lineElem = document.getElementById('titleLine');
+          
+          let translatedTitle = '';
+          if (titleKey) {
+             translatedTitle = (i18n[currentLanguage] && i18n[currentLanguage][titleKey]) 
+                                ? i18n[currentLanguage][titleKey] 
+                                : i18n['en'][titleKey];
+          }
+          if (translatedTitle && translatedTitle.trim() !== '') {
+            titleElem.innerHTML = translatedTitle;
+            titleElem.style.display = 'block';
+            lineElem.style.display = 'block';
+          } else {
+            titleElem.style.display = 'none';
+            lineElem.style.display = 'none';
+          }
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      document.getElementById('slideCounter').innerText = `${currentSlide} / ${totalSlides}`;
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide < 1) currentSlide = 1;
+      if (currentSlide > totalSlides) currentSlide = totalSlides;
+      updateSlide();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if(e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'select') return;
+      if (e.key === 'ArrowRight' || e.key === 'Space') { changeSlide(1); } 
+      else if (e.key === 'ArrowLeft') { changeSlide(-1); }
+    });
+  </script>
+</body>
+</html>
