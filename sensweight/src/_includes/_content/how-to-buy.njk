@@ -81,6 +81,7 @@
         <label for="d-message">{{ h.label_message }}</label>
         <textarea id="d-message" name="message" placeholder="{{ h.placeholder_message }}"></textarea>
       </div>
+      <div class="cf-turnstile" data-sitekey="{{ site.turnstileSiteKey }}"></div>
       <div>
         <button type="submit" class="btn btn-primary">{{ h.submit }} &rarr;</button>
       </div>
@@ -100,4 +101,5 @@
   </div>
 </section>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="/assets/js/dealer-form.js"></script>
