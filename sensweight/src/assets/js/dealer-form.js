@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var form = document.getElementById('dealer-form');
   if (!form) return;
 
-  var FIELDS = ['name', 'company', 'email', 'phone', 'country', 'interest', 'message'];
+  var FIELDS = ['name', 'company', 'email', 'phone', 'country', 'interest', 'message', 'cf-turnstile-response'];
   var statusEl = form.querySelector('.dealer-form-status');
   var submitBtn = form.querySelector('button[type="submit"]');
 
@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .finally(function () {
         if (submitBtn) submitBtn.disabled = false;
+        // Turnstile tokens are single-use — reset so a retry gets a fresh one.
+        if (window.turnstile) window.turnstile.reset();
       });
   });
 });

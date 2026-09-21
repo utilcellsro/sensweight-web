@@ -165,6 +165,7 @@
     }
 
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <div style="width: 100%; min-height: 100%; background: #1D2C49; position: relative;">
@@ -482,6 +483,8 @@
           thanks.textContent = 'Something went wrong — please email us directly at info@unifiedcloudsensors.com.';
           thanks.style.color = '#BF4B41';
           thanks.style.display = 'block';
+          // Turnstile tokens are single-use — reset so a retry gets a fresh one.
+          if (window.turnstile) window.turnstile.reset();
         });
 
       return false;
@@ -566,6 +569,7 @@
       </div>
       <input type="text" name="company" placeholder="Company (optional)" style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
       <textarea name="message" placeholder="Message" required rows="4" style="padding: 14px 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; resize: vertical;"></textarea>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAE-ojgVRRTReu4ky"></div>
       <div>
         <button type="submit" class="btn-primary" style="cursor: pointer; border: none;">Send Message</button>
       </div>
@@ -587,6 +591,7 @@
         <input type="email" name="email" placeholder="Email" required style="height: 48px; padding: 0 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px;">
       </div>
       <textarea name="message" placeholder="What would you bring to the team?" required rows="4" style="padding: 14px 16px; border-radius: 6px; border: 1px solid #ECECEB; background: #FFFFFF; color: #2F2F2E; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; resize: vertical;"></textarea>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAE-ojgVRRTReu4ky"></div>
       <div>
         <button type="submit" class="btn-primary" style="cursor: pointer; border: none;">Send Application</button>
       </div>
