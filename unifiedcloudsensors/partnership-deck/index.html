@@ -86,6 +86,41 @@
     #roiTotalInvestment, #roiTotalSavings, #roiNetReturn {
       font-family: 'IBM Plex Mono', monospace;
     }
+
+    /* Responsive — the deck stays a fullscreen one-slide-at-a-time view
+       (same .slide/.active model as desktop), just with smaller chrome,
+       stacked grids, and internal scroll for slides taller than the
+       viewport. !important is needed throughout since most sizing on
+       this page is set via inline styles. */
+    @media (max-width: 860px) {
+      .slide {
+        padding: 100px 18px 100px 18px !important;
+        overflow-y: auto !important;
+      }
+      .top-header { left: 12px !important; right: 12px !important; top: 14px !important; }
+      .slide-title { font-size: 1.05rem !important; }
+
+      .footer-bar { left: 12px !important; right: 12px !important; bottom: 10px !important; flex-wrap: wrap; row-gap: 6px; }
+      .footer-bar .ucs-logo-wrap span { display: none; }
+      .controls { flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+      .lang-switcher { padding: 4px 6px !important; font-size: 0.7rem !important; }
+      .btn { padding: 5px 10px !important; font-size: 0.7rem !important; }
+      #slideCounter { font-size: 0.65rem !important; }
+
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr !important; gap: 14px !important; }
+
+      .slide h1 { font-size: 1.5rem !important; }
+      .slide h2 { font-size: 1.25rem !important; }
+      .slide h3 { font-size: 1.05rem !important; }
+      .slide p { font-size: 0.95rem !important; }
+      .stat-number { font-size: 1.6rem !important; }
+      #slide-1 img { height: 56px !important; }
+
+      .card { padding: 16px !important; overflow-x: auto !important; }
+      table { min-width: 480px; font-size: 0.8rem; }
+      th, td { padding: 8px 10px !important; }
+      .roi-input { width: 60px !important; }
+    }
   </style>
 </head>
 <body>
