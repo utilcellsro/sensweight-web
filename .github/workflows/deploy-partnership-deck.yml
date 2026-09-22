@@ -1,9 +1,16 @@
 name: Deploy partnership-deck.unifiedcloudsensors.com to AWS
 run-name: Deploy partnership-deck No. ${{ github.run_number }} by @${{ github.actor }}
 
-# Manual only, on purpose — same deliberate-step convention as the
-# sensweight.com and unifiedcloudsensors.com deploy workflows.
+# Auto-deploys on every push to main that touches the deck itself — this is
+# a standalone partner artifact, not gated behind the manual-dispatch
+# convention sensweight.com/unifiedcloudsensors.com use. workflow_dispatch
+# stays available for manual re-runs (e.g. re-invalidating cache alone).
 on:
+  push:
+    branches: [main]
+    paths:
+      - "unifiedcloudsensors/partnership-deck/**"
+      - ".github/workflows/deploy-partnership-deck.yml"
   workflow_dispatch:
 
 concurrency:
