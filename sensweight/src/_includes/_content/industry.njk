@@ -4,7 +4,8 @@
 {% set icons = {sensweight: "SW", senssilo: "SIL", sensgeo: "GEO", sensatmo: "ATM", sensgreen: "GRN"} %}
 {% set iconColors = {sensweight: "var(--blue)", senssilo: "var(--ok)", sensgeo: "var(--sky)", sensatmo: "var(--warn)", sensgreen: "var(--blue-dark)"} %}
 
-<section class="page-hero">
+<section class="page-hero page-hero--photo">
+  <div class="page-hero-bg" aria-hidden="true"><img src="/assets/images/industries/{{ industryKey }}.jpg" alt=""></div>
   <div class="container page-hero-content">
     <div class="hero-tagline">{{ item.tagline }}</div>
     <h1>{{ item.headline }}</h1>
@@ -20,6 +21,18 @@
     </div>
     <div class="solutions-grid">
       {% for key in item.solutions %}
+      {% if key == "custom" %}
+      {% set c = t.custom_solution %}
+      <a class="sol-card" href="/how-to-buy/">
+        <div class="sol-icon">+</div>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.desc_industry }}</p>
+        <div class="sol-footer">
+          <span class="sol-product">{{ c.badge }}</span>
+          <span class="sol-link">{{ c.cta }} &rarr;</span>
+        </div>
+      </a>
+      {% else %}
       {% set p = t.products[key] %}
       <a class="sol-card" href="/{{ key }}/">
         <div class="sol-icon" style="background:{{ iconColors[key] }}">{{ icons[key] }}</div>
@@ -30,6 +43,7 @@
           <span class="sol-link">Learn more &rarr;</span>
         </div>
       </a>
+      {% endif %}
       {% endfor %}
     </div>
   </div>

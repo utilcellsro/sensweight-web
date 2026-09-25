@@ -1,24 +1,37 @@
 {% set t = translations[lang] %}
 <footer class="footer">
   <div class="container">
-    <div class="footer-inner">
+    <div class="footer-grid">
       <div class="footer-brand">
         <div class="footer-logo">
-          <img class="footer-logo-img" src="/assets/images/ucs-logo.png" alt="Unified Cloud Sensors">
+          <img class="footer-logo-img" src="/assets/images/ucs-mark.png" alt="UCS">
+          <span class="footer-company">{{ t.footer.company }}</span>
         </div>
-        <div class="footer-company">{{ t.footer.company }}</div>
-        <div>{{ t.footer.address }}</div>
+        <p>{{ t.footer.address }}</p>
+        {% for d in t.contact_page.details %}{% if d.label == "Phone" %}
+        <a href="tel:{{ d.value | replace(' ', '') }}">{{ d.value }}</a>
+        {% elif d.label == "Email" %}
+        <a href="mailto:{{ d.value }}">{{ d.value }}</a>
+        {% endif %}{% endfor %}
       </div>
-      <nav class="footer-nav">
-        <a href="/">{{ t.nav.home }}</a>
+      <nav class="footer-col">
+        <span class="footer-col-title">Explore</span>
         <a href="/industries/">{{ t.nav.industries }}</a>
         <a href="/solutions/">{{ t.nav.solutions }}</a>
         <a href="/products/">{{ t.nav.products }}</a>
-        <a href="/how-to-buy/">How to Buy</a>
         <a href="/demo/">{{ t.nav.demo }}</a>
+      </nav>
+      <nav class="footer-col">
+        <span class="footer-col-title">Company</span>
+        <a href="/about/">{{ t.nav.about }}</a>
+        <a href="/events/">{{ t.nav.news }}</a>
+        <a href="/how-to-buy/">How to Buy</a>
         <a href="/contact/">{{ t.nav.contact }}</a>
+        <a href="https://www.unifiedcloudsensors.com/" target="_blank" rel="noopener">unifiedcloudsensors.com</a>
       </nav>
     </div>
-    <div class="footer-bottom">© 2025 {{ t.footer.company }} — {{ t.footer.rights }}</div>
+    <div class="footer-bottom">
+      <span>© 2026 {{ t.footer.company }} — {{ t.footer.rights }}</span>
+    </div>
   </div>
 </footer>

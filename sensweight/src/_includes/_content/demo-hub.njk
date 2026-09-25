@@ -1,7 +1,12 @@
 {% set t = translations[lang] %}
 {% set h = t.demo_hub %}
-{% set icons = {sensweight: "SW", senssilo: "SIL", sensgeo: "GEO", sensatmo: "ATM", sensgreen: "GRN"} %}
-{% set iconColors = {sensweight: "var(--blue)", senssilo: "var(--ok)", sensgeo: "var(--sky)", sensatmo: "var(--warn)", sensgreen: "var(--blue-dark)"} %}
+{# SensWEIGHT, SensSILO, SensBELT only — same three as the Solutions page. SensBELT is part of the
+   SensWEIGHT platform and has no demo data of its own, so its card opens the SensWEIGHT demo. #}
+{% set demoCards = [
+  { key: "sensweight", icon: "SW", name: t.products.sensweight.name, desc: t.products.sensweight.desc, system: t.demos.sensweight.system, href: "/demo/sensweight/" },
+  { key: "senssilo", icon: "SIL", name: t.products.senssilo.name, desc: t.products.senssilo.desc, system: t.demos.senssilo.system, href: "/demo/senssilo/" },
+  { key: "sensbelt", icon: "BLT", name: "SensBELT", desc: "Continuous conveyor belt scale monitoring, part of the SensWEIGHT® platform.", system: "Runs on SensWEIGHT®", href: "/demo/sensweight/" }
+] %}
 
 <section class="page-hero">
   <div class="container page-hero-content">
@@ -14,13 +19,13 @@
 <section class="section section-alt">
   <div class="container">
     <div class="solutions-grid">
-      {% for key in ["sensweight", "senssilo", "sensgeo", "sensatmo", "sensgreen"] %}
-      <a class="sol-card" href="/demo/{{ key }}/">
-        <div class="sol-icon" style="background:{{ iconColors[key] }}">{{ icons[key] }}</div>
-        <h3>{{ t.products[key].name }}</h3>
-        <p>{{ t.products[key].desc }}</p>
+      {% for c in demoCards %}
+      <a class="sol-card" href="{{ c.href }}">
+        <div class="sol-icon">{{ c.icon }}</div>
+        <h3>{{ c.name }}</h3>
+        <p>{{ c.desc }}</p>
         <div class="sol-footer">
-          <span class="sol-product">{{ t.demos[key].system }}</span>
+          <span class="sol-product">{{ c.system }}</span>
           <span class="sol-link">{{ h.cta }} &rarr;</span>
         </div>
       </a>

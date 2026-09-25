@@ -26,17 +26,7 @@
         <div class="hw-icon" style="background:{{ catColors[loop.index0 % catColors.length] }}">{{ categoryIcons[loop.index0 % categoryIcons.length] | safe }}</div>
         <h3>{{ cat.name }}</h3>
         <p>{{ cat.desc }}</p>
-        <div class="hw-sku-list">
-          {% for sku in cat.skus %}
-          <div class="hw-sku">
-            <span class="hw-sku-code">{{ sku.code }}</span>
-            <span class="hw-sku-info">
-              <span class="hw-sku-name">{{ sku.name }}</span>
-              <span class="hw-sku-spec">{% if sku.url %}<a href="/{{ sku.url }}/">{{ sku.spec }}</a>{% else %}{{ sku.spec }}{% endif %}</span>
-            </span>
-          </div>
-          {% endfor %}
-        </div>
+        {# SKU rows (cat.skus) removed for now — per-product listings will live separately, data kept in translations.js #}
       </div>
       {% endfor %}
     </div>
