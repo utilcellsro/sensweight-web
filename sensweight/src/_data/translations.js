@@ -175,7 +175,7 @@ module.exports = {
       placeholder_message: "Tell us about your site and sensor requirements…",
       option_default: "Select a solution",
       submit: "Submit request",
-      note: "Opens your email client with your details pre-filled — no login required.",
+      note: "We'll email you a confirmation right away — no login required.",
       cta_heading: "Want to see it working first?",
       cta_sub: "See live sensor data before you talk to a dealer.",
       cta_demo: "See Live Demo",
@@ -434,7 +434,7 @@ module.exports = {
       details: [
         { label: "Address", value: "nám. V. Mrštíka 40, 664 81 Ostrovačice, Czech Republic" },
         { label: "Phone", value: "+420 546 427 053" },
-        { label: "Email", value: "info@sensweight.eu" },
+        { label: "Email", value: "info@unifiedcloudsensors.com" },
       ],
       cta_heading: "Ready to spec a system?",
       cta_sub: "Our 3-step buying process starts with a site assessment.",
