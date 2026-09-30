@@ -773,3 +773,64 @@ h3, h4 { font-weight: 600; }
   .industry-tile-label { padding: 16px 14px; }
 }
 @media (max-width: 420px) { .nav-logo-text { display: none; } }
+
+/* ── Product story (presentation content: /sensweight/ + /industries/beltscale/) ── */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.compare-col { padding: 28px 30px; border-radius: var(--r); }
+.compare-col--without { border: 1px dashed var(--dash); }
+.compare-col--with { border: 1px solid var(--rule); border-top: 2px solid var(--sky); background: var(--shade-soft); }
+.compare-label { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin-bottom: 18px; }
+.compare-col--with .compare-label { color: var(--sky); }
+.compare-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.compare-list li { position: relative; padding-left: 26px; font-size: 15px; line-height: 1.6; color: var(--blue-pale); }
+.compare-list li::before { position: absolute; left: 0; top: 0; font-family: var(--mono); font-weight: 600; }
+.compare-col--without li::before { content: '×'; color: var(--alarm); }
+.compare-col--with li::before { content: '✓'; color: var(--sky); }
+
+.story-total { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 40px; padding: 28px 32px; border: 1px solid var(--rule); border-left: 2px solid var(--sky); border-radius: var(--r); }
+.story-total-main, .story-total-part { display: flex; flex-direction: column; gap: 6px; }
+.story-total-main { margin-right: auto; }
+.story-total-label { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--sub); }
+.story-total-value { font-family: var(--font-display); font-size: clamp(30px, 3.4vw, 44px); font-weight: 700; color: #fff; line-height: 1.05; }
+.story-total-part-value { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: #fff; }
+
+.story-evidence-body { display: flex; flex-direction: column; gap: 16px; max-width: 720px; }
+.story-evidence-body p { font-size: 17px; line-height: 1.7; color: var(--sub); }
+.story-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; border-top: 1px solid var(--rule); }
+.story-stat { display: flex; flex-direction: column; gap: 6px; padding: 28px 32px 0 0; }
+.story-stat-value { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); font-weight: 700; color: #fff; line-height: 1.05; }
+.story-stat-label { font-size: 14px; color: var(--sub); }
+
+.chain-list { display: flex; flex-direction: column; gap: 28px; }
+.chain-title { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+.chain-nodes { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.chain-node { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13px; color: var(--blue-pale); }
+.chain-node:not(.chain-node--end)::after { content: '→'; color: var(--faint); }
+.chain-node > span { padding: 8px 14px; border: 1px solid var(--rule); border-radius: var(--r); }
+.chain-node--end > span { border-color: var(--sky); color: var(--sky); }
+
+.story-answers { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 48px; }
+.story-answers li { position: relative; padding-left: 26px; font-size: 15px; color: var(--blue-pale); }
+.story-answers li::before { content: '✓'; position: absolute; left: 0; font-family: var(--mono); font-weight: 600; color: var(--sky); }
+.story-note { margin-top: 32px; max-width: 720px; padding-left: 20px; border-left: 2px solid var(--sky); font-family: var(--font-display); font-size: 19px; font-weight: 600; line-height: 1.45; color: #fff; }
+
+.story-math .specs-wrap { max-width: 720px; }
+.math-table td:first-child { width: auto; }
+.math-table td:last-child { text-align: right; }
+.math-row--sub td:first-child { padding-left: 44px; font-weight: 400; color: var(--sub); }
+.math-row--strong td:first-child { color: var(--sky); }
+.math-row--strong td:last-child { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: #fff; }
+
+.product-cta .pilot-points { width: 100%; margin: 16px 0 8px; }
+
+@media (max-width: 860px) {
+  .compare-grid { grid-template-columns: 1fr; }
+  .story-stats { grid-template-columns: 1fr; }
+  .story-stat { padding: 20px 0 0; }
+  .story-total { gap: 24px; }
+}
+@media (max-width: 520px) {
+  .compare-col { padding: 22px 20px; }
+  .chain-node { white-space: normal; }
+  .math-row--sub td:first-child { padding-left: 32px; }
+}

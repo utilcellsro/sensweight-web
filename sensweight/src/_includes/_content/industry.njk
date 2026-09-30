@@ -7,11 +7,21 @@
 <section class="page-hero page-hero--photo">
   <div class="page-hero-bg" aria-hidden="true"><img src="/assets/images/industries/{{ industryKey }}.jpg" alt=""></div>
   <div class="container page-hero-content">
-    <div class="hero-tagline">{{ item.tagline }}</div>
+    <div class="hero-tagline">{{ item.kicker or item.tagline }}</div>
     <h1>{{ item.headline }}</h1>
     <p class="page-hero-sub">{{ item.sub }}</p>
+    {% if item.badges %}
+    <div class="page-hero-badges">
+      {% for b in item.badges %}<span class="hero-badge">{{ b }}</span>{% endfor %}
+    </div>
+    {% endif %}
   </div>
 </section>
+
+{% if item.story %}
+{% set s = item.story %}
+{% include "_content/product-story.njk" %}
+{% endif %}
 
 <section class="section section-alt">
   <div class="container">
@@ -51,11 +61,30 @@
 
 <section class="product-cta">
   <div class="container">
+    {% if item.story and item.story.pilot %}
+    {% set pl = item.story.pilot %}
+    <div class="section-tagline">Next step</div>
+    <h2>{{ pl.heading }}</h2>
+    <p>{{ pl.body }}</p>
+    <div class="steps-grid pilot-points">
+      {% for pt in pl.points %}
+      <div class="step-card">
+        <h3>{{ pt.title }}</h3>
+        <p>{{ pt.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="product-cta-btns">
+      <a href="/how-to-buy/#dealer-form" class="btn btn-teal">Start a pilot</a>
+      <a href="/products/" class="btn btn-ghost">{{ ind.cta_products }}</a>
+    </div>
+    {% else %}
     <h2>Ready to talk about {{ item.name }}?</h2>
     <p>Get a tailored quote, or see the recommended hardware for this application.</p>
     <div class="product-cta-btns">
       <a href="/how-to-buy/" class="btn btn-teal">{{ ind.cta_buy }}</a>
       <a href="/products/" class="btn btn-ghost">{{ ind.cta_products }}</a>
     </div>
+    {% endif %}
   </div>
 </section>

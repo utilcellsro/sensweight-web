@@ -24,6 +24,9 @@
   </div>
 </section>
 
+{% set s = p.story %}
+{% include "_content/product-story.njk" %}
+
 <section class="section section-alt">
   <div class="container">
     <div class="section-header">
@@ -63,32 +66,24 @@
   </div>
 </section>
 
-<section class="section section-alt">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tagline">{{ p.usecases_title }}</div>
-      <h2>Built for how industry actually works</h2>
-    </div>
-    <div class="usecase-grid">
-      {% for u in p.usecases %}
-      <div class="usecase-card">
-        <h3>{{ u.title }}</h3>
-        <p>{{ u.body }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
 {# ROI calculator temporarily held — uncomment to restore: {% include "_content/roi-calculator.njk" %} #}
 
 <section class="product-cta">
   <div class="container">
-    <h2>Ready to see it live?</h2>
-    <p>The M500 reference system streams real data from 8 SensWEIGHT load cells right now.</p>
+    <div class="section-tagline">Next step</div>
+    <h2>{{ p.story.pilot.heading }}</h2>
+    <p>{{ p.story.pilot.body }}</p>
+    <div class="steps-grid pilot-points">
+      {% for pt in p.story.pilot.points %}
+      <div class="step-card">
+        <h3>{{ pt.title }}</h3>
+        <p>{{ pt.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
     <div class="product-cta-btns">
-      <a href="/demo/sensweight/" class="btn btn-teal">{{ p.cta_demo }}</a>
-      <a href="/how-to-buy/#dealer-form" class="btn btn-ghost">{{ p.cta_contact }}</a>
+      <a href="/how-to-buy/#dealer-form" class="btn btn-teal">Start a pilot</a>
+      <a href="/demo/sensweight/" class="btn btn-ghost">{{ p.cta_demo }}</a>
     </div>
   </div>
 </section>
