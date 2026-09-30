@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#476db8">
+  <title>SensWEIGHT® Bridge — Is Your Cash Register Accurate?</title>
+  <meta name="description" content="SensWEIGHT® Bridge by Unified Cloud Sensors — per-load-cell weighbridge diagnostics, fraud and positioning detection.">
+  <link rel="icon" href="ucs-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--blue:#476db8;--ink:#2f2f2e;--grey:#6f6f6e;--grey-light:#9a9a99;--paper:#f7f7f6;--line:#ececeb;--sky:#7ed3f0;--sky-dark:#2f4d89;--ok:#3f8f6b;--danger:#bf4b41;--warn:#c98a2e;--r:6px;--navy:#1d2c49;--ease:cubic-bezier(.2,0,0,1);--shadow:0 24px 80px rgba(47,47,46,.12)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow-x:hidden;background:#fff;color:var(--ink);font-family:'IBM Plex Sans',sans-serif}
+    button{font:inherit;cursor:pointer}
+    .language-bar{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:2px solid var(--ink);display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:10px;z-index:1000}
+    .lang-btn{background:var(--paper);border:1.5px solid var(--line);color:var(--ink);padding:6px 14px;border-radius:var(--r);font-weight:600;font-size:.82rem;font-family:'IBM Plex Sans',sans-serif;transition:all 120ms var(--ease)}
+    .lang-btn:hover,.lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .deck{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:70px 18px 20px}
+    .stage{position:relative;aspect-ratio:16/9;width:min(calc(100vw - 36px),calc((100vh - 100px)*16/9));overflow:hidden;background:#fff;box-shadow:var(--shadow);border-radius:var(--r);border:1px solid var(--line)}
+    .slide{position:absolute;inset:0;display:grid;opacity:0;visibility:hidden;transform:translateX(2.5%);transition:opacity 320ms var(--ease),transform 320ms var(--ease);overflow:hidden;background:#fff}
+    .slide.active{opacity:1;visibility:visible;transform:none;z-index:2}
+    .slide.prev{transform:translateX(-2.5%)}
+    .topline{position:absolute;left:0;right:0;top:0;height:6px;background:var(--blue);z-index:6}
+    .brand{display:flex;align-items:center;gap:14px;color:var(--ink)}
+    .brand img{height:52px;width:auto;display:block;max-width:160px;object-fit:contain}
+    .brand strong{font:700 22px/1 'Chakra Petch',sans-serif}
+    .eyebrow{font:500 12px/1.2 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+    h1{font:700 36px/1.05 'Chakra Petch',sans-serif;color:var(--ink)}
+    h2{font:700 28px/1.1 'Chakra Petch',sans-serif;color:var(--ink)}
+    h3{font:600 18px/1.2 'Chakra Petch',sans-serif;color:var(--ink)}
+    p{font-size:15px;line-height:1.5;color:var(--grey)}
+    .header{height:100px;padding:28px 48px 14px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--ink)}
+    .header .title-wrap{display:grid;gap:4px}
+    .header .brand img{height:36px;max-width:120px}
+    .body{position:relative;padding:28px 48px 48px;height:calc(100% - 100px)}
+    .cover{grid-template-columns:52% 48%}
+    .cover .photo{position:relative;height:100%;overflow:hidden;background:var(--paper)}
+    .cover .photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .cover .copy{position:relative;padding:44px 44px 44px 40px;display:flex;flex-direction:column;justify-content:center;background:#fff}
+    .cover .copy::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--blue)}
+    .cover h1{margin:18px 0 14px}
+    .patent{display:inline-flex;align-self:flex-start;margin-top:22px;padding:10px 18px;border-radius:var(--r);background:var(--navy);color:#fff;font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em}
+    .cover .brand{position:absolute;top:28px;left:40px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;height:100%;align-items:center}
+    .img-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+    .img-card img{width:100%;height:auto;max-height:85%;object-fit:contain;border-radius:var(--r)}
+    .img-card .cap{font:400 13px/1.4 'IBM Plex Sans',sans-serif;color:var(--grey);margin-top:8px;text-align:center}
+    .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;height:100%}
+    .problem-left{background:var(--paper);padding:28px 32px;border-right:2px solid var(--danger);display:flex;flex-direction:column;justify-content:center}
+    .problem-right{background:var(--paper);padding:28px 32px;display:flex;flex-direction:column;justify-content:center}
+    .problem-left h3{color:var(--danger);margin-bottom:12px;font-size:16px}
+    .problem-left h3::before{content:"×  ";font-family:'IBM Plex Mono',monospace}
+    .problem-right h3::before{content:"✓  ";font-family:'IBM Plex Mono',monospace}
+    .problem-right h3{color:var(--ok);margin-bottom:12px;font-size:16px}
+    .problem-left li,.problem-right li{font-size:13px;line-height:1.5;color:var(--ink);margin-bottom:6px}
+    .cost-banner{margin-top:16px;background:var(--danger);color:#fff;padding:12px 16px;border-radius:var(--r);text-align:center}
+    .cost-banner .big{font:700 28px/1 'Chakra Petch',sans-serif;display:block;margin-bottom:4px}
+    .cost-banner .sub{font:400 12px/1.3 'IBM Plex Mono',monospace}
+    .story-grid{display:grid;grid-template-columns:55% 45%;gap:0;height:100%}
+    .story-text{padding:24px 32px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+    .story-text .tag{display:inline-block;background:var(--blue);color:#fff;padding:4px 10px;border-radius:var(--r);font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;margin-bottom:12px;align-self:flex-start}
+    .story-text p{font-size:13px;line-height:1.55;margin-bottom:10px}
+    .story-imgs{background:var(--paper);padding:20px;display:grid;grid-template-rows:1fr 1fr;gap:12px;align-items:center}
+    .story-imgs img{width:100%;height:auto;max-height:100%;object-fit:contain;border-radius:var(--r);border:1px solid var(--line)}
+    .story-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .story-stat div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px;text-align:center}
+    .story-stat .val{font:700 22px/1 'Chakra Petch',sans-serif;color:var(--blue);display:block}
+    .story-stat .lbl{font:400 11px/1.3 'IBM Plex Mono',monospace;color:var(--grey);margin-top:4px;display:block}
+    .arch-step{background:var(--paper);border:1.5px solid var(--blue);border-radius:var(--r);padding:14px 18px;text-align:center;min-width:140px}
+    .arch-step .icon{font-size:28px;margin-bottom:6px}
+    .arch-step h3{font-size:14px;margin-bottom:4px}
+    .arch-step p{font-size:11px}
+    .motivation-box{background:var(--paper);border-left:4px solid var(--blue);padding:14px 18px;margin-top:16px;border-radius:0 var(--r) var(--r) 0}
+    .motivation-box p{color:var(--ink);font-weight:600;font-size:13px}
+    .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:calc(100% - 40px);align-items:stretch}
+    .dash-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column}
+    .dash-card img{width:100%;flex:1;object-fit:contain;border-radius:var(--r)}
+    .dash-card .cap{font:400 12px/1.3 'IBM Plex Mono',monospace;color:var(--grey);margin-top:6px;text-align:center}
+    .roi-grid{display:grid;grid-template-columns:42% 58%;gap:20px;height:calc(100% - 60px);align-items:center}
+    .roi-danger{background:var(--paper);border:2px solid var(--danger);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;justify-content:center;height:100%}
+    .roi-danger .alert{color:var(--danger);font:600 13px/1.4 'IBM Plex Sans',sans-serif}
+    .roi-table{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px;height:100%;display:flex;flex-direction:column;justify-content:center}
+    .roi-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+    .roi-row:last-child{border:0}
+    .roi-row .label{color:var(--grey)}
+    .roi-row .value{font:700 16px/1 'IBM Plex Mono',monospace;color:var(--ink)}
+    .roi-row.highlight{background:var(--blue);color:#fff;margin:8px -20px 0;padding:14px 20px;border-radius:var(--r);border:0}
+    .roi-row.highlight .label,.roi-row.highlight .value{color:#fff}
+    .cta-banner{background:var(--navy);color:#fff;border-radius:var(--r);padding:28px 36px;text-align:center;margin-bottom:18px}
+    .cta-banner h2{color:#fff;font-size:26px;margin-bottom:6px}
+    .cta-banner p{color:var(--sky);font:500 16px/1.3 'IBM Plex Sans',sans-serif}
+    .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .reason{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:18px 14px}
+    .reason h3{font-size:16px;margin-bottom:6px;color:var(--blue)}
+    .reason p{font-size:12px}
+    .controls{position:fixed;z-index:20;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px 9px;background:rgba(47,47,46,.82);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:#fff}
+    .controls button{width:35px;height:35px;border:0;border-radius:var(--r);background:transparent;color:#fff;cursor:pointer;font-size:19px;display:grid;place-items:center}
+    .controls button:hover{background:rgba(126,211,240,.25)}
+    .dots{display:flex;gap:6px;padding:0 5px}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--grey-light);transition:200ms var(--ease);cursor:pointer}
+    .dot.on{width:22px;border-radius:5px;background:var(--sky)}
+    @media(max-width:900px){.deck{padding:50px 0 0}.stage{width:100vw;border-radius:0}.controls{bottom:6px}}
+    /* Layout fixes (2026-09-30): keep slide content above the nav bar */
+    .body{padding-bottom:72px;display:flex;flex-direction:column;min-height:0}
+    .body > :only-child{flex:1;min-height:0}
+    .story-grid,.problem-grid,.roi-grid,.dash-grid,.grid-2{height:100%;min-height:0}
+    .story-imgs{min-height:0;grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+    .story-imgs img{height:100%;width:100%;max-height:none}
+    .dash-grid{grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+    .dash-card{min-height:0}
+    .dash-card img{min-height:0}
+    .roi-grid{grid-template-rows:minmax(0,1fr)}
+    .roi-danger,.roi-table{min-height:0;overflow:hidden}
+
+    /* Phone/tablet: one slide at a time, full-height stage, stacked grids, scroll inside long slides */
+    @media (max-width: 860px){
+      .language-bar{gap:4px;padding:6px}
+      .lang-btn{padding:4px 8px;font-size:.7rem}
+      .deck{padding:52px 0 0}
+      .stage{aspect-ratio:auto;width:100vw;height:calc(100vh - 52px);height:calc(100dvh - 52px);border-radius:0;border-left:0;border-right:0}
+      .slide{overflow-y:auto;display:block}
+      .header{height:auto;padding:22px 18px 12px}
+      .header .brand img{height:26px}
+      .body{height:auto;padding:18px 18px 96px;display:block}
+      h1{font-size:28px}
+      h2{font-size:21px}
+      .cover .photo{height:38vh}
+      .cover .copy{padding:26px 18px 96px}
+      .cover .brand{position:static;margin-bottom:8px}
+      .cover .copy::before{display:none}
+      .grid-2,.problem-grid,.story-grid,.roi-grid,.dash-grid,.reasons{grid-template-columns:1fr;grid-template-rows:none;height:auto;gap:14px}
+      .problem-left{border-right:0;border-bottom:2px solid var(--danger)}
+      .story-text{padding:0}
+      .story-imgs{grid-template-rows:none}
+      .story-imgs img,.dash-card img{height:auto;max-height:none}
+      .dash-card,.roi-danger,.roi-table{height:auto}
+      .story-stat{gap:8px}
+      .story-stat .val{font-size:17px}
+      .cta-banner{padding:20px 18px}
+      .cta-banner h2{font-size:21px}
+    }
+  </style>
+</head>
+<body>
+<div class="language-bar">
+  <button class="lang-btn active" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="cs">Čeština</button>
+  <button class="lang-btn" data-lang="sr">Srpski</button>
+</div>
+<main class="deck"><div class="stage" id="stage">
+
+  <!-- SLIDE 1 -->
+  <section class="slide cover active"><div class="topline"></div>
+    <div class="photo"><img src="weighbridge-truck.jpg" alt="Weighbridge"></div>
+    <div class="copy">
+      <div class="brand"><img src="ucs-logo.png" alt="UCS"><strong>SensWEIGHT® Bridge</strong></div>
+      <h1 data-i="t1">Is Your Cash Register Accurate?</h1>
+      <p data-i="t2">10,000 tonnes across your scale per month. Even 1% drift = 100 tonnes given away for free.</p>
+      <span class="patent" data-i="t3">PATENTED · EP 4 524 526</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 -->
+  <section class="slide"><div class="topline"></div>
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t4">THE 1% LEAK</div><h2 data-i="t5">The error you can't see on your indicator</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
+    <div class="body"><div class="problem-grid">
+      <div class="problem-left">
+        <h3 data-i="t6">WITHOUT SensWEIGHT® Bridge</h3>
+        <ul>
+          <li data-i="t7">Indicator shows "42,410 kg" — looks correct. Operator prints the ticket.</li>
+          <li data-i="t8">Underneath: LC8 deviates 44.6% from theoretical — invisible to the operator</li>
+          <li data-i="t9">The scale shows a number. It just shows the WRONG number.</li>
+          <li data-i="t10">Annual calibration passed — but degradation happens between checks</li>
+          <li data-i="t11">2% drift on 10,000 t/month at €50/t = €120,000/yr in undetected losses</li>
+        </ul>
+        <div class="cost-banner"><span class="big" data-i="t12">€110,160</span><span class="sub" data-i="t13">annual risk — LC failures + fraud + inventory leakage</span></div>
+      </div>
+      <div class="problem-right">
+        <h3 data-i="t14">WITH SensWEIGHT® Bridge</h3>
+        <ul>
+          <li data-i="t15">Per-load-cell health visible — every weighment verified at cell level</li>
+          <li data-i="t16">Deviation detected instantly — not at next annual calibration</li>
+          <li data-i="t17">Vehicle positioning verified — partial weighing fraud caught</li>
+          <li data-i="t18">Revenue per transaction tracked — your scale becomes a cash register</li>
+        </ul>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- SLIDE 3 -->
+  <section class="slide"><div class="topline"></div>
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t19">FIELD EVIDENCE</div><h2 data-i="t20">A logistics site discovered LC8 was lying for 5 months</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
+    <div class="body"><div class="story-grid">
+      <div class="story-text">
+        <span class="tag" data-i="t21">WHAT HAPPENED</span>
+        <p data-i="t22">A busy truck scale at an agricultural depot. 6 analog load cells under an 18×3m deck. Annual calibration: passed. Indicator: working. No complaints.</p>
+        <p data-i="t23">SensWEIGHT® Bridge found LC8 reporting only 971 kg out of expected ~3,500 kg — a 44.6% deviation. The indicator's total display compensated across other cells, masking the problem.</p>
+        <p data-i="t24">The scale was systematically underweighing inbound grain deliveries — farmers delivered more than they were credited for.</p>
+        <p data-i="t25">Fix: replaced LC8 (€380), repositioned vehicle guidance markers. Revenue analytics now show CZK 1,060,390 in 6 active days.</p>
+        <div class="story-stat">
+          <div><span class="val" data-i="t26">44.6%</span><span class="lbl" data-i="t27">LC8 deviation</span></div>
+          <div><span class="val" data-i="t28">€380</span><span class="lbl" data-i="t29">cost of fix</span></div>
+          <div><span class="val" data-i="t30">€23,400</span><span class="lbl" data-i="t31">loss over 5 months</span></div>
+        </div>
+      </div>
+      <div class="story-imgs">
+        <img loading="lazy" src="weighbridge-truck.jpg" alt="Weighbridge installation">
+        <img loading="lazy" src="weighbridge-deck.jpg" alt="Load cell detail">
+      </div>
+    </div></div>
+  </section>
+
+  <!-- SLIDE 4 -->
+  <section class="slide"><div class="topline"></div>
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t32">TWO PATHS, ONE RESULT</div><h2 data-i="t33">Works with what you already have</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
+    <div class="body"><div class="grid-2">
+      <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <div style="background:var(--paper);border:1.5px solid var(--blue);border-radius:var(--r);padding:16px">
+          <h3 style="color:var(--blue);margin-bottom:8px" data-i="t34">Path A — Digital Load Cells</h3>
+          <p style="font-size:13px" data-i="t35">6× Digital LCs → Indicator → UCS-X2 → Your Dashboard</p>
+        </div>
+        <div style="background:var(--paper);border:1.5px solid var(--blue);border-radius:var(--r);padding:16px">
+          <h3 style="color:var(--blue);margin-bottom:8px" data-i="t36">Path B — Analog Load Cells</h3>
+          <p style="font-size:13px" data-i="t37">6× Analog LCs → Digitalizer (WOESK-L) → UCS-X3 → Your Dashboard</p>
+        </div>
+        <div class="motivation-box"><p data-i="t38">Both deliver: per-cell health data, transaction logging, automated alerts (SMS/email), REST API. Whether your scale is 2 years old or 20 — it works.</p></div>
+      </div>
+      <div><img loading="lazy" src="sensweight-schema.png" alt="Architecture" style="width:100%;border-radius:var(--r);border:1px solid var(--line)"></div>
+    </div></div>
+  </section>
+
+  <!-- SLIDE 5 -->
+  <section class="slide"><div class="topline"></div>
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t39">YOUR REVENUE DASHBOARD</div><h2 data-i="t40">Your scale is a cash register. Here's the receipt.</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
+    <div class="body"><div class="dash-grid">
+      <div class="dash-card"><img loading="lazy" src="dashboard.png" alt="Revenue dashboard"><div class="cap" data-i="t41">Total revenue: CZK 1,060,390 in 6 active days · 72 transactions · 29.46 t/truck avg</div></div>
+      <div class="dash-card" style="background:var(--navy);border-color:var(--navy)">
+        <div style="padding:20px;color:#fff;display:flex;flex-direction:column;justify-content:center;height:100%">
+          <div style="font:500 12px/1 'IBM Plex Mono',monospace;color:var(--sky);margin-bottom:12px" data-i="t42">REVENUE SUMMARY</div>
+          <div style="font:700 36px/1 'Chakra Petch',sans-serif;color:#fff;margin-bottom:4px">CZK 1,060,390</div>
+          <div style="font:400 13px/1.3 'IBM Plex Mono',monospace;color:var(--grey-light);margin-bottom:18px" data-i="t43">6 active days · CZK 500/tonne base price</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="background:rgba(255,255,255,.08);padding:10px;border-radius:var(--r)"><div style="font:400 11px/1 'IBM Plex Mono',monospace;color:var(--grey-light)" data-i="t44">Transactions</div><div style="font:700 20px/1 'Chakra Petch',sans-serif;color:var(--sky)">72</div></div>
+            <div style="background:rgba(255,255,255,.08);padding:10px;border-radius:var(--r)"><div style="font:400 11px/1 'IBM Plex Mono',monospace;color:var(--grey-light)" data-i="t45">Avg per truck</div><div style="font:700 20px/1 'Chakra Petch',sans-serif;color:var(--sky)">29.46 t</div></div>
+          </div>
+          <div style="margin-top:12px;padding:10px;border:1px solid var(--ok);border-radius:var(--r)"><div style="font:600 12px/1 'IBM Plex Mono',monospace;color:var(--ok)" data-i="t46">CONSISTENCY SCORE: 100% — SYSTEM FULLY OPERATIONAL</div></div>
+        </div>
+      </div>
+      <div class="dash-card"><img loading="lazy" src="digitizer-clm8.png" alt="LC analysis"><div class="cap" data-i="t47">Per-cell deviation analysis: Start vs. End vs. Theoretical. LC8 at 44.6% deviation flagged.</div></div>
+      <div class="dash-card"><img loading="lazy" src="weighbridge-deck.jpg" alt="Installation"><div class="cap" data-i="t48">Field installation — digital load cell configuration with UCS-X2 gateway</div></div>
+    </div></div>
+  </section>
+
+  <!-- SLIDE 6 -->
+  <section class="slide"><div class="topline"></div>
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t49">FRAUD & POSITIONING</div><h2 data-i="t50">Catch what a camera can't</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
+    <div class="body"><div class="grid-2">
+      <div style="display:flex;flex-direction:column;gap:16px;justify-content:center">
+        <div style="background:var(--paper);border-left:4px solid var(--danger);border-radius:0 var(--r) var(--r) 0;padding:16px">
+          <h3 style="color:var(--danger);font-size:15px;margin-bottom:6px" data-i="t51">01 Partial positioning</h3>
+          <p style="font-size:12px" data-i="t52">Driver stops with rear axle off scale edge, underweighing by 1–3 tonnes per pass.</p>
+        </div>
+        <div style="background:var(--paper);border-left:4px solid var(--danger);border-radius:0 var(--r) var(--r) 0;padding:16px">
+          <h3 style="color:var(--danger);font-size:15px;margin-bottom:6px" data-i="t53">02 Software manipulation</h3>
+          <p style="font-size:12px" data-i="t54">Indicator calibration tampered with. Scale reads correctly for test weights, drifts under real loads.</p>
+        </div>
+        <div style="background:var(--paper);border-left:4px solid var(--danger);border-radius:0 var(--r) var(--r) 0;padding:16px">
+          <h3 style="color:var(--danger);font-size:15px;margin-bottom:6px" data-i="t55">03 Repeat weighing fraud</h3>
+          <p style="font-size:12px" data-i="t56">Same truck crosses twice with different IDs. Credits duplicate loads.</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;justify-content:center">
+        <div style="background:var(--paper);border-left:4px solid var(--ok);border-radius:0 var(--r) var(--r) 0;padding:16px">
+          <h3 style="color:var(--ok);font-size:15px;margin-bottom:6px" data-i="t57">SensWEIGHT® Bridge catches all three</h3>
+          <ul style="font-size:12px;color:var(--ink);line-height:1.6;padding-left:16px">
+            <li data-i="t58">Per-cell load pattern reveals positioning anomalies</li>
+            <li data-i="t59">Immutable audit trails prevent data tampering</li>
+            <li data-i="t60">Transaction correlation flags repeat patterns</li>
+          </ul>
+        </div>
+        <div class="motivation-box"><p data-i="t61">A CCTV camera shows you the truck. SensWEIGHT® Bridge shows you whether the truck is on the scale correctly.</p></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- SLIDE 7 -->
+  <section class="slide"><div class="topline"></div>
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t62">THE MATH</div><h2 data-i="t63">51 days to full payback</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
+    <div class="body"><div class="roi-grid">
+      <div class="roi-danger">
+        <div style="font:700 60px/1 'Chakra Petch',sans-serif;color:var(--danger);margin-bottom:16px">44.6%</div>
+        <p class="alert" data-i="t64">LC8 deviation — invisible to the indicator for 5 months. €23,400 in underreported material. Farmers delivered more than they were credited for.</p>
+        <div style="margin-top:16px;padding:12px;background:#fff;border-radius:var(--r);border:1px solid var(--line)">
+          <h3 style="font-size:14px;margin-bottom:6px" data-i="t65">Project Reference</h3>
+          <p style="font-size:12px" data-i="t66">Site 1: modernization with ANPR + RFID self-service. Site 2: new 18×3m, 60-tonne weighbridge. Both: full audit trail, no paper tickets, no queue bottlenecks.</p>
+        </div>
+      </div>
+      <div class="roi-table">
+        <div class="roi-row"><span class="label" data-i="t67">Risk without SensWEIGHT® Bridge</span><span class="value">€110,160/yr</span></div>
+        <div class="roi-row"><span class="label" data-i="t68">LC failures + fraud</span><span class="value">€87,120</span></div>
+        <div class="roi-row"><span class="label" data-i="t69">Inventory leakage</span><span class="value">€23,040</span></div>
+        <div class="roi-row"><span class="label" data-i="t70">UCS investment (one-time)</span><span class="value">€15,104</span></div>
+        <div class="roi-row"><span class="label" data-i="t71">Verified annual savings</span><span class="value">€108,005</span></div>
+        <div class="roi-row"><span class="label" data-i="t72">Payback period</span><span class="value" data-i="t73">51 days</span></div>
+        <div class="roi-row highlight"><span class="label" data-i="t74">Year 1 ROI</span><span class="value">615%</span></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- SLIDE 8 -->
+  <section class="slide"><div class="topline"></div>
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t75">NEXT STEP</div><h2 data-i="t76">Put it on your busiest scale</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
+    <div class="body">
+      <div class="cta-banner">
+        <h2 data-i="t77">Enhance your perception boundaries</h2>
+        <p data-i="t78">30-day paid pilot on your highest-traffic weighbridge. If we don't detect drift or save you a trip — walk away.</p>
+      </div>
+      <div class="reasons">
+        <div class="reason"><h3 data-i="t79">Protect every transaction</h3><p data-i="t80">Per-cell accuracy verification on every weighment.</p></div>
+        <div class="reason"><h3 data-i="t81">Stop fraud before it starts</h3><p data-i="t82">Positioning verification, immutable records, pattern detection.</p></div>
+        <div class="reason"><h3 data-i="t83">Automate the scale house</h3><p data-i="t84">ANPR, RFID, self-service kiosk. No dedicated staff needed.</p></div>
+      </div>
+      <p style="text-align:center;margin-top:18px;font-size:14px;color:var(--grey)" data-i="t85">Contact: Nikola Avramović, COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053</p>
+    </div>
+  </section>
+
+</div></main>
+<div class="controls"><button onclick="go(-1)">◀</button><div class="dots" id="dots"></div><button onclick="go(1)">▶</button></div>
+<script>
+(function(){
+var TOTAL=8,cur=0,slides=document.querySelectorAll('.slide'),dotsBox=document.getElementById('dots');
+for(var i=0;i<TOTAL;i++){var d=document.createElement('span');d.className='dot'+(i===0?' on':'');d.setAttribute('data-idx',i);d.onclick=function(){goTo(parseInt(this.getAttribute('data-idx')))};dotsBox.appendChild(d)}
+function goTo(n){if(n<0||n>=TOTAL)return;for(var j=0;j<slides.length;j++){slides[j].classList.remove('active','prev');if(j<n)slides[j].classList.add('prev')}slides[n].classList.add('active');cur=n;var ad=dotsBox.querySelectorAll('.dot');for(var j=0;j<ad.length;j++)ad[j].className='dot'+(j===cur?' on':'')}
+window.go=function(d){goTo(cur+d)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1)});
+var tx=0;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX});document.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?1:-1)});
+var T={
+en:{t1:"Is Your Cash Register Accurate?",t2:"10,000 tonnes across your scale per month. Even 1% drift = 100 tonnes given away for free.",t3:"PATENTED \u00b7 EP 4 524 526",t4:"THE 1% LEAK",t5:"The error you can\u2019t see on your indicator",t6:"WITHOUT SensWEIGHT® Bridge",t7:"Indicator shows \u201c42,410 kg\u201d \u2014 looks correct. Operator prints the ticket.",t8:"Underneath: LC8 deviates 44.6% from theoretical \u2014 invisible to the operator",t9:"The scale shows a number. It just shows the WRONG number.",t10:"Annual calibration passed \u2014 but degradation happens between checks",t11:"2% drift on 10,000 t/month at \u20ac50/t = \u20ac120,000/yr in undetected losses",t12:"\u20ac110,160",t13:"annual risk \u2014 LC failures + fraud + inventory leakage",t14:"WITH SensWEIGHT® Bridge",t15:"Per-load-cell health visible \u2014 every weighment verified at cell level",t16:"Deviation detected instantly \u2014 not at next annual calibration",t17:"Vehicle positioning verified \u2014 partial weighing fraud caught",t18:"Revenue per transaction tracked \u2014 your scale becomes a cash register",t19:"FIELD EVIDENCE",t20:"A logistics site discovered LC8 was lying for 5 months",t21:"WHAT HAPPENED",t22:"A busy truck scale at an agricultural depot. 6 analog load cells under an 18\u00d73m deck. Annual calibration: passed. Indicator: working. No complaints.",t23:"SensWEIGHT® Bridge found LC8 reporting only 971 kg out of expected ~3,500 kg \u2014 a 44.6% deviation. The indicator\u2019s total display compensated across other cells, masking the problem.",t24:"The scale was systematically underweighing inbound grain deliveries \u2014 farmers delivered more than they were credited for.",t25:"Fix: replaced LC8 (\u20ac380), repositioned vehicle guidance markers. Revenue analytics now show CZK 1,060,390 in 6 active days.",t26:"44.6%",t27:"LC8 deviation",t28:"\u20ac380",t29:"cost of fix",t30:"\u20ac23,400",t31:"loss over 5 months",t32:"TWO PATHS, ONE RESULT",t33:"Works with what you already have",t34:"Path A \u2014 Digital Load Cells",t35:"6\u00d7 Digital LCs \u2192 Indicator \u2192 UCS-X2 \u2192 Your Dashboard",t36:"Path B \u2014 Analog Load Cells",t37:"6\u00d7 Analog LCs \u2192 Digitalizer (WOESK-L) \u2192 UCS-X3 \u2192 Your Dashboard",t38:"Both deliver: per-cell health data, transaction logging, automated alerts (SMS/email), REST API. Whether your scale is 2 years old or 20 \u2014 it works.",t39:"YOUR REVENUE DASHBOARD",t40:"Your scale is a cash register. Here\u2019s the receipt.",t41:"Total revenue: CZK 1,060,390 in 6 active days \u00b7 72 transactions \u00b7 29.46 t/truck avg",t42:"REVENUE SUMMARY",t43:"6 active days \u00b7 CZK 500/tonne base price",t44:"Transactions",t45:"Avg per truck",t46:"CONSISTENCY SCORE: 100% \u2014 SYSTEM FULLY OPERATIONAL",t47:"Per-cell deviation analysis: Start vs. End vs. Theoretical. LC8 at 44.6% deviation flagged.",t48:"Field installation \u2014 digital load cell configuration with UCS-X2 gateway",t49:"FRAUD & POSITIONING",t50:"Catch what a camera can\u2019t",t51:"01 Partial positioning",t52:"Driver stops with rear axle off scale edge, underweighing by 1\u20133 tonnes per pass.",t53:"02 Software manipulation",t54:"Indicator calibration tampered with. Scale reads correctly for test weights, drifts under real loads.",t55:"03 Repeat weighing fraud",t56:"Same truck crosses twice with different IDs. Credits duplicate loads.",t57:"SensWEIGHT® Bridge catches all three",t58:"Per-cell load pattern reveals positioning anomalies",t59:"Immutable audit trails prevent data tampering",t60:"Transaction correlation flags repeat patterns",t61:"A CCTV camera shows you the truck. SensWEIGHT® Bridge shows you whether the truck is on the scale correctly.",t62:"THE MATH",t63:"51 days to full payback",t64:"LC8 deviation \u2014 invisible to the indicator for 5 months. \u20ac23,400 in underreported material. Farmers delivered more than they were credited for.",t65:"Project Reference",t66:"Site 1: modernization with ANPR + RFID self-service. Site 2: new 18\u00d73m, 60-tonne weighbridge. Both: full audit trail, no paper tickets, no queue bottlenecks.",t67:"Risk without SensWEIGHT® Bridge",t68:"LC failures + fraud",t69:"Inventory leakage",t70:"UCS investment (one-time)",t71:"Verified annual savings",t72:"Payback period",t73:"51 days",t74:"Year 1 ROI",t75:"NEXT STEP",t76:"Put it on your busiest scale",t77:"Enhance your perception boundaries",t78:"30-day paid pilot on your highest-traffic weighbridge. If we don\u2019t detect drift or save you a trip \u2014 walk away.",t79:"Protect every transaction",t80:"Per-cell accuracy verification on every weighment.",t81:"Stop fraud before it starts",t82:"Positioning verification, immutable records, pattern detection.",t83:"Automate the scale house",t84:"ANPR, RFID, self-service kiosk. No dedicated staff needed.",t85:"Contact: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"},
+cs:{t1:"Je va\u0161e pokladna p\u0159esn\u00e1?",t2:"10 000 tun p\u0159es va\u0161i v\u00e1hu m\u011bs\u00ed\u010dn\u011b. I 1% drift = 100 tun zdarma.",t3:"PATENTOV\u00c1NO \u00b7 EP 4 524 526",t4:"\u00daNIK 1 %",t5:"Chyba, kterou na indik\u00e1toru nevid\u00edte",t6:"BEZ SensWEIGHT® Bridge",t7:"Indik\u00e1tor ukazuje \u201e42 410 kg\u201c \u2014 vypad\u00e1 spr\u00e1vn\u011b. Oper\u00e1tor tiskne l\u00edstek.",t8:"Pod povrchem: LC8 se odchyluje o 44,6 % od teoretick\u00e9 \u2014 neviditeln\u00e9 pro oper\u00e1tora",t9:"V\u00e1ha ukazuje \u010d\u00edslo. Jen ukazuje \u0160PATN\u00c9 \u010d\u00edslo.",t10:"Ro\u010dn\u00ed kalibrace pro\u0161la \u2014 ale degradace prob\u00edh\u00e1 mezi kontrolami",t11:"2% drift na 10 000 t/m\u011bs. p\u0159i 50 \u20ac/t = 120 000 \u20ac/rok nezji\u0161t\u011bn\u00fdch ztr\u00e1t",t12:"\u20ac110 160",t13:"ro\u010dn\u00ed riziko \u2014 selh\u00e1n\u00ed LC + podvody + \u00fanik z\u00e1sob",t14:"SE SensWEIGHT® Bridge",t15:"Stav ka\u017ed\u00e9 bu\u0148ky viditeln\u00fd \u2014 ka\u017ed\u00e9 v\u00e1\u017een\u00ed ov\u011b\u0159eno na \u00farovni bu\u0148ky",t16:"Odchylka detekov\u00e1na okam\u017eit\u011b \u2014 ne a\u017e p\u0159i dal\u0161\u00ed ro\u010dn\u00ed kalibraci",t17:"Polohov\u00e1n\u00ed vozidla ov\u011b\u0159eno \u2014 podvody \u010d\u00e1ste\u010dn\u00fdm v\u00e1\u017een\u00edm odhaleny",t18:"V\u00fdnos na transakci sledov\u00e1n \u2014 va\u0161e v\u00e1ha se st\u00e1v\u00e1 pokladnou",t19:"D\u016eKAZY Z TER\u00c9NU",t20:"Logistick\u00fd are\u00e1l zjistil, \u017ee LC8 lhala 5 m\u011bs\u00edc\u016f",t21:"CO SE STALO",t22:"Ru\u0161n\u00e1 kamionov\u00e1 v\u00e1ha v zem\u011bd\u011blsk\u00e9m depu. 6 analogov\u00fdch sn\u00edma\u010d\u016f pod plo\u0161inou 18\u00d73 m. Ro\u010dn\u00ed kalibrace: pro\u0161la.",t23:"SensWEIGHT® Bridge zjistil, \u017ee LC8 hl\u00e1s\u00ed jen 971 kg z o\u010dek\u00e1van\u00fdch ~3 500 kg \u2014 odchylka 44,6 %. Celkov\u00fd displej indik\u00e1toru kompenzoval p\u0159es ostatn\u00ed bu\u0148ky.",t24:"V\u00e1ha systematicky podv\u00e1\u017eovala p\u0159\u00edchoz\u00ed dod\u00e1vky obil\u00ed \u2014 zem\u011bd\u011blci dod\u00e1vali v\u00edce, ne\u017e jim bylo p\u0159ips\u00e1no.",t25:"Oprava: v\u00fdm\u011bna LC8 (380 \u20ac), p\u0159em\u00edst\u011bn\u00ed vod\u00edc\u00edch zna\u010dek. Analytika v\u00fddaj\u016f nyn\u00ed ukazuje CZK 1 060 390 za 6 aktivn\u00edch dn\u016f.",t26:"44,6 %",t27:"odchylka LC8",t28:"380 \u20ac",t29:"cena opravy",t30:"23 400 \u20ac",t31:"ztr\u00e1ta za 5 m\u011bs\u00edc\u016f",t32:"DV\u011a CESTY, JEDEN V\u00ddSLEDEK",t33:"Funguje s t\u00edm, co u\u017e m\u00e1te",t34:"Cesta A \u2014 Digit\u00e1ln\u00ed sn\u00edma\u010de",t35:"6\u00d7 digit\u00e1ln\u00ed LC \u2192 Indik\u00e1tor \u2192 UCS-X2 \u2192 V\u00e1\u0161 p\u0159ehled",t36:"Cesta B \u2014 Analogov\u00e9 sn\u00edma\u010de",t37:"6\u00d7 analogov\u00e9 LC \u2192 Digitaliz\u00e9r (WOESK-L) \u2192 UCS-X3 \u2192 V\u00e1\u0161 p\u0159ehled",t38:"Ob\u011b cesty dod\u00e1vaj\u00ed: data o stavu ka\u017ed\u00e9 bu\u0148ky, logov\u00e1n\u00ed transakc\u00ed, automatick\u00e9 alarmy (SMS/email), REST API. A\u0165 je va\u0161e v\u00e1ha 2 nebo 20 let star\u00e1 \u2014 funguje.",t39:"V\u00c1\u0160 P\u0158EHLED V\u00ddNOS\u016e",t40:"Va\u0161e v\u00e1ha je pokladna. Tady je \u00fa\u010dtenka.",t41:"Celkov\u00fd v\u00fdnos: CZK 1 060 390 za 6 aktivn\u00edch dn\u016f \u00b7 72 transakc\u00ed \u00b7 29,46 t/kamion pr\u016fm\u011br",t42:"SOUHRN V\u00ddNOS\u016e",t43:"6 aktivn\u00edch dn\u016f \u00b7 CZK 500/tuna z\u00e1kladn\u00ed cena",t44:"Transakce",t45:"Pr\u016fm\u011br na kamion",t46:"SK\u00d3RE KONZISTENCE: 100 % \u2014 SYST\u00c9M PLN\u011a FUNK\u010cN\u00cd",t47:"Anal\u00fdza odchylek po bu\u0148k\u00e1ch: Start vs. Konec vs. Teoretick\u00e1. LC8 s odchylkou 44,6 % ozna\u010dena.",t48:"Ter\u00e9nn\u00ed instalace \u2014 konfigurace digit\u00e1ln\u00edch sn\u00edma\u010d\u016f s br\u00e1nou UCS-X2",t49:"PODVODY A POLOHOV\u00c1N\u00cd",t50:"Zachyt\u00edte to, co kamera nem\u016f\u017ee",t51:"01 \u010c\u00e1ste\u010dn\u00e9 polohov\u00e1n\u00ed",t52:"\u0158idi\u010d zastav\u00ed se zadn\u00ed n\u00e1pravou mimo hranu v\u00e1hy, podv\u00e1\u017een\u00ed 1\u20133 t na pr\u016fjezd.",t53:"02 Softwarov\u00e1 manipulace",t54:"Kalibrace indik\u00e1toru naru\u0161ena. V\u00e1ha m\u011b\u0159\u00ed spr\u00e1vn\u011b pro testovac\u00ed z\u00e1va\u017e\u00ed, drif\u0165uje pod re\u00e1lnou z\u00e1t\u011b\u017e\u00ed.",t55:"03 Podvod opakovan\u00fdm v\u00e1\u017een\u00edm",t56:"Stejn\u00fd kamion projede dvakr\u00e1t s jin\u00fdm ID. P\u0159ipsan\u00ed duplik\u00e1tn\u00edch n\u00e1klad\u016f.",t57:"SensWEIGHT® Bridge zachyt\u00ed v\u0161echny t\u0159i",t58:"Vzorec zat\u00ed\u017een\u00ed po bu\u0148k\u00e1ch odhal\u00ed polohov\u00e9 anom\u00e1lie",t59:"Nem\u011bnn\u00e9 auditovac\u00ed stopy zabra\u0148uj\u00ed manipulaci s daty",t60:"Korelace transakc\u00ed ozna\u010duje opakuj\u00edc\u00ed se vzorce",t61:"CCTV kamera uk\u00e1\u017ee kamion. SensWEIGHT® Bridge uk\u00e1\u017ee, zda je kamion na v\u00e1ze spr\u00e1vn\u011b.",t62:"\u00da\u010cET",t63:"51 dn\u00ed do pln\u00e9 n\u00e1vratnosti",t64:"Odchylka LC8 \u2014 neviditeln\u00e1 pro indik\u00e1tor 5 m\u011bs\u00edc\u016f. 23 400 \u20ac v podhodnocen\u00e9m materi\u00e1lu.",t65:"Referen\u010dn\u00ed projekt",t66:"Lokalita 1: modernizace s ANPR + RFID samoobsluhou. Lokalita 2: nov\u00e1 v\u00e1ha 18\u00d73 m, 60 t. Ob\u011b: pln\u00e9 auditovac\u00ed stopy, \u017e\u00e1dn\u00e9 pap\u00edrov\u00e9 l\u00edstky.",t67:"Riziko bez SensWEIGHT® Bridge",t68:"Selh\u00e1n\u00ed LC + podvody",t69:"\u00danih z\u00e1sob",t70:"Investice UCS (jednor\u00e1zov\u00e1)",t71:"Ov\u011b\u0159en\u00e1 ro\u010dn\u00ed \u00faspora",t72:"Doba n\u00e1vratnosti",t73:"51 dn\u00ed",t74:"ROI 1. rok",t75:"DAL\u0160\u00cd KROK",t76:"Nasa\u010fte to na svou nejv\u00edce vyt\u00ed\u017eenou v\u00e1hu",t77:"Roz\u0161i\u0159te hranice sv\u00e9ho vn\u00edm\u00e1n\u00ed",t78:"30denn\u00ed placen\u00fd pilot na nejfrekventovan\u011bj\u0161\u00ed v\u00e1ze. Pokud nezjist\u00edme drift \u2014 odejdete.",t79:"Ochrana ka\u017ed\u00e9 transakce",t80:"Ov\u011b\u0159en\u00ed p\u0159esnosti po bu\u0148k\u00e1ch p\u0159i ka\u017ed\u00e9m v\u00e1\u017een\u00ed.",t81:"Zastavte podvody d\u0159\u00edve, ne\u017e za\u010dnou",t82:"Ov\u011b\u0159en\u00ed polohov\u00e1n\u00ed, nem\u011bnn\u00e9 z\u00e1znamy, detekce vzorci.",t83:"Automatizujte v\u00e1\u017en\u00ed",t84:"ANPR, RFID, samoobslu\u017en\u00fd kiosek. Bez dedikovan\u00e9ho person\u00e1lu.",t85:"Kontakt: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"},
+sr:{t1:"Da li je va\u0161a kasa ta\u010dna?",t2:"10.000 tona preko va\u0161e vage mese\u010dno. \u010cak i 1% drift = 100 tona poklanjate besplatno.",t3:"PATENTIRANO \u00b7 EP 4 524 526",t4:"CURENJE OD 1%",t5:"Gre\u0161ka koju ne vidite na indikatoru",t6:"BEZ SensWEIGHT® Bridge",t7:"Indikator pokazuje \u201e42.410 kg\u201c \u2014 izgleda ta\u010dno. Operater \u0161tampa listi\u0107.",t8:"Ispod povr\u0161ine: LC8 odstupa 44,6% od teoretske \u2014 nevidljivo za operatera",t9:"Vaga pokazuje broj. Samo pokazuje POGRESAN broj.",t10:"Godi\u0161nja kalibracija pro\u0161la \u2014 ali degradacija se de\u0161ava izme\u0111u provera",t11:"2% drift na 10.000 t/mesec po 50 \u20ac/t = 120.000 \u20ac/god neotkrivenih gubitaka",t12:"\u20ac110.160",t13:"godi\u0161nji rizik \u2014 kvarovi LC + prevare + curenje zaliha",t14:"SA SensWEIGHT® Bridge",t15:"Zdravlje svake merne \u0107elije vidljivo \u2014 svako merenje verifikovano",t16:"Odstupanje otkriveno odmah \u2014 ne na slede\u0107oj godi\u0161njoj kalibraciji",t17:"Pozicioniranje vozila verifikovano \u2014 prevare delimi\u010dnim merenjem uhva\u0107ene",t18:"Prihod po transakciji pra\u0107en \u2014 va\u0161a vaga postaje kasa",t19:"DOKAZI SA TERENA",t20:"Logisti\u010dki centar otkrio da LC8 la\u017ee 5 meseci",t21:"\u0160TA SE DESILO",t22:"Prometna kamionska vaga u poljoprivrednom depou. 6 analognih mernih \u0107elija ispod platforme 18\u00d73m. Godi\u0161nja kalibracija: pro\u0161la.",t23:"SensWEIGHT® Bridge je utvrdio da LC8 prijavljuje samo 971 kg od o\u010dekivanih ~3.500 kg \u2014 odstupanje od 44,6%.",t24:"Vaga je sistemski podmeravala dolazne isporuke \u017eita \u2014 poljoprivrednici su isporučivali vi\u0161e nego \u0161to im je priznato.",t25:"Popravka: zamena LC8 (380 \u20ac), repozicioniranje vodi\u010da. Analitika prihoda sada pokazuje CZK 1.060.390 za 6 aktivnih dana.",t26:"44,6%",t27:"odstupanje LC8",t28:"380 \u20ac",t29:"cena popravke",t30:"23.400 \u20ac",t31:"gubitak za 5 meseci",t32:"DVA PUTA, JEDAN REZULTAT",t33:"Radi sa onim \u0161to ve\u0107 imate",t34:"Put A \u2014 Digitalne merne \u0107elije",t35:"6\u00d7 digitalne LC \u2192 Indikator \u2192 UCS-X2 \u2192 Va\u0161 pregled",t36:"Put B \u2014 Analogne merne \u0107elije",t37:"6\u00d7 analogne LC \u2192 Digitalizator (WOESK-L) \u2192 UCS-X3 \u2192 Va\u0161 pregled",t38:"Oba puta isporu\u010duju: podatke o zdravlju svake \u0107elije, evidenciju transakcija, automatske alarme, REST API. Bilo da je vaga stara 2 ili 20 godina \u2014 radi.",t39:"VA\u0160 PREGLED PRIHODA",t40:"Va\u0161a vaga je kasa. Evo ra\u010duna.",t41:"Ukupan prihod: CZK 1.060.390 za 6 aktivnih dana \u00b7 72 transakcije \u00b7 29,46 t/kamion prose\u010dno",t42:"REZIME PRIHODA",t43:"6 aktivnih dana \u00b7 CZK 500/tona osnovna cena",t44:"Transakcije",t45:"Prose\u010dno po kamionu",t46:"OCENA KONZISTENTNOSTI: 100% \u2014 SISTEM POTPUNO OPERATIVAN",t47:"Analiza odstupanja po \u0107elijama: Po\u010detak vs. Kraj vs. Teoretska. LC8 sa 44,6% odstupanja ozna\u010dena.",t48:"Terenska instalacija \u2014 konfiguracija digitalnih mernih \u0107elija sa UCS-X2 kapijom",t49:"PREVARE I POZICIONIRANJE",t50:"Uhvatite ono \u0161to kamera ne mo\u017ee",t51:"01 Delimi\u010dno pozicioniranje",t52:"Voza\u010d staje sa zadnjom osovinom van ivice vage, podmeravanje za 1\u20133 tone po prolazu.",t53:"02 Softverska manipulacija",t54:"Kalibracija indikatora poreme\u0107ena. Vaga meri ta\u010dno za test tegove, ali driftuje pod realnim optere\u0107enjem.",t55:"03 Prevara ponovljenim merenjem",t56:"Isti kamion prolazi dvaput sa razli\u010ditim ID-jevima. Pripisivanje duplikatnih tovara.",t57:"SensWEIGHT® Bridge hvata sva tri",t58:"Obrazac optere\u0107enja po \u0107elijama otkriva anomalije pozicioniranja",t59:"Nepromenljivi revizorski tragovi spre\u010davaju manipulaciju podacima",t60:"Korelacija transakcija ozna\u010dava ponavljaju\u0107e obrasce",t61:"CCTV kamera pokazuje kamion. SensWEIGHT® Bridge pokazuje da li je kamion na vazi ispravno.",t62:"RA\u010cUN",t63:"51 dan do pune isplativosti",t64:"Odstupanje LC8 \u2014 nevidljivo za indikator 5 meseci. 23.400 \u20ac u nedovoljno prijavljenom materijalu.",t65:"Referentni projekat",t66:"Lokacija 1: modernizacija sa ANPR + RFID samoposlu\u017eivanjem. Lokacija 2: nova vaga 18\u00d73m, 60 t.",t67:"Rizik bez SensWEIGHT® Bridge",t68:"Kvarovi LC + prevare",t69:"Curenje zaliha",t70:"UCS investicija (jednokratna)",t71:"Proverena godi\u0161nja u\u0161teda",t72:"Period isplativosti",t73:"51 dan",t74:"ROI 1. godina",t75:"SLEDE\u0106I KORAK",t76:"Postavite na najoptere\u0107eniju vagu",t77:"Pro\u0161irite granice va\u0161e percepcije",t78:"30-dnevni pla\u0107eni pilot na najprometnijoj vagi.",t79:"Za\u0161titite svaku transakciju",t80:"Verifikacija ta\u010dnosti po \u0107elijama na svakom merenju.",t81:"Zaustavite prevare pre nego \u0161to po\u010dnu",t82:"Verifikacija pozicioniranja, nepromenljivi zapisi, detekcija obrazaca.",t83:"Automatizujte ku\u0107u za merenje",t84:"ANPR, RFID, samoposlu\u017eni kiosk. Bez posve\u0107enog osoblja.",t85:"Kontakt: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"}
+};
+document.querySelectorAll('.lang-btn').forEach(function(btn){btn.addEventListener('click',function(){var lang=this.getAttribute('data-lang');document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active')});this.classList.add('active');var t=T[lang]||T.en;document.documentElement.lang=lang;document.querySelectorAll('[data-i]').forEach(function(el){var k=el.getAttribute('data-i');if(t[k]!==undefined)el.textContent=t[k]})})});
+})();
+</script>
+</body>
+</html>
