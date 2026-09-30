@@ -1,0 +1,145 @@
+{# Shared presentation-style story block (problem → evidence → connect → detail → math).
+   Used by /sensweight/ (Bridge) and /industries/beltscale/ (SensBELT). Expects `s` = a story object from translations.js. #}
+
+{% if s.problem %}
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.problem.tagline }}</div>
+      <h2>{{ s.problem.heading }}</h2>
+      {% if s.problem.lead %}<p class="section-sub">{{ s.problem.lead }}</p>{% endif %}
+    </div>
+    <div class="compare-grid">
+      <div class="compare-col compare-col--without">
+        <div class="compare-label">Without monitoring</div>
+        <ul class="compare-list">
+          {% for li in s.problem.without %}<li>{{ li }}</li>{% endfor %}
+        </ul>
+      </div>
+      <div class="compare-col compare-col--with">
+        <div class="compare-label">With UCS</div>
+        <ul class="compare-list">
+          {% for li in s.problem.with %}<li>{{ li }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% if s.problem.total %}
+    <div class="story-total">
+      <div class="story-total-main">
+        <span class="story-total-label">{{ s.problem.total.label }}</span>
+        <span class="story-total-value">{{ s.problem.total.value }}</span>
+      </div>
+      {% for part in s.problem.total.parts %}
+      <div class="story-total-part">
+        <span class="story-total-label">{{ part.label }}</span>
+        <span class="story-total-part-value">{{ part.value }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if s.evidence %}
+<section class="section">
+  <div class="container story-evidence">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.evidence.tagline }}</div>
+      <h2>{{ s.evidence.heading }}</h2>
+    </div>
+    <div class="story-evidence-body">
+      {% for para in s.evidence.paragraphs %}<p>{{ para }}</p>{% endfor %}
+    </div>
+    <div class="story-stats">
+      {% for st in s.evidence.stats %}
+      <div class="story-stat">
+        <span class="story-stat-value">{{ st.value }}</span>
+        <span class="story-stat-label">{{ st.label }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if s.connect %}
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.connect.tagline }}</div>
+      <h2>{{ s.connect.heading }}</h2>
+      {% if s.connect.sub %}<p class="section-sub">{{ s.connect.sub }}</p>{% endif %}
+    </div>
+    <div class="chain-list">
+      {% for path in s.connect.paths %}
+      <div class="chain">
+        <div class="chain-title">{{ path.title }}</div>
+        <ol class="chain-nodes">
+          {% for node in path.chain %}<li class="chain-node{% if loop.last %} chain-node--end{% endif %}"><span>{{ node }}</span></li>{% endfor %}
+        </ol>
+      </div>
+      {% endfor %}
+    </div>
+    {% if s.connect.steps %}
+    <div class="steps-grid">
+      {% for step in s.connect.steps %}
+      <div class="step-card">
+        <div class="step-num">0{{ loop.index }}</div>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if s.detail %}
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.detail.tagline }}</div>
+      <h2>{{ s.detail.heading }}</h2>
+      {% if s.detail.lead %}<p class="section-sub">{{ s.detail.lead }}</p>{% endif %}
+    </div>
+    <div class="features-grid">
+      {% for it in s.detail.items %}
+      <div class="feature-card">
+        <div class="feature-icon">0{{ loop.index }}</div>
+        <h3>{{ it.title }}</h3>
+        <p>{{ it.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% if s.detail.answers %}
+    <ul class="story-answers">
+      {% for a in s.detail.answers %}<li>{{ a }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% if s.detail.note %}<p class="story-note">{{ s.detail.note }}</p>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if s.math %}
+<section class="section">
+  <div class="container story-math">
+    <div class="section-header">
+      <div class="section-tagline">{{ s.math.tagline }}</div>
+      <h2>{{ s.math.heading }}</h2>
+      {% if s.math.sub %}<p class="section-sub">{{ s.math.sub }}</p>{% endif %}
+    </div>
+    <div class="specs-wrap">
+      <table class="specs-table math-table">
+        <tbody>
+          {% for r in s.math.rows %}
+          <tr class="{% if r.sub %}math-row--sub{% endif %}{% if r.strong %} math-row--strong{% endif %}"><td>{{ r.label }}</td><td>{{ r.value }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endif %}

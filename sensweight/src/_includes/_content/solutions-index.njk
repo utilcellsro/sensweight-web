@@ -1,8 +1,5 @@
 {% set t = translations[lang] %}
 {% set s = t.solutions_index %}
-{% set icons = {sensweight: "SW", senssilo: "SIL", sensgeo: "GEO", sensatmo: "ATM", sensgreen: "GRN"} %}
-{% set iconColors = {sensweight: "var(--blue)", senssilo: "var(--ok)", sensgeo: "var(--sky)", sensatmo: "var(--warn)", sensgreen: "var(--blue-dark)"} %}
-
 <section class="page-hero">
   <div class="container page-hero-content">
     <div class="hero-tagline">{{ s.tagline }}</div>
@@ -13,19 +10,6 @@
 
 <section class="section section-alt">
   <div class="container">
-    <div class="solutions-grid">
-      {% for key in ["sensweight", "senssilo", "sensgeo", "sensatmo", "sensgreen"] %}
-      {% set p = t.products[key] %}
-      <a class="sol-card" href="/{{ key }}/">
-        <div class="sol-icon" style="background:{{ iconColors[key] }}">{{ icons[key] }}</div>
-        <h3>{{ p.name }}</h3>
-        <p>{{ p.desc }}</p>
-        <div class="sol-footer">
-          <span class="sol-product">{{ p.badge }}</span>
-          <span class="sol-link">Learn more →</span>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
+    {% include "_content/solution-tiles.njk" %}
   </div>
 </section>

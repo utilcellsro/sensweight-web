@@ -7,7 +7,7 @@ module.exports = {
       sub: "Uncalibrated load cells bleed revenue. Our patented technology (EP 4 524 526) catches it before it costs you.",
       tile1_title: "Industries", tile1_sub: "Find your industry, start here",
       tile2_title: "Products", tile2_sub: "Sensors, indicators, and hardware",
-      tile3_title: "Solutions", tile3_sub: "Five dashboard-based monitoring systems",
+      tile3_title: "Solutions", tile3_sub: "Three dashboard-based monitoring systems",
     },
     flow: {
       tagline: "How it works",
@@ -23,15 +23,16 @@ module.exports = {
       roi: "6–18 mo", roi_label: "Typical investment payback period",
     },
     products_section_title: "Solutions",
-    products_subtitle: "Five dashboard-based monitoring solutions. One unified cloud platform.",
+    products_subtitle: "What we build, in the field",
     custom_solution: {
       title: "Custom, Built to Your Site",
+      desc_industry: "Monitoring engineered to your site's requirements — we specify, install, and connect exactly what it needs.",
       desc: "Every other monitoring need — built to your requirements. If it isn't one of the systems above, we'll engineer and deploy exactly what your site needs.",
       badge: "CUSTOM",
       cta: "Talk to us",
     },
     solutions_index: {
-      tagline: "Solutions", heading: "Five monitoring systems. One cloud dashboard.",
+      tagline: "Solutions", heading: "Three monitoring systems. One cloud dashboard.",
       sub: "UCS hardware paired with a purpose-built cloud dashboard for each system.",
     },
     industries: {
@@ -42,10 +43,10 @@ module.exports = {
       cta_buy: "Talk to us →",
       items: {
         quarries: {
-          name: "Quarries & Gravel Pits", tagline: "Aggregate output and pit-wall safety in one system",
-          headline: "Weigh every load out. Watch every wall for movement.",
-          sub: "SensWEIGHT® weighs every load out. SensGEO® watches the walls for movement.",
-          solutions: ["sensweight", "sensgeo"],
+          name: "Quarries & Gravel Pits", tagline: "Aggregate output, weighed and verified",
+          headline: "Weigh every load out. Know every tonne.",
+          sub: "SensWEIGHT® weighs every load leaving the pit — continuously monitored, so drift and errors are caught before they cost you.",
+          solutions: ["sensweight"],
         },
         concrete: {
           name: "Concrete Plants", tagline: "Precision batching, honest deliveries",
@@ -56,14 +57,14 @@ module.exports = {
         silos: {
           name: "Silos & Storage", tagline: "Real-time inventory by weight",
           headline: "No more manual silo dips. Accurate inventory, automatically.",
-          sub: "SensSILO® delivers real-time tonnage and low-stock alerts — no manual dips.",
+          sub: "SensSILO delivers real-time tonnage and low-stock alerts — no manual dips.",
           solutions: ["senssilo"],
         },
         recycling: {
-          name: "Recycling", tagline: "Weigh the material. Watch the air.",
-          headline: "Know what came in, what went out, and what's in the air between.",
-          sub: "SensWEIGHT® tracks material in and out. SensATMO® keeps air quality in check.",
-          solutions: ["sensweight", "sensatmo"],
+          name: "Recycling", tagline: "Weigh the material in and out.",
+          headline: "Know exactly what came in and what went out.",
+          sub: "SensWEIGHT® tracks material in and out — every load weighed, logged, and verified.",
+          solutions: ["sensweight"],
         },
         logistics: {
           name: "Logistics & Distribution", tagline: "Automated vehicle & fleet weighing",
@@ -73,30 +74,122 @@ module.exports = {
         },
         beltscale: {
           name: "Belt Scale Operations", tagline: "Continuous gravimetric flow measurement",
-          headline: "Know exactly how much is moving — in real time.",
-          sub: "SensWEIGHT® replaces manual sampling and flags off-spec material before it ships.",
+          kicker: "SensBELT — Belt Scale Monitoring",
+          headline: "Stop paying for air on your conveyor.",
+          sub: "Your belt can't tell 500 tonnes an hour from zero. Your electricity bill can.",
+          badges: ["Patented · EP 4 524 526", "Empty-belt detection", "Continuous calibration check", "Running in 2 hours"],
           solutions: ["sensweight"],
+          // Content from the COO's SensBelt presentation (v2, 2026-09-26)
+          story: {
+            problem: {
+              tagline: "The ghost belt",
+              heading: "The most expensive machine that does nothing",
+              lead: "You wouldn't leave your car engine running all night in the car park. Your belt does exactly that, every day.",
+              without: [
+                "The belt keeps running after the last truck dumps — nobody notices for 45 minutes, 3–4 times per shift.",
+                "A 75 kW drive running empty 3 h/day × 320 days × €0.18/kWh = €12,960 a year wasted.",
+                "Accelerated belt and roller wear: another €21,600 a year.",
+                "No way to check the belt scale is still accurate without a site visit.",
+              ],
+              with: [
+                "Empty belt detected automatically — shutdown signal after 5 minutes.",
+                "Calibration drift tracked continuously — no technician visits needed.",
+                "Throughput verified from your phone.",
+              ],
+              total: {
+                label: "Ghost-running cost per belt",
+                value: "€34,560 / year",
+                parts: [
+                  { label: "Electricity waste", value: "€12,960" },
+                  { label: "Mechanical wear",   value: "€21,600" },
+                ],
+              },
+            },
+            evidence: {
+              tagline: "Field evidence",
+              heading: "A quarry found 847 hours of ghost running a year",
+              paragraphs: [
+                "A medium-size aggregate quarry, two belt scales feeding a crusher. Operators assumed the belts only ran while trucks were dumping — the control room saw ON/OFF status, not load.",
+                "SensBELT found Belt #1 running empty for 2.65 hours a day on average: 847 hours a year and €11,430 of wasted energy — plus 14 months of extra wear, bringing a €38,000 belt replacement forward by 14 months.",
+                "The fix: automatic idle shutdown — no load for 5 minutes sends a stop signal to the drive. Ghost running dropped to near zero by week 2.",
+              ],
+              stats: [
+                { value: "847 h",   label: "Ghost running per year" },
+                { value: "€11,430", label: "Energy wasted" },
+                { value: "14 mo",   label: "Early belt replacement" },
+              ],
+            },
+            connect: {
+              tagline: "Installation",
+              heading: "Running in 2 hours",
+              sub: "No belt stoppage, no recalibration. One device, one cable.",
+              paths: [
+                { title: "Signal path", chain: ["Belt scale load cells", "Indicator", "UCS X3 gateway", "UCS Cloud dashboard"] },
+              ],
+              steps: [
+                { title: "Connect",  body: "One device connects to the indicator's RS-232/485 port. No belt stoppage, no recalibration." },
+                { title: "Transmit", body: "The UCS X3 gateway sends data over a secure wireless link. Optional extra sensors: temperature, vibration." },
+                { title: "See",      body: "Live throughput, empty-belt detection, calibration-drift alerts and energy analytics — from any device, with automatic alerts and a REST API." },
+              ],
+            },
+            detail: {
+              tagline: "Calibration truth",
+              heading: "Is your belt scale still accurate?",
+              lead: "Your indicator says 342 t/h. But is it? SensBELT checks continuously — so you don't have to send a technician to find out.",
+              items: [
+                { title: "Zero drift",        body: "Does the belt read 0 when it's empty?" },
+                { title: "Span deviation",    body: "Is the full-scale reading still correct?" },
+                { title: "Signal noise",      body: "Is a load cell starting to degrade?" },
+                { title: "Disconnection & overload", body: "Every event logged and timestamped." },
+              ],
+              note: "Today's readings are compared with your historical baseline, so you're alerted 4–6 weeks before accuracy drifts out of tolerance — for example: “LC2 will exceed ±0.5% in about 6 weeks. Schedule calibration.”",
+            },
+            math: {
+              tagline: "The math",
+              heading: "36 days to full payback",
+              sub: "One unnecessary technician visit costs €142; the system runs €59–99 a month. Avoiding a single wasted trip pays for it — everything else is profit.",
+              rows: [
+                { label: "Risk without SensBELT",  value: "€34,560 / yr" },
+                { label: "UCS investment",         value: "€2,588" },
+                { label: "UCS X3 edge gateway",    value: "€600",   sub: true },
+                { label: "Dashboard setup",        value: "€800",   sub: true },
+                { label: "Annual service",         value: "€1,188", sub: true },
+                { label: "Verified annual savings", value: "€26,496 / yr", strong: true },
+                { label: "Payback period",         value: "36 days", strong: true },
+                { label: "Year-1 ROI",             value: "924%",    strong: true },
+              ],
+            },
+            pilot: {
+              heading: "Prove it on your busiest conveyor",
+              body: "A 30-day paid pilot on your most-used belt. If we don't find wasted hours — walk away.",
+              points: [
+                { title: "Kill ghost running",           body: "Automatic empty-belt detection and energy savings from day one." },
+                { title: "Protect measurement accuracy", body: "Continuous calibration checks without site visits — know when accuracy drifts, not after it's too late." },
+                { title: "Extend belt life",             body: "Fewer empty running hours, less wear. Your €38,000 belt replacement should come on schedule, not 14 months early." },
+              ],
+            },
+          },
         },
         geotechnical: {
           name: "Geotechnical & Construction", tagline: "Construction and civil infrastructure",
           headline: "Catch settlement and movement before it becomes failure.",
-          sub: "SensGEO® streams live structural data — catching movement before it becomes failure.",
-          solutions: ["sensgeo"],
+          sub: "We engineer a monitoring system for your site — sensors, installation, and live structural data in UCS Cloud.",
+          solutions: ["custom"],
         },
         greenroofs: {
           name: "Green Roofs & Structures", tagline: "Sustainable architecture structural monitoring",
           headline: "Beautiful. But safe.",
-          sub: "SensGREEN® monitors structural load — keeping weight limits and saturation in check.",
-          solutions: ["sensgreen"],
+          sub: "We engineer structural load monitoring for your building — keeping weight limits and saturation in check.",
+          solutions: ["custom"],
         },
       },
     },
     products: {
       sensweight: { name: "SensWEIGHT®", desc: "Remote weighing monitor for belt scales, weighbridges, and silo inventory.", badge: "FLAGSHIP" },
-      senssilo:   { name: "SensSILO®",   desc: "Continuous silo and container level monitoring with fill and low-stock alerts.", badge: "LEVEL" },
-      sensgeo:    { name: "SensGEO®",    desc: "Geotechnical inclination and displacement monitoring for construction sites.", badge: "GEO" },
-      sensatmo:   { name: "SensATMO®",   desc: "Atmospheric and environmental monitoring for industrial and clean-room sites.", badge: "ENVIRO" },
-      sensgreen:  { name: "SensGREEN®",  desc: "Structural load monitoring for green roofs and living walls.", badge: "GREEN" },
+      senssilo:   { name: "SensSILO",   desc: "Continuous silo and container level monitoring with fill and low-stock alerts.", badge: "LEVEL" },
+      sensgeo:    { name: "SensGEO",    desc: "Geotechnical inclination and displacement monitoring for construction sites.", badge: "GEO" },
+      sensatmo:   { name: "SensATMO",   desc: "Atmospheric and environmental monitoring for industrial and clean-room sites.", badge: "ENVIRO" },
+      sensgreen:  { name: "SensGREEN",  desc: "Structural load monitoring for green roofs and living walls.", badge: "GREEN" },
       ucsx3:      { name: "UCS X3", desc: "Industrial IoT gateway — 4G, Ethernet, Wi-Fi 6, edge AI.", badge: "HARDWARE" },
     },
     demo_cta: {
@@ -174,17 +267,98 @@ module.exports = {
       placeholder_message: "Tell us about your site and sensor requirements…",
       option_default: "Select a solution",
       submit: "Submit request",
-      note: "Opens your email client with your details pre-filled — no login required.",
+      note: "We'll email you a confirmation right away — no login required.",
       cta_heading: "Want to see it working first?",
       cta_sub: "See live sensor data before you talk to a dealer.",
       cta_demo: "See Live Demo",
     },
 
     sensweight: {
-      hero_tagline: "SensWEIGHT® — Weighing Monitor",
-      hero_headline: "8-channel remote weighing. Industrial-grade. Cloud-connected.",
-      hero_sub: "Monitor belt scales, weighbridges, and silos from anywhere — sub-gram accurate.",
-      badges: ["IP65 / IP67", "OIML R60 C3", "24-bit Σ-Δ", "4G LTE Failover", "ATEX Zone 2"],
+      hero_tagline: "SensWEIGHT® Bridge — Weighbridge Monitoring",
+      hero_headline: "Your weighbridge is a cash register. Is it accurate?",
+      hero_sub: "10,000 tonnes a month across your scale. Even 1% drift means 100 tonnes given away for free.",
+      badges: ["Patented · EP 4 524 526", "Per-load-cell diagnostics", "Digital & analog load cells", "Fraud detection", "SMS / email alerts"],
+      // Content from the COO's SensWeightBridge presentation (v3, 2026-09-26)
+      story: {
+        problem: {
+          tagline: "The 1% leak",
+          heading: "The error you can't see on your indicator",
+          lead: "The scale shows a number. It just shows the wrong number.",
+          without: [
+            "The indicator shows 42,410 kg — it looks right, so the operator prints the ticket.",
+            "Underneath, one load cell is 44.6% off its theoretical value — invisible to the operator.",
+            "Annual calibration passed — but degradation happens between checks.",
+            "2% drift on 10,000 t/month at €50/t = €120,000 a year in undetected losses.",
+          ],
+          with: [
+            "Per-load-cell health on every weighment — verified at cell level.",
+            "Deviation detected instantly, not at the next annual calibration.",
+            "Vehicle positioning verified — partial-weighing fraud caught.",
+            "Revenue tracked per transaction — your scale becomes a cash register.",
+          ],
+        },
+        evidence: {
+          tagline: "Field evidence",
+          heading: "One load cell was wrong for 5 months — and nobody knew",
+          paragraphs: [
+            "A busy truck scale at an agricultural depot: an 18 × 3 m deck, annual calibration passed, indicator working, no complaints.",
+            "SensWEIGHT® found load cell 8 reporting only 971 kg against an expected ~3,500 kg. The indicator's total compensated across the other cells and masked the problem — inbound grain deliveries were systematically underweighed, so farmers delivered more than they were credited for.",
+            "The fix: one replacement load cell (€380) and repositioned vehicle guidance markers.",
+          ],
+          stats: [
+            { value: "44.6%",   label: "Load cell 8 deviation" },
+            { value: "€380",    label: "Cost of the fix" },
+            { value: "€23,400", label: "Loss over 5 months" },
+          ],
+        },
+        connect: {
+          tagline: "How it connects",
+          heading: "Digital or analog load cells — both covered",
+          sub: "Both paths deliver per-cell health data, transaction logging, automatic SMS/email alerts and a REST API — whether the scale is 2 years old or 20.",
+          paths: [
+            { title: "Path A — Digital load cells", chain: ["Digital load cells", "Indicator", "UCS X2 gateway", "UCS Cloud dashboard"] },
+            { title: "Path B — Analog load cells",  chain: ["Analog load cells", "Digitizer", "UCS X3 gateway", "UCS Cloud dashboard"] },
+          ],
+        },
+        detail: {
+          tagline: "Fraud & positioning",
+          heading: "Catch what a camera can't",
+          items: [
+            { title: "Partial positioning",    body: "The driver stops with the rear axle off the scale edge, underweighing by 1–3 tonnes per pass." },
+            { title: "Software manipulation",  body: "Indicator calibration is tampered with — the scale reads correctly for test weights and drifts under real loads." },
+            { title: "Repeat weighing",        body: "The same truck crosses twice under different IDs to credit duplicate loads." },
+          ],
+          answers: [
+            "Per-cell load patterns reveal positioning anomalies.",
+            "Immutable audit trails prevent data tampering.",
+            "Transaction correlation flags repeat patterns.",
+          ],
+          note: "A CCTV camera shows you the truck. SensWEIGHT® shows you whether the truck is on the scale correctly.",
+        },
+        math: {
+          tagline: "The math",
+          heading: "51 days to full payback",
+          sub: "Worked example from a two-weighbridge deployment with ANPR and RFID self-service — full audit trail, no paper tickets.",
+          rows: [
+            { label: "Risk without SensWEIGHT®", value: "€110,160 / yr" },
+            { label: "Load cell failures + fraud", value: "€87,120", sub: true },
+            { label: "Inventory leakage",          value: "€23,040", sub: true },
+            { label: "UCS investment (one-time)",  value: "€15,104" },
+            { label: "Verified annual savings",    value: "€108,005 / yr", strong: true },
+            { label: "Payback period",             value: "51 days", strong: true },
+            { label: "Year-1 ROI",                 value: "615%",    strong: true },
+          ],
+        },
+        pilot: {
+          heading: "Put it on your busiest scale",
+          body: "A 30-day paid pilot on your highest-traffic weighbridge. If we don't detect drift or save you a trip — walk away.",
+          points: [
+            { title: "Protect every transaction",   body: "Per-cell accuracy verification on every weighment." },
+            { title: "Stop fraud before it starts", body: "Positioning verification, immutable records, pattern detection." },
+            { title: "Automate the scale house",    body: "ANPR, RFID and a self-service kiosk — no dedicated staff needed." },
+          ],
+        },
+      },
       pitch_tagline: "What is SensWEIGHT?",
       pitch_heading: "Continuous diagnostics, not annual guesswork",
       pitch_body: "SensWEIGHT is a remote weighing monitor that continuously diagnoses the health of your weighbridge or belt scale — reading up to 8 load cells in real time to catch drift, imbalance, and failure before they cost you. Think of it as continuous vital-sign monitoring for your weighing equipment: instead of waiting for an annual calibration \"check-up\" to catch a problem after it's already cost you money, SensWEIGHT reads every load cell's micro-voltage signal around the clock, flagging the earliest signs of trouble — the same way a heart monitor catches an irregularity long before it becomes an emergency.",
@@ -249,11 +423,11 @@ module.exports = {
         { label: "Certifications", value: "CE, RoHS, FCC, carrier certified (AT&T / Verizon)" },
       ],
       compat_title: "Compatible With All SensXXX Lines",
-      compat: ["SensWEIGHT®", "SensSILO®", "SensGEO®", "SensATMO®", "SensGREEN®"],
+      compat: ["SensWEIGHT®", "SensSILO", "SensGEO", "SensATMO", "SensGREEN"],
     },
     demo_hub: {
       tagline: "Live Demo",
-      heading: "See real sensor data from all five product lines",
+      heading: "See real sensor data from our monitoring systems",
       sub: "No login required. Pick a product line to open its live reference dashboard.",
       cta: "View live demo",
       cta_learn: "Learn more",
@@ -281,7 +455,7 @@ module.exports = {
       senssilo: {
         count: 6,
         system: "6-Silo Reference Site",
-        title: "SensSILO® Live Demo",
+        title: "SensSILO Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "Combined Fill",
         label_avg: "Avg Fill Level",
@@ -299,7 +473,7 @@ module.exports = {
       sensgeo: {
         count: 6,
         system: "6-Node Slope Reference Site",
-        title: "SensGEO® Live Demo",
+        title: "SensGEO Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "Max Tilt",
         label_avg: "Avg Tilt",
@@ -317,7 +491,7 @@ module.exports = {
       sensatmo: {
         count: 6,
         system: "Multi-Parameter Reference Node",
-        title: "SensATMO® Live Demo",
+        title: "SensATMO Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "CO₂ Level",
         label_avg: "Comfort Index",
@@ -335,7 +509,7 @@ module.exports = {
       sensgreen: {
         count: 6,
         system: "6-Zone Green Roof Reference Site",
-        title: "SensGREEN® Live Demo",
+        title: "SensGREEN Live Demo",
         subtitle: "Live data · Auto-refreshes every 3 s",
         label_total: "Total Load",
         label_avg: "Avg Load",
@@ -353,7 +527,7 @@ module.exports = {
     },
     products_page: {
       tagline: "Products", heading: "The real, physical components behind every UCS system",
-      sub: "Load cells, indicators, junction boxes, gateways, and accessories. Mocked catalog — confirm SKUs and pricing before quoting.",
+      sub: "Load cells, indicators, junction boxes, gateways, and accessories.",
       cta_note: "Need a full system quote?", cta_buy: "How to Buy →",
       categories: [
         {
@@ -415,7 +589,7 @@ module.exports = {
       tagline: "About Us",
       heading: "Industrial IoT for weighing, built in Ostrovačice",
       sub: "Unified Cloud Sensors, s.r.o. designs and deploys remote monitoring systems for industrial weighing — sensors, edge hardware, and cloud software delivered as one system.",
-      body: "We build the full stack behind SensWEIGHT®, SensSILO®, SensGEO®, SensATMO®, and SensGREEN® — from load cells and edge gateways through installation to the cloud dashboards that run on top of them. Our patented diagnostic methodology (EP 4 524 526) is TRL 9 — commercially ready — with pilot and commercial installations already live.",
+      body: "We build the full stack behind SensWEIGHT®, SensSILO, SensGEO, SensATMO, and SensGREEN — from load cells and edge gateways through installation to the cloud dashboards that run on top of them. Our patented diagnostic methodology (EP 4 524 526) is TRL 9 — commercially ready — with pilot and commercial installations already live.",
       facts: [
         { label: "Headquarters", value: "Ostrovačice, Czech Republic" },
         { label: "Patent", value: "EP 4 524 526 — granted European patent" },
@@ -433,7 +607,7 @@ module.exports = {
       details: [
         { label: "Address", value: "nám. V. Mrštíka 40, 664 81 Ostrovačice, Czech Republic" },
         { label: "Phone", value: "+420 546 427 053" },
-        { label: "Email", value: "info@sensweight.eu" },
+        { label: "Email", value: "info@unifiedcloudsensors.com" },
       ],
       cta_heading: "Ready to spec a system?",
       cta_sub: "Our 3-step buying process starts with a site assessment.",
@@ -455,7 +629,7 @@ module.exports = {
       newsletter_note: "We respect your privacy. Unsubscribe at any time.",
     },
     senssilo: {
-      hero_tagline: "SensSILO® — Silo Level Monitor",
+      hero_tagline: "SensSILO — Silo Level Monitor",
       hero_headline: "Real-time silo and hopper inventory. By weight.",
       hero_sub: "Continuous tonnage for silos and tanks — fill alerts and reconciliation built in.",
       badges: ["IP65 / IP67", "Multi-silo", "REST API", "4G LTE Failover", "DIN Rail"],
@@ -492,7 +666,7 @@ module.exports = {
       cta_demo: "See Live Demo →", cta_contact: "Request a Quote",
     },
     sensgeo: {
-      hero_tagline: "SensGEO® — Geotechnical Monitor",
+      hero_tagline: "SensGEO — Geotechnical Monitor",
       hero_headline: "Structural movement detection. Before it becomes a problem.",
       hero_sub: "MEMS inclination and displacement sensors — alerting engineers before failure.",
       badges: ["±0.01° Resolution", "SIL-2 Compatible", "IP67", "4G LTE", "Battery Backup"],
@@ -526,7 +700,7 @@ module.exports = {
       cta_demo: "See Live Demo →", cta_contact: "Request a Quote",
     },
     sensatmo: {
-      hero_tagline: "SensATMO® — Environmental Monitor",
+      hero_tagline: "SensATMO — Environmental Monitor",
       hero_headline: "Multi-parameter environmental sensing. Industrial-grade.",
       hero_sub: "Temperature, humidity, CO₂, dust, and VOCs — monitored with compliance logging.",
       badges: ["Multi-parameter", "IP54", "5-year data retention", "Compliance logging", "HACCP ready"],
@@ -562,7 +736,7 @@ module.exports = {
       cta_demo: "See Live Demo →", cta_contact: "Request a Quote",
     },
     sensgreen: {
-      hero_tagline: "SensGREEN® — Green Roof Monitor",
+      hero_tagline: "SensGREEN — Green Roof Monitor",
       hero_headline: "Structural load monitoring for sustainable architecture.",
       hero_sub: "Weight-based monitoring for green roofs — structural limits, always in check.",
       badges: ["IP65 / IP67", "Load cell based", "10-year data retention", "CE certified"],

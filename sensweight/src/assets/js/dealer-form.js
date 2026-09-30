@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         form.reset();
       })
       .catch(function () {
-        setStatus('Something went wrong sending your request — please email sales@unifiedcloudsensors.com directly.', true);
+        setStatus('Something went wrong sending your request — please email info@unifiedcloudsensors.com directly.', true);
       })
       .finally(function () {
         if (submitBtn) submitBtn.disabled = false;
