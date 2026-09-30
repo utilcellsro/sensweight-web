@@ -7,7 +7,7 @@
   <title>SensWEIGHT® Bridge — Is Your Cash Register Accurate?</title>
   <meta name="description" content="SensWEIGHT® Bridge by Unified Cloud Sensors — per-load-cell weighbridge diagnostics, fraud and positioning detection.">
   <link rel="icon" href="ucs-logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{--blue:#476db8;--ink:#2f2f2e;--grey:#6f6f6e;--grey-light:#9a9a99;--paper:#f7f7f6;--line:#ececeb;--sky:#7ed3f0;--sky-dark:#2f4d89;--ok:#3f8f6b;--danger:#bf4b41;--warn:#c98a2e;--r:6px;--navy:#1d2c49;--ease:cubic-bezier(.2,0,0,1);--shadow:0 24px 80px rgba(47,47,46,.12)}
     *{box-sizing:border-box;margin:0;padding:0}
@@ -140,6 +140,10 @@
       .cta-banner{padding:20px 18px}
       .cta-banner h2{font-size:21px}
     }
+    /* Slide 5 (2026-09-30): two real panels only — revenue summary + weighbridge photo */
+    .dash-grid--two{grid-template-rows:minmax(0,1fr) !important}
+    .dash-grid--two .dash-card img{height:0;flex:1 1 0;object-fit:cover}
+    @media (max-width: 860px){.dash-grid--two .dash-card img{height:auto;flex:none}}
   </style>
 </head>
 <body>
@@ -233,8 +237,7 @@
   <!-- SLIDE 5 -->
   <section class="slide"><div class="topline"></div>
     <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t39">YOUR REVENUE DASHBOARD</div><h2 data-i="t40">Your scale is a cash register. Here's the receipt.</h2></div><div class="brand"><img src="ucs-logo.png" alt="UCS"></div></div>
-    <div class="body"><div class="dash-grid">
-      <div class="dash-card"><img loading="lazy" src="dashboard.png" alt="Revenue dashboard"><div class="cap" data-i="t41">Total revenue: CZK 1,060,390 in 6 active days · 72 transactions · 29.46 t/truck avg</div></div>
+    <div class="body"><div class="dash-grid dash-grid--two">
       <div class="dash-card" style="background:var(--navy);border-color:var(--navy)">
         <div style="padding:20px;color:#fff;display:flex;flex-direction:column;justify-content:center;height:100%">
           <div style="font:500 12px/1 'IBM Plex Mono',monospace;color:var(--sky);margin-bottom:12px" data-i="t42">REVENUE SUMMARY</div>
@@ -247,7 +250,6 @@
           <div style="margin-top:12px;padding:10px;border:1px solid var(--ok);border-radius:var(--r)"><div style="font:600 12px/1 'IBM Plex Mono',monospace;color:var(--ok)" data-i="t46">CONSISTENCY SCORE: 100% — SYSTEM FULLY OPERATIONAL</div></div>
         </div>
       </div>
-      <div class="dash-card"><img loading="lazy" src="digitizer-clm8.png" alt="LC analysis"><div class="cap" data-i="t47">Per-cell deviation analysis: Start vs. End vs. Theoretical. LC8 at 44.6% deviation flagged.</div></div>
       <div class="dash-card"><img loading="lazy" src="weighbridge-deck.jpg" alt="Installation"><div class="cap" data-i="t48">Field installation — digital load cell configuration with UCS-X2 gateway</div></div>
     </div></div>
   </section>
