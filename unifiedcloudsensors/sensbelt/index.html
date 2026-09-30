@@ -9,7 +9,7 @@
   <link rel="icon" href="ucs-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root{--blue:#476db8;--blue-dark:#2f4d89;--ink:#2f2f2e;--muted:#6f6f6e;--subtle:#9a9a99;--line:#ececeb;--paper:#f7f7f6;--sky:#7ed3f0;--ok:#3f8f6b;--danger:#bf4b41;--warn:#c98a2e;--shadow:0 24px 80px rgba(47,47,46,.12);--r:6px;--navy:#1d2c49;--ease:cubic-bezier(.2,0,0,1)}
     *{box-sizing:border-box;margin:0;padding:0}
@@ -46,7 +46,7 @@
         .cover .copy{position:relative;padding:44px 44px 44px 40px;display:flex;flex-direction:column;justify-content:center;background:#fff}
     .cover .copy::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--blue)}
     .cover h1{margin:18px 0 14px}
-    .patent{display:inline-flex;align-self:flex-start;margin-top:20px;padding:10px 18px;border-radius:var(--r);background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:.1em;font-size:12px}
+    .patent{display:inline-flex;align-self:flex-start;margin-top:20px;padding:10px 18px;border-radius:var(--r);background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.1em;font-size:12px}
     .cover .brand{position:absolute;top:28px;left:40px}
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;height:100%;align-items:center}
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;height:100%;align-items:center}
@@ -122,6 +122,34 @@
       .adoption-banner{padding:20px 18px}
       .adoption-banner h2{font-size:21px}
     }
+    /* Replacement panels (2026-09-30): real content instead of unrelated weighbridge/silo images */
+    .flow-card,.views-card,.drift-card{justify-content:space-between;padding:18px}
+    .flow{display:flex;flex-direction:column;gap:6px;width:100%;flex:1;justify-content:center}
+    .flow-node{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:baseline;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:10px 14px}
+    .flow-node strong{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;color:var(--ink)}
+    .flow-node small{grid-column:2;font-size:12px;color:var(--muted)}
+    .flow-num{grid-row:span 2;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--blue)}
+    .flow-node--ucs{border-color:var(--blue)}
+    .flow-node--end{border-color:var(--blue);background:var(--navy)}
+    .flow-node--end strong{color:#fff}
+    .flow-node--end small{color:var(--sky)}
+    .flow-node--end .flow-num{color:var(--sky)}
+    .flow-arrow{text-align:center;color:var(--blue);font-size:14px;line-height:1}
+    .views{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;flex:1;align-content:center}
+    .view{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:4px}
+    .view-lbl{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:16px;color:var(--ink)}
+    .view-unit{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--blue)}
+    .view-txt{font-size:12px;color:var(--muted);line-height:1.4}
+    .drift{width:100%;flex:1;min-height:0}
+    /* desktop: keep the 4-step flow + caption inside the card */
+    .flow-card{padding:12px 16px;overflow:hidden}
+    .flow{gap:3px;min-height:0}
+    .flow-node{padding:6px 12px}
+    .flow-node strong{font-size:14px}
+    .flow-node small{font-size:11px}
+    .flow-arrow{font-size:11px}
+    .flow-card .cap{margin-top:8px;flex:none}
+    @media (max-width: 860px){.views{grid-template-columns:1fr}.drift{height:220px;flex:none}.flow-node{padding:10px 14px}.flow-node strong{font-size:15px}}
   </style>
 </head>
 <body>
@@ -138,7 +166,7 @@
 <!-- SLIDE 1: COVER -->
 <section class="slide cover active">
   <div class="topline"><span></span><span></span><span></span></div>
-  <div class="photo"><img src="sensbelt-device.jpg" alt="Conveyor Belt Installation"></div>
+  <div class="photo"><img src="sensbelt-conveyor.jpg" alt="Conveyor belt at an aggregate quarry" style="object-position:38% center"></div>
   <div class="copy">
     <div class="brand"><img src="ucs-logo.png" alt="UCS"><strong>SensBELT</strong></div>
     <h1 data-key="s1_title">Stop Paying for Air on Your Conveyor</h1>
@@ -225,9 +253,8 @@
           <div><div class="num">14 mo</div><div class="lbl" data-key="s3_s3">Early belt replacement</div></div>
         </div>
       </div>
-      <div style="display:grid;grid-template-rows:1fr 1fr;gap:14px;height:100%">
-        <div class="img-card"><img loading="lazy" src="sensbelt-device.jpg" alt="Belt installation"><div class="cap" data-key="s3_cap1">Belt scale installation — device mounted directly on the belt frame</div></div>
-        <div class="img-card"><img loading="lazy" src="sensbelt-indicator.jpg" alt="Belt detail"><div class="cap" data-key="s3_cap2">Edge device close-up — plugs into existing indicator, running in 2 hours</div></div>
+      <div style="display:flex;height:100%;min-height:0">
+        <div class="img-card" style="flex:1"><img loading="lazy" src="sensbelt-indicator.jpg" alt="Belt detail"><div class="cap" data-key="s3_cap2">Edge device close-up — plugs into existing indicator, running in 2 hours</div></div>
       </div>
     </div>
   </div>
@@ -245,8 +272,16 @@
   </div>
   <div class="body">
     <div class="grid-2" style="height:calc(100% - 60px)">
-      <div class="img-card" style="height:100%">
-        <img loading="lazy" src="sensbelt-schema.png" alt="Belt architecture">
+      <div class="img-card flow-card" style="height:100%">
+        <div class="flow">
+          <div class="flow-node"><span class="flow-num">01</span><strong>Belt scale load cells</strong><small>On the existing belt scale</small></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node"><span class="flow-num">02</span><strong>Indicator</strong><small>RS-232 / RS-485 port</small></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node flow-node--ucs"><span class="flow-num">03</span><strong>UCS X3 edge gateway</strong><small>Secure wireless link · temperature / vibration optional</small></div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node flow-node--end"><span class="flow-num">04</span><strong>UCS Cloud</strong><small>Dashboard · automatic alerts · REST API</small></div>
+        </div>
         <div class="cap" data-key="s4_cap">Belt Scale Load Cells → Existing Indicator → UCS-X3 Edge Gateway → Your Dashboard + Automatic Alerts + REST API</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
@@ -282,7 +317,15 @@
   </div>
   <div class="body">
     <div class="grid-2" style="height:100%">
-      <div class="img-card" style="height:100%"><img loading="lazy" src="dashboard.png" alt="Belt Dashboard"><div class="cap" data-key="s5_cap1">Throughput (t/h), cumulative daily tonnage, belt speed vs. load correlation</div></div>
+      <div class="img-card views-card" style="height:100%">
+        <div class="views">
+          <div class="view"><span class="view-lbl">Throughput</span><span class="view-unit">t/h</span><span class="view-txt">Live flow rate on the belt</span></div>
+          <div class="view"><span class="view-lbl">Daily tonnage</span><span class="view-unit">t</span><span class="view-txt">Cumulative, per shift and per day</span></div>
+          <div class="view"><span class="view-lbl">Speed vs. load</span><span class="view-unit">m/s · t/h</span><span class="view-txt">Is the belt moving material or air?</span></div>
+          <div class="view"><span class="view-lbl">Empty-belt events</span><span class="view-unit">h</span><span class="view-txt">Every idle run logged with duration</span></div>
+        </div>
+        <div class="cap" data-key="s5_cap1">Throughput (t/h), cumulative daily tonnage, belt speed vs. load correlation</div>
+      </div>
       <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
         <div style="background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:18px">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px" data-key="s5_alert_lbl">EMPTY BELT DETECTION</div>
@@ -331,7 +374,24 @@
           <p style="font-size:13px;color:var(--ok);font-weight:600;line-height:1.4" data-key="s6_pred">Based on current degradation pattern, LC2 will exceed ±0.5% accuracy threshold in approximately 6 weeks. Schedule calibration.</p>
         </div>
       </div>
-      <div class="img-card" style="height:100%"><img loading="lazy" src="analytics-nia.png" alt="Analytics"><div class="cap" data-key="s6_cap">The system compares today's readings to your historical baseline — alerts 4–6 weeks before failure.</div></div>
+      <div class="img-card drift-card" style="height:100%">
+        <svg class="drift" viewBox="0 0 480 280" role="img" aria-label="Illustration: readings drifting away from the historical baseline, alert raised weeks before the tolerance limit">
+          <rect x="40" y="96" width="420" height="56" fill="#f7f7f6" stroke="#ececeb"/>
+          <line x1="40" y1="124" x2="460" y2="124" stroke="#9a9a99" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <line x1="40" y1="60" x2="460" y2="60" stroke="#bf4b41" stroke-width="1.5"/>
+          <polyline points="40,126 90,122 140,127 190,121 240,118 280,110 320,100 360,88 400,76 440,64" fill="none" stroke="#476db8" stroke-width="2.5"/>
+          <line x1="320" y1="40" x2="320" y2="230" stroke="#c98a2e" stroke-width="1.5"/>
+          <circle cx="320" cy="100" r="5" fill="#c98a2e"/>
+          <text x="44" y="52" font-family="IBM Plex Mono,monospace" font-size="11" fill="#bf4b41">±0.5% tolerance</text>
+          <text x="44" y="146" font-family="IBM Plex Mono,monospace" font-size="11" fill="#6f6f6e">historical baseline</text>
+          <text x="326" y="222" font-family="IBM Plex Mono,monospace" font-size="11" fill="#c98a2e">alert</text>
+          <text x="326" y="236" font-family="IBM Plex Mono,monospace" font-size="11" fill="#c98a2e">4–6 weeks early</text>
+          <line x1="40" y1="250" x2="460" y2="250" stroke="#ececeb"/>
+          <text x="40" y="270" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9a9a99">time →</text>
+          <text x="460" y="270" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9a9a99">illustration</text>
+        </svg>
+        <div class="cap" data-key="s6_cap">The system compares today's readings to your historical baseline — alerts 4–6 weeks before failure.</div>
+      </div>
     </div>
   </div>
 </section>
