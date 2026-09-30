@@ -1,0 +1,37 @@
+{# Click-to-play YouTube block. Expects `vb` = { tagline, heading, main: <library key>, grid_title?, grid?: [keys] } #}
+{% set lib = t.video.library %}
+<section class="section">
+  <div class="container">
+    <div class="section-header section-header--split">
+      <div class="section-header-text">
+        <div class="section-tagline">{{ vb.tagline }}</div>
+        <h2>{{ vb.heading }}</h2>
+      </div>
+      <a class="section-header-link" href="{{ t.video.channel_url }}" target="_blank" rel="noopener">{{ t.video.channel_cta }}</a>
+    </div>
+    {% if vb.main %}{% set v = lib[vb.main] %}
+    <figure class="vid-feature">
+      <div class="vid-frame" data-vid="{{ v.id }}" role="button" tabindex="0" aria-label="Play video: {{ v.title }}">
+        <div class="vid-thumb"></div>
+        <div class="vid-play"><div class="vid-play-btn"></div></div>
+      </div>
+      <figcaption class="vid-caption"><strong>{{ v.title }}</strong><span>{{ v.desc }}</span></figcaption>
+    </figure>
+    {% endif %}
+    {% if vb.grid %}
+    {% if vb.grid_title %}<div class="vid-grid-title">{{ vb.grid_title }}</div>{% endif %}
+    <div class="vid-tiles">
+      {% for key in vb.grid %}{% set v = lib[key] %}
+      <figure class="vid-tile">
+        <div class="vid-frame" data-vid="{{ v.id }}" role="button" tabindex="0" aria-label="Play video: {{ v.title }}">
+          <div class="vid-thumb"></div>
+          <div class="vid-play"><div class="vid-play-btn vid-play-btn--sm"></div></div>
+        </div>
+        <figcaption class="vid-caption"><strong>{{ v.title }}</strong><span>{{ v.desc }}</span></figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+<script src="/assets/js/videos.js" defer></script>

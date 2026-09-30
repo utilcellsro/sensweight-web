@@ -47,6 +47,7 @@ module.exports = {
           headline: "Weigh every load out. Know every tonne.",
           sub: "SensWEIGHT® weighs every load leaving the pit — continuously monitored, so drift and errors are caught before they cost you.",
           solutions: ["sensweight"],
+          story: { videos: { tagline: "In action", heading: "SensWEIGHT® on a quarry site", main: "quarries" } },
         },
         concrete: {
           name: "Concrete Plants", tagline: "Precision batching, honest deliveries",
@@ -159,6 +160,11 @@ module.exports = {
                 { label: "Year-1 ROI",             value: "924%",    strong: true },
               ],
             },
+            videos: {
+              tagline: "In action",
+              heading: "SensWEIGHT® on a quarry site",
+              main: "quarries",
+            },
             pilot: {
               heading: "Prove it on your busiest conveyor",
               body: "A 30-day paid pilot on your most-used belt. If we don't find wasted hours — walk away.",
@@ -230,6 +236,20 @@ module.exports = {
       section_title: "In Action",
       section_heading: "See UCS at work",
       placeholder: "Video coming soon",
+      channel_url: "https://www.youtube.com/@UnifiedCloudSensors-tm5wo",
+      channel_cta: "All videos on YouTube →",
+      // English videos from the UCS YouTube channel (checked 2026-09-30). ES/PL versions exist but the site is English-only.
+      library: {
+        explained:   { id: "MLe_-Kp7wQQ", title: "SensWEIGHT® explained",                  desc: "What SensWEIGHT does and why it matters for your weighbridge." },
+        weighbridge: { id: "iGCF7XWP0KY", title: "IIoT monitoring of weighbridges",        desc: "Remote monitoring of truck scales with UCS." },
+        truckscale:  { id: "C3bBjK5W2AM", title: "Truck scale application on 8 load cells", desc: "The SensWEIGHT® cloud application in its truck-scale version." },
+        zeroshift:   { id: "ZL77eKSaAek", title: "Zero shift",                             desc: "How SensWEIGHT® tracks zero drift on every load cell." },
+        correlation: { id: "r0WaBM3NntE", title: "Correlation analysis",                   desc: "Spotting a cell that stops moving in step with the others." },
+        deadweight:  { id: "JjEYSZ-19wg", title: "Dead weight analysis",                   desc: "Structural analysis of the empty deck, cell by cell." },
+        symmetry:    { id: "CWw0BG7gGIw", title: "Symmetry function",                      desc: "Checking load balance across the scale." },
+        quarries:    { id: "-R2kVgiIkdA", title: "SensWEIGHT® in quarries",                desc: "A short story of how SensWEIGHT® solves problems on a quarry site." },
+        silos:       { id: "DzZi0lT80Uw", title: "Digitalization of silos",                desc: "Digitalizing silos with IIoT — even when they run on analog load cells." },
+      },
     },
     trust: {
       tagline: "Certified & Patented",
@@ -348,6 +368,13 @@ module.exports = {
             { label: "Payback period",             value: "51 days", strong: true },
             { label: "Year-1 ROI",                 value: "615%",    strong: true },
           ],
+        },
+        videos: {
+          tagline: "In action",
+          heading: "See SensWEIGHT® Bridge at work",
+          main: "truckscale",
+          grid_title: "Diagnostic functions",
+          grid: ["zeroshift", "correlation", "deadweight", "symmetry"],
         },
         pilot: {
           heading: "Put it on your busiest scale",
@@ -629,6 +656,7 @@ module.exports = {
       newsletter_note: "We respect your privacy. Unsubscribe at any time.",
     },
     senssilo: {
+      videos: { tagline: "In action", heading: "See SensSILO at work", main: "silos" },
       hero_tagline: "SensSILO — Silo Level Monitor",
       hero_headline: "Real-time silo and hopper inventory. By weight.",
       hero_sub: "Continuous tonnage for silos and tanks — fill alerts and reconciliation built in.",

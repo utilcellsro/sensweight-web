@@ -834,3 +834,28 @@ h3, h4 { font-weight: 600; }
   .chain-node { white-space: normal; }
   .math-row--sub td:first-child { padding-left: 32px; }
 }
+
+/* ── Video blocks (videos.js) ───────────────────────────────── */
+.vid-feature { margin: 0; max-width: 960px; }
+.vid-frame {
+  aspect-ratio: 16/9; position: relative; overflow: hidden;
+  border-radius: var(--rl); cursor: pointer; background: #12141A;
+}
+.vid-frame:hover .vid-thumb { transform: scale(1.045); }
+.vid-frame:hover .vid-play-btn { transform: scale(1.08); border-color: var(--sky); }
+.vid-frame:focus-visible, .vid-main:focus-visible, .vid-card:focus-visible { outline: 2px solid var(--sky); outline-offset: 3px; }
+.vid-caption { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; }
+.vid-caption strong { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: #fff; }
+.vid-caption span { font-size: 14px; color: var(--sub); line-height: 1.55; }
+.vid-grid-title { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--faint); margin: 64px 0 20px; }
+.vid-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.vid-tile { margin: 0; }
+.vid-tile .vid-caption strong { font-size: 15px; }
+.vid-tile .vid-caption span { font-size: 13px; }
+.vid-label {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 28px 16px 12px;
+  font-family: var(--font-display); font-size: 15px; font-weight: 600; color: #fff;
+  background: linear-gradient(180deg, transparent, rgba(12,13,16,.8));
+}
+@media (max-width: 1000px) { .vid-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .vid-tiles { grid-template-columns: 1fr; } }
