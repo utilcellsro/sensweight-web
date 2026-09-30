@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#476db8">
+  <title>SensSILO — Your Digital Wallet for Stored Material</title>
+  <meta name="description" content="SensSILO by Unified Cloud Sensors — per-leg silo weighing, fill level and structural monitoring.">
+  <link rel="icon" href="ucs-logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue:#476db8;--ink:#2f2f2e;--grey:#6f6f6e;--grey-light:#9a9a99;
+      --paper:#f7f7f6;--line:#ececeb;--sky:#7ed3f0;--sky-dark:#2f4d89;
+      --ok:#3f8f6b;--danger:#bf4b41;--warn:#c98a2e;
+      --r:6px;--navy:#1d2c49;--ease:cubic-bezier(.2,0,0,1);
+      --shadow:0 24px 80px rgba(47,47,46,.12);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow-x:hidden;background:#fff;color:var(--ink);font-family:'IBM Plex Sans',sans-serif}
+    button{font:inherit;cursor:pointer}
+
+    .language-bar{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:2px solid var(--ink);display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:10px;z-index:1000}
+    .lang-btn{background:var(--paper);border:1.5px solid var(--line);color:var(--ink);padding:6px 14px;border-radius:var(--r);font-weight:600;font-size:.82rem;font-family:'IBM Plex Sans',sans-serif;transition:all 120ms var(--ease)}
+    .lang-btn:hover,.lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+    .deck{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:70px 18px 20px}
+    .stage{position:relative;aspect-ratio:16/9;width:min(calc(100vw - 36px),calc((100vh - 100px)*16/9));overflow:hidden;background:#fff;box-shadow:var(--shadow);border-radius:var(--r);border:1px solid var(--line)}
+    .slide{position:absolute;inset:0;display:grid;opacity:0;visibility:hidden;transform:translateX(2.5%);transition:opacity 320ms var(--ease),transform 320ms var(--ease);overflow:hidden;background:#fff}
+    .slide.active{opacity:1;visibility:visible;transform:none;z-index:2}
+    .slide.prev{transform:translateX(-2.5%)}
+    .topline{position:absolute;left:0;right:0;top:0;height:6px;background:var(--blue);z-index:6}
+
+    .brand{display:flex;align-items:center;gap:14px;color:var(--ink)}
+    .brand img{height:52px;width:auto;display:block;max-width:160px;object-fit:contain}
+    .brand strong{font:700 22px/1 'Chakra Petch',sans-serif;letter-spacing:.01em}
+    .eyebrow{font:500 12px/1.2 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+    h1{font:700 38px/1.05 'Chakra Petch',sans-serif;letter-spacing:-.01em;color:var(--ink)}
+    h2{font:700 30px/1.1 'Chakra Petch',sans-serif;letter-spacing:-.01em;color:var(--ink)}
+    h3{font:600 18px/1.2 'Chakra Petch',sans-serif;color:var(--ink)}
+    p{font-size:15px;line-height:1.5;color:var(--grey)}
+    .data{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--ink)}
+
+    .header{height:100px;padding:28px 48px 14px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--ink)}
+    .header .title-wrap{display:grid;gap:4px}
+    .header .brand img{height:36px;max-width:120px}
+    .body{position:relative;padding:28px 48px 48px;height:calc(100% - 100px)}
+
+    /* Slide 1 Cover */
+    .cover{grid-template-columns:52% 48%}
+    .cover .photo{position:relative;height:100%;overflow:hidden;background:var(--paper)}
+    .cover .photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .cover .copy{position:relative;padding:44px 44px 44px 40px;display:flex;flex-direction:column;justify-content:center;background:#fff}
+    .cover .copy::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--blue)}
+    .cover h1{margin:18px 0 14px}
+    .patent{display:inline-flex;align-self:flex-start;margin-top:22px;padding:10px 18px;border-radius:var(--r);background:var(--navy);color:#fff;font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em}
+    .cover .brand{position:absolute;top:28px;left:40px}
+
+    /* Grids */
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;height:100%;align-items:center}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;height:100%;align-items:center}
+    .img-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+    .img-card img{width:100%;height:auto;max-height:85%;object-fit:contain;border-radius:var(--r)}
+    .img-card .cap{font:400 13px/1.4 'IBM Plex Sans',sans-serif;color:var(--grey);margin-top:8px;text-align:center}
+
+    /* Two-col problem slide */
+    .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;height:100%}
+    .problem-left{background:var(--paper);padding:28px 32px;border-right:2px solid var(--danger);display:flex;flex-direction:column;justify-content:center}
+    .problem-right{background:var(--paper);padding:28px 32px;display:flex;flex-direction:column;justify-content:center}
+    .problem-left h3{color:var(--danger);margin-bottom:12px;font-size:16px}
+    .problem-left h3::before{content:"×  ";font-family:'IBM Plex Mono',monospace}
+    .problem-right h3::before{content:"✓  ";font-family:'IBM Plex Mono',monospace}
+    .problem-right h3{color:var(--ok);margin-bottom:12px;font-size:16px}
+    .problem-left li,.problem-right li{font-size:13px;line-height:1.5;color:var(--ink);margin-bottom:6px}
+    .cost-banner{margin-top:16px;background:var(--danger);color:#fff;padding:12px 16px;border-radius:var(--r);text-align:center}
+    .cost-banner .big{font:700 28px/1 'Chakra Petch',sans-serif;display:block;margin-bottom:4px}
+    .cost-banner .sub{font:400 12px/1.3 'IBM Plex Mono',monospace}
+
+    /* Story slide */
+    .story-grid{display:grid;grid-template-columns:55% 45%;gap:0;height:100%}
+    .story-text{padding:24px 32px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+    .story-text .tag{display:inline-block;background:var(--blue);color:#fff;padding:4px 10px;border-radius:var(--r);font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;margin-bottom:12px}
+    .story-text p{font-size:13px;line-height:1.55;margin-bottom:10px}
+    .story-imgs{background:var(--paper);padding:20px;display:grid;grid-template-rows:1fr 1fr;gap:12px;align-items:center}
+    .story-imgs img{width:100%;height:auto;max-height:100%;object-fit:contain;border-radius:var(--r);border:1px solid var(--line)}
+    .story-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .story-stat div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px;text-align:center}
+    .story-stat .val{font:700 22px/1 'Chakra Petch',sans-serif;color:var(--blue);display:block}
+    .story-stat .lbl{font:400 11px/1.3 'IBM Plex Mono',monospace;color:var(--grey);margin-top:4px;display:block}
+
+    /* Architecture */
+    .arch-flow{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:16px 0}
+    .arch-step{background:var(--paper);border:1.5px solid var(--blue);border-radius:var(--r);padding:14px 18px;text-align:center;min-width:140px}
+    .arch-step .icon{font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:var(--blue);margin-bottom:8px}
+    .arch-step h3{font-size:14px;margin-bottom:4px}
+    .arch-step p{font-size:11px}
+    .arch-arrow{font-size:24px;color:var(--blue);font-weight:700}
+    .motivation-box{background:var(--paper);border-left:4px solid var(--blue);padding:14px 18px;margin-top:16px;border-radius:0 var(--r) var(--r) 0}
+    .motivation-box p{color:var(--ink);font-weight:600;font-size:13px}
+
+    /* Dashboard */
+    .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:calc(100% - 40px);align-items:stretch}
+    .dash-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column}
+    .dash-card img{width:100%;flex:1;object-fit:contain;border-radius:var(--r)}
+    .dash-card .cap{font:400 12px/1.3 'IBM Plex Mono',monospace;color:var(--grey);margin-top:6px;text-align:center}
+
+    /* ROI */
+    .roi-grid{display:grid;grid-template-columns:42% 58%;gap:20px;height:calc(100% - 60px);align-items:center}
+    .roi-danger{background:var(--paper);border:2px solid var(--danger);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;justify-content:center;height:100%}
+    .roi-danger img{width:100%;max-height:45%;object-fit:contain;border-radius:var(--r);margin-bottom:12px}
+    .roi-danger .alert{color:var(--danger);font:600 13px/1.4 'IBM Plex Sans',sans-serif}
+    .roi-table{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px;height:100%;display:flex;flex-direction:column;justify-content:center}
+    .roi-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+    .roi-row:last-child{border:0}
+    .roi-row .label{color:var(--grey)}
+    .roi-row .value{font:700 16px/1 'IBM Plex Mono',monospace;color:var(--ink)}
+    .roi-row.highlight{background:var(--blue);color:#fff;margin:8px -20px 0;padding:14px 20px;border-radius:var(--r);border:0}
+    .roi-row.highlight .label,.roi-row.highlight .value{color:#fff}
+
+    /* CTA */
+    .cta-banner{background:var(--navy);color:#fff;border-radius:var(--r);padding:28px 36px;text-align:center;margin-bottom:18px}
+    .cta-banner h2{color:#fff;font-size:26px;margin-bottom:6px}
+    .cta-banner p{color:var(--sky);font:500 16px/1.3 'IBM Plex Sans',sans-serif}
+    .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .reason{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:18px 14px}
+    .reason h3{font-size:16px;margin-bottom:6px;color:var(--blue)}
+    .reason p{font-size:12px}
+
+    /* Nav */
+    .controls{position:fixed;z-index:20;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px 9px;background:rgba(47,47,46,.82);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:#fff}
+    .controls button{width:35px;height:35px;border:0;border-radius:var(--r);background:transparent;color:#fff;cursor:pointer;font-size:19px;display:grid;place-items:center}
+    .controls button:hover{background:rgba(126,211,240,.25)}
+    .dots{display:flex;gap:6px;padding:0 5px}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--grey-light);transition:200ms var(--ease);cursor:pointer}
+    .dot.on{width:22px;border-radius:5px;background:var(--sky)}
+    @media(max-width:900px){.deck{padding:50px 0 0}.stage{width:100vw;border-radius:0}.controls{bottom:6px}}
+    /* Layout fixes (2026-09-30): original deck let slides 3/6/7 overflow under the nav bar */
+    .body{padding-bottom:72px;display:flex;flex-direction:column;min-height:0}
+    .body > :only-child{flex:1;min-height:0}
+    .roi-grid{grid-template-rows:minmax(0,1fr);flex:1}
+    .roi-danger,.roi-table{min-height:0;overflow:hidden}
+    .story-grid,.problem-grid,.roi-grid,.dash-grid,.grid-2,.grid-3{height:100%;min-height:0}
+    .story-imgs{min-height:0;grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+    .story-imgs img{height:100%;width:100%;max-height:none}
+    .dash-grid{grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+    .dash-card{min-height:0}
+    .dash-card img{min-height:0}
+    .roi-danger img{min-height:0}
+    .img-card{min-height:0}
+    .img-card img{min-height:0;max-height:80%}
+    /* Phone/tablet: one slide at a time, full-height stage, stacked grids, scroll inside long slides (same approach as partnership-deck) */
+    @media (max-width: 860px){
+      .language-bar{gap:4px;padding:6px}
+      .lang-btn{padding:4px 8px;font-size:.7rem}
+      .deck{padding:78px 0 0}
+      .stage{aspect-ratio:auto;width:100vw;height:calc(100vh - 78px);height:calc(100dvh - 78px);border-radius:0;border-left:0;border-right:0}
+      .slide{overflow-y:auto;display:block}
+      .header{height:auto;padding:22px 18px 12px}
+      .header .brand img{height:26px}
+      .body{height:auto;padding:18px 18px 96px;display:block}
+      h1{font-size:28px}
+      h2{font-size:21px}
+      .cover .photo{height:38vh}
+      .cover .copy{padding:26px 18px 96px}
+      .cover .brand{position:static;margin-bottom:8px}
+      .cover .copy::before{display:none}
+      .grid-2,.grid-3,.problem-grid,.story-grid,.roi-grid,.dash-grid,.reasons{grid-template-columns:1fr;grid-template-rows:none;height:auto;gap:14px}
+      .problem-left{border-right:0;border-bottom:2px solid var(--danger)}
+      .story-text{padding:0}
+      .story-imgs{grid-template-rows:none}
+      .story-imgs img,.img-card img,.dash-card img,.roi-danger img{height:auto;max-height:none}
+      .img-card,.dash-card,.roi-danger,.roi-table{height:auto}
+      .roi-danger img{max-height:240px}
+      .story-stat{grid-template-columns:repeat(3,1fr);gap:8px}
+      .story-stat .val{font-size:17px}
+      .cta-banner{padding:20px 18px}
+      .cta-banner h2{font-size:21px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="language-bar">
+  <button class="lang-btn active" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="es">Español</button>
+  <button class="lang-btn" data-lang="cs">Čeština</button>
+  <button class="lang-btn" data-lang="sk">Slovenčina</button>
+  <button class="lang-btn" data-lang="pl">Polski</button>
+  <button class="lang-btn" data-lang="sr">Srpski</button>
+  <button class="lang-btn" data-lang="ro">Română</button>
+  <button class="lang-btn" data-lang="bg">Български</button>
+</div>
+
+<main class="deck">
+  <div class="stage" id="stage">
+
+    <!-- SLIDE 1: COVER -->
+    <section class="slide cover active">
+      <div class="topline"></div>
+      <div class="photo"><img src="silo-general.jpg" alt="Industrial Silo"></div>
+      <div class="copy">
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"><strong>SensSILO</strong></div>
+        <h1 data-i="t1">Your Digital Wallet for Stored Material</h1>
+        <p data-i="t2">Every tonne inside your silo is money. Do you know your balance?</p>
+        <span class="patent" data-i="t3">PATENTED · EP 4 524 526</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: THE BLIND SPOT -->
+    <section class="slide">
+      <div class="topline"></div>
+      <div class="header">
+        <div class="title-wrap">
+          <div class="eyebrow" data-i="t4">THE BLIND SPOT</div>
+          <h2 data-i="t5">Your silo keeps a secret from you</h2>
+        </div>
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+      </div>
+      <div class="body">
+        <div class="problem-grid">
+          <div class="problem-left">
+            <h3 data-i="t6">WITHOUT SensSILO</h3>
+            <ul>
+              <li data-i="t7">Material bridging creates hidden cavities — you think 40 t, you have 28 t</li>
+              <li data-i="t8">One support leg carries 34% instead of 25% — dangerous structural stress</li>
+              <li data-i="t9">No way to detect fill level accurately without climbing the silo</li>
+              <li data-i="t10">Overfill event: €62,480 cleanup and fines at minimum</li>
+              <li data-i="t11">Structural failure: €195,000+</li>
+            </ul>
+            <div class="cost-banner">
+              <span class="big" data-i="t12">€257,480</span>
+              <span class="sub" data-i="t13">total risk exposure per silo installation</span>
+            </div>
+          </div>
+          <div class="problem-right">
+            <h3 data-i="t14">WITH SensSILO</h3>
+            <ul>
+              <li data-i="t15">Exact weight on every leg — per-cell distribution visible instantly</li>
+              <li data-i="t16">Automated alerts before overfill or structural danger thresholds</li>
+              <li data-i="t17">Consumption velocity tracked — know when to reorder, not guess</li>
+              <li data-i="t18">Full history: every filling, every emptying, every anomaly logged</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: SUCCESS STORY -->
+    <section class="slide">
+      <div class="topline"></div>
+      <div class="header">
+        <div class="title-wrap">
+          <div class="eyebrow" data-i="t19">FIELD EVIDENCE</div>
+          <h2 data-i="t20">A site caught a problem nobody saw</h2>
+        </div>
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+      </div>
+      <div class="body">
+        <div class="story-grid">
+          <div class="story-text">
+            <span class="tag" data-i="t21">WHAT HAPPENED</span>
+            <p data-i="t22">A bulk storage site running 4 silos. Operator relied on manual checks and an old level indicator. Everything looked "fine."</p>
+            <p data-i="t23">SensSILO found that LC3 carried 27.61% and LC1 only 22.05% — a 5.56% skew growing silently for months. Asymmetric loading heading toward structural fatigue cracks within 18 months.</p>
+            <p data-i="t24">Operator repositioned the fill pipe and rebalanced foundation anchors. Cost of fix: €2,400. Cost of avoided failure: €195,000+.</p>
+            <p data-i="t25">The system also revealed NIA of 9.21 — meaning 9.21 filling/emptying cycles per month — which completely changed how they scheduled deliveries.</p>
+            <div class="story-stat">
+              <div><span class="val" data-i="t26">72 hrs</span><span class="lbl" data-i="t27">time to detection</span></div>
+              <div><span class="val" data-i="t28">€2,400</span><span class="lbl" data-i="t29">cost of repair</span></div>
+              <div><span class="val" data-i="t30">€195,000+</span><span class="lbl" data-i="t31">avoided failure cost</span></div>
+            </div>
+          </div>
+          <div class="story-imgs">
+            <img loading="lazy" src="load-distribution.png" alt="Load distribution across 4 silo legs">
+            <img loading="lazy" src="fill-graph.png" alt="Fill level graph over time">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: INSTALLATION -->
+    <section class="slide">
+      <div class="topline"></div>
+      <div class="header">
+        <div class="title-wrap">
+          <div class="eyebrow" data-i="t32">INSTALLATION</div>
+          <h2 data-i="t33">Fits your existing silo. No civil works.</h2>
+        </div>
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+      </div>
+      <div class="body">
+        <div class="grid-3">
+          <div class="img-card">
+            <img loading="lazy" src="m740-install.jpg" alt="Strain gauge under silo foot">
+            <div class="cap" data-i="t34">Installs under existing silo legs. No crane, no downtime.</div>
+          </div>
+          <div class="img-card">
+            <img loading="lazy" src="m740-schematic.png" alt="M740 module schematic">
+            <div class="cap" data-i="t35">M740: up to 200 kN nominal load. Alloy steel, zinc-plated, IP67.</div>
+          </div>
+          <div class="img-card">
+            <img loading="lazy" src="m740-installed.jpg" alt="Installed silo">
+            <div class="cap" data-i="t36">Your current silo. Our device. Working within 48 hours.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: ARCHITECTURE -->
+    <section class="slide">
+      <div class="topline"></div>
+      <div class="header">
+        <div class="title-wrap">
+          <div class="eyebrow" data-i="t37">HOW IT WORKS</div>
+          <h2 data-i="t38">From sensor to your phone — in seconds</h2>
+        </div>
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+      </div>
+      <div class="body">
+        <div class="grid-2">
+          <div>
+            <img loading="lazy" src="senssilo-schema.png" alt="System schema" style="width:100%;border-radius:var(--r);border:1px solid var(--line)">
+          </div>
+          <div>
+            <div class="arch-flow" style="flex-direction:column;align-items:stretch;gap:10px">
+              <div class="arch-step"><div class="icon">01</div><h3 data-i="t39">4× Load Cells</h3><p data-i="t40">Under each silo leg</p></div>
+              <div style="text-align:center;color:var(--blue);font-size:20px">▼</div>
+              <div class="arch-step"><div class="icon">02</div><h3 data-i="t41">UWT6008 Digitalizer</h3><p data-i="t42">Converts analog signals</p></div>
+              <div style="text-align:center;color:var(--blue);font-size:20px">▼</div>
+              <div class="arch-step"><div class="icon">03</div><h3 data-i="t43">UCS X2 Gateway</h3><p data-i="t44">Secure NB-IoT transmission</p></div>
+              <div style="text-align:center;color:var(--blue);font-size:20px">▼</div>
+              <div class="arch-step"><div class="icon">04</div><h3 data-i="t45">Your Dashboard</h3><p data-i="t46">Phone, tablet, desktop — anywhere</p></div>
+            </div>
+            <div class="motivation-box">
+              <p data-i="t47">The entire system costs less than one emergency technician visit. And it never sleeps.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: LIVE DASHBOARD -->
+    <section class="slide">
+      <div class="topline"></div>
+      <div class="header">
+        <div class="title-wrap">
+          <div class="eyebrow" data-i="t48">YOUR LIVE INVENTORY</div>
+          <h2 data-i="t49">Open your digital wallet</h2>
+        </div>
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+      </div>
+      <div class="body">
+        <div class="dash-grid">
+          <div class="dash-card">
+            <img loading="lazy" src="dashboard-weight.png" alt="Weight distribution dashboard">
+            <div class="cap" data-i="t50">Per-leg weight: LC1 22.05% (9,160 kg) · LC2 26.93% · LC3 27.61% · LC4 23.41% — Total: 42,410 kg</div>
+          </div>
+          <div class="dash-card">
+            <img loading="lazy" src="dashboard-fill.png" alt="Fill history">
+            <div class="cap" data-i="t51">Every filling event timestamped. Consumption velocity tracked. Delivery scheduling based on data.</div>
+          </div>
+          <div class="dash-card">
+            <img loading="lazy" src="analytics-overview.png" alt="Analytics overview">
+            <div class="cap" data-i="t52">Prediction of when silo reaches empty. Automated alerts before low-stock disrupts production.</div>
+          </div>
+          <div class="dash-card">
+            <img loading="lazy" src="analytics-nia.png" alt="NIA analysis">
+            <div class="cap" data-i="t53">NIA = 9.21 cycles/month. Consumption patterns. EWMA anomaly detection.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: ROI -->
+    <section class="slide">
+      <div class="topline"></div>
+      <div class="header">
+        <div class="title-wrap">
+          <div class="eyebrow" data-i="t54">THE MATH</div>
+          <h2 data-i="t55">66 days to full payback</h2>
+        </div>
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+      </div>
+      <div class="body">
+        <div class="roi-grid">
+          <div class="roi-danger">
+            <img loading="lazy" src="silo-damage.jpg" alt="Silo structural damage">
+            <p class="alert" data-i="t56">Structural failure or overfilling doesn't just cost money — it threatens lives. This is not a theoretical risk.</p>
+          </div>
+          <div class="roi-table">
+            <div class="roi-row"><span class="label" data-i="t57">Risk without SensSILO</span><span class="value">€257,480</span></div>
+            <div class="roi-row"><span class="label" data-i="t58">Minor events (overfill, cleanup)</span><span class="value">€62,480</span></div>
+            <div class="roi-row"><span class="label" data-i="t59">Major structural failure</span><span class="value">€195,000</span></div>
+            <div class="roi-row"><span class="label" data-i="t60">UCS investment (one-time)</span><span class="value">€11,528</span></div>
+            <div class="roi-row"><span class="label" data-i="t61">Verified annual savings</span><span class="value">€225,484</span></div>
+            <div class="roi-row"><span class="label" data-i="t62">Payback period</span><span class="value" data-i="t63">66 days</span></div>
+            <div class="roi-row highlight"><span class="label" data-i="t64">Year 1 ROI</span><span class="value">856%</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: CTA -->
+    <section class="slide">
+      <div class="topline"></div>
+      <div class="header">
+        <div class="title-wrap">
+          <div class="eyebrow" data-i="t65">NEXT STEP</div>
+          <h2 data-i="t66">See it working on your silo</h2>
+        </div>
+        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+      </div>
+      <div class="body">
+        <div class="cta-banner">
+          <h2 data-i="t67">Enhance your perception boundaries</h2>
+          <p data-i="t68">30-day paid pilot on your busiest silo. If it doesn't catch something you missed — walk away.</p>
+        </div>
+        <div class="reasons">
+          <div class="reason">
+            <h3 data-i="t69">Know your balance</h3>
+            <p data-i="t70">Exact tonnage per leg, fill velocity, consumption patterns — your silo becomes a transparent account.</p>
+          </div>
+          <div class="reason">
+            <h3 data-i="t71">Prevent catastrophe</h3>
+            <p data-i="t72">Structural warnings before damage, not after. Overfill alerts before spills, not during.</p>
+          </div>
+          <div class="reason">
+            <h3 data-i="t73">Plan with data</h3>
+            <p data-i="t74">Stop ordering by guesswork. Start ordering by consumption velocity.</p>
+          </div>
+        </div>
+        <p style="text-align:center;margin-top:18px;font-size:14px;color:var(--grey)" data-i="t75">Contact: Nikola Avramović, COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053</p>
+      </div>
+    </section>
+
+  </div><!-- /stage -->
+</main>
+
+<div class="controls">
+  <button onclick="go(-1)">◀</button>
+  <div class="dots" id="dots"></div>
+  <button onclick="go(1)">▶</button>
+</div>
+
+<script>
+(function(){
+  var TOTAL = 8, cur = 0;
+  var slides = document.querySelectorAll('.slide');
+  var dotsBox = document.getElementById('dots');
+
+  // Build dot indicators
+  for(var i = 0; i < TOTAL; i++){
+    var d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.setAttribute('data-idx', i);
+    d.onclick = function(){ goTo(parseInt(this.getAttribute('data-idx'))); };
+    dotsBox.appendChild(d);
+  }
+
+  function goTo(n){
+    if(n < 0 || n >= TOTAL) return;
+    for(var j = 0; j < slides.length; j++){
+      slides[j].classList.remove('active','prev');
+      if(j < n) slides[j].classList.add('prev');
+    }
+    slides[n].classList.add('active');
+    cur = n;
+    var allDots = dotsBox.querySelectorAll('.dot');
+    for(var j = 0; j < allDots.length; j++){
+      allDots[j].className = 'dot' + (j === cur ? ' on' : '');
+    }
+  }
+
+  window.go = function(d){ goTo(cur + d); };
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === ' ') go(1);
+    if(e.key === 'ArrowLeft') go(-1);
+  });
+
+  var tx = 0;
+  document.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; });
+  document.addEventListener('touchend', function(e){
+    var dx = e.changedTouches[0].clientX - tx;
+    if(Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  });
+
+  // === TRANSLATIONS ===
+  var T = {
+    en: {
+      t1:"Your Digital Wallet for Stored Material",
+      t2:"Every tonne inside your silo is money. Do you know your balance?",
+      t3:"PATENTED \u00b7 EP 4 524 526",
+      t4:"THE BLIND SPOT",
+      t5:"Your silo keeps a secret from you",
+      t6:"WITHOUT SensSILO",
+      t7:"Material bridging creates hidden cavities \u2014 you think 40 t, you have 28 t",
+      t8:"One support leg carries 34% instead of 25% \u2014 dangerous structural stress",
+      t9:"No way to detect fill level accurately without climbing the silo",
+      t10:"Overfill event: \u20ac62,480 cleanup and fines at minimum",
+      t11:"Structural failure: \u20ac195,000+",
+      t12:"\u20ac257,480",
+      t13:"total risk exposure per silo installation",
+      t14:"WITH SensSILO",
+      t15:"Exact weight on every leg \u2014 per-cell distribution visible instantly",
+      t16:"Automated alerts before overfill or structural danger thresholds",
+      t17:"Consumption velocity tracked \u2014 know when to reorder, not guess",
+      t18:"Full history: every filling, every emptying, every anomaly logged",
+      t19:"FIELD EVIDENCE",
+      t20:"A site caught a problem nobody saw",
+      t21:"WHAT HAPPENED",
+      t22:"A bulk storage site running 4 silos. Operator relied on manual checks and an old level indicator. Everything looked \u201cfine.\u201d",
+      t23:"SensSILO found that LC3 carried 27.61% and LC1 only 22.05% \u2014 a 5.56% skew growing silently for months. Asymmetric loading heading toward structural fatigue cracks within 18 months.",
+      t24:"Operator repositioned the fill pipe and rebalanced foundation anchors. Cost of fix: \u20ac2,400. Cost of avoided failure: \u20ac195,000+.",
+      t25:"The system also revealed NIA of 9.21 \u2014 meaning 9.21 filling/emptying cycles per month \u2014 which completely changed how they scheduled deliveries.",
+      t26:"72 hrs",t27:"time to detection",t28:"\u20ac2,400",t29:"cost of repair",t30:"\u20ac195,000+",t31:"avoided failure cost",
+      t32:"INSTALLATION",
+      t33:"Fits your existing silo. No civil works.",
+      t34:"Installs under existing silo legs. No crane, no downtime.",
+      t35:"M740: up to 200 kN nominal load. Alloy steel, zinc-plated, IP67.",
+      t36:"Your current silo. Our device. Working within 48 hours.",
+      t37:"HOW IT WORKS",
+      t38:"From sensor to your phone \u2014 in seconds",
+      t39:"4\u00d7 Load Cells",t40:"Under each silo leg",
+      t41:"UWT6008 Digitalizer",t42:"Converts analog signals",
+      t43:"UCS X2 Gateway",t44:"Secure NB-IoT transmission",
+      t45:"Your Dashboard",t46:"Phone, tablet, desktop \u2014 anywhere",
+      t47:"The entire system costs less than one emergency technician visit. And it never sleeps.",
+      t48:"YOUR LIVE INVENTORY",
+      t49:"Open your digital wallet",
+      t50:"Per-leg weight: LC1 22.05% (9,160 kg) \u00b7 LC2 26.93% \u00b7 LC3 27.61% \u00b7 LC4 23.41% \u2014 Total: 42,410 kg",
+      t51:"Every filling event timestamped. Consumption velocity tracked. Delivery scheduling based on data.",
+      t52:"Prediction of when silo reaches empty. Automated alerts before low-stock disrupts production.",
+      t53:"NIA = 9.21 cycles/month. Consumption patterns. EWMA anomaly detection.",
+      t54:"THE MATH",
+      t55:"66 days to full payback",
+      t56:"Structural failure or overfilling doesn\u2019t just cost money \u2014 it threatens lives. This is not a theoretical risk.",
+      t57:"Risk without SensSILO",t58:"Minor events (overfill, cleanup)",t59:"Major structural failure",
+      t60:"UCS investment (one-time)",t61:"Verified annual savings",t62:"Payback period",t63:"66 days",
+      t64:"Year 1 ROI",
+      t65:"NEXT STEP",
+      t66:"See it working on your silo",
+      t67:"Enhance your perception boundaries",
+      t68:"30-day paid pilot on your busiest silo. If it doesn\u2019t catch something you missed \u2014 walk away.",
+      t69:"Know your balance",t70:"Exact tonnage per leg, fill velocity, consumption patterns \u2014 your silo becomes a transparent account.",
+      t71:"Prevent catastrophe",t72:"Structural warnings before damage, not after. Overfill alerts before spills, not during.",
+      t73:"Plan with data",t74:"Stop ordering by guesswork. Start ordering by consumption velocity.",
+      t75:"Contact: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    },
+    es: {
+      t1:"Su Billetera Digital para Material Almacenado",
+      t2:"Cada tonelada dentro de su silo es dinero. \u00bfConoce su saldo?",
+      t3:"PATENTADO \u00b7 EP 4 524 526",
+      t4:"EL PUNTO CIEGO",
+      t5:"Su silo le guarda un secreto",
+      t6:"SIN SensSILO",
+      t7:"El puenteo del material crea cavidades ocultas: usted cree 40 t, tiene 28 t",
+      t8:"Una pata soporta el 34% en lugar del 25%: estr\u00e9s estructural peligroso",
+      t9:"No hay forma de detectar el nivel de llenado sin subir al silo",
+      t10:"Evento de sobrellenado: \u20ac62.480 de limpieza y multas como m\u00ednimo",
+      t11:"Fallo estructural: \u20ac195.000+",
+      t12:"\u20ac257.480",
+      t13:"exposici\u00f3n total al riesgo por instalaci\u00f3n de silo",
+      t14:"CON SensSILO",
+      t15:"Peso exacto en cada pata: distribuci\u00f3n por celda visible al instante",
+      t16:"Alertas autom\u00e1ticas antes de umbrales de sobrellenado o peligro estructural",
+      t17:"Velocidad de consumo rastreada: sepa cu\u00e1ndo pedir, no adivine",
+      t18:"Historial completo: cada llenado, cada vaciado, cada anomal\u00eda registrada",
+      t19:"EVIDENCIA DE CAMPO",
+      t20:"Una planta detect\u00f3 un problema que nadie ve\u00eda",
+      t21:"QU\u00c9 PAS\u00d3",
+      t22:"Una planta de almacenamiento con 4 silos. El operador depend\u00eda de controles manuales y un viejo indicador de nivel. Todo parec\u00eda \u201cbien.\u201d",
+      t23:"SensSILO encontr\u00f3 que LC3 cargaba el 27,61% y LC1 solo el 22,05%: una desviaci\u00f3n del 5,56% creciendo silenciosamente durante meses.",
+      t24:"El operador reposicion\u00f3 la tuber\u00eda de llenado y reequilibr\u00f3 los anclajes. Costo de la reparaci\u00f3n: \u20ac2.400. Costo del fallo evitado: \u20ac195.000+.",
+      t25:"El sistema tambi\u00e9n revel\u00f3 un NIA de 9,21 ciclos/mes, lo que cambi\u00f3 completamente la planificaci\u00f3n de entregas.",
+      t26:"72 hrs",t27:"tiempo de detecci\u00f3n",t28:"\u20ac2.400",t29:"costo de reparaci\u00f3n",t30:"\u20ac195.000+",t31:"costo de fallo evitado",
+      t32:"INSTALACI\u00d3N",
+      t33:"Se adapta a su silo existente. Sin obras civiles.",
+      t34:"Se instala bajo las patas existentes. Sin gr\u00faa, sin tiempo de inactividad.",
+      t35:"M740: hasta 200 kN de carga nominal. Acero aleado, galvanizado, IP67.",
+      t36:"Su silo actual. Nuestro dispositivo. Funcionando en 48 horas.",
+      t37:"C\u00d3MO FUNCIONA",
+      t38:"Del sensor a su tel\u00e9fono, en segundos",
+      t39:"4\u00d7 Celdas de carga",t40:"Bajo cada pata del silo",
+      t41:"Digitalizador UWT6008",t42:"Convierte se\u00f1ales anal\u00f3gicas",
+      t43:"Pasarela UCS X2",t44:"Transmisi\u00f3n segura NB-IoT",
+      t45:"Su Panel de Control",t46:"Tel\u00e9fono, tableta, escritorio",
+      t47:"Todo el sistema cuesta menos que una visita de emergencia del t\u00e9cnico.",
+      t48:"SU INVENTARIO EN VIVO",
+      t49:"Abra su billetera digital",
+      t50:"Peso por pata: LC1 22,05% (9.160 kg) \u00b7 LC2 26,93% \u00b7 LC3 27,61% \u00b7 LC4 23,41% \u2014 Total: 42.410 kg",
+      t51:"Cada evento de llenado con marca de tiempo. Velocidad de consumo rastreada.",
+      t52:"Predicci\u00f3n de cu\u00e1ndo el silo llega a vac\u00edo. Alertas antes de que el bajo stock interrumpa la producci\u00f3n.",
+      t53:"NIA = 9,21 ciclos/mes. Patrones de consumo. Detecci\u00f3n de anomal\u00edas EWMA.",
+      t54:"LAS CUENTAS",
+      t55:"66 d\u00edas para la amortizaci\u00f3n completa",
+      t56:"El fallo estructural o el sobrellenado no solo cuesta dinero: amenaza vidas.",
+      t57:"Riesgo sin SensSILO",t58:"Eventos menores (sobrellenado, limpieza)",t59:"Fallo estructural mayor",
+      t60:"Inversi\u00f3n UCS (\u00fanica vez)",t61:"Ahorro anual verificado",t62:"Per\u00edodo de amortizaci\u00f3n",t63:"66 d\u00edas",
+      t64:"ROI A\u00f1o 1",
+      t65:"SIGUIENTE PASO",
+      t66:"V\u00e9alo funcionando en su silo",
+      t67:"Ampl\u00ede sus l\u00edmites de percepci\u00f3n",
+      t68:"Piloto pagado de 30 d\u00edas en su silo m\u00e1s activo. Si no detecta algo que usted pas\u00f3 por alto, ret\u00edrese.",
+      t69:"Conozca su saldo",t70:"Tonelaje exacto por pata, velocidad de llenado, patrones de consumo.",
+      t71:"Prevenga cat\u00e1strofes",t72:"Avisos estructurales antes del da\u00f1o, no despu\u00e9s.",
+      t73:"Planifique con datos",t74:"Deje de pedir por intuici\u00f3n. Empiece a pedir por velocidad de consumo.",
+      t75:"Contacto: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    },
+    cs: {
+      t1:"Va\u0161e digit\u00e1ln\u00ed pen\u011b\u017eenka pro skladovan\u00fd materi\u00e1l",
+      t2:"Ka\u017ed\u00e1 tuna ve va\u0161em silu jsou pen\u00edze. Zn\u00e1te sv\u016fj z\u016fstatek?",
+      t3:"PATENTOV\u00c1NO \u00b7 EP 4 524 526",
+      t4:"SLEP\u00c9 M\u00cdSTO",
+      t5:"Va\u0161e silo p\u0159ed v\u00e1mi taj\u00ed",
+      t6:"BEZ SensSILO",
+      t7:"Klenbov\u00e1n\u00ed materi\u00e1lu vytv\u00e1\u0159\u00ed skryt\u00e9 dutiny \u2014 mysl\u00edte 40 t, m\u00e1te 28 t",
+      t8:"Jedna noha nese 34 % m\u00edsto 25 % \u2014 nebezpe\u010dn\u00e9 statick\u00e9 p\u0159et\u00ed\u017een\u00ed",
+      t9:"\u017d\u00e1dn\u00fd zp\u016fsob p\u0159esn\u00e9ho zji\u0161t\u011bn\u00ed hladiny bez v\u00fdstupu na silo",
+      t10:"P\u0159epln\u011bn\u00ed: minim\u00e1ln\u011b 62 480 \u20ac na \u00faklid a pokuty",
+      t11:"Statick\u00e9 selh\u00e1n\u00ed: 195 000+ \u20ac",
+      t12:"\u20ac257 480",
+      t13:"celkov\u00e1 expozice riziku na instala\u010dn\u00ed jednotku",
+      t14:"SE SensSILO",
+      t15:"P\u0159esn\u00e1 v\u00e1ha na ka\u017ed\u00e9 noze \u2014 rozlo\u017een\u00ed po bu\u0148k\u00e1ch viditeln\u00e9 okam\u017eit\u011b",
+      t16:"Automatick\u00e9 upozorn\u011bn\u00ed p\u0159ed prahy p\u0159epln\u011bn\u00ed nebo statick\u00e9ho nebezpe\u010d\u00ed",
+      t17:"Sledov\u00e1n\u00ed rychlosti spot\u0159eby \u2014 v\u011bzte, kdy objednat, neh\u00e1dejte",
+      t18:"Kompletn\u00ed historie: ka\u017ed\u00e9 pln\u011bn\u00ed, ka\u017ed\u00e9 vypr\u00e1zdn\u011bn\u00ed, ka\u017ed\u00e1 anom\u00e1lie zaznamen\u00e1na",
+      t19:"D\u016eKAZY Z TER\u00c9NU",
+      t20:"Instalace odhalila probl\u00e9m, kter\u00fd nikdo nevid\u011bl",
+      t21:"CO SE STALO",
+      t22:"Sklad s hromadn\u00fdm materi\u00e1lem se 4 sily. Oper\u00e1tor se spol\u00e9hal na ru\u010dn\u00ed kontroly a star\u00fd hladinov\u00fd ukazatel. V\u0161e vypadalo \u201ev po\u0159\u00e1dku.\u201c",
+      t23:"SensSILO zjistilo, \u017ee LC3 nesla 27,61 % a LC1 jen 22,05 % \u2014 odchylka 5,56 %, kter\u00e1 ti\u0161e rostla m\u011bs\u00edce.",
+      t24:"Oper\u00e1tor p\u0159em\u00edstil plnic\u00ed potrub\u00ed a vyv\u00e1\u017eil kotvy z\u00e1klad\u016f. Cena opravy: 2 400 \u20ac. N\u00e1klady na odvr\u00e1cen\u00e9 selh\u00e1n\u00ed: 195 000+ \u20ac.",
+      t25:"Syst\u00e9m tak\u00e9 odhalil NIA 9,21 \u2014 tedy 9,21 cykl\u016f pln\u011bn\u00ed/vypr\u00e1zdn\u011bn\u00ed za m\u011bs\u00edc \u2014 co\u017e zcela zm\u011bnilo pl\u00e1nov\u00e1n\u00ed dod\u00e1vek.",
+      t26:"72 hod",t27:"\u010das do detekce",t28:"2 400 \u20ac",t29:"cena opravy",t30:"195 000+ \u20ac",t31:"odvr\u00e1cen\u00e9 n\u00e1klady",
+      t32:"INSTALACE",
+      t33:"Pasuje na va\u0161e st\u00e1vaj\u00edc\u00ed silo. \u017d\u00e1dn\u00e9 stavebn\u00ed pr\u00e1ce.",
+      t34:"Instalace pod st\u00e1vaj\u00edc\u00ed nohy sila. \u017d\u00e1dn\u00fd je\u0159\u00e1b, \u017e\u00e1dn\u00e9 v\u00fdpadky.",
+      t35:"M740: a\u017e 200 kN jmenovit\u00e9 zat\u00ed\u017een\u00ed. Legovan\u00e1 ocel, pozinkovan\u00e9, IP67.",
+      t36:"Va\u0161e sou\u010dasn\u00e9 silo. Na\u0161e za\u0159\u00edzen\u00ed. Funk\u010dn\u00ed do 48 hodin.",
+      t37:"JAK TO FUNGUJE",
+      t38:"Od senzoru k va\u0161emu telefonu \u2014 za sekundy",
+      t39:"4\u00d7 sn\u00edma\u010de s\u00edly",t40:"Pod ka\u017edou nohou sila",
+      t41:"Digitaliz\u00e9r UWT6008",t42:"P\u0159ev\u00e1d\u00ed analogov\u00e9 sign\u00e1ly",
+      t43:"Br\u00e1na UCS X2",t44:"Bezpe\u010dn\u00fd p\u0159enos NB-IoT",
+      t45:"V\u00e1\u0161 p\u0159ehled",t46:"Telefon, tablet, po\u010d\u00edta\u010d \u2014 odkudkoli",
+      t47:"Cel\u00fd syst\u00e9m stoj\u00ed m\u00e9n\u011b ne\u017e jeden havarijn\u00ed v\u00fdjezd technika.",
+      t48:"V\u00c1\u0160 \u017dIV\u00dd INVENTAR",
+      t49:"Otev\u0159ete svou digit\u00e1ln\u00ed pen\u011b\u017eenku",
+      t50:"V\u00e1ha na nohu: LC1 22,05 % (9 160 kg) \u00b7 LC2 26,93 % \u00b7 LC3 27,61 % \u00b7 LC4 23,41 % \u2014 Celkem: 42 410 kg",
+      t51:"Ka\u017ed\u00e9 pln\u011bn\u00ed s \u010dasov\u00fdm raz\u00edtkem. Rychlost spot\u0159eby sledov\u00e1na.",
+      t52:"Predikce, kdy silo dosahuje pr\u00e1zdna. Upozorn\u011bn\u00ed p\u0159ed vypr\u00e1zdn\u011bn\u00edm.",
+      t53:"NIA = 9,21 cykl\u016f/m\u011bs\u00edc. Vzorce spot\u0159eby. Detekce anom\u00e1li\u00ed EWMA.",
+      t54:"\u00da\u010cET",
+      t55:"66 dn\u00ed do pln\u00e9 n\u00e1vratnosti",
+      t56:"Statick\u00e9 selh\u00e1n\u00ed nebo p\u0159epln\u011bn\u00ed nestoj\u00ed jen pen\u00edze \u2014 ohro\u017euje \u017eivoty.",
+      t57:"Riziko bez SensSILO",t58:"Men\u0161\u00ed ud\u00e1losti (p\u0159epln\u011bn\u00ed, \u00faklid)",t59:"V\u011bt\u0161\u00ed statick\u00e9 selh\u00e1n\u00ed",
+      t60:"Investice UCS (jednor\u00e1zov\u00e1)",t61:"Ov\u011b\u0159en\u00e1 ro\u010dn\u00ed \u00faspora",t62:"Doba n\u00e1vratnosti",t63:"66 dn\u00ed",
+      t64:"ROI 1. rok",
+      t65:"DAL\u0160\u00cd KROK",
+      t66:"Pod\u00edvejte se, jak to funguje na va\u0161em silu",
+      t67:"Roz\u0161i\u0159te hranice sv\u00e9ho vn\u00edm\u00e1n\u00ed",
+      t68:"30denn\u00ed placen\u00fd pilot na va\u0161em nejv\u00edce vyt\u00ed\u017een\u00e9m silu. Pokud nic neodhal\u00ed \u2014 odejdete.",
+      t69:"Poznejte sv\u016fj z\u016fstatek",t70:"P\u0159esn\u00e1 ton\u00e1\u017e na nohu, rychlost pln\u011bn\u00ed, vzorce spot\u0159eby.",
+      t71:"Zabra\u0148te katastrof\u011b",t72:"Statick\u00e1 varov\u00e1n\u00ed p\u0159ed po\u0161kozen\u00edm, ne a\u017e po n\u011bm.",
+      t73:"Pl\u00e1nujte s daty",t74:"P\u0159esta\u0148te objedn\u00e1vat od oka. Za\u010dn\u011bte objedn\u00e1vat podle rychlosti spot\u0159eby.",
+      t75:"Kontakt: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    },
+    sk: {
+      t1:"Va\u0161a digit\u00e1lna pe\u0148a\u017eenka pre skladovan\u00fd materi\u00e1l",
+      t2:"Ka\u017ed\u00e1 tona vo va\u0161om sile s\u00fa peniaze. Pozn\u00e1te svoj zostatok?",
+      t3:"PATENTOVAN\u00c9 \u00b7 EP 4 524 526",
+      t4:"SLEP\u00c9 MIESTO",
+      t5:"Va\u0161e silo pred vami taj\u00ed",
+      t6:"BEZ SensSILO",
+      t7:"Klenby materi\u00e1lu vytv\u00e1raj\u00fa skryt\u00e9 dutiny \u2014 mysl\u00edte 40 t, m\u00e1te 28 t",
+      t8:"Jedna noha nesie 34 % namiesto 25 % \u2014 nebezpe\u010dn\u00e9 \u0161tatick\u00e9 pre\u0165a\u017eenie",
+      t9:"\u017diadny sp\u00f4sob presn\u00e9ho zistenia hladiny bez v\u00fdstupu na silo",
+      t10:"Preplenenie: minim\u00e1lne 62 480 \u20ac na \u010distenie a pokuty",
+      t11:"\u0160tatick\u00e9 zlyhanie: 195 000+ \u20ac",
+      t12:"\u20ac257 480",
+      t13:"celkov\u00e1 expoz\u00edcia riziku na in\u0161tala\u010dn\u00fa jednotku",
+      t14:"SO SensSILO",
+      t15:"Presn\u00e1 hmotnos\u0165 na ka\u017edej nohe \u2014 rozlo\u017eenie po bunk\u00e1ch vidie\u0165 okam\u017eite",
+      t16:"Automatick\u00e9 upozornenia pred prahmi preplenenia alebo \u0161tatick\u00e9ho nebezpe\u010denstva",
+      t17:"Sledovanie r\u00fdchlosti spotreby \u2014 vedzte, kedy objedna\u0165, neh\u00e1dajte",
+      t18:"Kompletn\u00e1 hist\u00f3ria: ka\u017ed\u00e9 plnenie, ka\u017ed\u00e9 vypr\u00e1zd\u0148ovanie, ka\u017ed\u00e1 anom\u00e1lia zaznamenan\u00e1",
+      t19:"D\u00d4KAZY Z TER\u00c9NU",
+      t20:"In\u0161tal\u00e1cia odhalila probl\u00e9m, ktor\u00fd nikto nevidel",
+      t21:"\u010cO SA STALO",
+      t22:"Sklad s hromadn\u00fdm materi\u00e1lom so 4 silami. Oper\u00e1tor sa spoliehal na ru\u010dn\u00e9 kontroly.",
+      t23:"SensSILO zistilo, \u017ee LC3 niesla 27,61 % a LC1 iba 22,05 % \u2014 odch\u00fdlka 5,56 % ticho rast\u00faca mesiace.",
+      t24:"Oper\u00e1tor premiestnil plniace potrubie a vyv\u00e1\u017eil kotvy z\u00e1kladov. Cena opravy: 2 400 \u20ac. Odvr\u00e1ten\u00e9 zlyhanie: 195 000+ \u20ac.",
+      t25:"Syst\u00e9m tie\u017e odhalil NIA 9,21 cyklov/mesiac, \u010do \u00faplne zmenilo pl\u00e1novanie dod\u00e1vok.",
+      t26:"72 hod",t27:"\u010das do detekcie",t28:"2 400 \u20ac",t29:"cena opravy",t30:"195 000+ \u20ac",t31:"odvr\u00e1ten\u00e9 n\u00e1klady",
+      t32:"IN\u0160TAL\u00c1CIA",
+      t33:"Pasuje na va\u0161e s\u00fa\u010dasn\u00e9 silo. \u017diadne stavebn\u00e9 pr\u00e1ce.",
+      t34:"In\u0161tal\u00e1cia pod s\u00fa\u010dasn\u00e9 nohy sila. \u017diadny \u017eeriav, \u017eiadne v\u00fdpadky.",
+      t35:"M740: a\u017e 200 kN menovit\u00e9 za\u0165a\u017eenie. Legovan\u00e1 oce\u013e, pozinkovan\u00e9, IP67.",
+      t36:"Va\u0161e s\u00fa\u010dasn\u00e9 silo. Na\u0161e zariadenie. Funk\u010dn\u00e9 do 48 hod\u00edn.",
+      t37:"AKO TO FUNGUJE",
+      t38:"Od senzora k v\u00e1\u0161mu telef\u00f3nu \u2014 za sekundy",
+      t39:"4\u00d7 sn\u00edma\u010de sily",t40:"Pod ka\u017edou nohou sila",
+      t41:"Digitaliz\u00e9r UWT6008",t42:"Prev\u00e1dza anal\u00f3gov\u00e9 sign\u00e1ly",
+      t43:"Br\u00e1na UCS X2",t44:"Bezpe\u010dn\u00fd prenos NB-IoT",
+      t45:"V\u00e1\u0161 preh\u013ead",t46:"Telef\u00f3n, tablet, po\u010d\u00edta\u010d \u2014 odkia\u013ekolvek",
+      t47:"Cel\u00fd syst\u00e9m stoj\u00ed menej ne\u017e jeden havarijn\u00fd v\u00fdjazd technika.",
+      t48:"V\u00c1\u0160 \u017dIV\u00dd INVENT\u00c1R",
+      t49:"Otvorte svoju digit\u00e1lnu pe\u0148a\u017eenku",
+      t50:"Hmotnos\u0165 na nohu: LC1 22,05 % \u00b7 LC2 26,93 % \u00b7 LC3 27,61 % \u00b7 LC4 23,41 % \u2014 Celkom: 42 410 kg",
+      t51:"Ka\u017ed\u00e9 plnenie s \u010dasovou pe\u010diatkou. R\u00fdchlos\u0165 spotreby sledovan\u00e1.",
+      t52:"Predikcia, kedy silo dosiahne pr\u00e1zdno. Upozornenia pred vypr\u00e1zdnen\u00edm.",
+      t53:"NIA = 9,21 cyklov/mesiac. Vzorce spotreby. Detekcia anom\u00e1li\u00ed EWMA.",
+      t54:"\u00da\u010cET",
+      t55:"66 dn\u00ed do plnej n\u00e1vratnosti",
+      t56:"\u0160tatick\u00e9 zlyhanie alebo preplenenie nestoj\u00ed len peniaze \u2014 ohrozuje \u017eivoty.",
+      t57:"Riziko bez SensSILO",t58:"Men\u0161ie udalosti",t59:"V\u00e4\u010d\u0161ie \u0161tatick\u00e9 zlyhanie",
+      t60:"Invest\u00edcia UCS (jednorazov\u00e1)",t61:"Overen\u00e1 ro\u010dn\u00e1 \u00faspora",t62:"Doba n\u00e1vratnosti",t63:"66 dn\u00ed",
+      t64:"ROI 1. rok",
+      t65:"\u010eAL\u0160\u00cd KROK",
+      t66:"Pozrite sa, ako to funguje na va\u0161om sile",
+      t67:"Roz\u0161\u00edrte hranice svojho vn\u00edmania",
+      t68:"30-d\u0148ov\u00fd platen\u00fd pilot na va\u0161om najvy\u0165a\u017eovanej\u0161om sile.",
+      t69:"Poznajte svoj zostatok",t70:"Presn\u00e1 ton\u00e1\u017e na nohu, r\u00fdchlos\u0165 plnenia, vzorce spotreby.",
+      t71:"Zabr\u00e1\u0148te katastrofe",t72:"\u0160tatick\u00e9 varovania pred po\u0161koden\u00edm, nie a\u017e po \u0148om.",
+      t73:"Pl\u00e1nujte s d\u00e1tami",t74:"Presta\u0148te objedn\u00e1va\u0165 od oka. Za\u010dnite objedn\u00e1va\u0165 pod\u013ea spotreby.",
+      t75:"Kontakt: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    },
+    pl: {
+      t1:"Tw\u00f3j cyfrowy portfel na sk\u0142adowany materia\u0142",
+      t2:"Ka\u017cda tona w Twoim silosie to pieni\u0105dze. Znasz sw\u00f3j stan konta?",
+      t3:"OPATENTOWANE \u00b7 EP 4 524 526",
+      t4:"MARTWY PUNKT",
+      t5:"Tw\u00f3j silos kryje przed Tob\u0105 tajemnic\u0119",
+      t6:"BEZ SensSILO",
+      t7:"Mostkowanie materia\u0142u tworzy ukryte pustki \u2014 my\u015blisz 40 t, masz 28 t",
+      t8:"Jedna noga przenosi 34% zamiast 25% \u2014 niebezpieczne przeci\u0105\u017cenie",
+      t9:"Brak sposobu na dok\u0142adne sprawdzenie poziomu bez wchodzenia na silos",
+      t10:"Przelanie: minimum 62 480 \u20ac na sprz\u0105tanie i kary",
+      t11:"Awaria strukturalna: 195 000+ \u20ac",
+      t12:"\u20ac257 480",
+      t13:"ca\u0142kowita ekspozycja na ryzyko na instalacj\u0119",
+      t14:"Z SensSILO",
+      t15:"Dok\u0142adna waga na ka\u017cdej nodze \u2014 rozk\u0142ad widoczny natychmiast",
+      t16:"Automatyczne alerty przed progami przelania lub zagro\u017cenia strukturalnego",
+      t17:"\u015aledzenie pr\u0119dko\u015bci zu\u017cycia \u2014 wiedz kiedy zam\u00f3wi\u0107, nie zgaduj",
+      t18:"Pe\u0142na historia: ka\u017cde nape\u0142nienie, opr\u00f3\u017cnienie, anomalia zarejestrowana",
+      t19:"DOWODY Z TERENU",
+      t20:"Instalacja wykry\u0142a problem, kt\u00f3rego nikt nie widzia\u0142",
+      t21:"CO SI\u0118 STA\u0141O",
+      t22:"Magazyn z 4 silosami. Operator polega\u0142 na r\u0119cznych kontrolach i starym wska\u017aniku poziomu.",
+      t23:"SensSILO wykry\u0142o, \u017ce LC3 przenosi\u0142a 27,61%, a LC1 tylko 22,05% \u2014 odchylenie 5,56% rosn\u0105ce po cichu przez miesi\u0105ce.",
+      t24:"Operator przesun\u0105\u0142 rur\u0119 nape\u0142niaj\u0105c\u0105 i wyrównowa\u017cy\u0142 kotwy. Koszt naprawy: 2 400 \u20ac. Unikni\u0119ta awaria: 195 000+ \u20ac.",
+      t25:"System ujawni\u0142 r\u00f3wnie\u017c NIA 9,21 cykli/miesi\u0105c, co ca\u0142kowicie zmieni\u0142o planowanie dostaw.",
+      t26:"72 godz.",t27:"czas do wykrycia",t28:"2 400 \u20ac",t29:"koszt naprawy",t30:"195 000+ \u20ac",t31:"unikni\u0119te koszty",
+      t32:"INSTALACJA",
+      t33:"Pasuje do Twojego istniej\u0105cego silosu. Bez rob\u00f3t budowlanych.",
+      t34:"Montuje si\u0119 pod istniej\u0105cymi nogami silosu. Bez d\u017awigu, bez przestoj\u00f3w.",
+      t35:"M740: do 200 kN obci\u0105\u017cenia znamionowego. Stal stopowa, ocynkowana, IP67.",
+      t36:"Tw\u00f3j obecny silos. Nasze urz\u0105dzenie. Dzia\u0142a w 48 godzin.",
+      t37:"JAK TO DZIA\u0141A",
+      t38:"Od czujnika do Twojego telefonu \u2014 w sekundy",
+      t39:"4\u00d7 czujniki si\u0142y",t40:"Pod ka\u017cd\u0105 nog\u0105 silosu",
+      t41:"Cyfryzator UWT6008",t42:"Konwertuje sygna\u0142y analogowe",
+      t43:"Bramka UCS X2",t44:"Bezpieczna transmisja NB-IoT",
+      t45:"Tw\u00f3j panel",t46:"Telefon, tablet, komputer \u2014 sk\u0105dkolwiek",
+      t47:"Ca\u0142y system kosztuje mniej ni\u017c jeden awaryjny przyjazd technika.",
+      t48:"TWOJE \u017bYWE ZAPASY",
+      t49:"Otw\u00f3rz sw\u00f3j cyfrowy portfel",
+      t50:"Waga na nog\u0119: LC1 22,05% \u00b7 LC2 26,93% \u00b7 LC3 27,61% \u00b7 LC4 23,41% \u2014 Razem: 42 410 kg",
+      t51:"Ka\u017cde nape\u0142nienie ze znacznikiem czasu. Pr\u0119dko\u015b\u0107 zu\u017cycia \u015bledzona.",
+      t52:"Prognoza opr\u00f3\u017cnienia silosu. Alerty przed wyczerpaniem zapas\u00f3w.",
+      t53:"NIA = 9,21 cykli/miesi\u0105c. Wzorce zu\u017cycia. Detekcja anomalii EWMA.",
+      t54:"RACHUNEK",
+      t55:"66 dni do pe\u0142nego zwrotu",
+      t56:"Awaria strukturalna lub przelanie to nie tylko koszty \u2014 to zagro\u017cenie \u017cycia.",
+      t57:"Ryzyko bez SensSILO",t58:"Mniejsze zdarzenia",t59:"Powa\u017cna awaria strukturalna",
+      t60:"Inwestycja UCS (jednorazowa)",t61:"Zweryfikowane oszcz\u0119dno\u015bci roczne",t62:"Okres zwrotu",t63:"66 dni",
+      t64:"ROI 1. rok",
+      t65:"NAST\u0118PNY KROK",
+      t66:"Zobacz jak dzia\u0142a na Twoim silosie",
+      t67:"Poszerz granice swojej percepcji",
+      t68:"30-dniowy p\u0142atny pilot na najobci\u0105\u017conym silosie. Je\u015bli nic nie wykryje \u2014 odejd\u017a.",
+      t69:"Poznaj sw\u00f3j stan konta",t70:"Dok\u0142adny tona\u017c na nog\u0119, pr\u0119dko\u015b\u0107 nape\u0142niania, wzorce zu\u017cycia.",
+      t71:"Zapobiegnij katastrofie",t72:"Ostrze\u017cenia strukturalne przed uszkodzeniem, nie po nim.",
+      t73:"Planuj z danymi",t74:"Przesta\u0144 zamawia\u0107 na oko. Zamawiaj wed\u0142ug pr\u0119dko\u015bci zu\u017cycia.",
+      t75:"Kontakt: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    },
+    sr: {
+      t1:"Va\u0161 digitalni nov\u010danik za skladi\u0161teni materijal",
+      t2:"Svaka tona unutar va\u0161eg silosa je novac. Znate li va\u0161 saldo?",
+      t3:"PATENTIRANO \u00b7 EP 4 524 526",
+      t4:"SLEPA TA\u010cKA",
+      t5:"Va\u0161 silos krije tajnu od vas",
+      t6:"BEZ SensSILO",
+      t7:"Premostavanje materijala stvara skrivene \u0161upljine \u2014 mislite 40 t, imate 28 t",
+      t8:"Jedna noga nosi 34% umesto 25% \u2014 opasno strukturno optere\u0107enje",
+      t9:"Nema na\u010dina da se ta\u010dno utvrdi nivo punjenja bez penjanja na silos",
+      t10:"Prepunjenje: minimum 62.480 \u20ac za \u010di\u0161\u0107enje i kazne",
+      t11:"Strukturni kvar: 195.000+ \u20ac",
+      t12:"\u20ac257.480",
+      t13:"ukupna izlo\u017eenost riziku po silosu",
+      t14:"SA SensSILO",
+      t15:"Ta\u010dna te\u017eina na svakoj nozi \u2014 distribucija po \u0107elijama vidljiva odmah",
+      t16:"Automatska upozorenja pre pragova prepunjenja ili strukturne opasnosti",
+      t17:"Pra\u0107enje brzine potro\u0161nje \u2014 znajte kada naru\u010diti, ne nagadjajte",
+      t18:"Kompletna istorija: svako punjenje, pra\u017enjenje, anomalija zabele\u017eena",
+      t19:"DOKAZI SA TERENA",
+      t20:"Instalacija je otkrila problem koji niko nije video",
+      t21:"\u0160TA SE DESILO",
+      t22:"Skladi\u0161te rasutog materijala sa 4 silosa. Operater se oslanjao na ru\u010dne provere i stari indikator nivoa.",
+      t23:"SensSILO je utvrdio da LC3 nosi 27,61% a LC1 samo 22,05% \u2014 odstupanje od 5,56% koje je tiho raslo mesecima.",
+      t24:"Operater je premestio cev za punjenje i izbalansirao sidra temelja. Cena popravke: 2.400 \u20ac. Izbegnuti kvar: 195.000+ \u20ac.",
+      t25:"Sistem je tako\u0111e otkrio NIA od 9,21 ciklusa/mesec, \u0161to je potpuno promenilo planiranje isporuka.",
+      t26:"72 sata",t27:"vreme do detekcije",t28:"2.400 \u20ac",t29:"cena popravke",t30:"195.000+ \u20ac",t31:"izbegnuti tro\u0161kovi",
+      t32:"INSTALACIJA",
+      t33:"Odgovara va\u0161em postoje\u0107em silosu. Bez gra\u0111evinskih radova.",
+      t34:"Montira se ispod postoje\u0107ih nogu silosa. Bez krana, bez zastoja.",
+      t35:"M740: do 200 kN nominalno optere\u0107enje. Legirani \u010delik, pocinkovan, IP67.",
+      t36:"Va\u0161 sada\u0161nji silos. Na\u0161 ure\u0111aj. Radi za 48 sati.",
+      t37:"KAKO RADI",
+      t38:"Od senzora do va\u0161eg telefona \u2014 za sekunde",
+      t39:"4\u00d7 merne \u0107elije",t40:"Ispod svake noge silosa",
+      t41:"Digitalizator UWT6008",t42:"Konvertuje analogne signale",
+      t43:"UCS X2 kapija",t44:"Bezbedan NB-IoT prenos",
+      t45:"Va\u0161 pregled",t46:"Telefon, tablet, ra\u010dunar \u2014 bilo gde",
+      t47:"Ceo sistem ko\u0161ta manje od jednog hitnog dolaska tehni\u010dara.",
+      t48:"VA\u0160 \u017dIVI INVENTAR",
+      t49:"Otvorite svoj digitalni nov\u010danik",
+      t50:"Te\u017eina po nozi: LC1 22,05% \u00b7 LC2 26,93% \u00b7 LC3 27,61% \u00b7 LC4 23,41% \u2014 Ukupno: 42.410 kg",
+      t51:"Svako punjenje sa vremenskim pe\u010datom. Brzina potro\u0161nje pra\u0107ena.",
+      t52:"Predikcija kada silos dose\u017ee prazno. Upozorenja pre nego \u0161to nestanak poremeti proizvodnju.",
+      t53:"NIA = 9,21 ciklusa/mesec. Obrasci potro\u0161nje. EWMA detekcija anomalija.",
+      t54:"RA\u010cUN",
+      t55:"66 dana do pune isplativosti",
+      t56:"Strukturni kvar ili prepunjenje ne ko\u0161ta samo novac \u2014 ugro\u017eava \u017eivote.",
+      t57:"Rizik bez SensSILO",t58:"Manji doga\u0111aji",t59:"Ve\u0107i strukturni kvar",
+      t60:"UCS investicija (jednokratna)",t61:"Proverena godi\u0161nja u\u0161teda",t62:"Period isplativosti",t63:"66 dana",
+      t64:"ROI 1. godina",
+      t65:"SLEDE\u0106I KORAK",
+      t66:"Pogledajte kako radi na va\u0161em silosu",
+      t67:"Pro\u0161irite granice va\u0161e percepcije",
+      t68:"30-dnevni pla\u0107eni pilot na va\u0161em najoptere\u0107enijem silosu.",
+      t69:"Upoznajte svoj saldo",t70:"Ta\u010dna tona\u017ea po nozi, brzina punjenja, obrasci potro\u0161nje.",
+      t71:"Spre\u010dite katastrofu",t72:"Strukturna upozorenja pre o\u0161te\u0107enja, ne nakon njega.",
+      t73:"Planirajte sa podacima",t74:"Prestanite naru\u010divati napamet. Po\u010dnite naru\u010divati po brzini potro\u0161nje.",
+      t75:"Kontakt: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    },
+    ro: {
+      t1:"Portofelul digital pentru materialul depozitat",
+      t2:"Fiecare ton\u0103 din silozul dumneavoastr\u0103 \u00eenseamn\u0103 bani. Cunoa\u0219te\u021bi soldul?",
+      t3:"BREVETAT \u00b7 EP 4 524 526",
+      t4:"PUNCTUL ORB",
+      t5:"Silozul dumneavoastr\u0103 p\u0103streaz\u0103 un secret",
+      t6:"F\u0102R\u0102 SensSILO",
+      t7:"Puntarea materialului creeaz\u0103 cavit\u0103\u021bi ascunse \u2014 crede\u021bi 40 t, ave\u021bi 28 t",
+      t8:"Un picior poart\u0103 34% \u00een loc de 25% \u2014 stres structural periculos",
+      t9:"Nu exist\u0103 mod de a detecta nivelul f\u0103r\u0103 a urca pe siloz",
+      t10:"Umplere excesiv\u0103: minim 62.480 \u20ac cur\u0103\u021bare \u0219i amenzi",
+      t11:"Defect structural: 195.000+ \u20ac",
+      t12:"\u20ac257.480",
+      t13:"expunere total\u0103 la risc per instala\u021bie de siloz",
+      t14:"CU SensSILO",
+      t15:"Greutate exact\u0103 pe fiecare picior \u2014 distribu\u021bia pe celule vizibil\u0103 instant",
+      t16:"Alerte automate \u00eenainte de praguri de supra-umplere sau pericol structural",
+      t17:"Viteza de consum monitorizat\u0103 \u2014 \u0219ti\u021bi c\u00e2nd s\u0103 comanda\u021bi",
+      t18:"Istoric complet: fiecare umplere, golire, anomalie \u00eenregistrat\u0103",
+      t19:"DOVEZI DIN TEREN",
+      t20:"O instala\u021bie a descoperit o problem\u0103 pe care nimeni n-a v\u0103zut-o",
+      t21:"CE S-A \u00ceNT\u00c2MPLAT",
+      t22:"Un depozit cu 4 silozuri. Operatorul se baza pe verific\u0103ri manuale \u0219i un indicator vechi.",
+      t23:"SensSILO a descoperit c\u0103 LC3 purta 27,61% iar LC1 doar 22,05% \u2014 o abatere de 5,56% cresc\u00e2nd \u00een t\u0103cere luni de zile.",
+      t24:"Operatorul a repozi\u021bionat conducta de umplere. Cost repara\u021bie: 2.400 \u20ac. Defect evitat: 195.000+ \u20ac.",
+      t25:"Sistemul a relevat \u0219i NIA de 9,21 cicluri/lun\u0103, schimb\u00e2nd complet planificarea livr\u0103rilor.",
+      t26:"72 ore",t27:"timp de detectare",t28:"2.400 \u20ac",t29:"cost repara\u021bie",t30:"195.000+ \u20ac",t31:"cost defect evitat",
+      t32:"INSTALARE",
+      t33:"Se potrive\u0219te silozului existent. F\u0103r\u0103 lucr\u0103ri civile.",
+      t34:"Se monteaz\u0103 sub picioarele existente. F\u0103r\u0103 macara, f\u0103r\u0103 \u00eentreruperi.",
+      t35:"M740: p\u00e2n\u0103 la 200 kN sarcin\u0103 nominal\u0103. O\u021bel aliat, galvanizat, IP67.",
+      t36:"Silozul dumneavoastr\u0103 actual. Dispozitivul nostru. Func\u021bional \u00een 48 ore.",
+      t37:"CUM FUNC\u021aIONEAZ\u0102",
+      t38:"De la senzor la telefonul dumneavoastr\u0103 \u2014 \u00een secunde",
+      t39:"4\u00d7 celule de sarcin\u0103",t40:"Sub fiecare picior al silozului",
+      t41:"Digitalizator UWT6008",t42:"Converte\u0219te semnale analogice",
+      t43:"Gateway UCS X2",t44:"Transmisie securizat\u0103 NB-IoT",
+      t45:"Tabloul dumneavoastr\u0103",t46:"Telefon, tablet\u0103, desktop \u2014 oriunde",
+      t47:"\u00centregul sistem cost\u0103 mai pu\u021bin dec\u00e2t o vizit\u0103 de urgen\u021b\u0103 a tehnicianului.",
+      t48:"INVENTARUL DUMNEAVOASTR\u0102 LIVE",
+      t49:"Deschide\u021bi portofelul digital",
+      t50:"Greutate per picior: LC1 22,05% \u00b7 LC2 26,93% \u00b7 LC3 27,61% \u00b7 LC4 23,41% \u2014 Total: 42.410 kg",
+      t51:"Fiecare umplere cu marc\u0103 temporal\u0103. Viteza de consum monitorizat\u0103.",
+      t52:"Predic\u021bie c\u00e2nd silozul ajunge gol. Alerte \u00eenainte de \u00eentreruperea produc\u021biei.",
+      t53:"NIA = 9,21 cicluri/lun\u0103. Tipare de consum. Detec\u021bie anomalii EWMA.",
+      t54:"CALCULUL",
+      t55:"66 zile p\u00e2n\u0103 la recuperarea complet\u0103",
+      t56:"Defectul structural sau supra-umplerea nu cost\u0103 doar bani \u2014 amenin\u021b\u0103 vie\u021bi.",
+      t57:"Risc f\u0103r\u0103 SensSILO",t58:"Evenimente minore",t59:"Defect structural major",
+      t60:"Investi\u021bie UCS (unic\u0103)",t61:"Economii anuale verificate",t62:"Perioad\u0103 de recuperare",t63:"66 zile",
+      t64:"ROI Anul 1",
+      t65:"PASUL URM\u0102TOR",
+      t66:"Vede\u021bi cum func\u021bioneaz\u0103 pe silozul dumneavoastr\u0103",
+      t67:"Extinde\u021bi limitele percep\u021biei",
+      t68:"Pilot pl\u0103tit de 30 zile pe silozul cel mai aglomerat.",
+      t69:"Cunoa\u0219te\u021bi-v\u0103 soldul",t70:"Tonaj exact per picior, vitez\u0103 de umplere, tipare de consum.",
+      t71:"Preveni\u021bi catastrofa",t72:"Avertismente structurale \u00eenainte de deteriorare, nu dup\u0103.",
+      t73:"Planifica\u021bi cu date",t74:"Nu mai comanda\u021bi din intui\u021bie. Comanda\u021bi dup\u0103 viteza de consum.",
+      t75:"Contact: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    },
+    bg: {
+      t1:"\u0412\u0430\u0448\u0438\u044f\u0442 \u0446\u0438\u0444\u0440\u043e\u0432 \u043f\u043e\u0440\u0442\u0444\u0435\u0439\u043b \u0437\u0430 \u0441\u044a\u0445\u0440\u0430\u043d\u044f\u0432\u0430\u043d \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b",
+      t2:"\u0412\u0441\u0435\u043a\u0438 \u0442\u043e\u043d \u0432 \u0441\u0438\u043b\u043e\u0437\u0430 \u0432\u0438 \u0441\u0430 \u043f\u0430\u0440\u0438. \u0417\u043d\u0430\u0435\u0442\u0435 \u043b\u0438 \u0431\u0430\u043b\u0430\u043d\u0441\u0430 \u0441\u0438?",
+      t3:"\u041f\u0410\u0422\u0415\u041d\u0422\u041e\u0412\u0410\u041d\u041e \u00b7 EP 4 524 526",
+      t4:"\u0421\u041b\u042f\u041f\u0410\u0422\u0410 \u0422\u041e\u0427\u041a\u0410",
+      t5:"\u0412\u0430\u0448\u0438\u044f\u0442 \u0441\u0438\u043b\u043e\u0437 \u043a\u0440\u0438\u0435 \u0442\u0430\u0439\u043d\u0430 \u043e\u0442 \u0432\u0430\u0441",
+      t6:"\u0411\u0415\u0417 SensSILO",
+      t7:"\u041c\u043e\u0441\u0442\u043e\u0432\u0435\u0442\u043e \u043d\u0430 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430 \u0441\u044a\u0437\u0434\u0430\u0432\u0430 \u0441\u043a\u0440\u0438\u0442\u0438 \u043a\u0443\u0445\u0438\u043d\u0438 \u2014 \u043c\u0438\u0441\u043b\u0438\u0442\u0435 40 \u0442, \u0438\u043c\u0430\u0442\u0435 28 \u0442",
+      t8:"\u0415\u0434\u0438\u043d \u043a\u0440\u0430\u043a \u043d\u043e\u0441\u0438 34% \u0432\u043c\u0435\u0441\u0442\u043e 25% \u2014 \u043e\u043f\u0430\u0441\u043d\u043e \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u043e \u043d\u0430\u0442\u043e\u0432\u0430\u0440\u0432\u0430\u043d\u0435",
+      t9:"\u041d\u044f\u043c\u0430 \u043d\u0430\u0447\u0438\u043d \u0437\u0430 \u0442\u043e\u0447\u043d\u043e \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u043d\u0435 \u043d\u0430 \u043d\u0438\u0432\u043e\u0442\u043e \u0431\u0435\u0437 \u043a\u0430\u0447\u0432\u0430\u043d\u0435 \u043d\u0430 \u0441\u0438\u043b\u043e\u0437\u0430",
+      t10:"\u041f\u0440\u0435\u043f\u044a\u043b\u0432\u0430\u043d\u0435: \u043c\u0438\u043d\u0438\u043c\u0443\u043c 62 480 \u20ac \u0437\u0430 \u043f\u043e\u0447\u0438\u0441\u0442\u0432\u0430\u043d\u0435 \u0438 \u0433\u043b\u043e\u0431\u0438",
+      t11:"\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0430 \u0430\u0432\u0430\u0440\u0438\u044f: 195 000+ \u20ac",
+      t12:"\u20ac257 480",
+      t13:"\u043e\u0431\u0449\u0430 \u0435\u043a\u0441\u043f\u043e\u0437\u0438\u0446\u0438\u044f \u043d\u0430 \u0440\u0438\u0441\u043a \u043d\u0430 \u0438\u043d\u0441\u0442\u0430\u043b\u0430\u0446\u0438\u044f",
+      t14:"\u0421\u044a\u0441 SensSILO",
+      t15:"\u0422\u043e\u0447\u043d\u043e \u0442\u0435\u0433\u043b\u043e \u043d\u0430 \u0432\u0441\u0435\u043a\u0438 \u043a\u0440\u0430\u043a \u2014 \u0440\u0430\u0437\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u043f\u043e \u043a\u043b\u0435\u0442\u043a\u0438 \u0432\u0438\u0434\u0438\u043c\u043e \u043c\u043e\u043c\u0435\u043d\u0442\u0430\u043b\u043d\u043e",
+      t16:"\u0410\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u043d\u0438 \u0441\u0438\u0433\u043d\u0430\u043b\u0438 \u043f\u0440\u0435\u0434\u0438 \u043f\u0440\u0430\u0433\u043e\u0432\u0435 \u043d\u0430 \u043f\u0440\u0435\u043f\u044a\u043b\u0432\u0430\u043d\u0435 \u0438\u043b\u0438 \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0430 \u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442",
+      t17:"\u0421\u043b\u0435\u0434\u0435\u043d\u0435 \u043d\u0430 \u0441\u043a\u043e\u0440\u043e\u0441\u0442\u0442\u0430 \u043d\u0430 \u043a\u043e\u043d\u0441\u0443\u043c\u0430\u0446\u0438\u044f \u2014 \u0437\u043d\u0430\u0439\u0442\u0435 \u043a\u043e\u0433\u0430 \u0434\u0430 \u043f\u043e\u0440\u044a\u0447\u0430\u0442\u0435",
+      t18:"\u041f\u044a\u043b\u043d\u0430 \u0438\u0441\u0442\u043e\u0440\u0438\u044f: \u0432\u0441\u044f\u043a\u043e \u043f\u044a\u043b\u043d\u0435\u043d\u0435, \u0438\u0437\u043f\u0440\u0430\u0437\u0432\u0430\u043d\u0435, \u0430\u043d\u043e\u043c\u0430\u043b\u0438\u044f \u0437\u0430\u043f\u0438\u0441\u0430\u043d\u0430",
+      t19:"\u0414\u041e\u041a\u0410\u0417\u0410\u0422\u0415\u041b\u0421\u0422\u0412\u0410 \u041e\u0422 \u0422\u0415\u0420\u0415\u041d\u0410",
+      t20:"\u0418\u043d\u0441\u0442\u0430\u043b\u0430\u0446\u0438\u044f\u0442\u0430 \u043e\u0442\u043a\u0440\u0438 \u043f\u0440\u043e\u0431\u043b\u0435\u043c, \u043a\u043e\u0439\u0442\u043e \u043d\u0438\u043a\u043e\u0439 \u043d\u0435 \u0432\u0438\u0436\u0434\u0430\u0448\u0435",
+      t21:"\u041a\u0410\u041a\u0412\u041e \u0421\u0415 \u0421\u041b\u0423\u0427\u0418",
+      t22:"\u0421\u043a\u043b\u0430\u0434 \u0437\u0430 \u043d\u0430\u0441\u0438\u043f\u043d\u0438 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0438 \u0441 4 \u0441\u0438\u043b\u043e\u0437\u0430. \u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440\u044a\u0442 \u0440\u0430\u0437\u0447\u0438\u0442\u0430\u0448\u0435 \u043d\u0430 \u0440\u044a\u0447\u043d\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0441\u0442\u0430\u0440 \u0438\u043d\u0434\u0438\u043a\u0430\u0442\u043e\u0440.",
+      t23:"SensSILO \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u0438, \u0447\u0435 LC3 \u043d\u043e\u0441\u0438 27,61%, a LC1 \u0441\u0430\u043c\u043e 22,05% \u2014 \u043e\u0442\u043a\u043b\u043e\u043d\u0435\u043d\u0438\u0435 5,56%, \u043d\u0430\u0440\u0430\u0441\u0442\u0432\u0430\u0449\u043e \u0431\u0435\u0437\u0448\u0443\u043c\u043d\u043e \u0441 \u043c\u0435\u0441\u0435\u0446\u0438.",
+      t24:"\u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440\u044a\u0442 \u043f\u0440\u0435\u043c\u0435\u0441\u0442\u0438 \u043f\u044a\u043b\u043d\u0438\u0442\u0435\u043b\u043d\u0430\u0442\u0430 \u0442\u0440\u044a\u0431\u0430 \u0438 \u0431\u0430\u043b\u0430\u043d\u0441\u0438\u0440\u0430 \u043a\u043e\u0442\u0432\u0438\u0442\u0435. \u0426\u0435\u043d\u0430 \u043d\u0430 \u0440\u0435\u043c\u043e\u043d\u0442\u0430: 2 400 \u20ac. \u0418\u0437\u0431\u0435\u0433\u043d\u0430\u0442\u0430 \u0430\u0432\u0430\u0440\u0438\u044f: 195 000+ \u20ac.",
+      t25:"\u0421\u0438\u0441\u0442\u0435\u043c\u0430\u0442\u0430 \u0440\u0430\u0437\u043a\u0440\u0438 \u0438 NIA 9,21 \u0446\u0438\u043a\u044a\u043b\u0430/\u043c\u0435\u0441\u0435\u0446, \u043a\u043e\u0435\u0442\u043e \u043f\u0440\u043e\u043c\u0435\u043d\u0438 \u043f\u043b\u0430\u043d\u0438\u0440\u0430\u043d\u0435\u0442\u043e \u043d\u0430 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438.",
+      t26:"72 \u0447\u0430\u0441\u0430",t27:"\u0432\u0440\u0435\u043c\u0435 \u0437\u0430 \u043e\u0442\u043a\u0440\u0438\u0432\u0430\u043d\u0435",t28:"2 400 \u20ac",t29:"\u0446\u0435\u043d\u0430 \u043d\u0430 \u0440\u0435\u043c\u043e\u043d\u0442\u0430",t30:"195 000+ \u20ac",t31:"\u0438\u0437\u0431\u0435\u0433\u043d\u0430\u0442\u0438 \u0440\u0430\u0437\u0445\u043e\u0434\u0438",
+      t32:"\u0418\u041d\u0421\u0422\u0410\u041b\u0410\u0426\u0418\u042f",
+      t33:"\u041f\u0430\u0441\u0432\u0430 \u043d\u0430 \u0441\u044a\u0449\u0435\u0441\u0442\u0432\u0443\u0432\u0430\u0449\u0438\u044f \u0441\u0438\u043b\u043e\u0437. \u0411\u0435\u0437 \u0441\u0442\u0440\u043e\u0438\u0442\u0435\u043b\u043d\u0438 \u0434\u0435\u0439\u043d\u043e\u0441\u0442\u0438.",
+      t34:"\u041c\u043e\u043d\u0442\u0438\u0440\u0430 \u0441\u0435 \u043f\u043e\u0434 \u0441\u044a\u0449\u0435\u0441\u0442\u0432\u0443\u0432\u0430\u0449\u0438\u0442\u0435 \u043a\u0440\u0430\u043a\u0430. \u0411\u0435\u0437 \u043a\u0440\u0430\u043d, \u0431\u0435\u0437 \u043f\u0440\u0435\u0441\u0442\u043e\u0439.",
+      t35:"M740: \u0434\u043e 200 kN \u043d\u043e\u043c\u0438\u043d\u0430\u043b\u043d\u043e \u043d\u0430\u0442\u043e\u0432\u0430\u0440\u0432\u0430\u043d\u0435. \u041b\u0435\u0433\u0438\u0440\u0430\u043d\u0430 \u0441\u0442\u043e\u043c\u0430\u043d\u0430, \u043f\u043e\u0446\u0438\u043d\u043a\u043e\u0432\u0430\u043d\u0430, IP67.",
+      t36:"\u0412\u0430\u0448\u0438\u044f\u0442 \u043d\u0430\u0441\u0442\u043e\u044f\u0449 \u0441\u0438\u043b\u043e\u0437. \u041d\u0430\u0448\u0435\u0442\u043e \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e. \u0420\u0430\u0431\u043e\u0442\u0438 \u0437\u0430 48 \u0447\u0430\u0441\u0430.",
+      t37:"\u041a\u0410\u041a \u0420\u0410\u0411\u041e\u0422\u0418",
+      t38:"\u041e\u0442 \u0441\u0435\u043d\u0437\u043e\u0440\u0430 \u0434\u043e \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430 \u0432\u0438 \u2014 \u0437\u0430 \u0441\u0435\u043a\u0443\u043d\u0434\u0438",
+      t39:"4\u00d7 \u0442\u0435\u0437\u043e\u0434\u0430\u0442\u0447\u0438\u0446\u0438",t40:"\u041f\u043e\u0434 \u0432\u0441\u0435\u043a\u0438 \u043a\u0440\u0430\u043a \u043d\u0430 \u0441\u0438\u043b\u043e\u0437\u0430",
+      t41:"\u0414\u0438\u0433\u0438\u0442\u0430\u043b\u0438\u0437\u0430\u0442\u043e\u0440 UWT6008",t42:"\u041a\u043e\u043d\u0432\u0435\u0440\u0442\u0438\u0440\u0430 \u0430\u043d\u0430\u043b\u043e\u0433\u043e\u0432\u0438 \u0441\u0438\u0433\u043d\u0430\u043b\u0438",
+      t43:"UCS X2 \u0448\u043b\u044e\u0437",t44:"\u0421\u0438\u0433\u0443\u0440\u043d\u043e \u043f\u0440\u0435\u0434\u0430\u0432\u0430\u043d\u0435 NB-IoT",
+      t45:"\u0412\u0430\u0448\u0438\u044f\u0442 \u043f\u0440\u0435\u0433\u043b\u0435\u0434",t46:"\u0422\u0435\u043b\u0435\u0444\u043e\u043d, \u0442\u0430\u0431\u043b\u0435\u0442, \u043a\u043e\u043c\u043f\u044e\u0442\u044a\u0440 \u2014 \u043e\u0442\u043a\u044a\u0434\u0435\u0442\u043e \u0438 \u0434\u0430 \u0435",
+      t47:"\u0426\u044f\u043b\u0430\u0442\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u0430 \u0441\u0442\u0440\u0443\u0432\u0430 \u043f\u043e-\u043c\u0430\u043b\u043a\u043e \u043e\u0442 \u0435\u0434\u043d\u043e \u0430\u0432\u0430\u0440\u0438\u0439\u043d\u043e \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u0435 \u043d\u0430 \u0442\u0435\u0445\u043d\u0438\u043a.",
+      t48:"\u0412\u0410\u0428\u0418\u042f\u0422 \u0416\u0418\u0412 \u0418\u041d\u0412\u0415\u041d\u0422\u0410\u0420",
+      t49:"\u041e\u0442\u0432\u043e\u0440\u0435\u0442\u0435 \u0446\u0438\u0444\u0440\u043e\u0432\u0438\u044f \u0441\u0438 \u043f\u043e\u0440\u0442\u0444\u0435\u0439\u043b",
+      t50:"\u0422\u0435\u0433\u043b\u043e \u043d\u0430 \u043a\u0440\u0430\u043a: LC1 22,05% \u00b7 LC2 26,93% \u00b7 LC3 27,61% \u00b7 LC4 23,41% \u2014 \u041e\u0431\u0449\u043e: 42 410 kg",
+      t51:"\u0412\u0441\u044f\u043a\u043e \u043f\u044a\u043b\u043d\u0435\u043d\u0435 \u0441 \u0432\u0440\u0435\u043c\u0435\u0432\u0438 \u043f\u0435\u0447\u0430\u0442. \u0421\u043a\u043e\u0440\u043e\u0441\u0442 \u043d\u0430 \u043a\u043e\u043d\u0441\u0443\u043c\u0430\u0446\u0438\u044f \u0441\u043b\u0435\u0434\u0435\u043d\u0430.",
+      t52:"\u041f\u0440\u043e\u0433\u043d\u043e\u0437\u0430 \u043a\u043e\u0433\u0430 \u0441\u0438\u043b\u043e\u0437\u044a\u0442 \u0441\u0442\u0430\u0432\u0430 \u043f\u0440\u0430\u0437\u0435\u043d. \u0421\u0438\u0433\u043d\u0430\u043b\u0438 \u043f\u0440\u0435\u0434\u0438 \u043f\u0440\u0435\u043a\u044a\u0441\u0432\u0430\u043d\u0435 \u043d\u0430 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0441\u0442\u0432\u043e\u0442\u043e.",
+      t53:"NIA = 9,21 \u0446\u0438\u043a\u044a\u043b\u0430/\u043c\u0435\u0441\u0435\u0446. \u041c\u043e\u0434\u0435\u043b\u0438 \u043d\u0430 \u043a\u043e\u043d\u0441\u0443\u043c\u0430\u0446\u0438\u044f. EWMA \u0434\u0435\u0442\u0435\u043a\u0446\u0438\u044f.",
+      t54:"\u0421\u041c\u0415\u0422\u041a\u0410\u0422\u0410",
+      t55:"66 \u0434\u043d\u0438 \u0434\u043e \u043f\u044a\u043b\u043d\u0430 \u0432\u044a\u0437\u0432\u0440\u044a\u0449\u0430\u0435\u043c\u043e\u0441\u0442",
+      t56:"\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0430\u0442\u0430 \u0430\u0432\u0430\u0440\u0438\u044f \u043d\u0435 \u0441\u0442\u0440\u0443\u0432\u0430 \u0441\u0430\u043c\u043e \u043f\u0430\u0440\u0438 \u2014 \u0437\u0430\u0441\u0442\u0440\u0430\u0448\u0430\u0432\u0430 \u0436\u0438\u0432\u043e\u0442\u0438.",
+      t57:"\u0420\u0438\u0441\u043a \u0431\u0435\u0437 SensSILO",t58:"\u041c\u0430\u043b\u043a\u0438 \u0441\u044a\u0431\u0438\u0442\u0438\u044f",t59:"\u0413\u043e\u043b\u044f\u043c\u0430 \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0430 \u0430\u0432\u0430\u0440\u0438\u044f",
+      t60:"\u0418\u043d\u0432\u0435\u0441\u0442\u0438\u0446\u0438\u044f UCS (\u0435\u0434\u043d\u043e\u043a\u0440\u0430\u0442\u043d\u0430)",t61:"\u041f\u043e\u0442\u0432\u044a\u0440\u0434\u0435\u043d\u0438 \u0433\u043e\u0434\u0438\u0448\u043d\u0438 \u0441\u043f\u0435\u0441\u0442\u044f\u0432\u0430\u043d\u0438\u044f",t62:"\u041f\u0435\u0440\u0438\u043e\u0434 \u043d\u0430 \u0432\u044a\u0437\u0432\u0440\u044a\u0449\u0430\u0435\u043c\u043e\u0441\u0442",t63:"66 \u0434\u043d\u0438",
+      t64:"ROI 1-\u0432\u0430 \u0433\u043e\u0434\u0438\u043d\u0430",
+      t65:"\u0421\u041b\u0415\u0414\u0412\u0410\u0429\u0410 \u0421\u0422\u042a\u041f\u041a\u0410",
+      t66:"\u0412\u0438\u0436\u0442\u0435 \u043a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0438 \u043d\u0430 \u0432\u0430\u0448\u0438\u044f \u0441\u0438\u043b\u043e\u0437",
+      t67:"\u0420\u0430\u0437\u0448\u0438\u0440\u0435\u0442\u0435 \u0433\u0440\u0430\u043d\u0438\u0446\u0438\u0442\u0435 \u043d\u0430 \u0432\u0430\u0448\u0435\u0442\u043e \u0432\u044a\u0437\u043f\u0440\u0438\u044f\u0442\u0438\u0435",
+      t68:"30-\u0434\u043d\u0435\u0432\u0435\u043d \u043f\u043b\u0430\u0442\u0435\u043d \u043f\u0438\u043b\u043e\u0442 \u043d\u0430 \u043d\u0430\u0439-\u043d\u0430\u0442\u043e\u0432\u0430\u0440\u0435\u043d\u0438\u044f \u0441\u0438\u043b\u043e\u0437.",
+      t69:"\u041f\u043e\u0437\u043d\u0430\u0439\u0442\u0435 \u0431\u0430\u043b\u0430\u043d\u0441\u0430 \u0441\u0438",t70:"\u0422\u043e\u0447\u0435\u043d \u0442\u043e\u043d\u0430\u0436 \u043d\u0430 \u043a\u0440\u0430\u043a, \u0441\u043a\u043e\u0440\u043e\u0441\u0442 \u043d\u0430 \u043f\u044a\u043b\u043d\u0435\u043d\u0435, \u043c\u043e\u0434\u0435\u043b\u0438 \u043d\u0430 \u043a\u043e\u043d\u0441\u0443\u043c\u0430\u0446\u0438\u044f.",
+      t71:"\u041f\u0440\u0435\u0434\u043e\u0442\u0432\u0440\u0430\u0442\u0435\u0442\u0435 \u043a\u0430\u0442\u0430\u0441\u0442\u0440\u043e\u0444\u0430",t72:"\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0438 \u043f\u0440\u0435\u0434\u0443\u043f\u0440\u0435\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u0440\u0435\u0434\u0438 \u043f\u043e\u0432\u0440\u0435\u0434\u0430, \u043d\u0435 \u0441\u043b\u0435\u0434 \u043d\u0435\u044f.",
+      t73:"\u041f\u043b\u0430\u043d\u0438\u0440\u0430\u0439\u0442\u0435 \u0441 \u0434\u0430\u043d\u043d\u0438",t74:"\u0421\u043f\u0440\u0435\u0442\u0435 \u0434\u0430 \u043f\u043e\u0440\u044a\u0447\u0432\u0430\u0442\u0435 \u043d\u0430\u043f\u043e\u0441\u043e\u043a\u0438. \u041f\u043e\u0440\u044a\u0447\u0432\u0430\u0439\u0442\u0435 \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442 \u043d\u0430 \u043a\u043e\u043d\u0441\u0443\u043c\u0430\u0446\u0438\u044f.",
+      t75:"\u041a\u043e\u043d\u0442\u0430\u043a\u0442: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
+    }
+  };
+
+  // Language switcher
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var lang = this.getAttribute('data-lang');
+      document.querySelectorAll('.lang-btn').forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+      var t = T[lang] || T.en;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i]').forEach(function(el){
+        var k = el.getAttribute('data-i');
+        if(t[k] !== undefined) el.textContent = t[k];
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
