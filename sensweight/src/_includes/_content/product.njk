@@ -80,6 +80,10 @@
   </div>
 </section>
 
+{% if p.videos %}
+{% set vb = p.videos %}
+{% include "_content/video-block.njk" %}
+{% else %}
 <section class="section">
   <div class="container">
     <div class="section-header">
@@ -93,6 +97,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 {# ROI calculator temporarily held — uncomment to restore: {% include "_content/roi-calculator.njk" %} #}
 

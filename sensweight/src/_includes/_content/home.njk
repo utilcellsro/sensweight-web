@@ -112,26 +112,29 @@
 {# ── VIDEO ─────────────────────────────────────────────────── #}
 <section class="section video-section" id="videos">
   <div class="container">
-    <div class="section-header">
-      <div class="section-tagline">{{ t.video.section_title }}</div>
-      <h2>{{ t.video.section_heading }}</h2>
+    <div class="section-header section-header--split">
+      <div class="section-header-text">
+        <div class="section-tagline">{{ t.video.section_title }}</div>
+        <h2>{{ t.video.section_heading }}</h2>
+      </div>
+      <a class="section-header-link" href="{{ t.video.channel_url }}" target="_blank" rel="noopener">{{ t.video.channel_cta }}</a>
     </div>
     <div class="video-grid">
-      <div class="vid-main" data-vid="YOUR_VIDEO_ID_1">
+      <div class="vid-main" data-vid="{{ t.video.library.explained.id }}" role="button" tabindex="0" aria-label="Play video: {{ t.video.library.explained.title }}">
         <div class="vid-thumb"></div>
         <div class="vid-play"><div class="vid-play-btn"></div></div>
-        <div class="vid-placeholder-text">{{ t.video.placeholder }}</div>
+        <div class="vid-label">{{ t.video.library.explained.title }}</div>
       </div>
       <div class="vid-side">
-        <div class="vid-card" data-vid="YOUR_VIDEO_ID_2">
+        <div class="vid-card" data-vid="{{ t.video.library.weighbridge.id }}" role="button" tabindex="0" aria-label="Play video: {{ t.video.library.weighbridge.title }}">
           <div class="vid-thumb"></div>
           <div class="vid-play"><div class="vid-play-btn vid-play-btn--sm"></div></div>
-          <div class="vid-placeholder-text">{{ t.video.placeholder }}</div>
+          <div class="vid-label">{{ t.video.library.weighbridge.title }}</div>
         </div>
-        <div class="vid-card" data-vid="YOUR_VIDEO_ID_3">
+        <div class="vid-card" data-vid="{{ t.video.library.silos.id }}" role="button" tabindex="0" aria-label="Play video: {{ t.video.library.silos.title }}">
           <div class="vid-thumb"></div>
           <div class="vid-play"><div class="vid-play-btn vid-play-btn--sm"></div></div>
-          <div class="vid-placeholder-text">{{ t.video.placeholder }}</div>
+          <div class="vid-label">{{ t.video.library.silos.title }}</div>
         </div>
       </div>
     </div>
@@ -195,4 +198,5 @@
 </section>
 
 <script src="/assets/js/home.js"></script>
+<script src="/assets/js/videos.js" defer></script>
 <script src="/assets/js/hero-carousel.js"></script>

@@ -143,3 +143,8 @@
   </div>
 </section>
 {% endif %}
+
+{% if s.videos %}
+{% set vb = s.videos %}
+{% include "_content/video-block.njk" %}
+{% endif %}

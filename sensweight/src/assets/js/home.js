@@ -53,27 +53,6 @@
     calc();
   }
 
-  /* ── VIDEO LAZY LOADER ────────────────────────────────────── */
-  document.querySelectorAll('[data-vid]').forEach(function (wrap) {
-    var id = wrap.dataset.vid;
-    if (!id || id.indexOf('YOUR_') === 0) return;
-
-    var thumb = wrap.querySelector('.vid-thumb');
-    if (thumb) {
-      thumb.style.backgroundImage =
-        'url(https://img.youtube.com/vi/' + id + '/maxresdefault.jpg)';
-    }
-
-    wrap.addEventListener('click', function () {
-      var iframe = document.createElement('iframe');
-      iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-      iframe.allowFullscreen = true;
-      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:inherit';
-      wrap.innerHTML = '';
-      wrap.appendChild(iframe);
-      wrap.style.cursor = 'default';
-    });
-  });
+  /* Video lazy loader moved to videos.js (shared with product/industry pages) */
 
 })();
