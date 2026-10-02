@@ -249,6 +249,12 @@
       /* Fixed 1200x675 design canvas, scaled to fit the stage (2026-10-02: laptop screens overflowed) */
     .canvas{position:absolute;top:0;left:0;width:1200px;height:675px;transform-origin:0 0;transform:scale(var(--k,1))}
     @media (max-width: 860px){.canvas{position:absolute;inset:0;width:auto;height:auto;transform:none}}
+    /* Narrow screens (2026-10-02): dashboard screenshots visible again, tall install photo capped */
+    @media (max-width: 860px){
+      .dash-grid{flex:none}
+      .dash-card img{flex:none;height:auto;max-height:none}
+      .img-card img{max-height:320px;object-fit:contain}
+    }
   </style>
 </head>
 <body>

@@ -349,6 +349,23 @@
     .dash-grid--two{grid-template-rows:minmax(0,1fr) !important}
     .dash-grid--two .dash-card img{height:0;flex:1 1 0;object-fit:cover}
     @media (max-width: 860px){.dash-grid--two .dash-card img{height:auto;flex:none}}
+    /* Narrow screens (Martin's review 2026-10-02): keep reading order, captions, spacing, photo sizing */
+    @media (max-width: 860px){
+      .leak-head{align-self:stretch}
+      .leak-head--bad{order:1}.leak-item--bad{order:2}
+      .leak-total{order:3;margin:22px 0}
+      .leak-head--good{order:4;margin-top:0}.leak-item--good{order:5}
+      .case-fig__frame{flex:none;height:220px}
+      .case-fig__frame img{height:100%}
+      .case-fig{margin-bottom:6px}
+      .paths .flow{margin-top:26px}
+      .flow-arrow{transform:none;margin:6px 0 10px}
+      .flow-arrow .arr{transform:rotate(90deg);width:40px;height:20px;margin:10px 0}
+      .flow-arrow small{margin-bottom:0}
+      .contact-card{align-items:center;text-align:center}
+      .contact-card__photo{flex:none;width:min(100%,280px);height:auto;aspect-ratio:1/1;max-height:none}
+      .contact-card__links{max-width:360px}
+    }
   </style>
 </head>
 <body>
