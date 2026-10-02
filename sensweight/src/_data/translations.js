@@ -167,7 +167,7 @@ module.exports = {
             },
             pilot: {
               heading: "Prove it on your busiest conveyor",
-              body: "A 30-day paid pilot on your most-used belt. If we don't find wasted hours — walk away.",
+              body: "A free 30-day pilot on your most-used belt — we lend you the system for a month at no cost. If we don't find wasted hours — walk away.",
               points: [
                 { title: "Kill ghost running",           body: "Automatic empty-belt detection and energy savings from day one." },
                 { title: "Protect measurement accuracy", body: "Continuous calibration checks without site visits — know when accuracy drifts, not after it's too late." },
@@ -378,7 +378,7 @@ module.exports = {
         },
         pilot: {
           heading: "Put it on your busiest scale",
-          body: "A 30-day paid pilot on your highest-traffic weighbridge. If we don't detect drift or save you a trip — walk away.",
+          body: "A free 30-day pilot on your highest-traffic weighbridge — we lend you the system for a month at no cost. If we don't detect drift or save you a trip — walk away.",
           points: [
             { title: "Protect every transaction",   body: "Per-cell accuracy verification on every weighment." },
             { title: "Stop fraud before it starts", body: "Positioning verification, immutable records, pattern detection." },
