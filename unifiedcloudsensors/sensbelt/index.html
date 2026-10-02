@@ -16,7 +16,7 @@
     html,body{width:100%;height:100%;overflow-x:hidden;background:#fff;color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased}
     button{font:inherit}
     .language-bar{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:10px;z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-    .lang-btn{background:var(--paper);border:1.5px solid var(--line);color:var(--ink);padding:6px 14px;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.82rem;font-family:'IBM Plex Sans',sans-serif;transition:all 120ms var(--ease)}
+    .lang-btn{background:var(--paper);border:1px solid var(--line);color:var(--ink);padding:6px 14px;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.82rem;font-family:'IBM Plex Sans',sans-serif;transition:all 120ms var(--ease)}
     .lang-btn:hover,.lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
     .deck{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:70px 18px 20px}
     .stage{position:relative;aspect-ratio:16/9;width:min(calc(100vw - 36px),calc((100vh - 100px)*16/9));overflow:hidden;background:#fff;box-shadow:var(--shadow);border-radius:var(--r);border:1px solid var(--line)}
@@ -53,28 +53,28 @@
     .img-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
     .img-card img{width:100%;height:100%;object-fit:contain;border-radius:4px}
     .cap{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;text-align:center;line-height:1.35}
-    .step-card{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;align-items:center;text-align:center;height:100%}
-    .step-num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:500;color:var(--blue);margin-bottom:4px}
+    .step-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;align-items:center;text-align:center;height:100%}
+    .step-num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:500;color:var(--sky);margin-bottom:4px}
     .motive-box{background:var(--paper);border-left:4px solid var(--blue);padding:12px 16px;margin-top:14px;border-radius:0 var(--r) var(--r) 0}
     .motive-box p{color:var(--ink);font-weight:600;font-size:13px;line-height:1.4}
     .alert-card{background:var(--paper);border-left:5px solid var(--danger);padding:12px 16px;border-radius:var(--r);color:var(--danger);font-weight:600;margin-bottom:14px;font-size:13px;line-height:1.45}
     .warn-card{background:var(--paper);border-left:5px solid var(--warn);padding:12px 16px;border-radius:var(--r);color:var(--ink);font-weight:600;margin-bottom:14px;font-size:13px;line-height:1.45}
     .roi-grid{display:grid;grid-template-columns:42% 58%;gap:18px;align-items:center;height:calc(100% - 70px)}
     .roi-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;height:100%;display:flex;flex-direction:column;justify-content:center}
-    .roi-big{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:500;color:var(--blue);margin:8px 0}
+    .roi-big{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:500;color:var(--sky);margin:8px 0}
     .roi-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--subtle);text-transform:uppercase;letter-spacing:.08em}
     .adoption-banner{background:var(--navy);color:#fff;border-radius:var(--r);padding:28px 36px;text-align:center;margin-bottom:18px}
     .adoption-banner h2{color:#fff;font-size:28px;margin-bottom:6px}
     .adoption-banner p{color:var(--sky);font-size:17px;font-weight:600;font-family:'IBM Plex Mono',monospace}
     .reasons-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .reason-card{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:16px 14px}
+    .reason-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 14px}
     .reason-card h3{font-size:16px;margin-bottom:6px}
     .reason-card p{font-size:13px}
     .story-grid{display:grid;grid-template-columns:55% 45%;gap:24px;height:100%;align-items:center}
-    .story-box{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;height:100%;display:flex;flex-direction:column;justify-content:center}
-    .story-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .story-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px;height:100%;display:flex;flex-direction:column;justify-content:center}
+    .story-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
     .story-stat{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap}
-    .story-stat div{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:10px 14px;flex:1;min-width:90px}
+    .story-stat div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;flex:1;min-width:90px}
     .story-stat .num{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;color:var(--blue)}
     .story-stat .lbl{font-size:11px;color:var(--muted);margin-top:2px}
     .controls{position:fixed;z-index:20;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px 9px;background:rgba(47,47,46,.82);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:#fff}
@@ -125,7 +125,7 @@
     /* Replacement panels (2026-09-30): real content instead of unrelated weighbridge/silo images */
     .flow-card,.views-card,.drift-card{justify-content:space-between;padding:18px}
     .flow{display:flex;flex-direction:column;gap:6px;width:100%;flex:1;justify-content:center}
-    .flow-node{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:baseline;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:10px 14px}
+    .flow-node{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:baseline;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px}
     .flow-node strong{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;color:var(--ink)}
     .flow-node small{grid-column:2;font-size:12px;color:var(--muted)}
     .flow-num{grid-row:span 2;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--blue)}
@@ -134,9 +134,9 @@
     .flow-node--end strong{color:#fff}
     .flow-node--end small{color:var(--sky)}
     .flow-node--end .flow-num{color:var(--sky)}
-    .flow-arrow{text-align:center;color:var(--blue);font-size:14px;line-height:1}
+    .flow-arrow{text-align:center;color:var(--sky);font-size:14px;line-height:1}
     .views{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;flex:1;align-content:center}
-    .view{background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:4px}
+    .view{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:4px}
     .view-lbl{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:16px;color:var(--ink)}
     .view-unit{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--blue)}
     .view-txt{font-size:12px;color:var(--muted);line-height:1.4}
@@ -150,6 +150,68 @@
     .flow-arrow{font-size:11px}
     .flow-card .cap{margin-top:8px;flex:none}
     @media (max-width: 860px){.views{grid-template-columns:1fr}.drift{height:220px;flex:none}.flow-node{padding:10px 14px}.flow-node strong{font-size:15px}}
+
+    /* ===== Dark literal-DNA restyle, matching the SensWEIGHT Bridge deck (2026-10-02) ===== */
+    :root{--ink:#fff;--text:#dce5f4;--paper:rgba(220,229,244,.05);--line:rgba(220,229,244,.14);--canvas:#12192b;--shadow:0 30px 90px rgba(0,0,0,.45)}
+    html,body{background:var(--canvas);color:var(--text);-webkit-font-smoothing:antialiased}
+    .language-bar{background:rgba(12,13,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(220,229,244,.08);box-shadow:none}
+    .lang-btn{background:transparent;border:1px solid var(--line);color:var(--text);transition:all 200ms var(--ease)}
+    .lang-btn:hover{background:transparent;border-color:var(--sky);color:var(--sky)}
+    .lang-btn.active,.lang-btn.active:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .stage{background:var(--navy);border:1px solid rgba(220,229,244,.08)}
+    .slide{background:var(--navy)}
+    .topline{display:none}
+    .header{border-bottom:1px solid var(--line)}
+    .slide:not(.cover){grid-template-rows:auto minmax(0,1fr)}
+    .slide:not(.cover) .body{height:auto;justify-content:center}
+    .eyebrow{color:var(--sky)}
+    h1,h2,h3{color:#fff}
+    p{color:var(--text)}
+    li::marker{color:var(--sky)}
+    .brand strong{color:#fff}
+    .brand img{max-width:none}
+    .header .brand img{height:28px}
+    .cover .brand img{height:36px}
+    .cover .photo{background:var(--canvas)}
+    .cover .photo img{filter:saturate(.75) contrast(1.05)}
+    .cover .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,13,16,.15) 0%,rgba(12,13,16,.25) 60%,var(--navy) 100%);pointer-events:none}
+    .cover .copy{background:var(--navy)}
+    .cover .copy::before{display:none}
+    .cover p{color:var(--text)}
+    .patent{background:transparent;border:1px solid var(--sky);color:var(--sky);font-weight:700}
+    .img-card{background:var(--paper);border-color:var(--line)}
+    .cap{color:var(--text)}
+    .reason,.reason-card{background:var(--paper);border:1px solid var(--line)}
+    .reason h3,.reason-card h3{color:var(--sky)}
+    .cta-banner,.adoption-banner{background:var(--canvas);border:1px solid var(--line);border-top:3px solid var(--sky)}
+    .motivation-box,.motive-box{background:rgba(126,211,240,.08);border-left:3px solid var(--sky)}
+    .motivation-box p,.motive-box p{color:#fff}
+    .controls{background:rgba(12,13,16,.82);border:1px solid rgba(220,229,244,.1)}
+    .dot{background:rgba(220,229,244,.3)}
+    .dot.on,.dot.active{background:var(--sky)}
+
+    :root{--muted:#dce5f4;--subtle:#7ea4d8}
+    .warn-card{background:var(--paper);border-left-color:var(--warn);color:#fff}
+    .alert-card{background:var(--paper);color:#fff}
+    .step-card{background:var(--paper);border:1px solid var(--line)}
+    .step-num{color:var(--sky)}
+    .story-box{background:var(--paper);border:1px solid var(--line)}
+    .story-tag{color:var(--sky)}
+    .story-stat div{background:var(--paper);border:1px solid var(--line)}
+    .story-stat .num{color:var(--sky)}
+    .roi-box{background:var(--paper)}
+    .roi-big{color:var(--sky)}
+    .flow-node{background:var(--paper);border:1px solid var(--line)}
+    .flow-node strong{color:#fff}
+    .flow-num,.flow-arrow{color:var(--sky)}
+    .flow-node--ucs{border-color:var(--sky)}
+    .flow-node--end{background:var(--canvas);border-color:var(--sky)}
+    .view{background:var(--paper);border:1px solid var(--line)}
+    .view-unit{color:var(--sky)}
+    [data-key=s2_without]::before{color:var(--danger)}
+      /* Fixed 1200x675 design canvas, scaled to fit the stage (2026-10-02: laptop screens overflowed) */
+    .canvas{position:absolute;top:0;left:0;width:1200px;height:675px;transform-origin:0 0;transform:scale(var(--k,1))}
+    @media (max-width: 860px){.canvas{position:absolute;inset:0;width:auto;height:auto;transform:none}}
   </style>
 </head>
 <body>
@@ -161,14 +223,14 @@
 </div>
 
 <main class="deck">
-<div class="stage" id="stage">
+<div class="stage" id="stage"><div class="canvas" id="canvas">
 
 <!-- SLIDE 1: COVER -->
 <section class="slide cover active">
   <div class="topline"><span></span><span></span><span></span></div>
   <div class="photo"><img src="sensbelt-conveyor.jpg" alt="Conveyor belt at an aggregate quarry" style="object-position:38% center"></div>
   <div class="copy">
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"><strong>SensBELT</strong></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"><strong>SensBELT</strong></div>
     <h1 data-key="s1_title">Stop Paying for Air on Your Conveyor</h1>
     <p data-key="s1_sub" style="font-size:17px;color:var(--muted);margin-top:4px">Your belt doesn't know the difference between 500 tonnes/hour and zero. But your electricity bill does.</p>
     <span class="patent" data-key="s1_patent">PATENTED · EP 4 524 526</span>
@@ -183,13 +245,13 @@
       <div class="eyebrow" data-key="s2_eye">THE GHOST BELT</div>
       <h2 data-key="s2_title">The most expensive machine that does nothing</h2>
     </div>
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
   </div>
   <div class="body">
     <div class="grid-2">
       <div style="display:flex;flex-direction:column;gap:14px">
         <div class="warn-card" data-key="s2_hook">You wouldn't leave your car engine running all night in the parking lot. But your belt does exactly that, every day.</div>
-        <div style="background:var(--paper);border:1.5px solid var(--line);border-left:4px solid var(--danger);border-radius:var(--r);padding:18px">
+        <div style="background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:var(--r);padding:18px">
           <h3 style="color:var(--danger);font-size:14px;margin-bottom:8px" data-key="s2_without">WITHOUT SensBELT</h3>
           <ul style="margin:0 0 0 16px;padding:0;font-size:13px;color:var(--muted);line-height:1.7">
             <li data-key="s2_w1">Belt keeps running after last truck dumps — nobody notices for 45 minutes</li>
@@ -199,8 +261,8 @@
             <li data-key="s2_w5">No way to check if belt scale is still accurate without a site visit</li>
           </ul>
         </div>
-        <div style="background:var(--paper);border:1.5px solid var(--line);border-left:4px solid var(--ok);border-radius:var(--r);padding:18px">
-          <h3 style="color:var(--ok);font-size:14px;margin-bottom:8px" data-key="s2_with">WITH SensBELT</h3>
+        <div style="background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:var(--r);padding:18px">
+          <h3 style="color:var(--sky);font-size:14px;margin-bottom:8px" data-key="s2_with">WITH SensBELT</h3>
           <ul style="margin:0 0 0 16px;padding:0;font-size:13px;color:var(--muted);line-height:1.7">
             <li data-key="s2_c1">Empty belt detected automatically — shutdown signal after 5 minutes</li>
             <li data-key="s2_c2">Calibration drift tracked continuously — no technician visits needed</li>
@@ -209,17 +271,17 @@
         </div>
       </div>
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-        <div style="background:var(--navy);border-radius:var(--r);padding:24px;text-align:center;width:100%">
+        <div style="background:var(--canvas);border-radius:var(--r);padding:24px;text-align:center;width:100%">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--subtle);text-transform:uppercase;letter-spacing:.1em" data-key="s2_cost_lbl">Total ghost running cost per belt</div>
           <div style="font-family:'Chakra Petch',sans-serif;font-size:42px;font-weight:700;color:var(--sky);margin:6px 0">€34,560</div>
           <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--subtle)" data-key="s2_cost_sub">per year — energy waste + accelerated mechanical wear</div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
-          <div style="background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:14px;text-align:center">
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center">
             <div class="roi-label" data-key="s2_el">Electricity waste</div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--danger);margin-top:4px">€12,960</div>
           </div>
-          <div style="background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:14px;text-align:center">
+          <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center">
             <div class="roi-label" data-key="s2_wear">Mechanical wear</div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--danger);margin-top:4px">€21,600</div>
           </div>
@@ -237,7 +299,7 @@
       <div class="eyebrow" data-key="s3_eye">FIELD EVIDENCE</div>
       <h2 data-key="s3_title">A quarry discovered 847 hours of ghost running per year</h2>
     </div>
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
   </div>
   <div class="body">
     <div class="story-grid">
@@ -268,10 +330,10 @@
       <div class="eyebrow" data-key="s4_eye">INSTALLATION</div>
       <h2 data-key="s4_title">Plugs into your existing belt scale</h2>
     </div>
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
   </div>
   <div class="body">
-    <div class="grid-2" style="height:calc(100% - 60px)">
+    <div class="grid-2" style="flex:1 1 auto;min-height:0;height:auto">
       <div class="img-card flow-card" style="height:100%">
         <div class="flow">
           <div class="flow-node"><span class="flow-num">01</span><strong>Belt scale load cells</strong><small>On the existing belt scale</small></div>
@@ -313,7 +375,7 @@
       <div class="eyebrow" data-key="s5_eye">YOUR BELT, TRANSPARENT</div>
       <h2 data-key="s5_title">See every tonne, every minute</h2>
     </div>
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
   </div>
   <div class="body">
     <div class="grid-2" style="height:100%">
@@ -327,15 +389,15 @@
         <div class="cap" data-key="s5_cap1">Throughput (t/h), cumulative daily tonnage, belt speed vs. load correlation</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
-        <div style="background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:18px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px" data-key="s5_alert_lbl">EMPTY BELT DETECTION</div>
-          <div style="background:var(--navy);border-radius:var(--r);padding:16px;text-align:center">
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px" data-key="s5_alert_lbl">EMPTY BELT DETECTION</div>
+          <div style="background:var(--canvas);border-radius:var(--r);padding:16px;text-align:center">
             <div style="font-family:'Chakra Petch',sans-serif;font-size:16px;color:var(--sky);font-weight:600" data-key="s5_alert_txt">ALERT: Belt carrying no load for 4:23</div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;color:#fff;margin-top:6px" data-key="s5_alert_cd">Automated shutdown in 0:37</div>
           </div>
         </div>
-        <div style="background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:18px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px" data-key="s5_q_lbl">THE QUESTION IT ASKS</div>
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px" data-key="s5_q_lbl">THE QUESTION IT ASKS</div>
           <p style="font-size:15px;color:var(--ink);font-weight:600;font-style:italic;line-height:1.5" data-key="s5_q">"Tuesday 14:00–16:45 — belt ran at 12% capacity. Why?"</p>
           <p style="font-size:12px;color:var(--muted);margin-top:6px" data-key="s5_q_sub">Historical trends reveal inefficiency patterns your control room can't see.</p>
         </div>
@@ -352,17 +414,17 @@
       <div class="eyebrow" data-key="s6_eye">CALIBRATION TRUTH</div>
       <h2 data-key="s6_title">Is your belt scale still accurate?</h2>
     </div>
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
   </div>
   <div class="body">
     <div class="grid-2" style="height:100%">
       <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
-        <div style="background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:18px">
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
           <h3 style="font-size:15px;margin-bottom:10px" data-key="s6_h1">Your indicator says "342 t/h"</h3>
           <p style="font-size:14px;color:var(--muted);line-height:1.55" data-key="s6_p1">But is it? SensBELT checks continuously — so you don't have to send a technician to find out.</p>
         </div>
-        <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:18px">
-          <h3 style="font-size:14px;color:var(--blue);margin-bottom:10px" data-key="s6_h2">What SensBELT tracks</h3>
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
+          <h3 style="font-size:14px;color:var(--sky);margin-bottom:10px" data-key="s6_h2">What SensBELT tracks</h3>
           <ul style="margin:0 0 0 16px;padding:0;font-size:13px;color:var(--muted);line-height:1.8">
             <li data-key="s6_l1">Zero drift — does the belt read 0 when empty?</li>
             <li data-key="s6_l2">Span deviation — is the full-scale reading still correct?</li>
@@ -370,25 +432,25 @@
             <li data-key="s6_l4">Disconnection and overload events — logged and timestamped</li>
           </ul>
         </div>
-        <div style="background:var(--paper);border:1.5px solid var(--line);border-left:4px solid var(--ok);border-radius:var(--r);padding:14px">
-          <p style="font-size:13px;color:var(--ok);font-weight:600;line-height:1.4" data-key="s6_pred">Based on current degradation pattern, LC2 will exceed ±0.5% accuracy threshold in approximately 6 weeks. Schedule calibration.</p>
+        <div style="background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:var(--r);padding:14px">
+          <p style="font-size:13px;color:var(--sky);font-weight:600;line-height:1.4" data-key="s6_pred">Based on current degradation pattern, LC2 will exceed ±0.5% accuracy threshold in approximately 6 weeks. Schedule calibration.</p>
         </div>
       </div>
       <div class="img-card drift-card" style="height:100%">
         <svg class="drift" viewBox="0 0 480 280" role="img" aria-label="Illustration: readings drifting away from the historical baseline, alert raised weeks before the tolerance limit">
-          <rect x="40" y="96" width="420" height="56" fill="#f7f7f6" stroke="#ececeb"/>
-          <line x1="40" y1="124" x2="460" y2="124" stroke="#9a9a99" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <rect x="40" y="96" width="420" height="56" fill="rgba(220,229,244,.06)" stroke="rgba(220,229,244,.18)"/>
+          <line x1="40" y1="124" x2="460" y2="124" stroke="#7ea4d8" stroke-width="1.5" stroke-dasharray="5 5"/>
           <line x1="40" y1="60" x2="460" y2="60" stroke="#bf4b41" stroke-width="1.5"/>
-          <polyline points="40,126 90,122 140,127 190,121 240,118 280,110 320,100 360,88 400,76 440,64" fill="none" stroke="#476db8" stroke-width="2.5"/>
+          <polyline points="40,126 90,122 140,127 190,121 240,118 280,110 320,100 360,88 400,76 440,64" fill="none" stroke="#7ed3f0" stroke-width="2.5"/>
           <line x1="320" y1="40" x2="320" y2="230" stroke="#c98a2e" stroke-width="1.5"/>
           <circle cx="320" cy="100" r="5" fill="#c98a2e"/>
           <text x="44" y="52" font-family="IBM Plex Mono,monospace" font-size="11" fill="#bf4b41">±0.5% tolerance</text>
-          <text x="44" y="146" font-family="IBM Plex Mono,monospace" font-size="11" fill="#6f6f6e">historical baseline</text>
+          <text x="44" y="146" font-family="IBM Plex Mono,monospace" font-size="11" fill="#dce5f4">historical baseline</text>
           <text x="326" y="222" font-family="IBM Plex Mono,monospace" font-size="11" fill="#c98a2e">alert</text>
           <text x="326" y="236" font-family="IBM Plex Mono,monospace" font-size="11" fill="#c98a2e">4–6 weeks early</text>
-          <line x1="40" y1="250" x2="460" y2="250" stroke="#ececeb"/>
-          <text x="40" y="270" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9a9a99">time →</text>
-          <text x="460" y="270" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9a9a99">illustration</text>
+          <line x1="40" y1="250" x2="460" y2="250" stroke="rgba(220,229,244,.3)"/>
+          <text x="40" y="270" font-family="IBM Plex Mono,monospace" font-size="10" fill="#7ea4d8">time →</text>
+          <text x="460" y="270" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="10" fill="#7ea4d8">illustration</text>
         </svg>
         <div class="cap" data-key="s6_cap">The system compares today's readings to your historical baseline — alerts 4–6 weeks before failure.</div>
       </div>
@@ -404,19 +466,19 @@
       <div class="eyebrow" data-key="s7_eye">THE MATH</div>
       <h2 data-key="s7_title">36 days to full payback</h2>
     </div>
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
   </div>
   <div class="body">
     <div class="warn-card" data-key="s7_alert">One unnecessary technician visit costs €142. Monthly system cost: €59–99. The system pays for itself by avoiding a single wasted trip — everything else is profit.</div>
     <div class="roi-grid">
       <div style="display:flex;flex-direction:column;gap:12px;justify-content:center">
-        <div style="background:var(--navy);border-radius:var(--r);padding:20px;text-align:center">
+        <div style="background:var(--canvas);border-radius:var(--r);padding:20px;text-align:center">
           <div class="roi-label" style="color:var(--subtle)" data-key="s7_l1">Risk without SensBELT</div>
           <div style="font-family:'Chakra Petch',sans-serif;font-size:36px;font-weight:700;color:var(--sky);margin:6px 0">€34,560/yr</div>
         </div>
-        <div style="background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;text-align:center">
+        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px;text-align:center">
           <div class="roi-label" data-key="s7_l2">UCS Investment</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:36px;font-weight:700;color:var(--ok);margin:6px 0">€2,588</div>
+          <div style="font-family:'Chakra Petch',sans-serif;font-size:36px;font-weight:700;color:var(--sky);margin:6px 0">€2,588</div>
         </div>
       </div>
       <div class="roi-box">
@@ -430,7 +492,7 @@
         <ul style="margin:0 0 0 18px;padding:0;font-size:13px;color:var(--muted);line-height:1.8">
           <li data-key="s7_r1">Verified annual savings: <strong style="color:var(--ink)">€26,496/year</strong></li>
           <li data-key="s7_r2">Payback period: <strong style="color:var(--ink)">36 days</strong></li>
-          <li data-key="s7_r3">Year 1 ROI: <strong style="color:var(--blue)">924%</strong></li>
+          <li data-key="s7_r3">Year 1 ROI: <strong style="color:var(--sky)">924%</strong></li>
         </ul>
       </div>
     </div>
@@ -445,7 +507,7 @@
       <div class="eyebrow" data-key="s8_eye">NEXT STEP</div>
       <h2 data-key="s8_title_head">Prove it on your busiest conveyor</h2>
     </div>
-    <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
   </div>
   <div class="body">
     <div class="adoption-banner">
@@ -472,7 +534,7 @@
   </div>
 </section>
 
-</div>
+</div></div>
 </main>
 
 <div class="controls" id="ctrl">
@@ -505,5 +567,6 @@ function switchLanguage(lang){
   document.querySelectorAll('[data-key]').forEach(el=>{const k=el.getAttribute('data-key');if(t[k])el.textContent=t[k]});
 }
 </script>
+<script>/* scale the fixed-size canvas to the stage */(function(){function k(){var st=document.getElementById('stage');var cv=document.getElementById('canvas');cv.style.setProperty('--k',st.clientWidth/cv.offsetWidth)}k();window.addEventListener('resize',k)})();</script>
 </body>
 </html>
