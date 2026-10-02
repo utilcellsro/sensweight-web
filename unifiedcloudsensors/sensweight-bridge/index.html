@@ -42,7 +42,7 @@
     /* Cover */
     .cover{grid-template-columns:50% 50%}
     .cover .photo{position:relative;height:100%;overflow:hidden;background:var(--canvas)}
-    .cover .photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.75) contrast(1.05)}
+    .cover .photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block;filter:saturate(.75) contrast(1.05)}
     .cover .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,13,16,.15) 0%,rgba(12,13,16,.25) 60%,var(--navy) 100%)}
     .cover .copy{position:relative;padding:44px 52px 44px 44px;display:flex;flex-direction:column;justify-content:center;background:var(--navy)}
     .cover .brand{position:absolute;top:32px;left:44px}
@@ -183,7 +183,7 @@
 
   <!-- SLIDE 1 -->
   <section class="slide cover active"><div class="topline"></div>
-    <div class="photo"><img src="weighbridge-truck.jpg" alt="Weighbridge"></div>
+    <div class="photo"><img src="weighbridge-cover.jpg" alt="Truck driving onto an industrial weighbridge"></div>
     <div class="copy">
       <div class="brand"><img src="ucs-mark-white.png" alt="UCS"><strong>SensWEIGHT® Bridge</strong></div>
       <h1 data-i="t1">Your weighbridge is your cash register. Is it leaking profit?</h1>
