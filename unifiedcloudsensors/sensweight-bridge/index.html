@@ -349,6 +349,27 @@
     .dash-grid--two{grid-template-rows:minmax(0,1fr) !important}
     .dash-grid--two .dash-card img{height:0;flex:1 1 0;object-fit:cover}
     @media (max-width: 860px){.dash-grid--two .dash-card img{height:auto;flex:none}}
+    /* Narrow screens (Martin's review 2026-10-02): keep reading order, captions, spacing, photo sizing */
+    @media (max-width: 860px){
+      .leak-head{align-self:stretch}
+      .leak-head--bad{order:1}.leak-item--bad{order:2}
+      .leak-total{order:3;margin:22px 0}
+      .leak-head--good{order:4;margin-top:0}.leak-item--good{order:5}
+      .case-fig__frame{flex:none;height:220px}
+      .case-fig__frame img{height:100%}
+      .case-fig{margin-bottom:6px}
+      .paths .flow{margin-top:26px}
+      .flow-arrow{transform:none;margin:6px 0 10px}
+      .flow-arrow .arr{transform:rotate(90deg);width:40px;height:20px;margin:10px 0}
+      .flow-arrow small{margin-bottom:0}
+      .contact-card{align-items:center;text-align:center}
+      .contact-card__photo{flex:none;width:min(100%,280px);height:auto;aspect-ratio:1/1;max-height:none}
+      .contact-card__links{max-width:360px}
+    }
+    /* Product name on every slide (Martin's review 2026-10-02) */
+    .slide-foot{position:absolute;left:48px;bottom:26px;display:flex;align-items:center;gap:10px;font:600 16px/1 'Chakra Petch',sans-serif;letter-spacing:.02em;color:var(--text);opacity:.75;z-index:3;pointer-events:none}
+    .slide-foot::before{content:"";width:18px;height:2px;background:var(--sky)}
+    @media (max-width: 860px){.slide-foot{position:static;margin:-70px 18px 0;padding-bottom:96px}}
   </style>
 </head>
 <body>
@@ -386,7 +407,8 @@
       <p class="leak-item leak-item--good r2" data-i="t16">A faulty cell is flagged the moment it drifts.</p>
       <p class="leak-item leak-item--good r3" data-i="t17">Verified continuously, not once a year.</p>
     </div></div>
-  </section>
+  <div class="slide-foot">SensWEIGHT® Bridge</div>
+</section>
 
   <!-- SLIDE 3 -->
   <section class="slide"><div class="topline"></div>
@@ -409,7 +431,8 @@
         </figure>
       </div>
     </div></div>
-  </section>
+  <div class="slide-foot">SensWEIGHT® Bridge</div>
+</section>
 
   <!-- SLIDE 4 -->
   <section class="slide"><div class="topline"></div>
@@ -430,7 +453,8 @@
       </figure>
       <figure class="rev-fig"><img class="rev-photo" loading="lazy" src="gateway-x3.jpg" alt="UCS-X3 gateway in a weighbridge scale house"><figcaption data-i="t48">UCS-X3 gateway at the weighbridge — every weighing sent to the dashboard</figcaption></figure>
     </div></div>
-  </section>
+  <div class="slide-foot">SensWEIGHT® Bridge</div>
+</section>
 
   <!-- SLIDE 5 -->
   <section class="slide"><div class="topline"></div>
@@ -449,7 +473,8 @@
       </div>
       <p class="slide-summary" data-i="t61">A CCTV camera shows you the truck. SensWEIGHT® Bridge shows you whether the truck is on the scale correctly.</p>
     </div>
-  </section>
+  <div class="slide-foot">SensWEIGHT® Bridge</div>
+</section>
 
   <!-- SLIDE 6 -->
   <section class="slide"><div class="topline"></div>
@@ -474,7 +499,8 @@
       </div>
       <p class="slide-summary" data-i="t38">Both deliver: per-cell health data, transaction logging, automated alerts (SMS/email), REST API. Whether your scale is 2 years old or 20 — it works.</p>
     </div>
-  </section>
+  <div class="slide-foot">SensWEIGHT® Bridge</div>
+</section>
 
   <!-- SLIDE 7 -->
   <section class="slide"><div class="topline"></div>
@@ -500,7 +526,8 @@
         <div class="roi-row highlight"><span class="label" data-i="t74">Year 1 ROI</span><span class="value">615%</span></div>
       </div>
     </div></div>
-  </section>
+  <div class="slide-foot">SensWEIGHT® Bridge</div>
+</section>
 
   <!-- SLIDE 8 -->
   <section class="slide"><div class="topline"></div>
@@ -529,7 +556,8 @@
         </div>
       </div>
     </div></div>
-  </section>
+  <div class="slide-foot">SensWEIGHT® Bridge</div>
+</section>
 
 </div></div></main>
 <div class="controls"><button onclick="go(-1)">◀</button><div class="dots" id="dots"></div><button onclick="go(1)">▶</button></div>

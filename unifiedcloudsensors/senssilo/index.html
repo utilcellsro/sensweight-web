@@ -249,6 +249,16 @@
       /* Fixed 1200x675 design canvas, scaled to fit the stage (2026-10-02: laptop screens overflowed) */
     .canvas{position:absolute;top:0;left:0;width:1200px;height:675px;transform-origin:0 0;transform:scale(var(--k,1))}
     @media (max-width: 860px){.canvas{position:absolute;inset:0;width:auto;height:auto;transform:none}}
+    /* Narrow screens (2026-10-02): dashboard screenshots visible again, tall install photo capped */
+    @media (max-width: 860px){
+      .dash-grid{flex:none}
+      .dash-card img{flex:none;height:auto;max-height:none}
+      .img-card img{max-height:320px;object-fit:contain}
+    }
+    /* Product name on every slide (Martin's review 2026-10-02) */
+    .slide-foot{position:absolute;left:48px;bottom:22px;display:flex;align-items:center;gap:10px;font:600 13px/1 'Chakra Petch',sans-serif;letter-spacing:.02em;color:var(--text);opacity:.75;z-index:3;pointer-events:none}
+    .slide-foot::before{content:"";width:18px;height:2px;background:var(--sky)}
+    @media (max-width: 860px){.slide-foot{position:static;margin:-70px 18px 0;padding-bottom:96px}}
   </style>
 </head>
 <body>
@@ -316,7 +326,8 @@
           </div>
         </div>
       </div>
-    </section>
+  <div class="slide-foot">SensSILO</div>
+</section>
 
     <!-- SLIDE 3: SUCCESS STORY -->
     <section class="slide">
@@ -348,7 +359,8 @@
           </div>
         </div>
       </div>
-    </section>
+  <div class="slide-foot">SensSILO</div>
+</section>
 
     <!-- SLIDE 4: INSTALLATION -->
     <section class="slide">
@@ -376,7 +388,8 @@
           </div>
         </div>
       </div>
-    </section>
+  <div class="slide-foot">SensSILO</div>
+</section>
 
     <!-- SLIDE 5: ARCHITECTURE -->
     <section class="slide">
@@ -409,7 +422,8 @@
           </div>
         </div>
       </div>
-    </section>
+  <div class="slide-foot">SensSILO</div>
+</section>
 
     <!-- SLIDE 6: LIVE DASHBOARD -->
     <section class="slide">
@@ -441,7 +455,8 @@
           </div>
         </div>
       </div>
-    </section>
+  <div class="slide-foot">SensSILO</div>
+</section>
 
     <!-- SLIDE 7: ROI -->
     <section class="slide">
@@ -470,7 +485,8 @@
           </div>
         </div>
       </div>
-    </section>
+  <div class="slide-foot">SensSILO</div>
+</section>
 
     <!-- SLIDE 8: CTA -->
     <section class="slide">
@@ -503,7 +519,8 @@
         </div>
         <p class="contact-line" data-i="t75">Contact: Nikola Avramović, COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053</p>
       </div>
-    </section>
+  <div class="slide-foot">SensSILO</div>
+</section>
 
 </div>  </div><!-- /stage -->
 </main>

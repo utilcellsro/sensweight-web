@@ -212,6 +212,10 @@
       /* Fixed 1200x675 design canvas, scaled to fit the stage (2026-10-02: laptop screens overflowed) */
     .canvas{position:absolute;top:0;left:0;width:1200px;height:675px;transform-origin:0 0;transform:scale(var(--k,1))}
     @media (max-width: 860px){.canvas{position:absolute;inset:0;width:auto;height:auto;transform:none}}
+    /* Product name on every slide (Martin's review 2026-10-02) */
+    .slide-foot{position:absolute;left:48px;bottom:22px;display:flex;align-items:center;gap:10px;font:600 13px/1 'Chakra Petch',sans-serif;letter-spacing:.02em;color:var(--text);opacity:.75;z-index:3;pointer-events:none}
+    .slide-foot::before{content:"";width:18px;height:2px;background:var(--sky)}
+    @media (max-width: 860px){.slide-foot{position:static;margin:-70px 18px 0;padding-bottom:96px}}
   </style>
 </head>
 <body>
@@ -289,6 +293,7 @@
       </div>
     </div>
   </div>
+  <div class="slide-foot">SensBELT</div>
 </section>
 
 <!-- SLIDE 3: SUCCESS STORY -->
@@ -320,6 +325,7 @@
       </div>
     </div>
   </div>
+  <div class="slide-foot">SensBELT</div>
 </section>
 
 <!-- SLIDE 4: INSTALLATION -->
@@ -365,6 +371,7 @@
       <p data-key="s4_motive">Running in 2 hours. No belt stoppage. No recalibration needed. One device, one cable.</p>
     </div>
   </div>
+  <div class="slide-foot">SensBELT</div>
 </section>
 
 <!-- SLIDE 5: THROUGHPUT DASHBOARD -->
@@ -404,6 +411,7 @@
       </div>
     </div>
   </div>
+  <div class="slide-foot">SensBELT</div>
 </section>
 
 <!-- SLIDE 6: CALIBRATION TRUTH -->
@@ -456,6 +464,7 @@
       </div>
     </div>
   </div>
+  <div class="slide-foot">SensBELT</div>
 </section>
 
 <!-- SLIDE 7: ROI -->
@@ -497,6 +506,7 @@
       </div>
     </div>
   </div>
+  <div class="slide-foot">SensBELT</div>
 </section>
 
 <!-- SLIDE 8: CTA -->
@@ -532,6 +542,7 @@
       <span data-key="s8_contact">Nikola Avramović · COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053</span>
     </div>
   </div>
+  <div class="slide-foot">SensBELT</div>
 </section>
 
 </div></div>
