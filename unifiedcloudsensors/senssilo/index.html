@@ -176,6 +176,79 @@
       .cta-banner{padding:20px 18px}
       .cta-banner h2{font-size:21px}
     }
+
+    /* ===== Dark literal-DNA restyle, matching the SensWEIGHT Bridge deck (2026-10-02) ===== */
+    :root{--ink:#fff;--text:#dce5f4;--paper:rgba(220,229,244,.05);--line:rgba(220,229,244,.14);--canvas:#12192b;--shadow:0 30px 90px rgba(0,0,0,.45)}
+    html,body{background:var(--canvas);color:var(--text);-webkit-font-smoothing:antialiased}
+    .language-bar{background:rgba(12,13,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(220,229,244,.08);box-shadow:none}
+    .lang-btn{background:transparent;border:1px solid var(--line);color:var(--text);transition:all 200ms var(--ease)}
+    .lang-btn:hover{background:transparent;border-color:var(--sky);color:var(--sky)}
+    .lang-btn.active,.lang-btn.active:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .stage{background:var(--navy);border:1px solid rgba(220,229,244,.08)}
+    .slide{background:var(--navy)}
+    .topline{display:none}
+    .header{border-bottom:1px solid var(--line)}
+    .slide:not(.cover){grid-template-rows:auto minmax(0,1fr)}
+    .slide:not(.cover) .body{height:auto;justify-content:center}
+    .eyebrow{color:var(--sky)}
+    h1,h2,h3{color:#fff}
+    p{color:var(--text)}
+    li::marker{color:var(--sky)}
+    .brand strong{color:#fff}
+    .brand img{max-width:none}
+    .header .brand img{height:28px}
+    .cover .brand img{height:36px}
+    .cover .photo{background:var(--canvas)}
+    .cover .photo img{filter:saturate(.75) contrast(1.05)}
+    .cover .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,13,16,.15) 0%,rgba(12,13,16,.25) 60%,var(--navy) 100%);pointer-events:none}
+    .cover .copy{background:var(--navy)}
+    .cover .copy::before{display:none}
+    .cover p{color:var(--text)}
+    .patent{background:transparent;border:1px solid var(--sky);color:var(--sky);font-weight:700}
+    .img-card{background:var(--paper);border-color:var(--line)}
+    .cap{color:var(--text)}
+    .reason,.reason-card{background:var(--paper);border:1px solid var(--line)}
+    .reason h3,.reason-card h3{color:var(--sky)}
+    .cta-banner,.adoption-banner{background:var(--canvas);border:1px solid var(--line);border-top:3px solid var(--sky)}
+    .motivation-box,.motive-box{background:rgba(126,211,240,.08);border-left:3px solid var(--sky)}
+    .motivation-box p,.motive-box p{color:#fff}
+    .controls{background:rgba(12,13,16,.82);border:1px solid rgba(220,229,244,.1)}
+    .dot{background:rgba(220,229,244,.3)}
+    .dot.on,.dot.active{background:var(--sky)}
+
+    :root{--grey:#dce5f4;--grey-light:#7ea4d8}
+    .problem-grid{gap:20px}
+    .problem-left,.problem-right{background:var(--paper);border:1px solid var(--line);border-radius:var(--r)}
+    .problem-left{border-top:3px solid var(--danger)}
+    .problem-right{border-top:3px solid var(--ok)}
+    .problem-left h3,.problem-right h3{color:#fff}
+    .problem-left h3::before{color:var(--danger)}
+    .problem-right h3::before{color:var(--sky)}
+    .problem-left li::marker{color:var(--danger)}
+    .story-text .tag{background:transparent;border:1px solid var(--sky);color:var(--sky)}
+    .story-imgs{background:transparent}
+    .story-imgs img{background:#fff}
+    .story-stat div{background:var(--paper)}
+    .story-stat .val{color:var(--sky)}
+    .arch-step{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--sky)}
+    .arch-step .icon{color:var(--sky)}
+    .arch-arrow{color:var(--sky)}
+    .dash-card{background:var(--paper)}
+    .arch-flow{margin:0}
+    .arch-step{padding:8px 14px}
+    .arch-step .icon{margin-bottom:4px}
+    .arch-arrow{font-size:13px !important;line-height:1}
+    .motivation-box{margin-top:12px}
+    .dash-grid{flex:1 1 auto;height:auto;min-height:0}
+    .dash-card img{flex:1 1 0;height:0;min-height:0}
+    .roi-danger{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--danger)}
+    .roi-danger .alert{color:#fff}
+    .roi-table{background:var(--paper)}
+    .roi-row .value{color:#fff}
+    .contact-line{text-align:center;margin-top:18px;font:500 13px/1.4 'IBM Plex Mono',monospace;color:var(--text)}
+      /* Fixed 1200x675 design canvas, scaled to fit the stage (2026-10-02: laptop screens overflowed) */
+    .canvas{position:absolute;top:0;left:0;width:1200px;height:675px;transform-origin:0 0;transform:scale(var(--k,1))}
+    @media (max-width: 860px){.canvas{position:absolute;inset:0;width:auto;height:auto;transform:none}}
   </style>
 </head>
 <body>
@@ -192,14 +265,14 @@
 </div>
 
 <main class="deck">
-  <div class="stage" id="stage">
+  <div class="stage" id="stage"><div class="canvas" id="canvas">
 
     <!-- SLIDE 1: COVER -->
     <section class="slide cover active">
       <div class="topline"></div>
       <div class="photo"><img src="silo-general.jpg" alt="Industrial Silo"></div>
       <div class="copy">
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"><strong>SensSILO</strong></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"><strong>SensSILO</strong></div>
         <h1 data-i="t1">Your Digital Wallet for Stored Material</h1>
         <p data-i="t2">Every tonne inside your silo is money. Do you know your balance?</p>
         <span class="patent" data-i="t3">PATENTED · EP 4 524 526</span>
@@ -214,7 +287,7 @@
           <div class="eyebrow" data-i="t4">THE BLIND SPOT</div>
           <h2 data-i="t5">Your silo keeps a secret from you</h2>
         </div>
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
       </div>
       <div class="body">
         <div class="problem-grid">
@@ -253,7 +326,7 @@
           <div class="eyebrow" data-i="t19">FIELD EVIDENCE</div>
           <h2 data-i="t20">A site caught a problem nobody saw</h2>
         </div>
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
       </div>
       <div class="body">
         <div class="story-grid">
@@ -285,7 +358,7 @@
           <div class="eyebrow" data-i="t32">INSTALLATION</div>
           <h2 data-i="t33">Fits your existing silo. No civil works.</h2>
         </div>
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
       </div>
       <div class="body">
         <div class="grid-3">
@@ -313,7 +386,7 @@
           <div class="eyebrow" data-i="t37">HOW IT WORKS</div>
           <h2 data-i="t38">From sensor to your phone — in seconds</h2>
         </div>
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
       </div>
       <div class="body">
         <div class="grid-2">
@@ -323,11 +396,11 @@
           <div>
             <div class="arch-flow" style="flex-direction:column;align-items:stretch;gap:10px">
               <div class="arch-step"><div class="icon">01</div><h3 data-i="t39">4× Load Cells</h3><p data-i="t40">Under each silo leg</p></div>
-              <div style="text-align:center;color:var(--blue);font-size:20px">▼</div>
+              <div class="arch-arrow" style="text-align:center;font-size:20px">▼</div>
               <div class="arch-step"><div class="icon">02</div><h3 data-i="t41">UWT6008 Digitalizer</h3><p data-i="t42">Converts analog signals</p></div>
-              <div style="text-align:center;color:var(--blue);font-size:20px">▼</div>
+              <div class="arch-arrow" style="text-align:center;font-size:20px">▼</div>
               <div class="arch-step"><div class="icon">03</div><h3 data-i="t43">UCS X2 Gateway</h3><p data-i="t44">Secure NB-IoT transmission</p></div>
-              <div style="text-align:center;color:var(--blue);font-size:20px">▼</div>
+              <div class="arch-arrow" style="text-align:center;font-size:20px">▼</div>
               <div class="arch-step"><div class="icon">04</div><h3 data-i="t45">Your Dashboard</h3><p data-i="t46">Phone, tablet, desktop — anywhere</p></div>
             </div>
             <div class="motivation-box">
@@ -346,7 +419,7 @@
           <div class="eyebrow" data-i="t48">YOUR LIVE INVENTORY</div>
           <h2 data-i="t49">Open your digital wallet</h2>
         </div>
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
       </div>
       <div class="body">
         <div class="dash-grid">
@@ -378,7 +451,7 @@
           <div class="eyebrow" data-i="t54">THE MATH</div>
           <h2 data-i="t55">66 days to full payback</h2>
         </div>
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
       </div>
       <div class="body">
         <div class="roi-grid">
@@ -407,12 +480,12 @@
           <div class="eyebrow" data-i="t65">NEXT STEP</div>
           <h2 data-i="t66">See it working on your silo</h2>
         </div>
-        <div class="brand"><img src="ucs-logo.png" alt="UCS"></div>
+        <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
       </div>
       <div class="body">
         <div class="cta-banner">
           <h2 data-i="t67">Enhance your perception boundaries</h2>
-          <p data-i="t68">Free 30-day pilot on your busiest silo \u2014 we lend you the system for a month at no cost. If it doesn't catch something you missed — walk away.</p>
+          <p data-i="t68">Free 30-day pilot on your busiest silo — we lend you the system for a month at no cost. If it doesn't catch something you missed — walk away.</p>
         </div>
         <div class="reasons">
           <div class="reason">
@@ -428,11 +501,11 @@
             <p data-i="t74">Stop ordering by guesswork. Start ordering by consumption velocity.</p>
           </div>
         </div>
-        <p style="text-align:center;margin-top:18px;font-size:14px;color:var(--grey)" data-i="t75">Contact: Nikola Avramović, COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053</p>
+        <p class="contact-line" data-i="t75">Contact: Nikola Avramović, COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053</p>
       </div>
     </section>
 
-  </div><!-- /stage -->
+</div>  </div><!-- /stage -->
 </main>
 
 <div class="controls">
@@ -984,5 +1057,6 @@
   });
 })();
 </script>
+<script>/* scale the fixed-size canvas to the stage */(function(){function k(){var st=document.getElementById('stage');var cv=document.getElementById('canvas');cv.style.setProperty('--k',st.clientWidth/cv.offsetWidth)}k();window.addEventListener('resize',k)})();</script>
 </body>
 </html>
