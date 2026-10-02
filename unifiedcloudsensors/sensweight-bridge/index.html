@@ -96,10 +96,15 @@
     }
     /* Slide 3 (2026-10-02 review): Site -> Failure -> Impact -> Fix, one figure per row */
     .case-grid{display:grid;grid-template-columns:58fr 42fr;gap:32px;height:100%;min-height:0}
-    .case-steps{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));min-height:0}
-    .case-step{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:18px;border-bottom:1px solid var(--line)}
-    .case-step:first-child{border-top:1px solid var(--line)}
-    .case-step__lbl{font:600 13px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:var(--sky)}
+    .case-steps{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));row-gap:26px;min-height:0}
+    /* Martin's review (2026-10-02): each step boxed, linked by a connector arrow, infographic-style */
+    .case-step{--step:var(--blue);position:relative;display:grid;grid-template-columns:118px 1fr auto;align-items:center;gap:18px;padding:0 22px 0 18px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--step);border-radius:var(--r)}
+    .case-step--bad{--step:var(--danger)}
+    .case-step--ok{--step:var(--sky);background:rgba(126,211,240,.08)}
+    .case-step:not(:last-child)::after{content:"";position:absolute;left:68px;bottom:-21px;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:12px solid var(--sky);z-index:1}
+    .case-step:not(:last-child)::before{content:"";position:absolute;left:76px;bottom:-12px;width:4px;height:10px;background:var(--sky)}
+    .case-step__lbl{justify-self:start;font:700 13px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#fff;background:var(--step);padding:8px 12px;border-radius:var(--r)}
+    .case-step--ok .case-step__lbl{color:var(--navy)}
     .case-step p{font-size:18px;line-height:1.4;color:#fff}
     .case-step p strong{color:var(--sky);font-weight:700}
     .case-step__fig{font:700 34px/1 'Chakra Petch',sans-serif;color:#fff;text-align:right;min-width:150px}
@@ -117,7 +122,7 @@
     @media (max-width: 860px){
       .case-grid{grid-template-columns:1fr;height:auto}
       .case-steps{grid-template-rows:none}
-      .case-step{grid-template-columns:1fr auto;padding:14px 0}
+      .case-step{grid-template-columns:1fr auto;padding:14px 16px}
       .case-step__lbl{grid-column:1 / -1}
       .case-step p{font-size:16px}
       .case-step__fig{font-size:26px;min-width:0}
@@ -160,8 +165,12 @@
     .flow-card--cells img{width:100%;height:100%;min-height:0}
     .flow-lbl{font:600 15px/1.25 'IBM Plex Sans',sans-serif;color:#fff;margin-top:4px}
     .flow-model{font:600 13px/1 'IBM Plex Mono',monospace;color:var(--sky);letter-spacing:.06em}
-    .flow-arrow{flex:none;font:400 30px/1 'IBM Plex Sans',sans-serif;color:var(--sky);margin-bottom:46px;display:flex;flex-direction:column;align-items:center}
-    .flow-arrow small{font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--text);margin-bottom:4px}
+    .flow-arrow{flex:none;color:var(--sky);margin-bottom:46px;display:flex;flex-direction:column;align-items:center}
+    /* Bold SVG arrows (Martin's review 2026-10-02: arrows were too small) */
+    .arr{display:block;width:56px;height:28px;fill:none;stroke:var(--sky);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
+    .flow-arrow--dashed .arr__line{stroke-dasharray:7 7}
+    .fraud-arrow .arr{transform:rotate(90deg);width:44px;height:22px;margin:10px 0}
+    .flow-arrow small{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--text);margin-bottom:6px}
     .paths[data-path="a"] .only-b,.paths[data-path="b"] .only-a{display:none !important}
     @keyframes riseIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
     @media (max-width: 860px){
@@ -169,7 +178,7 @@
       .flow{flex-direction:column;gap:6px}
       .flow-node{max-width:240px;width:100%}
       .flow-arrow{transform:rotate(90deg);margin:0}
-      .paths .motivation-box{margin-top:12px}
+      .paths .slide-summary{margin-top:12px}
     }
     /* Slide 5 */
     .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:calc(100% - 40px);align-items:stretch}
@@ -204,16 +213,17 @@
     .fraud-prob{grid-row:1;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--danger);border-radius:var(--r);padding:20px 22px;display:flex;flex-direction:column;gap:10px}
     .fraud-prob h3{font-size:21px}
     .fraud-prob p{font-size:16px;line-height:1.45}
-    .fraud-arrow{grid-row:2;justify-self:center;font:400 28px/1 'IBM Plex Sans',sans-serif;color:var(--sky)}
+    .fraud-arrow{grid-row:2;justify-self:center}
     .fraud-sol{grid-row:3;background:rgba(126,211,240,.08);border:1px solid var(--line);border-top:3px solid var(--sky);border-radius:var(--r);padding:20px 22px;display:flex;flex-direction:column;gap:10px}
     .fraud-sol p{font-size:17px;line-height:1.45;color:#fff;font-weight:600}
     .fraud-tag{align-self:flex-start;font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#fff;background:var(--danger);padding:5px 9px;border-radius:var(--r)}
     .fraud-tag--ok{background:var(--sky);color:var(--navy)}
-    .fraud-close{text-align:center;font:700 22px/1.35 'Chakra Petch',sans-serif;color:#fff;max-width:900px;margin:0 auto}
+    /* Shared bottom summary, slides 5 + 6 (Martin's review 2026-10-02): tinted box, centred, larger */
+    .slide-summary{text-align:center;font:600 20px/1.45 'IBM Plex Sans',sans-serif;color:#fff;background:rgba(126,211,240,.08);border:1px solid var(--line);border-left:3px solid var(--sky);border-radius:var(--r);padding:16px 28px;max-width:1000px;width:100%;margin:0 auto}
     @media (max-width: 860px){
       .fraud-grid{display:flex;flex-direction:column;gap:8px}
       .fraud-sol{margin-bottom:18px}
-      .fraud-close{font-size:18px}
+      .slide-summary{font-size:17px;padding:14px 16px}
     }
     /* Slide 7 */
     .roi-grid{display:grid;grid-template-columns:42fr 58fr;gap:20px;height:calc(100% - 60px);align-items:center}
@@ -381,9 +391,9 @@
     <div class="body"><div class="case-grid">
       <div class="case-steps">
         <div class="case-step"><span class="case-step__lbl" data-i="t21">SITE</span><p data-i="t22">Busy truck scale at an agricultural depot. Calibration passed. No complaints.</p><span class="case-step__fig">18 × 3 m</span></div>
-        <div class="case-step"><span class="case-step__lbl" data-i="t86">FAILURE</span><p data-i="t23">LC8 under-reported its load. The indicator total masked it across the other cells.</p><span class="case-step__fig case-step__fig--bad" data-i="t26">44.6%</span></div>
-        <div class="case-step"><span class="case-step__lbl" data-i="t87">IMPACT</span><p data-i="t24">Farmers were credited for less grain than they delivered — for 5 months.</p><span class="case-step__fig case-step__fig--bad" data-i="t30">€23,400</span></div>
-        <div class="case-step"><span class="case-step__lbl" data-i="t88">FIX</span><p data-i="t25">LC8 replaced, guidance markers repositioned. Revenue now tracked live: <strong>≈ €42,400 in 6 active days</strong>.</p><span class="case-step__fig case-step__fig--ok" data-i="t28">€380</span></div>
+        <div class="case-step case-step--bad"><span class="case-step__lbl" data-i="t86">FAILURE</span><p data-i="t23">LC8 under-reported its load. The indicator total masked it across the other cells.</p><span class="case-step__fig case-step__fig--bad" data-i="t26">44.6%</span></div>
+        <div class="case-step case-step--bad"><span class="case-step__lbl" data-i="t87">IMPACT</span><p data-i="t24">Farmers were credited for less grain than they delivered — for 5 months.</p><span class="case-step__fig case-step__fig--bad" data-i="t30">€23,400</span></div>
+        <div class="case-step case-step--ok"><span class="case-step__lbl" data-i="t88">FIX</span><p data-i="t25">LC8 replaced, guidance markers repositioned. Revenue now tracked live: <strong>≈ €42,400 in 6 active days</strong>.</p><span class="case-step__fig case-step__fig--ok" data-i="t28">€380</span></div>
       </div>
       <div class="case-media">
         <figure class="case-fig"><img loading="lazy" src="case-site.jpg" alt="Truck on a grain depot weighbridge"><figcaption data-i="t89">The site: busy agricultural depot truck scale</figcaption></figure>
@@ -425,16 +435,16 @@
     <div class="body fraud">
       <div class="fraud-grid">
         <div class="fraud-prob c1"><span class="fraud-tag" data-i="t104">PROBLEM</span><h3 data-i="t51">01 Partial positioning</h3><p data-i="t52">Driver stops with rear axle off scale edge, underweighing by 1–3 tonnes per pass.</p></div>
-        <span class="fraud-arrow c1">↓</span>
+        <span class="fraud-arrow c1"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="fraud-sol c1"><span class="fraud-tag fraud-tag--ok" data-i="t105">SOLUTION</span><p data-i="t58">Per-cell load pattern reveals positioning anomalies</p></div>
         <div class="fraud-prob c2"><span class="fraud-tag" data-i="t104">PROBLEM</span><h3 data-i="t53">02 Software manipulation</h3><p data-i="t54">Indicator calibration tampered with. Scale reads correctly for test weights, drifts under real loads.</p></div>
-        <span class="fraud-arrow c2">↓</span>
+        <span class="fraud-arrow c2"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="fraud-sol c2"><span class="fraud-tag fraud-tag--ok" data-i="t105">SOLUTION</span><p data-i="t59">Immutable audit trails prevent data tampering</p></div>
         <div class="fraud-prob c3"><span class="fraud-tag" data-i="t104">PROBLEM</span><h3 data-i="t55">03 Repeat weighing fraud</h3><p data-i="t56">Same truck crosses twice with different IDs. Credits duplicate loads.</p></div>
-        <span class="fraud-arrow c3">↓</span>
+        <span class="fraud-arrow c3"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="fraud-sol c3"><span class="fraud-tag fraud-tag--ok" data-i="t105">SOLUTION</span><p data-i="t60">Transaction correlation flags repeat patterns</p></div>
       </div>
-      <p class="fraud-close" data-i="t61">A CCTV camera shows you the truck. SensWEIGHT® Bridge shows you whether the truck is on the scale correctly.</p>
+      <p class="slide-summary" data-i="t61">A CCTV camera shows you the truck. SensWEIGHT® Bridge shows you whether the truck is on the scale correctly.</p>
     </div>
   </section>
 
@@ -448,18 +458,18 @@
       </div>
       <div class="flow">
         <div class="flow-node flow-node--cells"><div class="flow-card flow-card--cells"><img src="diagram-loadcell.jpg" alt=""><img src="diagram-loadcell.jpg" alt=""><img src="diagram-loadcell.jpg" alt=""><img src="diagram-loadcell.jpg" alt=""><img src="diagram-loadcell.jpg" alt=""><img src="diagram-loadcell.jpg" alt=""></div><span class="flow-lbl only-a" data-i="t93">6× digital load cells</span><span class="flow-lbl only-b" data-i="t94">6× analog load cells</span></div>
-        <span class="flow-arrow only-b">→</span>
+        <span class="flow-arrow only-b"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="flow-node only-b"><div class="flow-card"><img src="diagram-digitizer.jpg" alt="CLM8 digitizer"></div><span class="flow-lbl" data-i="t95">Digitizer</span><span class="flow-model">CLM8</span></div>
-        <span class="flow-arrow">→</span>
+        <span class="flow-arrow"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="flow-node"><div class="flow-card"><img src="diagram-indicator.jpg" alt="WDESK-L indicator"></div><span class="flow-lbl" data-i="t96">Indicator</span><span class="flow-model">WDESK-L</span></div>
-        <span class="flow-arrow">→</span>
+        <span class="flow-arrow"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="flow-node"><div class="flow-card only-a"><img src="diagram-x2.jpg" alt="UCS-X2 gateway"></div><div class="flow-card only-b"><img src="diagram-x3.jpg" alt="UCS-X3 gateway"></div><span class="flow-lbl" data-i="t97">Gateway</span><span class="flow-model only-a">UCS-X2</span><span class="flow-model only-b">UCS-X3</span></div>
-        <span class="flow-arrow flow-arrow--dashed">⇢</span>
+        <span class="flow-arrow flow-arrow--dashed"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="flow-node"><div class="flow-card"><img src="diagram-cloud.jpg" alt="UCS Cloud"></div><span class="flow-lbl">UCS Cloud</span><span class="flow-model">&nbsp;</span></div>
-        <span class="flow-arrow flow-arrow--api"><small>REST API</small>→</span>
+        <span class="flow-arrow flow-arrow--api"><small>REST API</small><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
         <div class="flow-node"><div class="flow-card"><img src="diagram-pc.jpg" alt="PC dashboard"></div><span class="flow-lbl" data-i="t99">HMI / PC / mobile</span><span class="flow-model">&nbsp;</span></div>
       </div>
-      <div class="motivation-box"><p data-i="t38">Both deliver: per-cell health data, transaction logging, automated alerts (SMS/email), REST API. Whether your scale is 2 years old or 20 — it works.</p></div>
+      <p class="slide-summary" data-i="t38">Both deliver: per-cell health data, transaction logging, automated alerts (SMS/email), REST API. Whether your scale is 2 years old or 20 — it works.</p>
     </div>
   </section>
 
