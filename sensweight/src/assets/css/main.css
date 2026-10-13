@@ -863,3 +863,32 @@ h3, h4 { font-weight: 600; }
 }
 @media (max-width: 1000px) { .vid-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .vid-tiles { grid-template-columns: 1fr; } }
+
+/* ── Legal / long-form prose (privacy policy) ──────────────── */
+.legal { max-width: 760px; }
+.legal-updated { font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--sub); }
+.legal-lede { font-size: 17px; line-height: 1.75; color: var(--blue-pale); margin-top: 24px; }
+.legal-section { margin-top: 48px; }
+.legal-section h2 { font-size: 20px; color: #fff; letter-spacing: -.005em;
+  padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+.legal-section p, .legal-section li { font-size: 15px; line-height: 1.8; color: var(--sub); }
+.legal-section p { margin-top: 16px; }
+.legal-section ul { margin-top: 16px; padding-left: 20px; }
+.legal-section li + li { margin-top: 8px; }
+.legal-section a { color: var(--sky); }
+.legal-section a:hover { text-decoration: underline; }
+.legal-section strong { color: var(--blue-pale); font-weight: 600; }
+.legal-address { font-size: 15px; line-height: 1.9; }
+.legal-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+.legal-table th, .legal-table td { text-align: left; padding: 10px 12px;
+  border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--sub); }
+.legal-table th { font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--blue-pale); font-weight: 500; }
+.legal-note { margin-top: 16px; padding: 16px 18px; border-radius: var(--r);
+  background: var(--shade-soft); border: 1px dashed var(--dash);
+  font-size: 14px; line-height: 1.7; color: var(--blue-pale); }
+@media (max-width: 640px) { .legal-table, .legal-table tr, .legal-table td, .legal-table th { display: block; }
+  .legal-table th { border: 0; padding-bottom: 2px; }
+  .legal-table td { border-bottom: 0; padding-top: 2px; }
+  .legal-table tr { border-bottom: 1px solid var(--rule); padding: 10px 0; } }

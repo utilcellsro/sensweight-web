@@ -1,0 +1,204 @@
+{% set t = translations[lang] %}
+
+<section class="page-hero">
+  <div class="container page-hero-content">
+    <div class="hero-tagline">Legal</div>
+    <h1>Privacy Policy</h1>
+    <p class="page-hero-sub">What personal data we collect through sensweight.com, why, and what rights you have over it.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container legal">
+    <p class="legal-updated">Last updated: 13 October 2026</p>
+
+    <p class="legal-lede">
+      This page explains what personal data Unified Cloud Sensors, s.r.o. collects through
+      sensweight.com, why, and what rights you have over it. We collect only what you submit
+      to us directly through this site&rsquo;s dealer request form &mdash; nothing more.
+    </p>
+
+    <div class="legal-section">
+      <h2>1. Who we are</h2>
+      <p>The data controller for sensweight.com is:</p>
+      <p class="legal-address">
+        <strong>Unified Cloud Sensors, s.r.o.</strong><br>
+        n&aacute;m. V. Mr&scaron;t&iacute;ka 40, 664&nbsp;81 Ostrova&ccaron;ice, Czech Republic<br>
+        Company ID (I&Ccaron;): 23272686<br>
+        Phone: <a href="tel:+420546427053">+420 546 427 053</a><br>
+        Email: <a href="mailto:info@unifiedcloudsensors.com">info@unifiedcloudsensors.com</a>
+      </p>
+      <p>For any question about this policy or your data, contact us at the email address above.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. What data we collect</h2>
+      <p>
+        sensweight.com runs no analytics and sets no cookies of its own. We only collect
+        personal data that you choose to type into the one form on this site:
+      </p>
+      <table class="legal-table">
+        <tr><th>Form</th><th>Fields collected</th></tr>
+        <tr>
+          <td>Dealer / quote request (on <a href="/how-to-buy/">How to Buy</a>)</td>
+          <td>Name, email address, phone, company, country, area of interest, message</td>
+        </tr>
+      </table>
+      <p>
+        We do not request or accept file uploads through this form. If you send us documents
+        by email instead, that exchange is handled as ordinary business correspondence, not
+        through this website.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Why we process it, and our legal basis</h2>
+      <p>
+        We process what you submit for one purpose: to answer your request and, where relevant,
+        to prepare a quote or put you in touch with a dealer.
+      </p>
+      <ul>
+        <li>Processed under GDPR Art. 6(1)(b) &mdash; steps taken at your request prior to a
+          possible contract &mdash; or, where no contract is in prospect, Art. 6(1)(f), our
+          legitimate interest in responding to inbound business inquiries.</li>
+      </ul>
+      <p>
+        We do not use your data for marketing, profiling, or automated decision-making, and we
+        do not sell or rent it to any third party.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. How your submission is handled</h2>
+      <p>
+        When you submit the form, your data is sent to a backend service we operate (AWS Lambda
+        and Amazon API Gateway, in the <strong>eu-central-1 (Frankfurt)</strong> AWS region)
+        which:
+      </p>
+      <ul>
+        <li>sends one notification email containing your submission to our sales inbox, and</li>
+        <li>sends one automatic confirmation email back to the address you provided,</li>
+      </ul>
+      <p>
+        both via Amazon Simple Email Service (SES). <strong>Your submission is not written to
+        any database.</strong> The backend keeps no persistent copy &mdash; once the two emails
+        are sent, the only copies that exist are the emails themselves, in our company mailbox
+        and in the mailbox you submitted.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Bot protection on the form</h2>
+      <p>
+        The form is protected by <strong>Cloudflare Turnstile</strong>, which checks whether a
+        submission comes from a person or an automated script. To make that check, the widget
+        loads from Cloudflare and sends your IP address together with technical signals about
+        your browser and device to Cloudflare, and may store a short-lived token in your browser
+        for the check itself. Cloudflare does not receive the contents of the form, and the
+        check runs only on the page that carries the form.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>6. Who we share data with</h2>
+      <p>
+        We do not sell your data. It passes through the following processors, strictly to
+        operate the site and deliver the emails above:
+      </p>
+      <table class="legal-table">
+        <tr><th>Processor</th><th>Role</th><th>Location</th></tr>
+        <tr>
+          <td>Amazon Web Services (AWS)</td>
+          <td>Site hosting (S3 and the CloudFront CDN), form backend, and email delivery (SES)</td>
+          <td>Stored in the EU (Frankfurt, eu-central-1); pages are served from CDN edge
+            locations worldwide, so a request may be answered from outside the EU</td>
+        </tr>
+        <tr>
+          <td>Cloudflare</td>
+          <td>Turnstile bot check on the dealer request form (see section 5)</td>
+          <td>Global infrastructure</td>
+        </tr>
+        <tr>
+          <td>Google (Google Fonts)</td>
+          <td>Loads this site&rsquo;s typefaces (Chakra Petch, IBM Plex Sans/Mono) directly from
+            Google&rsquo;s servers</td>
+          <td>Google infrastructure (may be outside the EU)</td>
+        </tr>
+        <tr>
+          <td>jsDelivr</td>
+          <td>Loads the charting library used by the live demo dashboards</td>
+          <td>Global CDN; only on the demo pages, not on the rest of the site</td>
+        </tr>
+      </table>
+      <p>
+        Loading a font or a script this way sends your browser&rsquo;s IP address to that
+        provider as a normal part of the request &mdash; this happens on page load, not only
+        when you submit a form, and applies to all visitors. Neither Google nor jsDelivr
+        receives any of the form data.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>7. How long we keep it</h2>
+      <div class="legal-note">
+        <strong>Draft placeholder &mdash; confirm before relying on this.</strong> We have not
+        yet adopted a formal retention schedule for this mailbox. Until one exists, submitted
+        emails should be treated as retained only for as long as reasonably needed to answer the
+        inquiry and complete any resulting business relationship, and deleted afterwards. A firm
+        number here (for example &ldquo;12 months&rdquo; or &ldquo;3 years&rdquo;) is a business
+        and legal decision, not something to take from the code.
+      </div>
+    </div>
+
+    <div class="legal-section">
+      <h2>8. Your rights</h2>
+      <p>Under the GDPR, you have the right to:</p>
+      <ul>
+        <li>request access to the personal data we hold about you;</li>
+        <li>request correction of inaccurate data;</li>
+        <li>request erasure of your data;</li>
+        <li>object to or request restriction of our processing;</li>
+        <li>request a copy of your data in a portable format; and</li>
+        <li>withdraw consent at any time, where processing is based on consent.</li>
+      </ul>
+      <p>
+        To exercise any of these rights, email
+        <a href="mailto:info@unifiedcloudsensors.com">info@unifiedcloudsensors.com</a>. You also
+        have the right to lodge a complaint with the Czech data protection authority:
+      </p>
+      <p class="legal-address">
+        &Uacute;&rcaron;ad pro ochranu osobn&iacute;ch &uacute;daj&uring; (Office for Personal Data Protection)<br>
+        Pplk. Sochora 27, 170&nbsp;00 Praha 7, Czech Republic<br>
+        <a href="https://www.uoou.cz" target="_blank" rel="noopener">www.uoou.cz</a>
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>9. Cookies and tracking</h2>
+      <p>
+        This site sets no cookies of its own and runs no analytics, advertising, or tracking
+        scripts. The only browser storage involved is the short-lived token the Turnstile bot
+        check may use, described in section 5. If this changes in the future &mdash; for example
+        if we add analytics &mdash; this policy will be updated first and, where the law requires
+        it, a cookie consent notice will be added before any non-essential cookie is set.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>10. Children</h2>
+      <p>
+        This site is intended for business use and is not directed at children. We do not
+        knowingly collect personal data from anyone under 16.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2>11. Changes to this policy</h2>
+      <p>
+        We may update this policy as the site or our data practices change. The
+        &ldquo;Last updated&rdquo; date at the top of this page reflects the most recent
+        revision.
+      </p>
+    </div>
+  </div>
+</section>
