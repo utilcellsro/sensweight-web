@@ -5,7 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1D2C49">
   <title>{{ title }}</title>
-  <meta name="description" content="{{ description | default('Unified Cloud Sensors — Industrial IoT monitoring systems for remote weighing, silo level, geotechnical and environmental sensing.') }}">
+  <meta name="description" content="{{ description | default(site.description) }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  {% if noindexed %}<meta name="robots" content="noindex, follow">{% endif %}
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description | default(site.description) }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ ogImage | default(site.ogImage) }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title }}">
+  <meta name="twitter:description" content="{{ description | default(site.description) }}">
+  <meta name="twitter:image" content="{{ site.url }}{{ ogImage | default(site.ogImage) }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,6 +30,76 @@
   {% if pageKey == 'demo' %}
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   {% endif %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "{{ site.url }}/#organization",
+        "name": {{ site.name | jsonstr | safe }},
+        "legalName": {{ site.legalName | jsonstr | safe }},
+        "url": "{{ site.url }}/",
+        "logo": "{{ site.url }}/assets/images/ucs-logo.png",
+        "description": {{ site.description | jsonstr | safe }},
+        "vatID": "{{ site.vatId }}",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": {{ site.street | jsonstr | safe }},
+          "addressCountry": "{{ site.country }}"
+        },
+        "sameAs": ["{{ site.linkedin }}"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{ site.url }}/#website",
+        "url": "{{ site.url }}/",
+        "name": {{ site.name | jsonstr | safe }},
+        "publisher": { "@id": "{{ site.url }}/#organization" }
+      },
+      {% set crumbParents = {
+          "industry":   ["Industries", "/industries/"],
+          "sensweight": ["Solutions", "/solutions/"],
+          "senssilo":   ["Solutions", "/solutions/"],
+          "ucsx3":      ["Products", "/products/"],
+          "demo":       ["Live Demo", "/demo/"]
+        } %}
+      {% set parent = crumbParents[pageKey] %}
+      {% set pageName = productName | default((title | split(" | "))[0]) %}
+      {
+        "@type": "BreadcrumbList",
+        "@id": "{{ site.url }}{{ page.url }}#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" }{% if parent %},
+          { "@type": "ListItem", "position": 2, "name": {{ parent[0] | jsonstr | safe }}, "item": "{{ site.url }}{{ parent[1] }}" },
+          { "@type": "ListItem", "position": 3, "name": {{ pageName | jsonstr | safe }}, "item": "{{ site.url }}{{ page.url }}" }{% elif page.url != "/" %},
+          { "@type": "ListItem", "position": 2, "name": {{ pageName | jsonstr | safe }}, "item": "{{ site.url }}{{ page.url }}" }{% endif %}
+        ]
+      },
+      {% if productName %}
+      {
+        "@type": "Product",
+        "@id": "{{ site.url }}{{ page.url }}#product",
+        "name": {{ productName | jsonstr | safe }},
+        "description": {{ description | jsonstr | safe }},
+        "url": "{{ site.url }}{{ page.url }}",
+        {% if productImage %}"image": "{{ site.url }}{{ productImage }}",{% endif %}
+        "category": {{ productCategory | jsonstr | safe }},
+        "brand": { "@type": "Brand", "name": {{ site.name | jsonstr | safe }} },
+        "manufacturer": { "@id": "{{ site.url }}/#organization" }
+      },
+      {% endif %}
+      {
+        "@type": "WebPage",
+        "@id": "{{ site.url }}{{ page.url }}#webpage",
+        "url": "{{ site.url }}{{ page.url }}",
+        "name": {{ title | jsonstr | safe }},
+        "description": {{ (description | default(site.description)) | jsonstr | safe }},
+        "isPartOf": { "@id": "{{ site.url }}/#website" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body{% if demoKey %} data-demo-key="{{ demoKey }}"{% endif %}>
 {% include "nav.njk" %}
