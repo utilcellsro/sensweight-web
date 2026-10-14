@@ -77,11 +77,14 @@ const drifted = (l) =>
 
 // Page metadata is not part of `en`: English titles/descriptions live in each
 // page template's front matter, so coverage is measured against the routes the
-// build actually produces.
+// build actually produces. A singleLanguage page (the privacy policy and the
+// terms) is only ever built in English, so a translated title for it would
+// never be read - those routes are left out rather than counted as missing.
 const routes = fs
   .readdirSync(path.join(ROOT, "src"), { recursive: true })
   .filter((f) => String(f).endsWith(".njk"))
   .map((f) => fs.readFileSync(path.join(ROOT, "src", String(f)), "utf8"))
+  .filter((src) => !/^singleLanguage: true$/m.test(src))
   .map((src) => /^route: "(.*)"$/m.exec(src))
   .filter(Boolean)
   .map((m) => m[1]);
