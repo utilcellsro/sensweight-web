@@ -58,6 +58,10 @@ jobs:
           cp ${{ env.APP_DIR }}/*.ico _deploy/ 2>/dev/null || true
           cp ${{ env.APP_DIR }}/robots.txt _deploy/
           cp ${{ env.APP_DIR }}/sitemap.xml _deploy/
+          # Self-hosted webfonts. fonts.css stays at the root and refers to
+          # fonts/<file>.woff2 relatively, so /cs/ and /pl/ share this one copy.
+          cp ${{ env.APP_DIR }}/fonts.css _deploy/
+          cp -r ${{ env.APP_DIR }}/fonts _deploy/fonts
           ls -la _deploy
 
       - name: Configure AWS credentials

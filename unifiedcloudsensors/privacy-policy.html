@@ -13,7 +13,8 @@
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<!-- Self-hosted fonts, see fonts.css and scripts/vendor-fonts.js -->
+<link rel="stylesheet" href="fonts.css">
 <style>
   * { box-sizing: border-box; }
   body {
@@ -211,18 +212,15 @@
         <td>Turnstile bot check on the Contact and Careers forms (see section 5)</td>
         <td>Global infrastructure</td>
       </tr>
-      <tr>
-        <td>Google (Google Fonts)</td>
-        <td>Loads this site's typefaces (Chakra Petch, IBM Plex Sans/Mono) directly from
-          Google's servers</td>
-        <td>Google infrastructure (may be outside the EU)</td>
-      </tr>
     </table>
     <p style="margin-top: 16px;">
-      Loading a font this way sends your browser's IP address to Google as a normal part of
-      the request — this happens on every page load, not just when you submit a form, and
-      applies to all visitors, not only those who fill out a form. Google does not receive
-      any of the form data itself.
+      Loading a file from another company's server sends your browser's IP address to that
+      company as a normal part of the request. This site's typefaces used to be loaded from
+      Google that way; <strong>they are now served from this site</strong>, so simply reading
+      a page contacts no third party at all. The only outside request a page makes is the
+      Cloudflare bot check described in section 5, and that happens only once you open a form.
+      Links to LinkedIn, YouTube and sensweight.com are ordinary links — nothing is sent to
+      them unless you click.
     </p>
   </section>
 
