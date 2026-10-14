@@ -60,6 +60,19 @@ for (const k of Object.keys(merged).filter((k) => !(k in enFlat)).sort()) {
 }
 
 fs.writeFileSync(target, JSON.stringify(sorted, null, 1) + "\n");
+
+// Record the English each translated key was written from. The translation
+// files are keyed by dot-path, so when English is reworded the old translation
+// silently stays in place and still counts as covered — this lock is what lets
+// i18n-report.js call it stale instead.
+const lockPath = path.join(ROOT, "i18n", `${lang}.lock.json`);
+const lock = fs.existsSync(lockPath) ? JSON.parse(fs.readFileSync(lockPath, "utf8")) : {};
+for (const k of Object.keys(batch)) {
+  if (k in enFlat) lock[k] = enFlat[k];
+}
+const lockSorted = {};
+for (const k of order) if (k in lock) lockSorted[k] = lock[k];
+fs.writeFileSync(lockPath, JSON.stringify(lockSorted, null, 1) + "\n");
 console.log(
   `${lang}: +${Object.keys(batch).filter((k) => !(k in current)).length} new, ` +
     `${overwritten.length} changed, ${Object.keys(sorted).length} total`

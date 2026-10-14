@@ -520,7 +520,7 @@
  "about_page.tagline": "O nás",
  "about_page.heading": "Průmyslový IoT pro vážení, vyvíjený v Ostrovačicích",
  "about_page.sub": "Unified Cloud Sensors, s.r.o. navrhuje a nasazuje systémy vzdáleného monitoringu průmyslového vážení — snímače, edge hardware a cloudový software dodávané jako jeden systém.",
- "about_page.body": "Stavíme celý stack za SensWEIGHT®, SensSILO, SensGEO, SensATMO a SensGREEN — od snímačů zatížení a edge gatewayů přes instalaci až po cloudové dashboardy, které nad nimi běží. Naše patentovaná diagnostická metodika (EP 4 524 526) je na úrovni TRL 9 — připravena pro komerční nasazení — s již běžícími pilotními i komerčními instalacemi.",
+ "about_page.body": "Stavíme celý stack za SensWEIGHT® Bridge, SensSILO a SensBELT — od snímačů zatížení a edge gatewayů přes instalaci až po cloudové dashboardy, které nad nimi běží. Naše patentovaná diagnostická metodika (EP 4 524 526) je na úrovni TRL 9 — připravena pro komerční nasazení — s již běžícími pilotními i komerčními instalacemi.",
  "about_page.facts[0].label": "Sídlo",
  "about_page.facts[0].value": "Ostrovačice, Česká republika",
  "about_page.facts[1].label": "Patent",
