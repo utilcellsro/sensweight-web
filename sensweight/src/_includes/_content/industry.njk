@@ -50,7 +50,7 @@
         <p>{{ p.desc }}</p>
         <div class="sol-footer">
           <span class="sol-product">{{ p.badge }}</span>
-          <span class="sol-link">Learn more &rarr;</span>
+          <span class="sol-link">{{ t.labels.learn_more }}</span>
         </div>
       </a>
       {% endif %}
@@ -63,7 +63,7 @@
   <div class="container">
     {% if item.story and item.story.pilot %}
     {% set pl = item.story.pilot %}
-    <div class="section-tagline">Next step</div>
+    <div class="section-tagline">{{ t.labels.next_step }}</div>
     <h2>{{ pl.heading }}</h2>
     <p>{{ pl.body }}</p>
     <div class="steps-grid pilot-points">
@@ -75,12 +75,12 @@
       {% endfor %}
     </div>
     <div class="product-cta-btns">
-      <a href="{{ '/how-to-buy/#dealer-form' | localeUrl(lang) }}" class="btn btn-teal">Start a pilot</a>
+      <a href="{{ '/how-to-buy/#dealer-form' | localeUrl(lang) }}" class="btn btn-teal">{{ t.labels.start_pilot }}</a>
       <a href="{{ '/products/' | localeUrl(lang) }}" class="btn btn-ghost">{{ ind.cta_products }}</a>
     </div>
     {% else %}
-    <h2>Ready to talk about {{ item.name }}?</h2>
-    <p>Get a tailored quote, or see the recommended hardware for this application.</p>
+    <h2>{{ t.labels.industry_cta_heading | replace("{name}", item.name) }}</h2>
+    <p>{{ t.labels.industry_cta_sub }}</p>
     <div class="product-cta-btns">
       <a href="{{ '/how-to-buy/' | localeUrl(lang) }}" class="btn btn-teal">{{ ind.cta_buy }}</a>
       <a href="{{ '/products/' | localeUrl(lang) }}" class="btn btn-ghost">{{ ind.cta_products }}</a>

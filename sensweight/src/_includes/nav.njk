@@ -9,14 +9,19 @@
       <a href="{{ '/about/' | localeUrl(lang) }}">{{ t.nav.about }}</a>
       <a href="{{ '/events/' | localeUrl(lang) }}">{{ t.nav.news }}</a>
       <a href="{{ '/contact/' | localeUrl(lang) }}" class="nav-cta">{{ t.nav.contact }}</a>
-      {# Language switcher — same page in each language, built from this page's
-         own `route`, so it never links to a page that doesn't exist. #}
+      {# Language switcher — the same page in each language, built from this
+         page's own `route` so it can never link to a URL the build doesn't
+         produce. A singleLanguage page (the privacy policy, English only) has
+         no counterpart to offer, so it falls back to that language's home page
+         and drops the hreflang hint, which would otherwise claim the home page
+         is this page's translation. #}
+      {%- set switchRoute = '/' if singleLanguage else route %}
       <span class="lang-switch" role="group" aria-label="{{ t.ui.language }}">
         {%- for l in langs %}
         {%- if l == lang %}
         <span class="lang-switch-item is-active" aria-current="true">{{ l | upper }}</span>
         {%- else %}
-        <a class="lang-switch-item" href="{{ route | localeUrl(l) }}" lang="{{ l }}" hreflang="{{ l }}">{{ l | upper }}</a>
+        <a class="lang-switch-item" href="{{ switchRoute | localeUrl(l) }}" lang="{{ l }}"{% if not singleLanguage %} hreflang="{{ l }}"{% endif %}>{{ l | upper }}</a>
         {%- endif %}
         {%- endfor %}
       </span>

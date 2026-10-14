@@ -1,10 +1,11 @@
 {
   "name": "sensweight-web",
   "version": "1.0.0",
-  "description": "sensweight.com — industry/product site for Unified Cloud Sensors",
+  "description": "sensweight.com \u2014 industry/product site for Unified Cloud Sensors",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "i18n:report": "node scripts/i18n-report.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"

@@ -11,13 +11,13 @@
     </div>
     <div class="compare-grid">
       <div class="compare-col compare-col--without">
-        <div class="compare-label">Without monitoring</div>
+        <div class="compare-label">{{ t.labels.without_monitoring }}</div>
         <ul class="compare-list">
           {% for li in s.problem.without %}<li>{{ li }}</li>{% endfor %}
         </ul>
       </div>
       <div class="compare-col compare-col--with">
-        <div class="compare-label">With UCS</div>
+        <div class="compare-label">{{ t.labels.with_ucs }}</div>
         <ul class="compare-list">
           {% for li in s.problem.with %}<li>{{ li }}</li>{% endfor %}
         </ul>

@@ -30,6 +30,42 @@ const en = {
   // block is where CS and PL override it (base.njk falls back to the front
   // matter when a route is missing here, so a page never ships title-less).
   meta: {},
+
+  // Strings that sat hardcoded in the markup rather than in this file, so they
+  // could not be translated at all. Extracted when CS/PL were added.
+  labels: {
+    see_all_solutions: "See all solutions →",
+    all_industries: "All industries →",
+    learn_more: "Learn more →",
+    next_step: "Next step",
+    start_pilot: "Start a pilot",
+    industry_cta_heading: "Ready to talk about {name}?",
+    industry_cta_sub: "Get a tailored quote, or see the recommended hardware for this application.",
+    tile_flagship: "Flagship",
+    tile_level: "Level",
+    tile_beltscale: "Belt Scale",
+    sensbelt_desc: "Continuous conveyor belt scale monitoring, part of the SensWEIGHT® platform.",
+    without_monitoring: "Without monitoring",
+    with_ucs: "With UCS",
+    features_sub: "Everything you need. Nothing you don't.",
+    specs_title: "Technical Specifications",
+    param: "Parameter",
+    value: "Value",
+    usecases_sub: "Built for how industry actually works",
+    in_action: "In Action",
+    see_it_working: "See it working",
+    product_cta_heading: "Ready to see it live?",
+    product_cta_sub: "Talk to our team about deploying this solution in your facility.",
+    products_note: "Every installation is specced to the site — talk to a dealer about capacities, mounting, and integration.",
+    sensweight_glance: "SensWEIGHT® at a glance",
+    interest_hardware: "Hardware / components",
+    live: "LIVE",
+    ucsx3_features_sub: "One gateway. Every sensor type.",
+    ucsx3_specs_title: "UCS X3 full specification",
+    ucsx3_usecases_sub: "One device. Every sensing application.",
+    ucsx3_cta_heading: "Ready to specify a UCS X3?",
+    ucsx3_cta_sub: "Talk to our team about the right gateway configuration for your site.",
+  },
   hero: {
     tagline: "Industrial IoT Weighing Monitoring",
     headline: "Stop Paying for Weighing Errors. Start Guaranteeing True Value.",
@@ -827,13 +863,37 @@ const en = {
   },
 };
 
-// Czech overrides. Keys absent here fall back to English.
-const cs = {
-};
+// Czech and Polish overrides live outside this file, as flat dot-path maps in
+// ../../i18n/<lang>.json — "hero.headline": "..." rather than nested objects.
+// Flat keys make coverage measurable (see scripts/i18n-report.js) and keep a
+// translator's working file free of JavaScript syntax. They are nested back
+// into the shape of `en` below, then deep-merged over it.
+//
+// They sit outside src/_data/ on purpose: Eleventy turns everything in that
+// directory into global template data, and these are an implementation detail
+// of this file, not something templates should reach for.
+const cs = nest(require("../../i18n/cs.json"));
+const pl = nest(require("../../i18n/pl.json"));
 
-// Polish overrides. Keys absent here fall back to English.
-const pl = {
-};
+// "a.b[0].c" -> { a: { b: [ { c } ] } }
+function nest(flat) {
+  const root = {};
+  for (const [path, value] of Object.entries(flat)) {
+    const keys = path.replace(/\[(\d+)\]/g, ".$1").split(".");
+    let node = root;
+    keys.forEach((key, i) => {
+      if (i === keys.length - 1) {
+        node[key] = value;
+        return;
+      }
+      if (node[key] === undefined) {
+        node[key] = /^\d+$/.test(keys[i + 1]) ? [] : {};
+      }
+      node = node[key];
+    });
+  }
+  return root;
+}
 
 // ---------------------------------------------------------------------------
 

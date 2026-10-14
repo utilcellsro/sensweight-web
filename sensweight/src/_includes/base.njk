@@ -16,7 +16,7 @@
   <meta name="description" content="{{ pageDesc }}">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   {% if noindexed %}<meta name="robots" content="noindex, follow">{% endif %}
-  {%- if not noindexed and route %}
+  {%- if not noindexed and route and not singleLanguage %}
   {#- Every language's version of this same page, built from `route` so an
       alternate can never point at a URL the build doesn't produce. x-default
       is the English one, which is served unprefixed at the root. -#}

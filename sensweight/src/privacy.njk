@@ -3,12 +3,15 @@ layout: base.njk
 title: "Privacy Policy | Unified Cloud Sensors"
 description: "What personal data Unified Cloud Sensors collects through sensweight.com's dealer request form, how it is handled, who processes it, and your rights under the GDPR."
 pageKey: "privacy"
-pagination:
-  data: langs
-  size: 1
-  alias: lang
-  addAllPagesToCollections: true
+# Deliberately NOT paginated across languages: this is 994 words of GDPR legal
+# text, and an unreviewed machine translation presented as the binding privacy
+# notice is a liability. English is the only version, and the CS/PL footers link
+# straight to it. To translate it later — once it has had a legal review, which
+# the English text itself still needs, and once the retention section stops
+# being a placeholder — restore the pagination block the other pages use.
+lang: "en"
+singleLanguage: true
 route: "/privacy/"
-permalink: "{{ route | localeUrl(lang) }}"
+permalink: "/privacy/"
 ---
 {% include "_content/privacy.njk" %}

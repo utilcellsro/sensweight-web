@@ -88,7 +88,7 @@
         <div class="section-tagline">{{ t.products_section_title }}</div>
         <h2>{{ t.products_subtitle }}</h2>
       </div>
-      <a href="{{ '/solutions/' | localeUrl(lang) }}" class="section-header-link">See all solutions &rarr;</a>
+      <a href="{{ '/solutions/' | localeUrl(lang) }}" class="section-header-link">{{ t.labels.see_all_solutions }}</a>
     </div>
     {% include "_content/solution-tiles.njk" %}
     </div>
@@ -101,9 +101,9 @@
     <div class="section-header section-header--split">
       <div class="section-header-text">
         <div class="section-tagline">{{ t.industries.index_tagline }}</div>
-        <h2>Find your industry</h2>
+        <h2>{{ t.industries.index_heading }}</h2>
       </div>
-      <a href="{{ '/industries/' | localeUrl(lang) }}" class="section-header-link">All industries &rarr;</a>
+      <a href="{{ '/industries/' | localeUrl(lang) }}" class="section-header-link">{{ t.labels.all_industries }}</a>
     </div>
     {% include "_content/industry-tiles.njk" %}
   </div>
