@@ -1,8 +1,8 @@
 {% set t = translations[lang] %}
 {% set ind = t.industries %}
 {% set item = ind.items[industryKey] %}
-{% set icons = {sensweight: "SW", senssilo: "SIL", sensgeo: "GEO", sensatmo: "ATM", sensgreen: "GRN"} %}
-{% set iconColors = {sensweight: "var(--blue)", senssilo: "var(--ok)", sensgeo: "var(--sky)", sensatmo: "var(--warn)", sensgreen: "var(--blue-dark)"} %}
+{% set icons = {sensweight: "SW", senssilo: "SIL"} %}
+{% set iconColors = {sensweight: "var(--blue)", senssilo: "var(--ok)"} %}
 
 <section class="page-hero page-hero--photo">
   <div class="page-hero-bg" aria-hidden="true"><img src="/assets/images/industries/{{ industryKey }}.jpg" alt=""></div>

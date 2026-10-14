@@ -7,19 +7,14 @@
  *   node scripts/i18n-report.js cs --todo  the same, as flat JSON to fill in
  *
  * English is the source of truth; a language "covers" a key when i18n/<lang>.json
- * has an entry for it. Keys belonging to pages that no longer exist are
- * excluded, so coverage reflects the live site rather than dead data.
+ * has an entry for it. Copy nothing renders yet is reported separately, so
+ * the headline number reflects the live site rather than deferred work.
  */
 const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const en = require(path.join(ROOT, "src/_data/translations.js")).en;
-
-// Copy for solutions deleted in the 2026-09-25 trim to three solutions. The
-// data is still in translations.js but nothing renders it, so translating it
-// would be wasted work.
-const DEAD = ["sensgeo.", "sensatmo.", "sensgreen."];
 
 // Individual keys that are deferred rather than whole sections. The SKU rows
 // came off the Products page in the same 2026-09-25 trim (the data stays in
@@ -58,8 +53,8 @@ const deferredKey = (k) => DEFERRED_KEYS.some((d) => d.re.test(k));
 // English page metadata lives in each page template's front matter.
 const isMeta = (k) => /^meta\.\//.test(k);
 
-const live = Object.keys(flat).filter((k) => !DEAD.some((d) => k.startsWith(d)));
-const active = live.filter((k) => !(group(k) in DEFERRED) && !deferredKey(k));
+const all = Object.keys(flat);
+const active = all.filter((k) => !(group(k) in DEFERRED) && !deferredKey(k));
 
 const langs = require(path.join(ROOT, "src/_data/langs.js")).filter((l) => l !== "en");
 const loaded = Object.fromEntries(
@@ -98,8 +93,7 @@ const flagTodo = process.argv.includes("--todo");
 if (!wanted) {
   const pct = (a, b) => (b === 0 ? "100" : ((a / b) * 100).toFixed(1));
   console.log(
-    `English source: ${Object.keys(flat).length} strings ` +
-      `(${live.length} live, ${active.length} excluding deferred)\n`
+    `English source: ${all.length} strings (${active.length} excluding deferred)\n`
   );
   for (const l of langs) {
     const have = Object.keys(loaded[l]);
@@ -108,7 +102,7 @@ if (!wanted) {
     const drift = drifted(l);
     console.log(
       `${l.toUpperCase()}  ${done}/${active.length} active (${pct(done, active.length)}%)` +
-        `   ${live.filter((k) => k in loaded[l]).length}/${live.length} of all live copy` +
+        `   ${all.filter((k) => k in loaded[l]).length}/${all.length} of all copy` +
         (stale.length ? `   !! ${stale.length} key(s) not in English` : "") +
         (drift.length ? `   !! ${drift.length} translated from English that has since changed` : "")
     );
@@ -121,15 +115,13 @@ if (!wanted) {
   }
   console.log("\nDeferred (excluded from the active count):");
   for (const d of DEFERRED_KEYS) {
-    const n = live.filter((k) => d.re.test(k)).length;
+    const n = all.filter((k) => d.re.test(k)).length;
     if (n) console.log(`  ${String(n).padStart(3)} products_page …skus — ${d.why}`);
   }
   for (const [k, why] of Object.entries(DEFERRED)) {
-    const n = live.filter((x) => group(x) === k).length;
+    const n = all.filter((x) => group(x) === k).length;
     if (n) console.log(`  ${String(n).padStart(3)} ${k} — ${why}`);
   }
-  const dead = Object.keys(flat).length - live.length;
-  if (dead) console.log(`  ${String(dead).padStart(3)} sensgeo/sensatmo/sensgreen — pages deleted 2026-09-25`);
   process.exit(0);
 }
 

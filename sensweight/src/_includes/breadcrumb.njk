@@ -13,7 +13,7 @@
     {% elif pageKey == 'solutions' %}
       <a href="{{ home }}">{{ t.ui.home }}</a><span class="crumb-sep">/</span><span class="crumb-current">{{ t.nav.solutions }}</span>
 
-    {% elif pageKey in ['sensweight', 'senssilo', 'sensgeo', 'sensatmo', 'sensgreen'] %}
+    {% elif pageKey in ['sensweight', 'senssilo'] %}
       <a href="{{ home }}">{{ t.ui.home }}</a><span class="crumb-sep">/</span><a href="{{ '/solutions/' | localeUrl(lang) }}">{{ t.nav.solutions }}</a><span class="crumb-sep">/</span><span class="crumb-current">{{ t.products[pageKey].name }}</span>
 
     {% elif pageKey == 'products' %}
