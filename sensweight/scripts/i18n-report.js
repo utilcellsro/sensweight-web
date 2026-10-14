@@ -30,7 +30,6 @@ const DEFERRED = {
   roi: "ROI calculator — commented out sitewide since 2026-09-01",
   demos: "demo pages — every link to them is hidden sitewide since 2026-10-12",
   demo_hub: "demo pages — links hidden sitewide",
-  demo_cta: "demo pages — links hidden sitewide",
 };
 
 function flatten(node, prefix, out) {
