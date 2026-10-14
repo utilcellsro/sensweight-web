@@ -19,6 +19,7 @@ const en = {
     home: "Home",
     how_to_buy: "How to Buy",
     privacy: "Privacy Policy",
+    terms: "Terms of Service",
     explore: "Explore",
     company: "Company",
     language: "Language",
