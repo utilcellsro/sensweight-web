@@ -4,5 +4,12 @@ title: "Concrete Plants | Unified Cloud Sensors"
 description: "Keep every batch and every delivery weighed to spec. SensWEIGHT® monitors concrete plant scales and weighbridges in real time, with alerts on any drift."
 pageKey: "industry"
 industryKey: "concrete"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/industries/concrete/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/industry.njk" %}

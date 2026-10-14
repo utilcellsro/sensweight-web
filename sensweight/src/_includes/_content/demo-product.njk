@@ -52,7 +52,7 @@
       <div class="demo-panel">
         <div class="panel-header">
           <span class="panel-title">{{ d.chart_title }}</span>
-          <span class="panel-badge">LIVE</span>
+          <span class="panel-badge">{{ t.labels.live }}</span>
         </div>
         <div class="chart-container">
           <canvas id="radar-chart"></canvas>
@@ -62,7 +62,7 @@
       <div class="demo-panel">
         <div class="panel-header">
           <span class="panel-title">{{ d.table_title }}</span>
-          <span class="panel-badge">LIVE</span>
+          <span class="panel-badge">{{ t.labels.live }}</span>
         </div>
         <table class="sensor-table">
           <thead>
@@ -94,8 +94,8 @@
     <h2>{{ p.name }}</h2>
     <p>{{ p.desc }}</p>
     <div class="product-cta-btns">
-      <a href="/{{ demoKey }}/" class="btn btn-teal">{{ t.demo_hub.cta_learn }}</a>
-      <a href="/demo/" class="btn btn-ghost">{{ t.demo_hub.cta_all }}</a>
+      <a href="{{ ('/' + demoKey + '/') | localeUrl(lang) }}" class="btn btn-teal">{{ t.demo_hub.cta_learn }}</a>
+      <a href="{{ '/demo/' | localeUrl(lang) }}" class="btn btn-ghost">{{ t.demo_hub.cta_all }}</a>
     </div>
   </div>
 </section>

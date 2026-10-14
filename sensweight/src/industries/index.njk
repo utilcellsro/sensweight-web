@@ -3,5 +3,12 @@ layout: base.njk
 title: "Industries | Unified Cloud Sensors"
 description: "Find your industry — quarries, concrete, silos, recycling, logistics, belt scales, geotechnical and green roofs — and the UCS monitoring system that fits it."
 pageKey: "industries"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/industries/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/industries-index.njk" %}

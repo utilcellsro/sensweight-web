@@ -18,7 +18,7 @@
   <div class="container">
     <div class="section-header">
       <div class="section-tagline">{{ p.features_title }}</div>
-      <h2>One gateway. Every sensor type.</h2>
+      <h2>{{ t.labels.ucsx3_features_sub }}</h2>
     </div>
     <div class="features-grid">
       {% for f in p.features %}
@@ -36,12 +36,12 @@
   <div class="container">
     <div class="section-header">
       <div class="section-tagline">{{ p.specs_title }}</div>
-      <h2>UCS X3 full specification</h2>
+      <h2>{{ t.labels.ucsx3_specs_title }}</h2>
     </div>
     <div class="specs-wrap">
       <table class="specs-table">
         <thead>
-          <tr><th>Parameter</th><th>Value</th></tr>
+          <tr><th>{{ t.labels.param }}</th><th>{{ t.labels.value }}</th></tr>
         </thead>
         <tbody>
           {% for s in p.specs %}
@@ -57,7 +57,7 @@
   <div class="container">
     <div class="section-header">
       <div class="section-tagline">{{ p.compat_title }}</div>
-      <h2>One device. Every sensing application.</h2>
+      <h2>{{ t.labels.ucsx3_usecases_sub }}</h2>
     </div>
     <div class="compat-chips">
       {% for c in p.compat %}
@@ -73,18 +73,18 @@
     <h2>See UCS X3 powering the M500 demo</h2>
     <p>The live SensWEIGHT demo runs on a UCS X3 gateway — 8 load cells, real-time cloud streaming.</p>
     <div class="product-cta-btns">
-      <a href="/demo/" class="btn btn-teal">Open Live Demo &rarr;</a>
-      <a href="/how-to-buy/#dealer-form" class="btn btn-ghost">Request a Quote</a>
+      <a href="{{ '/demo/' | localeUrl(lang) }}" class="btn btn-teal">Open Live Demo &rarr;</a>
+      <a href="{{ '/how-to-buy/#dealer-form' | localeUrl(lang) }}" class="btn btn-ghost">Request a Quote</a>
     </div>
   </div>
 </section>
 #}
 <section class="product-cta">
   <div class="container">
-    <h2>Ready to specify a UCS X3?</h2>
-    <p>Talk to our team about the right gateway configuration for your site.</p>
+    <h2>{{ t.labels.ucsx3_cta_heading }}</h2>
+    <p>{{ t.labels.ucsx3_cta_sub }}</p>
     <div class="product-cta-btns">
-      <a href="/how-to-buy/#dealer-form" class="btn btn-teal">Request a Quote</a>
+      <a href="{{ '/how-to-buy/#dealer-form' | localeUrl(lang) }}" class="btn btn-teal">Request a Quote</a>
     </div>
   </div>
 </section>

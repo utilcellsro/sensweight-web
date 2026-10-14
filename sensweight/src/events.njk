@@ -3,5 +3,12 @@ layout: base.njk
 title: "Events & Promotions | Unified Cloud Sensors"
 description: "Trade shows, webinars, promotions and product launches from Unified Cloud Sensors — where to meet the SensWEIGHT® team and what is new."
 pageKey: "events"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/events/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/events.njk" %}

@@ -4,5 +4,12 @@ title: "Logistics & Distribution | Unified Cloud Sensors"
 description: "Every truck, every axle, recorded automatically. SensWEIGHT® brings dynamic axle weighing, automatic tickets and overload alerts to logistics sites."
 pageKey: "industry"
 industryKey: "logistics"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/industries/logistics/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/industry.njk" %}

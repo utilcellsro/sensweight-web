@@ -4,5 +4,12 @@ title: "Recycling | Unified Cloud Sensors"
 description: "Know exactly what came in and what went out. SensWEIGHT® weighs, logs and verifies every load across your recycling site's weighbridges."
 pageKey: "industry"
 industryKey: "recycling"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/industries/recycling/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/industry.njk" %}

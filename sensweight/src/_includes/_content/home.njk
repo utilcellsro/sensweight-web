@@ -25,21 +25,21 @@
       </div>
     </div>
     <div class="hero-tiles">
-      <a href="/industries/" class="hero-tile">
+      <a href="{{ '/industries/' | localeUrl(lang) }}" class="hero-tile">
         <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
         <span class="hero-tile-text">
           <span class="hero-tile-title">{{ t.hero.tile1_title }}</span>
           <span class="hero-tile-sub">{{ t.hero.tile1_sub }}</span>
         </span>
       </a>
-      <a href="/solutions/" class="hero-tile">
+      <a href="{{ '/solutions/' | localeUrl(lang) }}" class="hero-tile">
         <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 15l3-4 3 2 4-6"/></svg></span>
         <span class="hero-tile-text">
           <span class="hero-tile-title">{{ t.hero.tile3_title }}</span>
           <span class="hero-tile-sub">{{ t.hero.tile3_sub }}</span>
         </span>
       </a>
-      <a href="/products/" class="hero-tile">
+      <a href="{{ '/products/' | localeUrl(lang) }}" class="hero-tile">
         <span class="hero-tile-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
         <span class="hero-tile-text">
           <span class="hero-tile-title">{{ t.hero.tile2_title }}</span>
@@ -88,7 +88,7 @@
         <div class="section-tagline">{{ t.products_section_title }}</div>
         <h2>{{ t.products_subtitle }}</h2>
       </div>
-      <a href="/solutions/" class="section-header-link">See all solutions &rarr;</a>
+      <a href="{{ '/solutions/' | localeUrl(lang) }}" class="section-header-link">{{ t.labels.see_all_solutions }}</a>
     </div>
     {% include "_content/solution-tiles.njk" %}
     </div>
@@ -101,9 +101,9 @@
     <div class="section-header section-header--split">
       <div class="section-header-text">
         <div class="section-tagline">{{ t.industries.index_tagline }}</div>
-        <h2>Find your industry</h2>
+        <h2>{{ t.industries.index_heading }}</h2>
       </div>
-      <a href="/industries/" class="section-header-link">All industries &rarr;</a>
+      <a href="{{ '/industries/' | localeUrl(lang) }}" class="section-header-link">{{ t.labels.all_industries }}</a>
     </div>
     {% include "_content/industry-tiles.njk" %}
   </div>
@@ -146,8 +146,8 @@
   <div class="container roi-teaser-inner">
     <p class="roi-teaser-heading">{{ t.roi.teaser_heading }}</p>
     <div class="roi-teaser-links">
-      <a href="/sensweight/#roi" class="roi-teaser-link">{{ t.products.sensweight.name }} &rarr;</a>
-      <a href="/senssilo/#roi" class="roi-teaser-link">{{ t.products.senssilo.name }} &rarr;</a>
+      <a href="{{ '/sensweight/#roi' | localeUrl(lang) }}" class="roi-teaser-link">{{ t.products.sensweight.name }} &rarr;</a>
+      <a href="{{ '/senssilo/#roi' | localeUrl(lang) }}" class="roi-teaser-link">{{ t.products.senssilo.name }} &rarr;</a>
     </div>
   </div>
 </section>
@@ -191,8 +191,8 @@
     <h2>{{ t.home_cta.heading }}</h2>
     <p>{{ t.home_cta.sub }}</p>
     <div class="product-cta-btns">
-      <a href="/how-to-buy/" class="btn btn-teal">{{ t.home_cta.cta_buy }}</a>
-      <a href="/products/" class="btn btn-ghost">{{ t.home_cta.cta_products }}</a>
+      <a href="{{ '/how-to-buy/' | localeUrl(lang) }}" class="btn btn-teal">{{ t.home_cta.cta_buy }}</a>
+      <a href="{{ '/products/' | localeUrl(lang) }}" class="btn btn-ghost">{{ t.home_cta.cta_products }}</a>
     </div>
   </div>
 </section>

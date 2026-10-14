@@ -4,5 +4,12 @@ title: "Geotechnical & Construction | Unified Cloud Sensors"
 description: "Catch settlement and structural movement before it becomes failure — a monitoring system engineered for your site, with live structural data in UCS Cloud."
 pageKey: "industry"
 industryKey: "geotechnical"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/industries/geotechnical/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/industry.njk" %}

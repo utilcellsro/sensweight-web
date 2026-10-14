@@ -3,5 +3,12 @@ layout: base.njk
 title: "About Us | Unified Cloud Sensors"
 description: "Unified Cloud Sensors, s.r.o. is a Czech IIoT company in Ostrovačice. We build remote monitoring for industrial weighing: sensors, hardware and cloud in one."
 pageKey: "about"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/about/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/about.njk" %}

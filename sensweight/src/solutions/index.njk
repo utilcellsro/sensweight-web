@@ -3,5 +3,12 @@ layout: base.njk
 title: "Solutions | Unified Cloud Sensors"
 description: "Three dashboard-based monitoring systems from UCS: SensWEIGHT® Bridge for weighbridges, SensSILO for silo inventory, and SensBELT for conveyor belt scales."
 pageKey: "solutions"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/solutions/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/solutions-index.njk" %}

@@ -105,6 +105,21 @@ h3, h4 { font-weight: 600; }
 .nav-links a.nav-cta { color: #fff; font-weight: 600; }
 .nav-links a.nav-cta:hover { color: var(--sky); }
 
+/* Language switcher — mono, uppercase, same register as the overline labels.
+   Sits inside .nav-links but opts out of its link styling. */
+.lang-switch { display: flex; align-items: center; gap: 2px; }
+.lang-switch-item {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+  padding: 3px 7px; border-radius: 3px; border-bottom: 0;
+}
+.nav-links a.lang-switch-item { color: var(--sub); border-bottom: 0; padding-bottom: 3px; }
+.nav-links a.lang-switch-item:hover { color: var(--navy); background: var(--sky); border-bottom-color: transparent; }
+.lang-switch-item.is-active { color: var(--navy); background: var(--blue-pale); font-weight: 600; }
+@media (max-width: 860px) {
+  .lang-switch { gap: 0; }
+  .lang-switch-item { padding: 3px 5px; }
+}
+
 /* ── Breadcrumb ────────────────────────────────────────────── */
 .breadcrumb { border-bottom: 1px solid var(--line); }
 .breadcrumb-inner {
@@ -674,7 +689,7 @@ h3, h4 { font-weight: 600; }
 }
 @media (max-width: 860px) {
   .container, .newsletter-inner { padding: 0 20px; }
-  .nav-links a:not(.nav-cta) { display: none; }
+  .nav-links a:not(.nav-cta):not(.lang-switch-item) { display: none; }
   .hero { padding-top: 120px; }
   .hero-tiles { grid-template-columns: 1fr; margin-top: 64px; padding-bottom: 64px; }
   .page-hero { padding: 80px 0 64px; }

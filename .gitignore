@@ -7,3 +7,6 @@ Thumbs.db
 # Service account / API keys — never commit
 references/*.json
 *.serviceaccount.json
+
+# Generated CS/PL pages for unifiedcloudsensors.com (scripts/build-i18n.js)
+unifiedcloudsensors/_i18n/

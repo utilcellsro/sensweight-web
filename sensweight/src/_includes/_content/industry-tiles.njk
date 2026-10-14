@@ -5,7 +5,7 @@
 <div class="industry-tiles">
   {% for key in ["quarries", "concrete", "silos", "recycling", "logistics", "beltscale", "geotechnical", "greenroofs"] %}
   {% set item = ind.items[key] %}
-  <a class="industry-tile" href="/industries/{{ key }}/">
+  <a class="industry-tile" href="{{ ('/industries/' + key + '/') | localeUrl(lang) }}">
     <div class="industry-tile-bg"><img src="/assets/images/industries/{{ key }}.jpg" alt="" loading="lazy"></div>
     <div class="industry-tile-scrim"></div>
     <span class="industry-tile-num">{{ "0" + loop.index if loop.index < 10 else loop.index }}</span>

@@ -4,5 +4,12 @@ title: "Silos & Storage | Unified Cloud Sensors"
 description: "Replace manual silo dips with real-time inventory. SensSILO reports live tonnage plus low-stock and fill alerts for silos, hoppers and tanks."
 pageKey: "industry"
 industryKey: "silos"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/industries/silos/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/industry.njk" %}

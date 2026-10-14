@@ -3,5 +3,12 @@ layout: base.njk
 title: "How to Buy | Unified Cloud Sensors"
 description: "How to buy a UCS monitoring system in three steps: tell us about your site, get an engineered proposal, go live. Sold through dealers and sales engineers."
 pageKey: "how-to-buy"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/how-to-buy/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/how-to-buy.njk" %}

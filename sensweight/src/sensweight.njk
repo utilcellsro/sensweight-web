@@ -6,5 +6,12 @@ productName: "SensWEIGHT® Bridge"
 productImage: "/assets/images/sensweight.jpg"
 productCategory: "Weighbridge monitoring system"
 pageKey: "sensweight"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/sensweight/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/sensweight.njk" %}

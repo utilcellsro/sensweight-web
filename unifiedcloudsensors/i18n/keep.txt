@@ -1,0 +1,21 @@
+# Strings that stay in English in every language, listed here so coverage
+# reports as complete and nobody "fixes" them later. One per line.
+#
+# Brand and product names
+UCS
+Unified Cloud Sensors
+Unified Cloud Sensors, s.r.o.
+SensWEIGHT Bridge
+SensSILO
+SensBELT
+# Identifiers
+EP 4 524 526
+IČ 23272686
+info@unifiedcloudsensors.com
+# People, and job titles that are spelled the same in Czech and Polish
+Jorge Truffin
+Nikola Avramovic
+Evgeny Chetvergov
+CEO
+COO
+CTO

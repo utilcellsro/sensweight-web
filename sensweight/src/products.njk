@@ -3,5 +3,12 @@ layout: base.njk
 title: "Products | Unified Cloud Sensors"
 description: "The physical components behind every UCS system: load cells and sensors, indicators, junction boxes, IIoT edge gateways, accessories and the UCS Cloud platform."
 pageKey: "products"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/products/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/products.njk" %}
