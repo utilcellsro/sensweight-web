@@ -24,13 +24,26 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      # The Czech and Polish pages are generated from index_v6.html rather than
+      # maintained by hand, so the English source stays an ordinary HTML file a
+      # colleague can open straight in a browser. This writes
+      # unifiedcloudsensors/_i18n/{index,cs/index,pl/index}.html — including the
+      # English one, which is the source plus its hreflang tags and the language
+      # switcher. Fails the deploy if a translation file is missing or the
+      # header markup moved, rather than quietly shipping English everywhere.
+      - name: Build the language versions
+        run: node ${{ env.APP_DIR }}/scripts/build-i18n.js
+
       # This is a single static page, not an Eleventy build — stage only the
-      # real site files into a clean directory (index_v6.html becomes the
-      # real index.html; dev-only docs/assets scratch folder stay out).
+      # real site files into a clean directory (the generated index.html is the
+      # real homepage; dev-only docs and the assets scratch folder stay out).
       - name: Stage site files
         run: |
           mkdir -p _deploy
-          cp ${{ env.APP_DIR }}/index_v6.html _deploy/index.html
+          cp ${{ env.APP_DIR }}/_i18n/index.html _deploy/index.html
+          mkdir -p _deploy/cs _deploy/pl
+          cp ${{ env.APP_DIR }}/_i18n/cs/index.html _deploy/cs/index.html
+          cp ${{ env.APP_DIR }}/_i18n/pl/index.html _deploy/pl/index.html
           for f in ${{ env.APP_DIR }}/*.html; do
             base="$(basename "$f")"
             # index_v6.html is already staged as index.html above; index.html
