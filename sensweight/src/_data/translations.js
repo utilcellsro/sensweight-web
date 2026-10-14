@@ -515,7 +515,7 @@ const en = {
       { label: "Certifications", value: "CE, RoHS, FCC, carrier certified (AT&T / Verizon)" },
     ],
     compat_title: "Compatible With All SensXXX Lines",
-    compat: ["SensWEIGHT®", "SensSILO", "SensGEO", "SensATMO", "SensGREEN"],
+    compat: ["SensWEIGHT®", "SensSILO", "SensBELT"],
   },
   demo_hub: {
     tagline: "Live Demo",
