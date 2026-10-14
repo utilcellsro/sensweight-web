@@ -260,11 +260,6 @@ const en = {
     senssilo:   { name: "SensSILO",   desc: "Continuous silo and container level monitoring with fill and low-stock alerts.", badge: "LEVEL" },
     ucsx3:      { name: "UCS X3", desc: "Industrial IoT gateway — 4G, Ethernet, Wi-Fi 6, edge AI.", badge: "HARDWARE" },
   },
-  demo_cta: {
-    title: "See Real Sensor Data",
-    body: "Live sensor data from all five product lines. No login required.",
-    btn: "Open Live Demo",
-  },
   roi: {
     section_title: "Return on Investment",
     section_heading: "How much will UCS save in your facility?",
