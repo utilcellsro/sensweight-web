@@ -33,7 +33,7 @@
       {% for key in item.solutions %}
       {% if key == "custom" %}
       {% set c = t.custom_solution %}
-      <a class="sol-card" href="/how-to-buy/">
+      <a class="sol-card" href="{{ '/how-to-buy/' | localeUrl(lang) }}">
         <div class="sol-icon">+</div>
         <h3>{{ c.title }}</h3>
         <p>{{ c.desc_industry }}</p>
@@ -44,7 +44,7 @@
       </a>
       {% else %}
       {% set p = t.products[key] %}
-      <a class="sol-card" href="/{{ key }}/">
+      <a class="sol-card" href="{{ ('/' + key + '/') | localeUrl(lang) }}">
         <div class="sol-icon" style="background:{{ iconColors[key] }}">{{ icons[key] }}</div>
         <h3>{{ p.name }}</h3>
         <p>{{ p.desc }}</p>
@@ -75,15 +75,15 @@
       {% endfor %}
     </div>
     <div class="product-cta-btns">
-      <a href="/how-to-buy/#dealer-form" class="btn btn-teal">Start a pilot</a>
-      <a href="/products/" class="btn btn-ghost">{{ ind.cta_products }}</a>
+      <a href="{{ '/how-to-buy/#dealer-form' | localeUrl(lang) }}" class="btn btn-teal">Start a pilot</a>
+      <a href="{{ '/products/' | localeUrl(lang) }}" class="btn btn-ghost">{{ ind.cta_products }}</a>
     </div>
     {% else %}
     <h2>Ready to talk about {{ item.name }}?</h2>
     <p>Get a tailored quote, or see the recommended hardware for this application.</p>
     <div class="product-cta-btns">
-      <a href="/how-to-buy/" class="btn btn-teal">{{ ind.cta_buy }}</a>
-      <a href="/products/" class="btn btn-ghost">{{ ind.cta_products }}</a>
+      <a href="{{ '/how-to-buy/' | localeUrl(lang) }}" class="btn btn-teal">{{ ind.cta_buy }}</a>
+      <a href="{{ '/products/' | localeUrl(lang) }}" class="btn btn-ghost">{{ ind.cta_products }}</a>
     </div>
     {% endif %}
   </div>

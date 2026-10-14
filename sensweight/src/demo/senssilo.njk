@@ -5,5 +5,12 @@ description: "Live SensSILO reference dashboard — real level and tonnage data 
 noindexed: true
 pageKey: "demo"
 demoKey: "senssilo"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/demo/senssilo/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/demo-product.njk" %}

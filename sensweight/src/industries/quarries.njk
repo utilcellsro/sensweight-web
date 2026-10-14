@@ -4,5 +4,12 @@ title: "Quarries & Gravel Pits | Unified Cloud Sensors"
 description: "Weigh every load leaving the pit. SensWEIGHT® monitors quarry weighbridges continuously, catching drift and weighing errors before they cost you tonnes."
 pageKey: "industry"
 industryKey: "quarries"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/industries/quarries/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/industry.njk" %}

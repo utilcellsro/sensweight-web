@@ -8,6 +8,20 @@ module.exports = function (eleventyConfig) {
   // JSON string literal (quotes included) for values dropped into JSON-LD —
   // without it Nunjucks HTML-escapes them and "&" ships as "&amp;"
   eleventyConfig.addFilter("jsonstr", (v) => JSON.stringify(String(v)));
+
+  // Site-root-relative path -> the same path in `lang`. English is served at
+  // the root (unprefixed), every other language under /<lang>/. Use it for
+  // every internal page link; asset paths (/assets/..., /favicon.ico) are the
+  // same file for all languages and must NOT be passed through it.
+  //
+  // Fragments survive: "/sensweight/#roi" in cs -> "/cs/sensweight/#roi".
+  eleventyConfig.addFilter("localeUrl", (path, lang) => {
+    const p = String(path || "/");
+    if (!lang || lang === "en") return p;
+    if (!p.startsWith("/")) return p;
+    return "/" + lang + p;
+  });
+
   return {
     dir: {
       input: "src",

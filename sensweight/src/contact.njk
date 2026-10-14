@@ -3,5 +3,12 @@ layout: base.njk
 title: "Contacts | Unified Cloud Sensors"
 description: "Contact Unified Cloud Sensors for a quote, a system engineered for your site, or to apply as an authorized dealer. Based in Ostrovačice, Czech Republic."
 pageKey: "contact"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/contact/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/contact.njk" %}

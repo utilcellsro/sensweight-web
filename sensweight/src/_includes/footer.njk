@@ -8,27 +8,27 @@
           <span class="footer-company">{{ t.footer.company }}</span>
         </div>
         <p>{{ t.footer.address }}</p>
-        {% for d in t.contact_page.details %}{% if d.label == "Phone" %}
+        {% for d in t.contact_page.details %}{% if d.key == "phone" %}
         <a href="tel:{{ d.value | replace(' ', '') }}">{{ d.value }}</a>
-        {% elif d.label == "Email" %}
+        {% elif d.key == "email" %}
         <a href="mailto:{{ d.value }}">{{ d.value }}</a>
         {% endif %}{% endfor %}
       </div>
       <nav class="footer-col">
-        <span class="footer-col-title">Explore</span>
-        <a href="/industries/">{{ t.nav.industries }}</a>
-        <a href="/solutions/">{{ t.nav.solutions }}</a>
-        <a href="/products/">{{ t.nav.products }}</a>
-        {# Live Demo temporarily hidden — uncomment to restore: <a href="/demo/">{{ t.nav.demo }}</a> #}
+        <span class="footer-col-title">{{ t.ui.explore }}</span>
+        <a href="{{ '/industries/' | localeUrl(lang) }}">{{ t.nav.industries }}</a>
+        <a href="{{ '/solutions/' | localeUrl(lang) }}">{{ t.nav.solutions }}</a>
+        <a href="{{ '/products/' | localeUrl(lang) }}">{{ t.nav.products }}</a>
+        {# Live Demo temporarily hidden — uncomment to restore: <a href="{{ '/demo/' | localeUrl(lang) }}">{{ t.nav.demo }}</a> #}
       </nav>
       <nav class="footer-col">
-        <span class="footer-col-title">Company</span>
-        <a href="/about/">{{ t.nav.about }}</a>
-        <a href="/events/">{{ t.nav.news }}</a>
-        <a href="/how-to-buy/">How to Buy</a>
-        <a href="/contact/">{{ t.nav.contact }}</a>
+        <span class="footer-col-title">{{ t.ui.company }}</span>
+        <a href="{{ '/about/' | localeUrl(lang) }}">{{ t.nav.about }}</a>
+        <a href="{{ '/events/' | localeUrl(lang) }}">{{ t.nav.news }}</a>
+        <a href="{{ '/how-to-buy/' | localeUrl(lang) }}">{{ t.ui.how_to_buy }}</a>
+        <a href="{{ '/contact/' | localeUrl(lang) }}">{{ t.nav.contact }}</a>
         <a href="https://www.unifiedcloudsensors.com/" target="_blank" rel="noopener">unifiedcloudsensors.com</a>
-        <a href="/privacy/">Privacy Policy</a>
+        <a href="{{ '/privacy/' | localeUrl(lang) }}">{{ t.ui.privacy }}</a>
       </nav>
     </div>
     <div class="footer-bottom">

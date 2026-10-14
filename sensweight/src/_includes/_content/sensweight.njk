@@ -82,8 +82,8 @@
       {% endfor %}
     </div>
     <div class="product-cta-btns">
-      <a href="/how-to-buy/#dealer-form" class="btn btn-teal">Start a pilot</a>
-      {# Live Demo temporarily hidden — uncomment to restore: <a href="/demo/sensweight/" class="btn btn-ghost">{{ p.cta_demo }}</a> #}
+      <a href="{{ '/how-to-buy/#dealer-form' | localeUrl(lang) }}" class="btn btn-teal">Start a pilot</a>
+      {# Live Demo temporarily hidden — uncomment to restore: <a href="{{ '/demo/sensweight/' | localeUrl(lang) }}" class="btn btn-ghost">{{ p.cta_demo }}</a> #}
     </div>
   </div>
 </section>

@@ -3,5 +3,12 @@ layout: base.njk
 title: "Privacy Policy | Unified Cloud Sensors"
 description: "What personal data Unified Cloud Sensors collects through sensweight.com's dealer request form, how it is handled, who processes it, and your rights under the GDPR."
 pageKey: "privacy"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/privacy/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/privacy.njk" %}

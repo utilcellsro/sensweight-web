@@ -1,14 +1,25 @@
 {% set t = translations[lang] %}
 <nav class="nav">
   <div class="container nav-inner">
-    <a class="nav-logo" href="/">
+    <a class="nav-logo" href="{{ '/' | localeUrl(lang) }}">
       <img class="nav-logo-img" src="/assets/images/ucs-mark-white.png" alt="UCS">
       <span class="nav-logo-text">Unified Cloud Sensors</span>
     </a>
     <div class="nav-links">
-      <a href="/about/">{{ t.nav.about }}</a>
-      <a href="/events/">{{ t.nav.news }}</a>
-      <a href="/contact/" class="nav-cta">{{ t.nav.contact }}</a>
+      <a href="{{ '/about/' | localeUrl(lang) }}">{{ t.nav.about }}</a>
+      <a href="{{ '/events/' | localeUrl(lang) }}">{{ t.nav.news }}</a>
+      <a href="{{ '/contact/' | localeUrl(lang) }}" class="nav-cta">{{ t.nav.contact }}</a>
+      {# Language switcher — same page in each language, built from this page's
+         own `route`, so it never links to a page that doesn't exist. #}
+      <span class="lang-switch" role="group" aria-label="{{ t.ui.language }}">
+        {%- for l in langs %}
+        {%- if l == lang %}
+        <span class="lang-switch-item is-active" aria-current="true">{{ l | upper }}</span>
+        {%- else %}
+        <a class="lang-switch-item" href="{{ route | localeUrl(l) }}" lang="{{ l }}" hreflang="{{ l }}">{{ l | upper }}</a>
+        {%- endif %}
+        {%- endfor %}
+      </span>
     </div>
   </div>
 </nav>

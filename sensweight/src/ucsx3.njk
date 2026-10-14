@@ -5,5 +5,12 @@ description: "The UCS X3 industrial IoT gateway: quad connectivity, 8 sensor inp
 productName: "UCS X3"
 productCategory: "Industrial IoT edge gateway"
 pageKey: "ucsx3"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/ucsx3/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/ucsx3.njk" %}

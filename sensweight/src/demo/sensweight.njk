@@ -5,5 +5,12 @@ description: "Live SensWEIGHT® reference dashboard — real load-cell data from
 noindexed: true
 pageKey: "demo"
 demoKey: "sensweight"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/demo/sensweight/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/demo-product.njk" %}

@@ -30,7 +30,7 @@
     <h2>{{ h.cta_heading }}</h2>
     <p>{{ h.cta_sub }}</p>
     <div class="product-cta-btns">
-      <a href="/how-to-buy/" class="btn btn-teal">{{ h.cta_buy }}</a>
+      <a href="{{ '/how-to-buy/' | localeUrl(lang) }}" class="btn btn-teal">{{ h.cta_buy }}</a>
     </div>
   </div>
 </section>

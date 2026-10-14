@@ -7,5 +7,12 @@ productImage: "/assets/images/senssilo.jpg"
 productCategory: "Silo level and inventory monitoring system"
 pageKey: "senssilo"
 productKey: "senssilo"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/senssilo/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/product.njk" %}

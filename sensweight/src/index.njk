@@ -3,5 +3,12 @@ layout: base.njk
 title: "Unified Cloud Sensors — Industrial IoT Monitoring"
 description: "Remote weighing monitoring from Unified Cloud Sensors. Patented load-cell diagnostics (EP 4 524 526) catch drift, errors and theft before they cost you."
 pageKey: "home"
+pagination:
+  data: langs
+  size: 1
+  alias: lang
+  addAllPagesToCollections: true
+route: "/"
+permalink: "{{ route | localeUrl(lang) }}"
 ---
 {% include "_content/home.njk" %}
