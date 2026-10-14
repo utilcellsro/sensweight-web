@@ -26,9 +26,10 @@ ucs_web/
 │   │   │   ├── js/home.js      ← ROI calculator + video lazy loader
 │   │   │   ├── js/demo.js + demo-configs.js ← shared live-demo engine (radar chart/table/summary)
 │   │   │   └── images/ucs-logo.png
-│   │   ├── index.njk, sensweight.njk, senssilo.njk, sensgeo.njk, sensatmo.njk, sensgreen.njk, ucsx3.njk, hardware.njk, how-to-buy.njk, request-a-dealer.njk, events.njk ← page entry points, flat (no /en/ prefix)
-│   │   ├── solutions/           ← 8 industry pages (quarries, concrete, silos, recycling, logistics, beltscale, geotechnical, greenroofs)
-│   │   └── demo/                ← demo hub + 5 per-product live demo pages
+│   │   ├── index.njk, sensweight.njk, senssilo.njk, ucsx3.njk, products.njk, how-to-buy.njk, about.njk, contact.njk, events.njk, privacy.njk ← page entry points (English at the root, /cs/ and /pl/ generated from the same files)
+│   │   ├── industries/           ← index + 8 industry pages (quarries, concrete, silos, recycling, logistics, beltscale, geotechnical, greenroofs)
+│   │   ├── solutions/            ← the Solutions index
+│   │   └── demo/                 ← demo hub + the SensWEIGHT and SensSILO live demos (links hidden sitewide)
 │   ├── _site/                  ← BUILD OUTPUT — do not edit, auto-generated
 │   ├── eleventy.config.js
 │   └── package.json
