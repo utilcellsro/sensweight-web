@@ -1,4 +1,7 @@
-/* Click-to-play YouTube: shows the thumbnail, swaps in the iframe only on click (no YouTube load until then). */
+/* Click-to-play YouTube: shows a locally served poster, swaps in the iframe only on click.
+   Nothing reaches a third party until the visitor presses play - the posters used to come
+   from img.youtube.com on page load, which sent every visitor's IP to Google. Regenerate
+   them with scripts/vendor-video-thumbs.js after changing a video id. */
 (function () {
   if (window.__ucsVideos) return;
   window.__ucsVideos = true;
@@ -10,13 +13,9 @@
 
       var thumb = wrap.querySelector('.vid-thumb');
       if (thumb) {
-        // maxresdefault doesn't exist for every video — YouTube then serves a 120px grey stub, so fall back to hqdefault
-        var img = new Image();
-        img.onload = function () {
-          var q = img.naturalWidth > 120 ? 'maxresdefault' : 'hqdefault';
-          thumb.style.backgroundImage = 'url(https://img.youtube.com/vi/' + id + '/' + q + '.jpg)';
-        };
-        img.src = 'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg';
+        // Served from this origin. The maxres/hqdefault choice is made once, when
+        // the poster is downloaded, so there is no probe request here any more.
+        thumb.style.backgroundImage = "url('/assets/images/video-thumbs/" + id + ".jpg')";
       }
 
       function play() {
