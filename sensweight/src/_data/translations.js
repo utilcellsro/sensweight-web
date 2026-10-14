@@ -681,7 +681,7 @@ const en = {
     tagline: "About Us",
     heading: "Industrial IoT for weighing, built in Ostrovačice",
     sub: "Unified Cloud Sensors, s.r.o. designs and deploys remote monitoring systems for industrial weighing — sensors, edge hardware, and cloud software delivered as one system.",
-    body: "We build the full stack behind SensWEIGHT®, SensSILO, SensGEO, SensATMO, and SensGREEN — from load cells and edge gateways through installation to the cloud dashboards that run on top of them. Our patented diagnostic methodology (EP 4 524 526) is TRL 9 — commercially ready — with pilot and commercial installations already live.",
+    body: "We build the full stack behind SensWEIGHT® Bridge, SensSILO, and SensBELT — from load cells and edge gateways through installation to the cloud dashboards that run on top of them. Our patented diagnostic methodology (EP 4 524 526) is TRL 9 — commercially ready — with pilot and commercial installations already live.",
     facts: [
       { label: "Headquarters", value: "Ostrovačice, Czech Republic" },
       { label: "Patent", value: "EP 4 524 526 — granted European patent" },

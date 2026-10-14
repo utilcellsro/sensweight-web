@@ -66,6 +66,21 @@ const loaded = Object.fromEntries(
   langs.map((l) => [l, JSON.parse(fs.readFileSync(path.join(ROOT, "i18n", `${l}.json`), "utf8"))])
 );
 
+// The English each translation was written from, recorded by i18n-merge.js.
+// Keys here are dot-paths, so a reworded English string leaves its old
+// translation in place and still counts as covered — comparing against the
+// lock is the only way to catch that drift.
+const locks = Object.fromEntries(
+  langs.map((l) => {
+    const f = path.join(ROOT, "i18n", `${l}.lock.json`);
+    return [l, fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) : {}];
+  })
+);
+const drifted = (l) =>
+  Object.keys(loaded[l]).filter(
+    (k) => k in flat && k in locks[l] && locks[l][k] !== flat[k]
+  );
+
 // Page metadata is not part of `en`: English titles/descriptions live in each
 // page template's front matter, so coverage is measured against the routes the
 // build actually produces.
@@ -90,11 +105,14 @@ if (!wanted) {
     const have = Object.keys(loaded[l]);
     const done = active.filter((k) => k in loaded[l]).length;
     const stale = have.filter((k) => !(k in flat) && !isMeta(k));
+    const drift = drifted(l);
     console.log(
       `${l.toUpperCase()}  ${done}/${active.length} active (${pct(done, active.length)}%)` +
         `   ${live.filter((k) => k in loaded[l]).length}/${live.length} of all live copy` +
-        (stale.length ? `   !! ${stale.length} key(s) not in English` : "")
+        (stale.length ? `   !! ${stale.length} key(s) not in English` : "") +
+        (drift.length ? `   !! ${drift.length} translated from English that has since changed` : "")
     );
+    drift.forEach((k) => console.log(`       stale: ${k}`));
   }
   console.log("\nPage metadata (title + description per route, English in front matter):");
   for (const l of langs) {
@@ -131,6 +149,20 @@ if (stale.length) {
   console.log(`!! ${stale.length} key(s) in i18n/${wanted}.json have no English counterpart:`);
   stale.forEach((k) => console.log(`   ${k}`));
   console.log("");
+}
+const drift = drifted(wanted);
+if (drift.length) {
+  console.log(
+    `!! ${drift.length} key(s) were translated from English that has since changed —\n` +
+      `   the translation is still in place and still counts as covered, but it\n` +
+      `   now describes the old wording. Retranslate these:\n`
+  );
+  for (const k of drift) {
+    console.log(`   ${k}`);
+    console.log(`     was: ${locks[wanted][k]}`);
+    console.log(`     now: ${flat[k]}`);
+    console.log(`      ${wanted}: ${loaded[wanted][k]}\n`);
+  }
 }
 console.log(`${missing.length} active key(s) missing in ${wanted.toUpperCase()}:\n`);
 let last = null;
