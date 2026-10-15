@@ -99,6 +99,17 @@
           { "@type": "ListItem", "position": 2, "name": {{ pageName | jsonstr | safe }}, "item": "{{ site.url }}{{ page.url }}" }{% endif %}
         ]
       },
+      {#- Product schema is deliberately held (2026-10-15). Google reports a
+          critical "Either offers, review, or aggregateRating should be
+          specified" issue for every Product node, and this site can honestly
+          supply none of the three: nothing here is priced (the dealer form
+          asks for a quote), and there are no published reviews or ratings.
+          An incomplete Product node earns the error and no rich result either
+          way, so the markup is held rather than faked with a 0 price or an
+          invented rating. Uncomment and add "offers" (or "aggregateRating")
+          in the same change once real pricing exists -- see Phase 4's SKU
+          catalogue -- or once there are genuine reviews. `productName` is
+          still used above, for the breadcrumb's leaf name.
       {% if productName %}
       {
         "@type": "Product",
@@ -112,6 +123,7 @@
         "manufacturer": { "@id": "{{ site.url }}/#organization" }
       },
       {% endif %}
+      -#}
       {
         "@type": "WebPage",
         "@id": "{{ site.url }}{{ page.url }}#webpage",
