@@ -8,8 +8,49 @@
   </div>
 </section>
 
+{# Opener explaining the routing layer itself, kept high on the page. This is
+   what makes /industries/ more than a copy of the homepage's tile section --
+   see the 2026-10-15 duplicate-canonical fix. It deliberately says the depth
+   lives on the solution pages rather than restating any of it here, per the
+   2026-07-17 thin-routing-layer decision. #}
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ ind.intro_heading }}</h2>
+      <p class="section-sub">{{ ind.intro_body }}</p>
+    </div>
+  </div>
+</section>
+
 <section class="section section-alt">
   <div class="container">
     {% include "_content/industry-tiles.njk" %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ ind.common_title }}</h2>
+    </div>
+    <div class="features-grid">
+      {% for c in ind.common %}
+      <div class="feature-card">
+        <span class="feature-icon">{{ "0" + loop.index if loop.index < 10 else loop.index }}</span>
+        <h3>{{ c.title }}</h3>
+        <p>{{ c.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ ind.missing_title }}</h2>
+      <p class="section-sub">{{ ind.missing_body }}</p>
+    </div>
+    <a href="{{ '/how-to-buy/' | localeUrl(lang) }}" class="btn btn-primary">{{ ind.cta_buy }}</a>
   </div>
 </section>

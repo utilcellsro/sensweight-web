@@ -8,8 +8,48 @@
   </div>
 </section>
 
+{# Definitional opener, kept high on the page: this is the paragraph an answer
+   engine lifts, and it is what makes /solutions/ more than a copy of the
+   homepage's tile section. See the 2026-10-15 duplicate-canonical fix. #}
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ s.intro_heading }}</h2>
+      <p class="section-sub">{{ s.intro_body }}</p>
+    </div>
+  </div>
+</section>
+
 <section class="section section-alt">
   <div class="container">
     {% include "_content/solution-tiles.njk" %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ s.choose_title }}</h2>
+      <p class="section-sub">{{ s.choose_sub }}</p>
+    </div>
+    <div class="features-grid">
+      {% for c in s.choose %}
+      <div class="feature-card">
+        <span class="feature-icon">{{ c.kicker }}</span>
+        <h3>{{ c.name }}</h3>
+        <p>{{ c.when }}</p>
+        <p>{{ c.what }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>{{ s.shared_title }}</h2>
+      <p class="section-sub">{{ s.shared_body }}</p>
+    </div>
   </div>
 </section>
