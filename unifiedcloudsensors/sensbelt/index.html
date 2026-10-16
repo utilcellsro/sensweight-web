@@ -3,448 +3,434 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#476db8">
+  <meta name="theme-color" content="#1d2c49">
   <title>SensBELT — Stop Paying for Air on Your Conveyor</title>
   <meta name="description" content="SensBELT by Unified Cloud Sensors — empty-belt detection and continuous belt-scale calibration checks.">
   <link rel="icon" href="ucs-logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{--blue:#476db8;--blue-dark:#2f4d89;--ink:#2f2f2e;--muted:#6f6f6e;--subtle:#9a9a99;--line:#ececeb;--paper:#f7f7f6;--sky:#7ed3f0;--ok:#3f8f6b;--danger:#bf4b41;--warn:#c98a2e;--shadow:0 24px 80px rgba(47,47,46,.12);--r:6px;--navy:#1d2c49;--ease:cubic-bezier(.2,0,0,1)}
+    /* Dark literal-DNA style, same chassis as the SensWEIGHT Bridge deck.
+       Rebuilt 2026-10-16 on the Bridge's layout after the printed review
+       ("odlišný styl prezentace než u zbylých 2 => nekonzistentní"). */
+    :root{--blue:#476db8;--sky:#7ed3f0;--navy:#1d2c49;--canvas:#12192b;--ink:#ffffff;--text:#dce5f4;--grey:#7ea4d8;--paper:rgba(220,229,244,.05);--surface:rgba(220,229,244,.05);--line:rgba(220,229,244,.14);--ok:#3f8f6b;--danger:#bf4b41;--warn:#c98a2e;--r:6px;--ease:cubic-bezier(.2,0,0,1);--shadow:0 30px 90px rgba(0,0,0,.45)}
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;height:100%;overflow-x:hidden;background:#fff;color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased}
-    button{font:inherit}
-    .language-bar{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:10px;z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-    .lang-btn{background:var(--paper);border:1px solid var(--line);color:var(--ink);padding:6px 14px;border-radius:var(--r);cursor:pointer;font-weight:600;font-size:.82rem;font-family:'IBM Plex Sans',sans-serif;transition:all 120ms var(--ease)}
-    .lang-btn:hover,.lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    html,body{width:100%;height:100%;overflow-x:hidden;background:var(--canvas);color:var(--text);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased}
+    button{font:inherit;cursor:pointer}
+    a{color:var(--sky);text-decoration:none}
+    .language-bar{position:fixed;top:0;left:0;right:0;background:rgba(12,13,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(220,229,244,.08);display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:10px;z-index:1000}
+    .lang-btn{background:transparent;border:1px solid var(--line);color:var(--text);padding:6px 14px;border-radius:var(--r);font-weight:600;font-size:.82rem;font-family:'IBM Plex Sans',sans-serif;transition:all 200ms var(--ease)}
+    .lang-btn:hover{border-color:var(--sky);color:var(--sky)}
+    .lang-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
     .deck{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:70px 18px 20px}
-    .stage{position:relative;aspect-ratio:16/9;width:min(calc(100vw - 36px),calc((100vh - 100px)*16/9));overflow:hidden;background:#fff;box-shadow:var(--shadow);border-radius:var(--r);border:1px solid var(--line)}
-    .slide{position:absolute;inset:0;display:grid;opacity:0;visibility:hidden;transform:translateX(2%);transition:opacity 320ms var(--ease),transform 320ms var(--ease);overflow:hidden;background:#fff}
+    .stage{position:relative;aspect-ratio:16/9;width:min(calc(100vw - 36px),calc((100vh - 100px)*16/9));overflow:hidden;background:var(--navy);box-shadow:var(--shadow);border-radius:var(--r);border:1px solid rgba(220,229,244,.08)}
+    /* Fixed 1600x900 design canvas, scaled to fit the stage — same as the Bridge deck */
+    .canvas{position:absolute;top:0;left:0;width:1600px;height:900px;transform-origin:0 0;transform:scale(var(--k,1))}
+    @media (max-width: 860px){.canvas{position:absolute;inset:0;width:auto;height:auto;transform:none}}
+    .slide{position:absolute;inset:0;display:grid;opacity:0;visibility:hidden;transform:translateX(2.5%);transition:opacity 320ms var(--ease),transform 320ms var(--ease);overflow:hidden;background:var(--navy)}
     .slide.active{opacity:1;visibility:visible;transform:none;z-index:2}
-    .slide.prev{transform:translateX(-2%)}
-    .topline{position:absolute;left:0;right:0;top:0;height:3px;display:flex;gap:0}
-    .topline span:nth-child(1){flex:1;background:var(--blue)}
-    .topline span:nth-child(2){flex:1;background:var(--blue-dark)}
-    .topline span:nth-child(3){flex:1;background:var(--navy)}
-    .brand{display:flex;align-items:center;gap:14px}
-    .brand img{height:48px;width:auto;display:block;object-fit:contain}
-    .brand strong{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:20px;color:var(--ink)}
-    .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
-    h1,h2,h3{font-family:'Chakra Petch',sans-serif}
-    h1{font-size:38px;line-height:1.08;letter-spacing:-.01em;color:var(--ink)}
-    h2{font-size:32px;line-height:1.1;color:var(--ink)}
-    h3{font-size:18px;line-height:1.2;color:var(--ink)}
-    p{font-size:15px;line-height:1.5;color:var(--muted)}
-    .header{height:100px;padding:28px 48px 14px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line)}
-    .header .title-wrap{display:grid;gap:5px}
-    .header .brand img{height:36px}
-    .body{position:relative;padding:28px 48px 48px;height:calc(100% - 100px)}
-    .cover{grid-template-columns:50% 50%}
-    .cover .photo{position:relative;height:100%;overflow:hidden;background:var(--paper)}
-    .cover .photo img{width:100%;height:100%;object-fit:cover;display:block}
-        .cover .copy{position:relative;padding:44px 44px 44px 40px;display:flex;flex-direction:column;justify-content:center;background:#fff}
-    .cover .copy::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--blue)}
-    .cover h1{margin:18px 0 14px}
-    .patent{display:inline-flex;align-self:flex-start;margin-top:20px;padding:10px 18px;border-radius:var(--r);background:var(--navy);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.1em;font-size:12px}
-    .cover .brand{position:absolute;top:28px;left:40px}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;height:100%;align-items:center}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;height:100%;align-items:center}
-    .img-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
-    .img-card img{width:100%;height:100%;object-fit:contain;border-radius:4px}
-    .cap{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;text-align:center;line-height:1.35}
-    .step-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;align-items:center;text-align:center;height:100%}
-    .step-num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:500;color:var(--sky);margin-bottom:4px}
-    .motive-box{background:var(--paper);border-left:4px solid var(--blue);padding:12px 16px;margin-top:14px;border-radius:0 var(--r) var(--r) 0}
-    .motive-box p{color:var(--ink);font-weight:600;font-size:13px;line-height:1.4}
-    .alert-card{background:var(--paper);border-left:5px solid var(--danger);padding:12px 16px;border-radius:var(--r);color:var(--danger);font-weight:600;margin-bottom:14px;font-size:13px;line-height:1.45}
-    .warn-card{background:var(--paper);border-left:5px solid var(--warn);padding:12px 16px;border-radius:var(--r);color:var(--ink);font-weight:600;margin-bottom:14px;font-size:13px;line-height:1.45}
-    .roi-grid{display:grid;grid-template-columns:42% 58%;gap:18px;align-items:center;height:calc(100% - 70px)}
-    .roi-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;height:100%;display:flex;flex-direction:column;justify-content:center}
-    .roi-big{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:500;color:var(--sky);margin:8px 0}
-    .roi-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--subtle);text-transform:uppercase;letter-spacing:.08em}
-    .adoption-banner{background:var(--navy);color:#fff;border-radius:var(--r);padding:28px 36px;text-align:center;margin-bottom:18px}
-    .adoption-banner h2{color:#fff;font-size:28px;margin-bottom:6px}
-    .adoption-banner p{color:var(--sky);font-size:17px;font-weight:600;font-family:'IBM Plex Mono',monospace}
-    .reasons-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .reason-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px 14px}
-    .reason-card h3{font-size:16px;margin-bottom:6px}
-    .reason-card p{font-size:13px}
-    .story-grid{display:grid;grid-template-columns:55% 45%;gap:24px;height:100%;align-items:center}
-    .story-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px;height:100%;display:flex;flex-direction:column;justify-content:center}
-    .story-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
-    .story-stat{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap}
-    .story-stat div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;flex:1;min-width:90px}
-    .story-stat .num{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;color:var(--blue)}
-    .story-stat .lbl{font-size:11px;color:var(--muted);margin-top:2px}
-    .controls{position:fixed;z-index:20;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px 9px;background:rgba(47,47,46,.82);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:#fff}
-    .controls button{width:34px;height:34px;border:0;border-radius:var(--r);background:transparent;color:#fff;cursor:pointer;font-size:18px;display:grid;place-items:center}
-    .controls button:hover{background:rgba(71,109,184,.3)}
-    .dots{display:flex;gap:5px;padding:0 5px}
-    .dot{width:8px;height:8px;border-radius:50%;background:var(--subtle);transition:200ms var(--ease);cursor:pointer}
-    .dot.active{width:22px;border-radius:5px;background:var(--blue)}
-    [data-key=s2_without]::before{content:"×  ";font-family:'IBM Plex Mono',monospace}
-    [data-key=s2_with]::before{content:"✓  ";font-family:'IBM Plex Mono',monospace}
-    .hint{position:fixed;right:18px;bottom:18px;color:var(--subtle);font-family:'IBM Plex Mono',monospace;font-size:11px;z-index:20}
-    @media(max-width:900px){.deck{padding:50px 0 0}.stage{width:100vw;height:auto;border-radius:0}.controls{bottom:8px}.hint{display:none}}
-    /* Layout fixes (2026-09-30): keep slide content above the nav bar */
-    .body{padding-bottom:72px;display:flex;flex-direction:column;min-height:0}
+    .slide.prev{transform:translateX(-2.5%)}
+    .slide:not(.cover){grid-template-rows:auto minmax(0,1fr)}
+    .slide:not(.cover) .body{height:auto;justify-content:center}
+    .brand{display:flex;align-items:center;gap:16px;color:var(--ink)}
+    .brand img{height:40px;width:auto;display:block;object-fit:contain}
+    .brand strong{font:700 24px/1 'Chakra Petch',sans-serif;color:#fff}
+    .brand-link{display:block;border-radius:var(--r);transition:opacity 200ms var(--ease)}
+    .brand-link:hover{opacity:.8}
+    .eyebrow{font:500 13px/1.2 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--sky)}
+    h1{font:700 46px/1.04 'Chakra Petch',sans-serif;letter-spacing:-.01em;color:#fff}
+    h2{font:700 32px/1.08 'Chakra Petch',sans-serif;letter-spacing:-.01em;color:#fff}
+    h3{font:600 19px/1.2 'Chakra Petch',sans-serif;color:#fff}
+    p{font-size:16px;line-height:1.55;color:var(--text)}
+    .header{height:104px;padding:26px 48px 14px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line)}
+    .header .title-wrap{display:grid;gap:6px}
+    .header .brand img{height:34px}
+    .body{position:relative;padding:26px 48px 48px;height:calc(100% - 104px);padding-bottom:72px;display:flex;flex-direction:column;min-height:0}
     .body > :only-child{flex:1;min-height:0}
-    .story-grid,.grid-2,.grid-3,.roi-grid{min-height:0}
-    .roi-grid{height:auto;flex:1}
-    .img-card{min-height:0}
-    .img-card img{min-height:0;flex:1 1 0;height:0}
-    .story-grid > div[style*="grid-template-rows"]{grid-template-rows:minmax(0,1fr) minmax(0,1fr) !important;min-height:0}
+    /* ---- Cover (logo enlarged — printed review: "LOGO VĚTŠÍ") ---- */
+    .cover{grid-template-columns:50% 50%}
+    .cover .photo{position:relative;height:100%;overflow:hidden;background:var(--canvas)}
+    .cover .photo img{width:100%;height:100%;object-fit:cover;object-position:48% 48%;display:block;filter:saturate(.72) contrast(1.06)}
+    .cover .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,13,16,.15) 0%,rgba(12,13,16,.28) 60%,var(--navy) 100%)}
+    .cover .copy{position:relative;padding:44px 52px 44px 44px;display:flex;flex-direction:column;justify-content:center;background:var(--navy)}
+    .cover .brand{position:absolute;top:32px;left:44px;gap:18px}
+    .cover .brand img{height:54px}
+    .cover .brand strong{font-size:28px}
+    .cover h1{margin:20px 0 18px}
+    .cover p{font-size:19px;line-height:1.5;color:var(--text);max-width:460px}
+    .patent{display:inline-flex;align-self:flex-start;margin-top:28px;padding:12px 18px;border-radius:var(--r);border:1px solid var(--sky);color:var(--sky);font:700 13px/1 'IBM Plex Mono',monospace;letter-spacing:.14em}
+    /* ---- Slide 2: WITHOUT | total | WITH, paired rows (Bridge's leak-grid) ---- */
+    .leak-grid{display:grid;grid-template-columns:1fr minmax(0,.86fr) 1fr;grid-template-rows:auto repeat(3,minmax(0,1fr));column-gap:28px;flex:1;min-height:0}
+    .leak-head{font-size:20px;padding-bottom:14px;border-bottom:1px solid var(--line);align-self:end}
+    .leak-head--bad{grid-column:1;grid-row:1}
+    .leak-head--good{grid-column:3;grid-row:1}
+    .leak-head--bad::before{content:"×  ";font-family:'IBM Plex Mono',monospace;color:var(--danger)}
+    .leak-head--good::before{content:"✓  ";font-family:'IBM Plex Mono',monospace;color:var(--sky)}
+    .leak-item{display:flex;align-items:center;font-size:19px;line-height:1.4;color:#fff;border-bottom:1px solid var(--line);padding:10px 0 10px 26px;position:relative}
+    .leak-item::before{position:absolute;left:0;font:600 16px/1 'IBM Plex Mono',monospace}
+    .leak-item--bad::before{content:"—";color:var(--danger)}
+    .leak-item--good::before{content:"→";color:var(--sky)}
+    .leak-item--bad{grid-column:1}
+    .leak-item--good{grid-column:3}
+    .leak-item.r1{grid-row:2}.leak-item.r2{grid-row:3}.leak-item.r3{grid-row:4}
+    .leak-total{grid-column:2;grid-row:1 / -1;background:var(--danger);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px 20px;gap:12px}
+    .leak-total__val{font:700 64px/1 'Chakra Petch',sans-serif;color:#fff;letter-spacing:-.01em;white-space:nowrap}
+    .leak-total__lbl{font:600 13px/1.45 'IBM Plex Mono',monospace;color:#fff;letter-spacing:.04em;max-width:250px}
+    /* the two amounts the total is made of — the review praised this kind of breakdown for credibility */
+    .leak-total__split{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:2px}
+    .leak-total__split > div{background:rgba(0,0,0,.2);border-radius:var(--r);padding:10px 8px;display:flex;flex-direction:column;gap:5px}
+    .leak-total__split .k{font:600 11px/1.25 'IBM Plex Mono',monospace;letter-spacing:.05em;color:#fff;opacity:.9}
+    .leak-total__split .v{font:700 20px/1 'Chakra Petch',sans-serif;color:#fff;white-space:nowrap}
+    /* ---- Slide 3: SITE -> FAILURE -> IMPACT -> FIX (drawn on the printed review) ---- */
+    .case-grid{display:grid;grid-template-columns:58fr 42fr;gap:32px;flex:1;min-height:0}
+    .case-steps{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));row-gap:26px;min-height:0}
+    .case-step{--step:var(--blue);position:relative;display:grid;grid-template-columns:118px 1fr auto;align-items:center;gap:18px;padding:0 22px 0 18px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--step);border-radius:var(--r)}
+    .case-step--bad{--step:var(--danger)}
+    .case-step--ok{--step:var(--sky);background:rgba(126,211,240,.08)}
+    .case-step:not(:last-child)::after{content:"";position:absolute;left:68px;bottom:-21px;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:12px solid var(--sky);z-index:1}
+    .case-step:not(:last-child)::before{content:"";position:absolute;left:76px;bottom:-12px;width:4px;height:10px;background:var(--sky)}
+    .case-step__lbl{justify-self:start;font:700 13px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#fff;background:var(--step);padding:8px 12px;border-radius:var(--r)}
+    .case-step--ok .case-step__lbl{color:var(--navy)}
+    .case-step p{font-size:18px;line-height:1.4;color:#fff}
+    .case-step__fig{font:700 32px/1 'Chakra Petch',sans-serif;color:#fff;text-align:right;min-width:140px}
+    .case-step__fig--bad{color:var(--danger)}
+    .case-step__fig--ok{color:var(--sky)}
+    .case-media{display:grid;grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:14px;min-height:0}
+    .case-fig{display:flex;flex-direction:column;min-height:0;margin:0}
+    .case-fig img{flex:1 1 0;min-height:0;width:100%;object-fit:cover;border-radius:var(--r);border:1px solid var(--line)}
+    .case-fig--device img{object-fit:contain;background:#fff;padding:18px}
+    .case-fig figcaption{font:500 13px/1.35 'IBM Plex Mono',monospace;color:var(--text);margin-top:8px}
+    /* ---- Slide 4: hardware flow, same diagram style as the other two decks ---- */
+    .install{gap:28px}
+    .flow{flex:none;display:flex;align-items:center;justify-content:center;gap:10px}
+    .flow-node{flex:1 1 0;min-width:0;max-width:230px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+    .flow-card{width:100%;height:172px;background:#fff;border-radius:var(--r);padding:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .flow-card img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+    .flow-card--cells{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px}
+    .flow-card--cells img{width:100%;height:100%;min-height:0}
+    .flow-lbl{font:600 15px/1.25 'IBM Plex Sans',sans-serif;color:#fff;margin-top:4px}
+    .flow-model{font:600 13px/1 'IBM Plex Mono',monospace;color:var(--sky);letter-spacing:.06em}
+    .flow-arrow{flex:none;color:var(--sky);margin-bottom:46px;display:flex;flex-direction:column;align-items:center}
+    .arr{display:block;width:56px;height:28px;fill:none;stroke:var(--sky);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round}
+    .flow-arrow--dashed .arr__line{stroke-dasharray:7 7}
+    .flow-arrow small{font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--text);margin-bottom:6px}
+    .steps-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .step{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--sky);border-radius:var(--r);padding:22px 24px;display:grid;grid-template-columns:auto 1fr;column-gap:16px;align-items:baseline}
+    .step__num{font:600 22px/1 'IBM Plex Mono',monospace;color:var(--sky)}
+    .step__t{font:700 19px/1.15 'Chakra Petch',sans-serif;color:#fff}
+    .step__d{grid-column:2;font-size:15px;line-height:1.4;color:var(--text);margin-top:6px}
+    /* ---- Slides 5 + 6: icon / name / caption tiles instead of bullet lists ---- */
+    .metrics{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:18px;align-content:center;height:100%}
+    .metric{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--sky);border-radius:var(--r);padding:20px 22px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+    .ico{width:34px;height:34px;flex:none;fill:none;stroke:var(--sky);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .metric__head{display:flex;align-items:baseline;gap:10px}
+    .metric__name{font:700 20px/1.15 'Chakra Petch',sans-serif;color:#fff}
+    .metric__unit{font:600 13px/1 'IBM Plex Mono',monospace;color:var(--sky);letter-spacing:.08em}
+    .metric__txt{font-size:15px;line-height:1.4;color:var(--text)}
+    .tracks{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));gap:14px;flex:1;min-height:0}
+    .track{display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-content:center;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--sky);border-radius:var(--r);padding:14px 20px}
+    .track__name{font:700 18px/1.2 'Chakra Petch',sans-serif;color:#fff}
+    .track__txt{grid-column:2;font-size:15px;line-height:1.4;color:var(--text);margin-top:4px}
+    .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
+    .panel__tag{display:block;font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:12px}
+    .alert-panel{background:var(--canvas);border:1px solid var(--line);border-top:3px solid var(--warn);border-radius:var(--r);padding:20px 22px}
+    .alert-panel__tag{display:block;font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--warn);margin-bottom:12px}
+    .alert-panel__screen{background:rgba(0,0,0,.28);border:1px solid var(--line);border-radius:var(--r);padding:18px;text-align:center}
+    .alert-panel__txt{font:700 19px/1.3 'Chakra Petch',sans-serif;color:var(--sky);display:block}
+    .alert-panel__cd{font:500 26px/1.2 'IBM Plex Mono',monospace;color:#fff;display:block;margin-top:8px}
+    .alert-panel__cap{display:block;font:500 13px/1.4 'IBM Plex Mono',monospace;color:var(--text);margin-top:12px}
+    .quote{font-size:18px;line-height:1.5;color:#fff;font-weight:600;font-style:italic}
+    .quote-sub{font-size:14px;color:var(--text);margin-top:8px}
+    .pred{background:rgba(126,211,240,.08);border:1px solid var(--line);border-left:3px solid var(--sky);border-radius:var(--r);padding:14px 18px;font:600 15px/1.45 'IBM Plex Sans',sans-serif;color:#fff}
+    .drift-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;justify-content:center;height:100%;min-height:0}
+    .drift{width:100%;flex:1;min-height:0}
+    .drift-card .cap{font:500 14px/1.4 'IBM Plex Sans',sans-serif;color:var(--text);margin-top:10px;text-align:center}
+    /* ---- Shared bottom summary (Bridge slides 5/6) ---- */
+    .slide-summary{text-align:center;font:600 20px/1.45 'IBM Plex Sans',sans-serif;color:#fff;background:rgba(126,211,240,.08);border:1px solid var(--line);border-left:3px solid var(--sky);border-radius:var(--r);padding:16px 28px;max-width:1040px;width:100%;margin:0 auto}
+    /* ---- Slide 7: assumptions + table, same shape as the other two decks ---- */
+    .roi-grid{display:grid;grid-template-columns:42fr 58fr;gap:20px;flex:1;min-height:0;align-items:stretch}
+    .roi-assume{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--sky);border-radius:var(--r);padding:26px 28px;display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:0}
+    .roi-assume__tag{align-self:flex-start;font:700 12px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:var(--navy);background:var(--sky);padding:6px 10px;border-radius:var(--r)}
+    .roi-assume__lead{font-size:17px;line-height:1.45;color:#fff}
+    .roi-assume h3{font-size:19px;color:var(--sky);margin-top:6px}
+    .roi-assume__list{margin:0;display:flex;flex-direction:column}
+    .roi-assume__list > div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+    .roi-assume__list dt{font-size:16px;color:var(--text)}
+    .roi-assume__list dd{margin:0;font:700 17px/1.3 'IBM Plex Mono',monospace;color:#fff;text-align:right}
+    .roi-table{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;justify-content:center;min-height:0;overflow:hidden}
+    .roi-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);font-size:17px}
+    .roi-row:last-child{border:0}
+    .roi-row .label{color:var(--text)}
+    .roi-row .value{font:700 20px/1 'IBM Plex Mono',monospace;color:#fff;white-space:nowrap}
+    .roi-row--sub .label{padding-left:18px;color:var(--grey);font-size:15px}
+    .roi-row--sub .value{font-size:17px;color:var(--grey)}
+    .roi-row--note .label{font-size:15px}
+    .roi-row--note .label small{display:block;font:500 13px/1.4 'IBM Plex Mono',monospace;color:var(--grey);margin-top:4px}
+    .roi-row.highlight{background:var(--blue);color:#fff;margin:0 -20px;padding:14px 20px;border-radius:var(--r);border:0}
+    .roi-row.highlight--first{margin-top:14px}
+    .roi-row.highlight + .roi-row.highlight{margin-top:8px}
+    .roi-row.highlight .label{color:#fff;font-weight:600}
+    .roi-row.highlight .value{color:#fff;font-size:24px}
+    /* ---- Slide 8: pilot CTA + contact card, identical to the Bridge deck ---- */
+    .next-grid{display:grid;grid-template-columns:1fr minmax(0,370px);gap:28px;flex:1;min-height:0;align-items:stretch}
+    .next-main{display:flex;flex-direction:column;justify-content:center;gap:20px;min-height:0}
+    .cta-banner--pilot{background:var(--canvas);border:1px solid var(--line);border-top:3px solid var(--sky);border-radius:var(--r);text-align:left;margin:0;display:flex;flex-direction:column;gap:14px;padding:28px 32px}
+    .pilot-tag{align-self:flex-start;font:700 26px/1 'Chakra Petch',sans-serif;color:var(--navy);background:var(--sky);padding:10px 16px;border-radius:var(--r)}
+    .cta-banner--pilot p{font:500 20px/1.45 'IBM Plex Sans',sans-serif;color:#fff}
+    .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .reason{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;display:flex;flex-direction:column;justify-content:center}
+    .reason h3{font-size:18px;margin-bottom:6px;color:var(--sky)}
+    .reason p{font-size:15px}
+    .contact-card{background:var(--canvas);border:1px solid var(--line);border-top:3px solid var(--sky);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:0}
+    .contact-card__tag{font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:6px}
+    .contact-card__photo{display:block;width:100%;flex:1 1 0;min-height:120px;max-height:260px;overflow:hidden;border-radius:var(--r)}
+    .contact-card__photo img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;display:block;filter:grayscale(100%) contrast(1.05) brightness(.95);transition:filter 400ms var(--ease)}
+    .contact-card__photo:hover img{filter:none}
+    .contact-card__name{font:700 24px/1.15 'Chakra Petch',sans-serif;color:#fff;margin-top:8px}
+    .contact-card__name:hover{color:var(--sky)}
+    .contact-card__role{font:500 13px/1 'IBM Plex Mono',monospace;color:var(--text)}
+    .contact-card__links{display:flex;flex-direction:column;gap:8px;margin-top:10px;width:100%}
+    .contact-card__links a{display:flex;align-items:center;gap:10px;font:600 15px/1.2 'IBM Plex Sans',sans-serif;color:#fff;padding:9px 12px;border:1px solid var(--line);border-radius:var(--r);transition:border-color 200ms var(--ease),color 200ms var(--ease);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .contact-card__links a.contact-card__mail{font-size:13.5px;letter-spacing:-.01em}
+    .contact-card__links a:hover{border-color:var(--sky);color:var(--sky)}
+    .contact-card__links span{flex:none;width:22px;text-align:center;font:700 14px/1 'IBM Plex Mono',monospace;color:var(--sky)}
+    /* ---- Controls ---- */
+    .controls{position:fixed;z-index:20;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:7px 9px;background:rgba(12,13,16,.82);backdrop-filter:blur(12px);border:1px solid rgba(220,229,244,.1);border-radius:var(--r);color:#fff}
+    .controls button{width:35px;height:35px;border:0;border-radius:var(--r);background:transparent;color:#fff;font-size:19px;display:grid;place-items:center}
+    .controls button:hover{background:rgba(126,211,240,.25)}
+    .dots{display:flex;gap:6px;padding:0 5px}
+    .dot{width:8px;height:8px;border-radius:50%;background:rgba(220,229,244,.3);transition:200ms var(--ease);cursor:pointer}
+    .dot.on{width:22px;border-radius:5px;background:var(--sky)}
+    .hint{position:fixed;right:18px;bottom:18px;color:var(--grey);font-family:'IBM Plex Mono',monospace;font-size:11px;z-index:20}
+    /* Product name on every slide */
+    .slide-foot{position:absolute;left:48px;bottom:26px;display:flex;align-items:center;gap:10px;font:600 16px/1 'Chakra Petch',sans-serif;letter-spacing:.02em;color:var(--text);opacity:.75;z-index:3;pointer-events:none}
+    .slide-foot::before{content:"";width:18px;height:2px;background:var(--sky)}
 
-    /* Phone/tablet: one slide at a time, full-height stage, stacked grids, scroll inside long slides */
+    /* ---- Phone / portrait tablet ---- */
+    @media (max-width: 900px){.deck{padding:50px 0 0}.stage{width:100%;border-radius:0}.controls{bottom:6px}.hint{display:none}}
     @media (max-width: 860px){
       .language-bar{gap:4px;padding:6px}
       .lang-btn{padding:4px 8px;font-size:.7rem}
       .deck{padding:52px 0 0}
-      .stage{aspect-ratio:auto;width:100vw;height:calc(100vh - 52px);height:calc(100dvh - 52px);border-radius:0;border-left:0;border-right:0}
+      .stage{aspect-ratio:auto;width:100%;height:calc(100vh - 52px);height:calc(100dvh - 52px);border-radius:0;border-left:0;border-right:0}
       .slide{overflow-y:auto;display:block}
       .header{height:auto;padding:22px 18px 12px}
-      .header .brand img{height:26px}
+      .header .brand img{height:28px}
       .body{height:auto;padding:18px 18px 96px;display:block}
-      h1{font-size:28px}
-      h2{font-size:21px}
+      h1{font-size:30px}
+      h2{font-size:22px}
       .cover .photo{height:38vh}
+      .cover .photo::after{background:linear-gradient(180deg,rgba(12,13,16,.1) 50%,var(--navy) 100%)}
       .cover .copy{padding:26px 18px 96px}
-      .cover .brand{position:static;margin-bottom:8px}
-      .cover .copy::before{display:none}
-      .grid-2,.grid-3,.story-grid,.roi-grid,.reasons-grid{grid-template-columns:1fr !important;grid-template-rows:none !important;height:auto !important;gap:14px}
-      .grid-2 > div,.story-grid > div{height:auto !important}
-      .img-card{height:auto !important}
-      .img-card img{height:auto}
-      .roi-box{height:auto}
-      .story-stat .num{font-size:16px}
-      .img-card img{flex:none;height:auto}
-      .adoption-banner{padding:20px 18px}
-      .adoption-banner h2{font-size:21px}
+      .cover .brand{position:static;margin-bottom:10px}
+      .cover .brand img{height:42px}
+      .cover p{font-size:17px}
+      .leak-grid{display:flex;flex-direction:column;gap:0}
+      .leak-head{align-self:stretch}
+      .leak-head--bad{order:1}.leak-item--bad{order:2}
+      .leak-total{order:3;margin:22px 0}
+      .leak-total__val{font-size:46px}
+      .leak-head--good{order:4}.leak-item--good{order:5}
+      .leak-item{font-size:16px}
+      .case-grid{grid-template-columns:1fr;gap:18px}
+      .case-steps{grid-template-rows:none;row-gap:24px}
+      .case-step{grid-template-columns:1fr auto;padding:14px 16px;gap:10px}
+      .case-step__lbl{grid-column:1 / -1}
+      .case-step p{font-size:16px}
+      .case-step__fig{font-size:26px;min-width:0}
+      .case-media{grid-template-rows:none}
+      .case-fig img{flex:none;height:220px}
+      .flow{flex-direction:column;gap:6px}
+      .flow-node{max-width:260px;width:100%}
+      .flow-arrow{margin:4px 0 8px}
+      .flow-arrow .arr{transform:rotate(90deg);width:40px;height:20px;margin:8px 0}
+      .flow-arrow small{margin-bottom:0}
+      .steps-row,.metrics,.reasons,.roi-grid,.next-grid{grid-template-columns:1fr;gap:14px}
+      .metrics,.tracks{height:auto}
+      .drift-card{height:auto}
+      .drift{height:220px;flex:none}
+      .slide-summary{font-size:17px;padding:14px 16px}
+      .roi-assume,.roi-table{min-height:0}
+      .roi-row{font-size:15px}
+      .roi-row .value{font-size:17px}
+      .roi-row.highlight .value{font-size:20px}
+      .pilot-tag{font-size:20px}
+      .cta-banner--pilot p{font-size:17px}
+      .contact-card{align-items:center;text-align:center}
+      .contact-card__photo{flex:none;width:min(100%,280px);height:auto;aspect-ratio:1/1;max-height:none}
+      .contact-card__links{max-width:360px}
+      .slide-foot{position:static;margin:-70px 18px 0;padding-bottom:96px}
     }
-    /* Replacement panels (2026-09-30): real content instead of unrelated weighbridge/silo images */
-    .flow-card,.views-card,.drift-card{justify-content:space-between;padding:18px}
-    .flow{display:flex;flex-direction:column;gap:6px;width:100%;flex:1;justify-content:center}
-    .flow-node{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:baseline;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px}
-    .flow-node strong{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;color:var(--ink)}
-    .flow-node small{grid-column:2;font-size:12px;color:var(--muted)}
-    .flow-num{grid-row:span 2;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--blue)}
-    .flow-node--ucs{border-color:var(--blue)}
-    .flow-node--end{border-color:var(--blue);background:var(--navy)}
-    .flow-node--end strong{color:#fff}
-    .flow-node--end small{color:var(--sky)}
-    .flow-node--end .flow-num{color:var(--sky)}
-    .flow-arrow{text-align:center;color:var(--sky);font-size:14px;line-height:1}
-    .views{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;flex:1;align-content:center}
-    .view{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:4px}
-    .view-lbl{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:16px;color:var(--ink)}
-    .view-unit{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--blue)}
-    .view-txt{font-size:12px;color:var(--muted);line-height:1.4}
-    .drift{width:100%;flex:1;min-height:0}
-    /* desktop: keep the 4-step flow + caption inside the card */
-    .flow-card{padding:12px 16px;overflow:hidden}
-    .flow{gap:3px;min-height:0}
-    .flow-node{padding:6px 12px}
-    .flow-node strong{font-size:14px}
-    .flow-node small{font-size:11px}
-    .flow-arrow{font-size:11px}
-    .flow-card .cap{margin-top:8px;flex:none}
-    @media (max-width: 860px){.views{grid-template-columns:1fr}.drift{height:220px;flex:none}.flow-node{padding:10px 14px}.flow-node strong{font-size:15px}}
-
-    /* ===== Dark literal-DNA restyle, matching the SensWEIGHT Bridge deck (2026-10-02) ===== */
-    :root{--ink:#fff;--text:#dce5f4;--paper:rgba(220,229,244,.05);--line:rgba(220,229,244,.14);--canvas:#12192b;--shadow:0 30px 90px rgba(0,0,0,.45)}
-    html,body{background:var(--canvas);color:var(--text);-webkit-font-smoothing:antialiased}
-    .language-bar{background:rgba(12,13,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(220,229,244,.08);box-shadow:none}
-    .lang-btn{background:transparent;border:1px solid var(--line);color:var(--text);transition:all 200ms var(--ease)}
-    .lang-btn:hover{background:transparent;border-color:var(--sky);color:var(--sky)}
-    .lang-btn.active,.lang-btn.active:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-    .stage{background:var(--navy);border:1px solid rgba(220,229,244,.08)}
-    .slide{background:var(--navy)}
-    .topline{display:none}
-    .header{border-bottom:1px solid var(--line)}
-    .slide:not(.cover){grid-template-rows:auto minmax(0,1fr)}
-    .slide:not(.cover) .body{height:auto;justify-content:center}
-    .eyebrow{color:var(--sky)}
-    h1,h2,h3{color:#fff}
-    p{color:var(--text)}
-    li::marker{color:var(--sky)}
-    .brand strong{color:#fff}
-    .brand img{max-width:none}
-    .header .brand img{height:28px}
-    .cover .brand img{height:36px}
-    .cover .photo{background:var(--canvas)}
-    .cover .photo img{filter:saturate(.75) contrast(1.05)}
-    .cover .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,13,16,.15) 0%,rgba(12,13,16,.25) 60%,var(--navy) 100%);pointer-events:none}
-    .cover .copy{background:var(--navy)}
-    .cover .copy::before{display:none}
-    .cover p{color:var(--text)}
-    .patent{background:transparent;border:1px solid var(--sky);color:var(--sky);font-weight:700}
-    .img-card{background:var(--paper);border-color:var(--line)}
-    .cap{color:var(--text)}
-    .reason,.reason-card{background:var(--paper);border:1px solid var(--line)}
-    .reason h3,.reason-card h3{color:var(--sky)}
-    .cta-banner,.adoption-banner{background:var(--canvas);border:1px solid var(--line);border-top:3px solid var(--sky)}
-    .motivation-box,.motive-box{background:rgba(126,211,240,.08);border-left:3px solid var(--sky)}
-    .motivation-box p,.motive-box p{color:#fff}
-    .controls{background:rgba(12,13,16,.82);border:1px solid rgba(220,229,244,.1)}
-    .dot{background:rgba(220,229,244,.3)}
-    .dot.on,.dot.active{background:var(--sky)}
-
-    :root{--muted:#dce5f4;--subtle:#7ea4d8}
-    .warn-card{background:var(--paper);border-left-color:var(--warn);color:#fff}
-    .alert-card{background:var(--paper);color:#fff}
-    .step-card{background:var(--paper);border:1px solid var(--line)}
-    .step-num{color:var(--sky)}
-    .story-box{background:var(--paper);border:1px solid var(--line)}
-    .story-tag{color:var(--sky)}
-    .story-stat div{background:var(--paper);border:1px solid var(--line)}
-    .story-stat .num{color:var(--sky)}
-    .roi-box{background:var(--paper)}
-    .roi-big{color:var(--sky)}
-    .flow-node{background:var(--paper);border:1px solid var(--line)}
-    .flow-node strong{color:#fff}
-    .flow-num,.flow-arrow{color:var(--sky)}
-    .flow-node--ucs{border-color:var(--sky)}
-    .flow-node--end{background:var(--canvas);border-color:var(--sky)}
-    .view{background:var(--paper);border:1px solid var(--line)}
-    .view-unit{color:var(--sky)}
-    [data-key=s2_without]::before{color:var(--danger)}
-      /* Fixed 1200x675 design canvas, scaled to fit the stage (2026-10-02: laptop screens overflowed) */
-    .canvas{position:absolute;top:0;left:0;width:1200px;height:675px;transform-origin:0 0;transform:scale(var(--k,1))}
-    @media (max-width: 860px){.canvas{position:absolute;inset:0;width:auto;height:auto;transform:none}}
-    /* Product name on every slide (Martin's review 2026-10-02) */
-    .slide-foot{position:absolute;left:48px;bottom:22px;display:flex;align-items:center;gap:10px;font:600 13px/1 'Chakra Petch',sans-serif;letter-spacing:.02em;color:var(--text);opacity:.75;z-index:3;pointer-events:none}
-    .slide-foot::before{content:"";width:18px;height:2px;background:var(--sky)}
-    @media (max-width: 860px){.slide-foot{position:static;margin:-70px 18px 0;padding-bottom:96px}}
   </style>
 </head>
 <body>
 
 <div class="language-bar">
-  <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
-  <button class="lang-btn" onclick="switchLanguage('cs')">Čeština</button>
-  <button class="lang-btn" onclick="switchLanguage('sr')">Srpski</button>
+  <button class="lang-btn active" data-lang="en">English</button>
+  <button class="lang-btn" data-lang="cs">Čeština</button>
+  <button class="lang-btn" data-lang="sr">Srpski</button>
 </div>
 
-<main class="deck">
-<div class="stage" id="stage"><div class="canvas" id="canvas">
+<main class="deck"><div class="stage" id="stage"><div class="canvas" id="canvas">
 
-<!-- SLIDE 1: COVER -->
-<section class="slide cover active">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="photo"><img src="sensbelt-conveyor.jpg" alt="Conveyor belt at an aggregate quarry" style="object-position:38% center"></div>
-  <div class="copy">
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"><strong>SensBELT</strong></div>
-    <h1 data-key="s1_title">Stop Paying for Air on Your Conveyor</h1>
-    <p data-key="s1_sub" style="font-size:17px;color:var(--muted);margin-top:4px">Your belt doesn't know the difference between 500 tonnes/hour and zero. But your electricity bill does.</p>
-    <span class="patent" data-key="s1_patent">PATENTED · EP 4 524 526</span>
-  </div>
-</section>
-
-<!-- SLIDE 2: THE GHOST BELT -->
-<section class="slide">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="header">
-    <div class="title-wrap">
-      <div class="eyebrow" data-key="s2_eye">THE GHOST BELT</div>
-      <h2 data-key="s2_title">The most expensive machine that does nothing</h2>
+  <!-- SLIDE 1 — COVER -->
+  <section class="slide cover active">
+    <div class="photo"><img src="belt-plant.jpg" alt="Belt conveyors feeding stockpiles at an aggregate plant"></div>
+    <div class="copy">
+      <div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a><strong>SensBELT</strong></div>
+      <h1 data-i="t1">Stop paying for air on your conveyor</h1>
+      <p data-i="t2">Your belt cannot tell 500 tonnes an hour from zero. Your electricity bill can.</p>
+      <span class="patent" data-i="t3">PATENTED TECHNOLOGY · EP 4 524 526</span>
     </div>
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
-  </div>
-  <div class="body">
-    <div class="grid-2">
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="warn-card" data-key="s2_hook">You wouldn't leave your car engine running all night in the parking lot. But your belt does exactly that, every day.</div>
-        <div style="background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:var(--r);padding:18px">
-          <h3 style="color:var(--danger);font-size:14px;margin-bottom:8px" data-key="s2_without">WITHOUT SensBELT</h3>
-          <ul style="margin:0 0 0 16px;padding:0;font-size:13px;color:var(--muted);line-height:1.7">
-            <li data-key="s2_w1">Belt keeps running after last truck dumps — nobody notices for 45 minutes</li>
-            <li data-key="s2_w2">This happens 3–4 times per shift</li>
-            <li data-key="s2_w3">75 kW drive running empty for 3 hrs/day × 320 days × €0.18/kWh = €12,960/yr wasted</li>
-            <li data-key="s2_w4">Accelerated belt and roller wear: another €21,600/yr</li>
-            <li data-key="s2_w5">No way to check if belt scale is still accurate without a site visit</li>
-          </ul>
-        </div>
-        <div style="background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:var(--r);padding:18px">
-          <h3 style="color:var(--sky);font-size:14px;margin-bottom:8px" data-key="s2_with">WITH SensBELT</h3>
-          <ul style="margin:0 0 0 16px;padding:0;font-size:13px;color:var(--muted);line-height:1.7">
-            <li data-key="s2_c1">Empty belt detected automatically — shutdown signal after 5 minutes</li>
-            <li data-key="s2_c2">Calibration drift tracked continuously — no technician visits needed</li>
-            <li data-key="s2_c3">Throughput verification visible from your phone</li>
-          </ul>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px">
-        <div style="background:var(--canvas);border-radius:var(--r);padding:24px;text-align:center;width:100%">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--subtle);text-transform:uppercase;letter-spacing:.1em" data-key="s2_cost_lbl">Total ghost running cost per belt</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:42px;font-weight:700;color:var(--sky);margin:6px 0">€34,560</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--subtle)" data-key="s2_cost_sub">per year — energy waste + accelerated mechanical wear</div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
-          <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center">
-            <div class="roi-label" data-key="s2_el">Electricity waste</div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--danger);margin-top:4px">€12,960</div>
-          </div>
-          <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:center">
-            <div class="roi-label" data-key="s2_wear">Mechanical wear</div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--danger);margin-top:4px">€21,600</div>
+  </section>
+
+  <!-- SLIDE 2 — THE GHOST BELT -->
+  <section class="slide">
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t4">THE GHOST BELT</div><h2 data-i="t5">The most expensive machine that does nothing</h2></div><div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a></div></div>
+    <div class="body" style="gap:22px">
+      <div class="leak-grid">
+        <h3 class="leak-head leak-head--bad" data-i="t6">WITHOUT SensBELT</h3>
+        <p class="leak-item leak-item--bad r1" data-i="t7">The belt runs on after the last truck dumps — unnoticed for 45 minutes.</p>
+        <p class="leak-item leak-item--bad r2" data-i="t8">Three to four times a shift. A 75 kW drive turning air.</p>
+        <p class="leak-item leak-item--bad r3" data-i="t9">No way to check the belt scale without sending a technician.</p>
+        <div class="leak-total">
+          <span class="leak-total__val" data-i="t10">€34,560</span>
+          <span class="leak-total__lbl" data-i="t11">per belt, per year</span>
+          <div class="leak-total__split">
+            <div><span class="k" data-i="t12">Wasted electricity</span><span class="v" data-i="t13">€12,960</span></div>
+            <div><span class="k" data-i="t14">Belt &amp; roller wear</span><span class="v" data-i="t15">€21,600</span></div>
           </div>
         </div>
+        <h3 class="leak-head leak-head--good" data-i="t16">WITH SensBELT</h3>
+        <p class="leak-item leak-item--good r1" data-i="t17">An empty belt is detected automatically — shutdown signal after 5 minutes.</p>
+        <p class="leak-item leak-item--good r2" data-i="t18">Calibration drift is tracked continuously — no site visits.</p>
+        <p class="leak-item leak-item--good r3" data-i="t19">Throughput verified from your phone.</p>
       </div>
+      <p class="slide-summary" data-i="t20">You would not leave your car engine running all night in the car park. Your belt does exactly that, every day.</p>
     </div>
-  </div>
-  <div class="slide-foot">SensBELT</div>
-</section>
+    <div class="slide-foot">SensBELT</div>
+  </section>
 
-<!-- SLIDE 3: SUCCESS STORY -->
-<section class="slide">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="header">
-    <div class="title-wrap">
-      <div class="eyebrow" data-key="s3_eye">FIELD EVIDENCE</div>
-      <h2 data-key="s3_title">A quarry discovered 847 hours of ghost running per year</h2>
-    </div>
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
-  </div>
-  <div class="body">
-    <div class="story-grid">
-      <div class="story-box">
-        <div class="story-tag" data-key="s3_tag">WHAT HAPPENED</div>
-        <p style="font-size:14px;color:var(--ink);font-weight:500;line-height:1.55;margin-bottom:10px" data-key="s3_p1">A medium-size aggregate quarry, two belt scales feeding a crusher. Operators assumed belts ran only when trucks were dumping. The control room had no belt load visibility — just ON/OFF status.</p>
-        <p style="font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:10px" data-key="s3_p2">SensBELT found that Belt #1 ran empty for an average of 2.65 hours per day. Over the year: 847 hours of ghost running. Energy wasted: €11,430.</p>
-        <p style="font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:10px" data-key="s3_p3">Belt wear equivalent: 14 months of additional degradation — meaning the €38,000 belt replacement came 14 months early.</p>
-        <p style="font-size:14px;color:var(--ink);font-weight:600;line-height:1.55" data-key="s3_p4">Solution: automatic idle-shutdown logic (if belt carries no weight for 5 minutes → shutdown signal to VFD). Ghost running dropped to near zero in Week 2.</p>
-        <div class="story-stat">
-          <div><div class="num">847h</div><div class="lbl" data-key="s3_s1">Ghost running/year</div></div>
-          <div><div class="num">€11,430</div><div class="lbl" data-key="s3_s2">Energy wasted</div></div>
-          <div><div class="num">14 mo</div><div class="lbl" data-key="s3_s3">Early belt replacement</div></div>
-        </div>
+  <!-- SLIDE 3 — FIELD EVIDENCE -->
+  <section class="slide">
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t21">FIELD EVIDENCE</div><h2 data-i="t22">A quarry found 847 hours of ghost running in one year</h2></div><div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a></div></div>
+    <div class="body"><div class="case-grid">
+      <div class="case-steps">
+        <div class="case-step"><span class="case-step__lbl" data-i="t23">SITE</span><p data-i="t24">Aggregate quarry, two belt scales feeding a crusher. The control room saw ON/OFF, nothing else.</p><span class="case-step__fig" data-i="t25">2 belts</span></div>
+        <div class="case-step case-step--bad"><span class="case-step__lbl" data-i="t26">FAILURE</span><p data-i="t27">Belt #1 ran empty 2.65 hours a day. Nothing looked broken, so nobody looked.</p><span class="case-step__fig case-step__fig--bad" data-i="t28">847 h</span></div>
+        <div class="case-step case-step--bad"><span class="case-step__lbl" data-i="t29">IMPACT</span><p data-i="t30">Energy burned on air, plus 14 months of extra wear — a €38,000 belt replaced early.</p><span class="case-step__fig case-step__fig--bad" data-i="t31">€11,430</span></div>
+        <div class="case-step case-step--ok"><span class="case-step__lbl" data-i="t32">FIX</span><p data-i="t33">No load for 5 minutes → shutdown signal to the VFD. Ghost running gone by week 2.</p><span class="case-step__fig case-step__fig--ok" data-i="t34">≈ 0 h</span></div>
       </div>
-      <div style="display:flex;height:100%;min-height:0">
-        <div class="img-card" style="flex:1"><img loading="lazy" src="sensbelt-indicator.jpg" alt="Belt detail"><div class="cap" data-key="s3_cap2">Edge device close-up — plugs into existing indicator, running in 2 hours</div></div>
+      <div class="case-media">
+        <figure class="case-fig"><img loading="lazy" src="belt-detail.jpg" alt="Conveyor belt running with no material on it"><figcaption data-i="t35">The problem: a belt running with nothing on it</figcaption></figure>
+        <figure class="case-fig case-fig--device"><img loading="lazy" src="diagram-x3.jpg" alt="UCS-X3 edge gateway"><figcaption data-i="t36">The fix: one UCS-X3 on the existing indicator</figcaption></figure>
       </div>
-    </div>
-  </div>
-  <div class="slide-foot">SensBELT</div>
-</section>
+    </div></div>
+    <div class="slide-foot">SensBELT</div>
+  </section>
 
-<!-- SLIDE 4: INSTALLATION -->
-<section class="slide">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="header">
-    <div class="title-wrap">
-      <div class="eyebrow" data-key="s4_eye">INSTALLATION</div>
-      <h2 data-key="s4_title">Plugs into your existing belt scale</h2>
-    </div>
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
-  </div>
-  <div class="body">
-    <div class="grid-2" style="flex:1 1 auto;min-height:0;height:auto">
-      <div class="img-card flow-card" style="height:100%">
-        <div class="flow">
-          <div class="flow-node"><span class="flow-num">01</span><strong>Belt scale load cells</strong><small>On the existing belt scale</small></div>
-          <div class="flow-arrow">↓</div>
-          <div class="flow-node"><span class="flow-num">02</span><strong>Indicator</strong><small>RS-232 / RS-485 port</small></div>
-          <div class="flow-arrow">↓</div>
-          <div class="flow-node flow-node--ucs"><span class="flow-num">03</span><strong>UCS X3 edge gateway</strong><small>Secure wireless link · temperature / vibration optional</small></div>
-          <div class="flow-arrow">↓</div>
-          <div class="flow-node flow-node--end"><span class="flow-num">04</span><strong>UCS Cloud</strong><small>Dashboard · automatic alerts · REST API</small></div>
-        </div>
-        <div class="cap" data-key="s4_cap">Belt Scale Load Cells → Existing Indicator → UCS-X3 Edge Gateway → Your Dashboard + Automatic Alerts + REST API</div>
+  <!-- SLIDE 4 — INSTALLATION -->
+  <section class="slide">
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t37">INSTALLATION</div><h2 data-i="t38">Plugs into your existing belt scale</h2></div><div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a></div></div>
+    <div class="body install">
+      <div class="flow">
+        <div class="flow-node"><div class="flow-card flow-card--cells"><img src="diagram-loadcell.jpg" alt=""><img src="diagram-loadcell.jpg" alt=""></div><span class="flow-lbl" data-i="t39">Belt-scale load cells</span><span class="flow-model">&nbsp;</span></div>
+        <span class="flow-arrow"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
+        <div class="flow-node"><div class="flow-card"><img src="diagram-indicator.jpg" alt="Belt-scale indicator"></div><span class="flow-lbl" data-i="t40">Indicator</span><span class="flow-model">RS-232 / RS-485</span></div>
+        <span class="flow-arrow"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
+        <div class="flow-node"><div class="flow-card"><img src="diagram-x3.jpg" alt="UCS-X3 edge gateway"></div><span class="flow-lbl" data-i="t41">Edge gateway</span><span class="flow-model">UCS-X3</span></div>
+        <span class="flow-arrow flow-arrow--dashed"><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
+        <div class="flow-node"><div class="flow-card"><img src="diagram-cloud.jpg" alt="UCS Cloud"></div><span class="flow-lbl">UCS Cloud</span><span class="flow-model">&nbsp;</span></div>
+        <span class="flow-arrow flow-arrow--api"><small>REST API</small><svg class="arr" viewBox="0 0 56 28" aria-hidden="true"><path class="arr__line" d="M3 14h40"/><path d="M33 4l12 10-12 10"/></svg></span>
+        <div class="flow-node"><div class="flow-card"><img src="diagram-pc.jpg" alt="Dashboard on a PC"></div><span class="flow-lbl" data-i="t42">HMI / PC / mobile</span><span class="flow-model">&nbsp;</span></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
-        <div class="step-card" style="flex-direction:row;text-align:left;gap:14px;align-items:flex-start;padding:16px">
-          <div class="step-num">01</div>
-          <div><h3 data-key="s4_s1t" style="font-size:15px">Connect</h3><p data-key="s4_s1d" style="font-size:12px;margin-top:3px">One device plugs into your indicator's RS-232/485 port. No belt stoppage, no recalibration.</p></div>
-        </div>
-        <div class="step-card" style="flex-direction:row;text-align:left;gap:14px;align-items:flex-start;padding:16px">
-          <div class="step-num">02</div>
-          <div><h3 data-key="s4_s2t" style="font-size:15px">Transmit</h3><p data-key="s4_s2d" style="font-size:12px;margin-top:3px">UCS-X3 sends data via secure wireless link. Additional sensors available: temperature, vibration.</p></div>
-        </div>
-        <div class="step-card" style="flex-direction:row;text-align:left;gap:14px;align-items:flex-start;padding:16px">
-          <div class="step-num">03</div>
-          <div><h3 data-key="s4_s3t" style="font-size:15px">See</h3><p data-key="s4_s3d" style="font-size:12px;margin-top:3px">Live throughput, empty-belt detection, calibration drift alerts, energy analytics — from any device.</p></div>
-        </div>
+      <div class="steps-row">
+        <div class="step"><span class="step__num">01</span><span class="step__t" data-i="t43">Connect</span><span class="step__d" data-i="t44">One device into the indicator's RS-232/485 port. No belt stoppage, no recalibration.</span></div>
+        <div class="step"><span class="step__num">02</span><span class="step__t" data-i="t45">Transmit</span><span class="step__d" data-i="t46">UCS-X3 sends the data over a secure wireless link. Temperature and vibration optional.</span></div>
+        <div class="step"><span class="step__num">03</span><span class="step__t" data-i="t47">See</span><span class="step__d" data-i="t48">Live throughput, empty-belt detection, drift alerts and energy analytics, on any device.</span></div>
       </div>
+      <p class="slide-summary" data-i="t49">Running in 2 hours. No belt stoppage. No recalibration. One device, one cable.</p>
     </div>
-    <div class="motive-box" style="margin-top:16px">
-      <p data-key="s4_motive">Running in 2 hours. No belt stoppage. No recalibration needed. One device, one cable.</p>
-    </div>
-  </div>
-  <div class="slide-foot">SensBELT</div>
-</section>
+    <div class="slide-foot">SensBELT</div>
+  </section>
 
-<!-- SLIDE 5: THROUGHPUT DASHBOARD -->
-<section class="slide">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="header">
-    <div class="title-wrap">
-      <div class="eyebrow" data-key="s5_eye">YOUR BELT, TRANSPARENT</div>
-      <h2 data-key="s5_title">See every tonne, every minute</h2>
-    </div>
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
-  </div>
-  <div class="body">
-    <div class="grid-2" style="height:100%">
-      <div class="img-card views-card" style="height:100%">
-        <div class="views">
-          <div class="view"><span class="view-lbl">Throughput</span><span class="view-unit">t/h</span><span class="view-txt">Live flow rate on the belt</span></div>
-          <div class="view"><span class="view-lbl">Daily tonnage</span><span class="view-unit">t</span><span class="view-txt">Cumulative, per shift and per day</span></div>
-          <div class="view"><span class="view-lbl">Speed vs. load</span><span class="view-unit">m/s · t/h</span><span class="view-txt">Is the belt moving material or air?</span></div>
-          <div class="view"><span class="view-lbl">Empty-belt events</span><span class="view-unit">h</span><span class="view-txt">Every idle run logged with duration</span></div>
+  <!-- SLIDE 5 — WHAT YOU SEE -->
+  <section class="slide">
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t50">YOUR BELT, TRANSPARENT</div><h2 data-i="t51">See every tonne, every minute</h2></div><div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a></div></div>
+    <div class="body"><div class="case-grid" style="grid-template-columns:56fr 44fr">
+      <div class="metrics">
+        <div class="metric">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15a9 9 0 0 1 18 0"/><path d="M12 15l5-4"/><circle cx="12" cy="15" r="1.4"/></svg>
+          <span class="metric__head"><span class="metric__name" data-i="t52">Throughput</span><span class="metric__unit">t/h</span></span>
+          <span class="metric__txt" data-i="t53">Live flow rate on the belt</span>
         </div>
-        <div class="cap" data-key="s5_cap1">Throughput (t/h), cumulative daily tonnage, belt speed vs. load correlation</div>
+        <div class="metric">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11"/><path d="M10 20V6"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>
+          <span class="metric__head"><span class="metric__name" data-i="t54">Daily tonnage</span><span class="metric__unit">t</span></span>
+          <span class="metric__txt" data-i="t55">Cumulative, per shift and per day</span>
+        </div>
+        <div class="metric">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-5 4 3 6-7"/><path d="M3 21h18"/><path d="M18 8h3v3"/></svg>
+          <span class="metric__head"><span class="metric__name" data-i="t56">Speed vs. load</span><span class="metric__unit">m/s · t/h</span></span>
+          <span class="metric__txt" data-i="t57">Is the belt moving material, or air?</span>
+        </div>
+        <div class="metric">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>
+          <span class="metric__head"><span class="metric__name" data-i="t58">Empty-belt events</span><span class="metric__unit">h</span></span>
+          <span class="metric__txt" data-i="t59">Every idle run logged with its duration</span>
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
-        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px" data-key="s5_alert_lbl">EMPTY BELT DETECTION</div>
-          <div style="background:var(--canvas);border-radius:var(--r);padding:16px;text-align:center">
-            <div style="font-family:'Chakra Petch',sans-serif;font-size:16px;color:var(--sky);font-weight:600" data-key="s5_alert_txt">ALERT: Belt carrying no load for 4:23</div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:24px;color:#fff;margin-top:6px" data-key="s5_alert_cd">Automated shutdown in 0:37</div>
+      <div style="display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0">
+        <div class="alert-panel">
+          <span class="alert-panel__tag" data-i="t60">Empty-belt detection</span>
+          <div class="alert-panel__screen">
+            <span class="alert-panel__txt" data-i="t61">ALERT: belt carrying no load for 4:23</span>
+            <span class="alert-panel__cd" data-i="t62">Automated shutdown in 0:37</span>
+          </div>
+          <span class="alert-panel__cap" data-i="t63">How the notification appears on your dashboard — e-mail and SMS optional.</span>
+        </div>
+        <div class="panel">
+          <span class="panel__tag" data-i="t64">The question it asks</span>
+          <p class="quote" data-i="t65">“Tuesday 14:00–16:45 — the belt ran at 12% capacity. Why?”</p>
+          <p class="quote-sub" data-i="t66">Historical trends reveal inefficiency patterns your control room cannot see.</p>
+        </div>
+      </div>
+    </div></div>
+    <div class="slide-foot">SensBELT</div>
+  </section>
+
+  <!-- SLIDE 6 — CALIBRATION -->
+  <section class="slide">
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t67">CALIBRATION TRUTH</div><h2 data-i="t68">Is your belt scale still accurate?</h2></div><div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a></div></div>
+    <div class="body" style="gap:20px"><div class="case-grid" style="grid-template-columns:52fr 48fr">
+      <div style="display:flex;flex-direction:column;gap:16px;justify-content:center;min-height:0">
+        <div class="panel">
+          <h3 data-i="t69">Your indicator says “342 t/h”</h3>
+          <p style="margin-top:8px" data-i="t70">Is it right? SensBELT checks continuously, so you do not have to send someone to find out.</p>
+        </div>
+        <div class="tracks">
+          <div class="track">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M7 12V8"/><path d="M17 12v4"/><circle cx="12" cy="12" r="2"/></svg>
+            <span class="track__name" data-i="t71">Zero drift</span>
+            <span class="track__txt" data-i="t72">Does the belt read 0 when it is empty?</span>
+          </div>
+          <div class="track">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18L10 9l4 5 6-9"/><path d="M4 21h17"/></svg>
+            <span class="track__name" data-i="t73">Span deviation</span>
+            <span class="track__txt" data-i="t74">Is the full-scale reading still correct?</span>
+          </div>
+          <div class="track">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h3l2-5 3 10 3-8 2 5 2-3h5"/></svg>
+            <span class="track__name" data-i="t75">Signal noise</span>
+            <span class="track__txt" data-i="t76">Is the load cell starting to degrade?</span>
+          </div>
+          <div class="track">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8"/><path d="M7.5 6.5a7 7 0 1 0 9 0"/></svg>
+            <span class="track__name" data-i="t77">Disconnection &amp; overload</span>
+            <span class="track__txt" data-i="t78">Every event logged and timestamped</span>
           </div>
         </div>
-        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--sky);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px" data-key="s5_q_lbl">THE QUESTION IT ASKS</div>
-          <p style="font-size:15px;color:var(--ink);font-weight:600;font-style:italic;line-height:1.5" data-key="s5_q">"Tuesday 14:00–16:45 — belt ran at 12% capacity. Why?"</p>
-          <p style="font-size:12px;color:var(--muted);margin-top:6px" data-key="s5_q_sub">Historical trends reveal inefficiency patterns your control room can't see.</p>
-        </div>
       </div>
-    </div>
-  </div>
-  <div class="slide-foot">SensBELT</div>
-</section>
-
-<!-- SLIDE 6: CALIBRATION TRUTH -->
-<section class="slide">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="header">
-    <div class="title-wrap">
-      <div class="eyebrow" data-key="s6_eye">CALIBRATION TRUTH</div>
-      <h2 data-key="s6_title">Is your belt scale still accurate?</h2>
-    </div>
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
-  </div>
-  <div class="body">
-    <div class="grid-2" style="height:100%">
-      <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
-        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
-          <h3 style="font-size:15px;margin-bottom:10px" data-key="s6_h1">Your indicator says "342 t/h"</h3>
-          <p style="font-size:14px;color:var(--muted);line-height:1.55" data-key="s6_p1">But is it? SensBELT checks continuously — so you don't have to send a technician to find out.</p>
-        </div>
-        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px">
-          <h3 style="font-size:14px;color:var(--sky);margin-bottom:10px" data-key="s6_h2">What SensBELT tracks</h3>
-          <ul style="margin:0 0 0 16px;padding:0;font-size:13px;color:var(--muted);line-height:1.8">
-            <li data-key="s6_l1">Zero drift — does the belt read 0 when empty?</li>
-            <li data-key="s6_l2">Span deviation — is the full-scale reading still correct?</li>
-            <li data-key="s6_l3">Signal noise — is the load cell degrading?</li>
-            <li data-key="s6_l4">Disconnection and overload events — logged and timestamped</li>
-          </ul>
-        </div>
-        <div style="background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:var(--r);padding:14px">
-          <p style="font-size:13px;color:var(--sky);font-weight:600;line-height:1.4" data-key="s6_pred">Based on current degradation pattern, LC2 will exceed ±0.5% accuracy threshold in approximately 6 weeks. Schedule calibration.</p>
-        </div>
-      </div>
-      <div class="img-card drift-card" style="height:100%">
+      <div class="drift-card">
         <svg class="drift" viewBox="0 0 480 280" role="img" aria-label="Illustration: readings drifting away from the historical baseline, alert raised weeks before the tolerance limit">
           <rect x="40" y="96" width="420" height="56" fill="rgba(220,229,244,.06)" stroke="rgba(220,229,244,.18)"/>
           <line x1="40" y1="124" x2="460" y2="124" stroke="#7ea4d8" stroke-width="1.5" stroke-dasharray="5 5"/>
@@ -460,124 +446,455 @@
           <text x="40" y="270" font-family="IBM Plex Mono,monospace" font-size="10" fill="#7ea4d8">time →</text>
           <text x="460" y="270" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="10" fill="#7ea4d8">illustration</text>
         </svg>
-        <div class="cap" data-key="s6_cap">The system compares today's readings to your historical baseline — alerts 4–6 weeks before failure.</div>
+        <div class="cap" data-i="t79">Today's readings are compared with your own historical baseline — the alert comes 4–6 weeks before the tolerance is breached.</div>
       </div>
     </div>
-  </div>
-  <div class="slide-foot">SensBELT</div>
-</section>
-
-<!-- SLIDE 7: ROI -->
-<section class="slide">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="header">
-    <div class="title-wrap">
-      <div class="eyebrow" data-key="s7_eye">THE MATH</div>
-      <h2 data-key="s7_title">36 days to full payback</h2>
+    <p class="slide-summary" data-i="t80">Based on the current degradation pattern, LC2 will exceed the ±0.5% accuracy threshold in about 6 weeks. Schedule the calibration.</p>
     </div>
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
-  </div>
-  <div class="body">
-    <div class="warn-card" data-key="s7_alert">One unnecessary technician visit costs €142. Monthly system cost: €59–99. The system pays for itself by avoiding a single wasted trip — everything else is profit.</div>
-    <div class="roi-grid">
-      <div style="display:flex;flex-direction:column;gap:12px;justify-content:center">
-        <div style="background:var(--canvas);border-radius:var(--r);padding:20px;text-align:center">
-          <div class="roi-label" style="color:var(--subtle)" data-key="s7_l1">Risk without SensBELT</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:36px;font-weight:700;color:var(--sky);margin:6px 0">€34,560/yr</div>
+    <div class="slide-foot">SensBELT</div>
+  </section>
+
+  <!-- SLIDE 7 — THE MATH -->
+  <section class="slide">
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t81">THE MATH</div><h2 data-i="t82">36 days to full payback</h2></div><div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a></div></div>
+    <div class="body" style="gap:18px">
+      <div class="roi-grid">
+        <div class="roi-assume">
+          <span class="roi-assume__tag" data-i="t83">ILLUSTRATIVE FIELD CASE</span>
+          <p class="roi-assume__lead" data-i="t84">Based on verified site data. Your figures depend on your own drive power, running hours and electricity price.</p>
+          <h3 data-i="t85">Assumptions</h3>
+          <dl class="roi-assume__list">
+            <div><dt data-i="t86">Drive power</dt><dd data-i="t87">75 kW</dd></div>
+            <div><dt data-i="t88">Ghost running</dt><dd data-i="t89">3 h/day × 320 days</dd></div>
+            <div><dt data-i="t90">Electricity price</dt><dd data-i="t91">€0.18/kWh</dd></div>
+          </dl>
         </div>
-        <div style="background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px;text-align:center">
-          <div class="roi-label" data-key="s7_l2">UCS Investment</div>
-          <div style="font-family:'Chakra Petch',sans-serif;font-size:36px;font-weight:700;color:var(--sky);margin:6px 0">€2,588</div>
+        <div class="roi-table">
+          <div class="roi-row"><span class="label" data-i="t92">Annual risk without SensBELT</span><span class="value" data-i="t93">€34,560</span></div>
+          <div class="roi-row roi-row--sub"><span class="label" data-i="t94">Wasted electricity</span><span class="value" data-i="t95">€12,960</span></div>
+          <div class="roi-row roi-row--sub"><span class="label" data-i="t96">Accelerated belt and roller wear</span><span class="value" data-i="t97">€21,600</span></div>
+          <div class="roi-row roi-row--note"><span class="label" data-i="t98">UCS investment, year 1<small>UCS-X3 €600 + dashboard setup €800 + service €1,188</small></span><span class="value" data-i="t99">€2,588</span></div>
+          <div class="roi-row"><span class="label" data-i="t100">Expected annual savings</span><span class="value" data-i="t101">€26,496</span></div>
+          <div class="roi-row highlight highlight--first"><span class="label" data-i="t102">Payback period</span><span class="value" data-i="t103">36 days</span></div>
+          <div class="roi-row highlight"><span class="label" data-i="t104">Year 1 ROI</span><span class="value">924%</span></div>
         </div>
       </div>
-      <div class="roi-box">
-        <h3 data-key="s7_roi_t" style="margin-bottom:14px">Investment breakdown</h3>
-        <ul style="margin:0 0 0 18px;padding:0;font-size:13px;color:var(--muted);line-height:1.8">
-          <li data-key="s7_b1">UCS-X3 Edge Gateway: <strong style="color:var(--ink)">€600</strong></li>
-          <li data-key="s7_b2">Dashboard setup: <strong style="color:var(--ink)">€800</strong></li>
-          <li data-key="s7_b3">Annual service: <strong style="color:var(--ink)">€1,188</strong></li>
-        </ul>
-        <div style="height:1px;background:var(--line);margin:14px 0"></div>
-        <ul style="margin:0 0 0 18px;padding:0;font-size:13px;color:var(--muted);line-height:1.8">
-          <li data-key="s7_r1">Verified annual savings: <strong style="color:var(--ink)">€26,496/year</strong></li>
-          <li data-key="s7_r2">Payback period: <strong style="color:var(--ink)">36 days</strong></li>
-          <li data-key="s7_r3">Year 1 ROI: <strong style="color:var(--sky)">924%</strong></li>
-        </ul>
-      </div>
+      <p class="slide-summary" data-i="t105">One unnecessary technician visit costs €142. The system costs €59–99 a month. It pays for itself by avoiding a single wasted trip — everything after that is profit.</p>
     </div>
-  </div>
-  <div class="slide-foot">SensBELT</div>
-</section>
+    <div class="slide-foot">SensBELT</div>
+  </section>
 
-<!-- SLIDE 8: CTA -->
-<section class="slide">
-  <div class="topline"><span></span><span></span><span></span></div>
-  <div class="header">
-    <div class="title-wrap">
-      <div class="eyebrow" data-key="s8_eye">NEXT STEP</div>
-      <h2 data-key="s8_title_head">Prove it on your busiest conveyor</h2>
-    </div>
-    <div class="brand"><img src="ucs-mark-white.png" alt="UCS"></div>
-  </div>
-  <div class="body">
-    <div class="adoption-banner">
-      <h2 data-key="s8_title">Prove it on your busiest conveyor</h2>
-      <p data-key="s8_sub">Free 30-day pilot on your most-used belt — we lend you the system for a month at no cost. If we don't find wasted hours — walk away.</p>
-    </div>
-    <div class="reasons-grid">
-      <div class="reason-card">
-        <h3 data-key="s8_r1t">Kill ghost running</h3>
-        <p data-key="s8_r1d">Automatic empty-belt detection, energy savings from Day 1. Stop burning money on air.</p>
+  <!-- SLIDE 8 — NEXT STEP -->
+  <section class="slide">
+    <div class="header"><div class="title-wrap"><div class="eyebrow" data-i="t106">NEXT STEP</div><h2 data-i="t107">Prove it on your busiest conveyor</h2></div><div class="brand"><a class="brand-link" href="https://sensweight.com/industries/beltscale/" target="_blank" rel="noopener" title="SensBELT"><img src="ucs-mark-white.png" alt="UCS — SensBELT"></a></div></div>
+    <div class="body"><div class="next-grid">
+      <div class="next-main">
+        <div class="cta-banner--pilot">
+          <span class="pilot-tag" data-i="t108">30-DAY FREE PILOT</span>
+          <p data-i="t109">Free 30-day pilot on your most-used belt — we lend you the system for a month at no cost. If we do not find wasted hours, walk away.</p>
+        </div>
+        <div class="reasons">
+          <div class="reason"><h3 data-i="t110">Kill ghost running</h3><p data-i="t111">Automatic empty-belt detection, energy saved from day one.</p></div>
+          <div class="reason"><h3 data-i="t112">Protect measurement accuracy</h3><p data-i="t113">Continuous calibration checks without site visits.</p></div>
+          <div class="reason"><h3 data-i="t114">Extend belt life</h3><p data-i="t115">Fewer wear hours. The belt is replaced on schedule, not 14 months early.</p></div>
+        </div>
       </div>
-      <div class="reason-card">
-        <h3 data-key="s8_r2t">Protect measurement accuracy</h3>
-        <p data-key="s8_r2d">Continuous calibration check without site visits. Know when accuracy drifts, not after it's too late.</p>
+      <div class="contact-card">
+        <span class="contact-card__tag" data-i="t116">Your contact</span>
+        <a class="contact-card__photo" href="https://www.unifiedcloudsensors.com/#team" target="_blank" rel="noopener"><img src="nikola.jpg" alt="Nikola Avramović"></a>
+        <a class="contact-card__name" href="https://www.unifiedcloudsensors.com/#team" target="_blank" rel="noopener">Nikola Avramović</a>
+        <span class="contact-card__role" data-i="t117">Chief Operating Officer</span>
+        <div class="contact-card__links">
+          <a class="contact-card__mail" href="mailto:n.avramovic@unifiedcloudsensors.com" title="n.avramovic@unifiedcloudsensors.com"><span>@</span>n.avramovic@unifiedcloudsensors.com</a>
+          <a href="tel:+420546427053"><span>☎</span>+420 546 427 053</a>
+          <a href="https://www.linkedin.com/in/nikola-avramovic-407477164/" target="_blank" rel="noopener"><span>in</span>LinkedIn</a>
+        </div>
       </div>
-      <div class="reason-card">
-        <h3 data-key="s8_r3t">Extend belt life</h3>
-        <p data-key="s8_r3d">Stop running empty, reduce unnecessary wear hours. Your €38,000 belt replacement should come on schedule, not 14 months early.</p>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted)">
-      <span data-key="s8_contact">Nikola Avramović · COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053</span>
-    </div>
-  </div>
-  <div class="slide-foot">SensBELT</div>
-</section>
+    </div></div>
+    <div class="slide-foot">SensBELT</div>
+  </section>
 
-</div></div>
-</main>
+</div></div></main>
 
-<div class="controls" id="ctrl">
-  <button onclick="go(-1)">◀</button>
-  <div class="dots" id="dots"></div>
-  <button onclick="go(1)">▶</button>
-</div>
+<div class="controls"><button onclick="go(-1)">◀</button><div class="dots" id="dots"></div><button onclick="go(1)">▶</button></div>
 <div class="hint">← → or swipe</div>
 
 <script>
-const TOTAL=8;let cur=0;
-const slides=document.querySelectorAll('.slide');
-const dots=document.getElementById('dots');
-for(let i=0;i<TOTAL;i++){const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d)}
-function goTo(n){if(n<0||n>=TOTAL)return;slides[cur].classList.remove('active');slides[cur].classList.add('prev');cur=n;slides.forEach((s,i)=>{s.classList.remove('active','prev');if(i<cur)s.classList.add('prev')});slides[cur].classList.add('active');document.querySelectorAll('.dot').forEach((d,i)=>{d.className='dot'+(i===cur?' active':'')});}
-function go(d){goTo(cur+d)}
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1)});
-let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?1:-1)});
+(function(){
+var TOTAL=8,cur=0,slides=document.querySelectorAll('.slide'),dotsBox=document.getElementById('dots');
+for(var i=0;i<TOTAL;i++){var d=document.createElement('span');d.className='dot'+(i===0?' on':'');d.setAttribute('data-idx',i);d.onclick=function(){goTo(parseInt(this.getAttribute('data-idx')))};dotsBox.appendChild(d)}
+function goTo(n){if(n<0||n>=TOTAL)return;for(var j=0;j<slides.length;j++){slides[j].classList.remove('active','prev');if(j<n)slides[j].classList.add('prev')}slides[n].classList.add('active');cur=n;var ad=dotsBox.querySelectorAll('.dot');for(var j=0;j<ad.length;j++)ad[j].className='dot'+(j===cur?' on':'')}
+window.go=function(d){goTo(cur+d)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1)});
+var tx=0;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX});document.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?1:-1)});
 
-const T={
-en:{s1_title:"Stop Paying for Air on Your Conveyor",s1_sub:"Your belt doesn't know the difference between 500 tonnes/hour and zero. But your electricity bill does.",s1_patent:"PATENTED · EP 4 524 526",s2_eye:"THE GHOST BELT",s2_title:"The most expensive machine that does nothing",s2_hook:"You wouldn't leave your car engine running all night in the parking lot. But your belt does exactly that, every day.",s2_without:"WITHOUT SensBELT",s2_w1:"Belt keeps running after last truck dumps — nobody notices for 45 minutes",s2_w2:"This happens 3–4 times per shift",s2_w3:"75 kW drive running empty for 3 hrs/day × 320 days × €0.18/kWh = €12,960/yr wasted",s2_w4:"Accelerated belt and roller wear: another €21,600/yr",s2_w5:"No way to check if belt scale is still accurate without a site visit",s2_with:"WITH SensBELT",s2_c1:"Empty belt detected automatically — shutdown signal after 5 minutes",s2_c2:"Calibration drift tracked continuously — no technician visits needed",s2_c3:"Throughput verification visible from your phone",s2_cost_lbl:"Total ghost running cost per belt",s2_cost_sub:"per year — energy waste + accelerated mechanical wear",s2_el:"Electricity waste",s2_wear:"Mechanical wear",s3_eye:"FIELD EVIDENCE",s3_title:"A quarry discovered 847 hours of ghost running per year",s3_tag:"WHAT HAPPENED",s3_p1:"A medium-size aggregate quarry, two belt scales feeding a crusher. Operators assumed belts ran only when trucks were dumping. The control room had no belt load visibility — just ON/OFF status.",s3_p2:"SensBELT found that Belt #1 ran empty for an average of 2.65 hours per day. Over the year: 847 hours of ghost running. Energy wasted: €11,430.",s3_p3:"Belt wear equivalent: 14 months of additional degradation — meaning the €38,000 belt replacement came 14 months early.",s3_p4:"Solution: automatic idle-shutdown logic (if belt carries no weight for 5 minutes → shutdown signal to VFD). Ghost running dropped to near zero in Week 2.",s3_s1:"Ghost running/year",s3_s2:"Energy wasted",s3_s3:"Early belt replacement",s3_cap1:"Belt scale installation — device mounted directly on the belt frame",s3_cap2:"Edge device close-up — plugs into existing indicator, running in 2 hours",s4_eye:"INSTALLATION",s4_title:"Plugs into your existing belt scale",s4_cap:"Belt Scale Load Cells → Existing Indicator → UCS-X3 Edge Gateway → Your Dashboard + Automatic Alerts + REST API",s4_s1t:"Connect",s4_s1d:"One device plugs into your indicator's RS-232/485 port. No belt stoppage, no recalibration.",s4_s2t:"Transmit",s4_s2d:"UCS-X3 sends data via secure wireless link. Additional sensors available: temperature, vibration.",s4_s3t:"See",s4_s3d:"Live throughput, empty-belt detection, calibration drift alerts, energy analytics — from any device.",s4_motive:"Running in 2 hours. No belt stoppage. No recalibration needed. One device, one cable.",s5_eye:"YOUR BELT, TRANSPARENT",s5_title:"See every tonne, every minute",s5_cap1:"Throughput (t/h), cumulative daily tonnage, belt speed vs. load correlation",s5_alert_lbl:"EMPTY BELT DETECTION",s5_alert_txt:"ALERT: Belt carrying no load for 4:23",s5_alert_cd:"Automated shutdown in 0:37",s5_q_lbl:"THE QUESTION IT ASKS",s5_q:'"Tuesday 14:00–16:45 — belt ran at 12% capacity. Why?"',s5_q_sub:"Historical trends reveal inefficiency patterns your control room can't see.",s6_eye:"CALIBRATION TRUTH",s6_title:"Is your belt scale still accurate?",s6_h1:'Your indicator says "342 t/h"',s6_p1:"But is it? SensBELT checks continuously — so you don't have to send a technician to find out.",s6_h2:"What SensBELT tracks",s6_l1:"Zero drift — does the belt read 0 when empty?",s6_l2:"Span deviation — is the full-scale reading still correct?",s6_l3:"Signal noise — is the load cell degrading?",s6_l4:"Disconnection and overload events — logged and timestamped",s6_pred:"Based on current degradation pattern, LC2 will exceed ±0.5% accuracy threshold in approximately 6 weeks. Schedule calibration.",s6_cap:"The system compares today's readings to your historical baseline — alerts 4–6 weeks before failure.",s7_eye:"THE MATH",s7_title:"36 days to full payback",s7_alert:"One unnecessary technician visit costs €142. Monthly system cost: €59–99. The system pays for itself by avoiding a single wasted trip — everything else is profit.",s7_l1:"Risk without SensBELT",s7_l2:"UCS Investment",s7_roi_t:"Investment breakdown",s7_b1:"UCS-X3 Edge Gateway: €600",s7_b2:"Dashboard setup: €800",s7_b3:"Annual service: €1,188",s7_r1:"Verified annual savings: €26,496/year",s7_r2:"Payback period: 36 days",s7_r3:"Year 1 ROI: 924%",s8_eye:"NEXT STEP",s8_title_head:"Prove it on your busiest conveyor",s8_title:"Prove it on your busiest conveyor",s8_sub:"Free 30-day pilot on your most-used belt — we lend you the system for a month at no cost. If we don't find wasted hours — walk away.",s8_r1t:"Kill ghost running",s8_r1d:"Automatic empty-belt detection, energy savings from Day 1. Stop burning money on air.",s8_r2t:"Protect measurement accuracy",s8_r2d:"Continuous calibration check without site visits. Know when accuracy drifts, not after it's too late.",s8_r3t:"Extend belt life",s8_r3d:"Stop running empty, reduce unnecessary wear hours. Your €38,000 belt replacement should come on schedule, not 14 months early.",s8_contact:"Nikola Avramović · COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053"},
-cs:{s1_title:"Přestaňte platit za vzduch na dopravníku",s1_sub:"Váš pás nerozezná 500 tun/hodinu od nuly. Ale váš účet za elektřinu ano.",s1_patent:"PATENTOVÁNO · EP 4 524 526",s2_eye:"DUCHOVÝ PÁS",s2_title:"Nejdražší stroj, který nedělá nic",s2_hook:"Auto byste přes noc se zapnutým motorem na parkovišti nenechali. Ale váš pás přesně to dělá, každý den.",s2_without:"BEZ SensBELT",s2_w1:"Pás běží dál poté, co poslední nákladní auto vysype — nikdo si toho 45 minut nevšimne",s2_w2:"To se stává 3–4× za směnu",s2_w3:"75 kW pohon naprázdno 3 hod/den × 320 dní × 0,18 €/kWh = 12 960 € ročně zbytečně",s2_w4:"Zrychlené opotřebení pásu a válečků: dalších 21 600 €/rok",s2_w5:"Nelze ověřit přesnost pásové váhy bez výjezdu na místo",s2_with:"SE SensBELT",s2_c1:"Prázdný pás detekován automaticky — signál k vypnutí po 5 minutách",s2_c2:"Drift kalibrace sledován průběžně — bez návštěv technika",s2_c3:"Ověření průtoku viditelné z telefonu",s2_cost_lbl:"Celkové náklady na duchový běh na pás",s2_cost_sub:"ročně — plýtvání energií + zrychlené mechanické opotřebení",s2_el:"Plýtvání elektřinou",s2_wear:"Mechanické opotřebení",s3_eye:"DŮKAZY Z TERÉNU",s3_title:"Lom objevil 847 hodin duchového běhu ročně",s3_tag:"CO SE STALO",s3_p1:"Středně velký lom na kamenivo, dva pásové váhy napájející drtič. Operátoři předpokládali, že pásy běží jen při vykládce. Řídicí místnost neměla viditelnost zatížení — jen ZAP/VYP.",s3_p2:"SensBELT zjistil, že pás #1 běžel naprázdno průměrně 2,65 hodiny denně. Za rok: 847 hodin duchového běhu. Promarněná energie: 11 430 €.",s3_p3:"Ekvivalent opotřebení: 14 měsíců degradace navíc — výměna pásu za 38 000 € přišla o 14 měsíců dříve.",s3_p4:"Řešení: automatické vypínání při nečinnosti (pás bez zátěže 5 minut → signál VFD). Duchový běh klesl téměř na nulu ve 2. týdnu.",s3_s1:"Duchový běh/rok",s3_s2:"Promarněná energie",s3_s3:"Předčasná výměna pásu",s3_cap1:"Instalace pásové váhy — zařízení připevněné přímo na rámu pásu",s3_cap2:"Detail zařízení — připojení k existujícímu indikátoru, v provozu za 2 hodiny",s4_eye:"INSTALACE",s4_title:"Připojí se k vaší stávající pásové váze",s4_cap:"Tenzometry pásové váhy → Stávající indikátor → UCS-X3 → Váš přehled + Automatická upozornění + REST API",s4_s1t:"Připojit",s4_s1d:"Jedno zařízení se zapojí do RS-232/485 portu vašeho indikátoru. Žádné zastavení pásu, žádná rekalibrace.",s4_s2t:"Přenášet",s4_s2d:"UCS-X3 odesílá data zabezpečeným bezdrátovým spojením. Další senzory: teplota, vibrace.",s4_s3t:"Vidět",s4_s3d:"Živý průtok, detekce prázdného pásu, upozornění na drift kalibrace, energetická analytika — z jakéhokoli zařízení.",s4_motive:"V provozu za 2 hodiny. Žádné zastavení pásu. Žádná rekalibrace. Jedno zařízení, jeden kabel.",s5_eye:"VÁŠ PÁS, TRANSPARENTNÍ",s5_title:"Sledujte každou tunu, každou minutu",s5_cap1:"Průtok (t/h), kumulativní denní tonáž, korelace rychlosti a zatížení",s5_alert_lbl:"DETEKCE PRÁZDNÉHO PÁSU",s5_alert_txt:"UPOZORNĚNÍ: Pás bez zatížení 4:23",s5_alert_cd:"Automatické vypnutí za 0:37",s5_q_lbl:"OTÁZKA, KTEROU KLADE",s5_q:'"Úterý 14:00–16:45 — pás běžel na 12 % kapacity. Proč?"',s5_q_sub:"Historické trendy odhalí vzorce neefektivity, které řídicí místnost nevidí.",s6_eye:"PRAVDA O KALIBRACI",s6_title:"Je vaše pásová váha stále přesná?",s6_h1:'Váš indikátor ukazuje „342 t/h"',s6_p1:"Ale je to tak? SensBELT to kontroluje průběžně — takže vy nemusíte posílat technika.",s6_h2:"Co SensBELT sleduje",s6_l1:"Drift nuly — ukazuje pás 0, když je prázdný?",s6_l2:"Odchylka rozsahu — je celý rozsah stále správný?",s6_l3:"Šum signálu — degraduje tenzometr?",s6_l4:"Události odpojení a přetížení — zaznamenány s časovou značkou",s6_pred:"Na základě aktuálního degradačního vzorce LC2 překročí práh přesnosti ±0,5 % přibližně za 6 týdnů. Naplánujte kalibraci.",s6_cap:"Systém porovnává dnešní odečty s vaší historickou základnou — upozornění 4–6 týdnů před selháním.",s7_eye:"MATEMATIKA",s7_title:"36 dní do plné návratnosti",s7_alert:"Jeden zbytečný výjezd technika stojí 142 €. Měsíční náklad systému: 59–99 €. Systém se zaplatí tím, že předejde jediné zbytečné cestě — vše ostatní je zisk.",s7_l1:"Riziko bez SensBELT",s7_l2:"Investice UCS",s7_roi_t:"Rozklad investice",s7_b1:"UCS-X3 Edge Gateway: 600 €",s7_b2:"Nastavení přehledu: 800 €",s7_b3:"Roční servis: 1 188 €",s7_r1:"Ověřené roční úspory: 26 496 €/rok",s7_r2:"Doba návratnosti: 36 dní",s7_r3:"ROI 1. rok: 924 %",s8_eye:"DALŠÍ KROK",s8_title_head:"Dokažte to na vašem nejcreší pasu",s8_title:"Dokažte to na vašem nejcreší pásu",s8_sub:"30denní pilot zdarma na vašem nejpoužívanějším pásu — systém vám na měsíc bezplatně zapůjčíme. Pokud nenajdeme promarněné hodiny — odejděte.",s8_r1t:"Zabijte duchový běh",s8_r1d:"Automatická detekce prázdného pásu, úspora energie od 1. dne. Přestaňte pálit peníze za vzduch.",s8_r2t:"Chraňte přesnost měření",s8_r2d:"Průběžná kontrola kalibrace bez výjezdů. Víte, kdy přesnost klesá, ne až je pozdě.",s8_r3t:"Prodlužte životnost pásu",s8_r3d:"Přestaňte jezdit naprázdno, snižte zbytečné hodiny opotřebení. Výměna pásu za 38 000 € by měla přijít podle plánu, ne o 14 měsíců dříve.",s8_contact:"Nikola Avramović · COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053"},
-sr:{s1_title:"Prestanite da plaćate vazduh na transporteru",s1_sub:"Vaša traka ne razlikuje 500 tona/sat od nule. Ali vaš račun za struju da.",s1_patent:"PATENTIRANO · EP 4 524 526",s2_eye:"DUHOVNA TRAKA",s2_title:"Najskuplji stroj koji ne radi ništa",s2_hook:"Ne biste ostavili auto da radi celu noć na parkingu. Ali vaša traka radi upravo to, svaki dan.",s2_without:"BEZ SensBELT",s2_w1:"Traka nastavlja da radi nakon poslednjeg istovara — niko ne primećuje 45 minuta",s2_w2:"To se dešava 3–4 puta po smeni",s2_w3:"75 kW pogon radi prazan 3 sata/dan × 320 dana × 0,18 €/kWh = 12.960 € godišnje bačeno",s2_w4:"Ubrzano habanje trake i valjaka: još 21.600 €/god.",s2_w5:"Nema načina da se proveri tačnost tračne vage bez dolaska na lokaciju",s2_with:"SA SensBELT",s2_c1:"Prazna traka otkrivena automatski — signal za isključivanje posle 5 minuta",s2_c2:"Drift kalibracije praćen kontinuirano — bez poseta tehničara",s2_c3:"Verifikacija protoka vidljiva sa telefona",s2_cost_lbl:"Ukupni troškovi duhovalnog rada po traci",s2_cost_sub:"godišnje — rasipanje energije + ubrzano mehaničko habanje",s2_el:"Rasipanje struje",s2_wear:"Mehaničko habanje",s3_eye:"DOKAZI SA TERENA",s3_title:"Kamenolom otkrio 847 sati duhovnog rada godišnje",s3_tag:"ŠTA SE DESILO",s3_p1:"Kamenolom srednje veličine, dve tračne vage napajaju drobilicu. Operateri su pretpostavljali da trake rade samo tokom istovara. Kontrolna soba bez vidljivosti opterećenja — samo UKLJUČENO/ISKLJUČENO.",s3_p2:"SensBELT je otkrio da traka #1 radi prazna u proseku 2,65 sati dnevno. Godišnje: 847 sati duhovnog rada. Protraćena energija: 11.430 €.",s3_p3:"Ekvivalent habanja: 14 meseci dodatne degradacije — zamena trake od 38.000 € došla je 14 meseci ranije.",s3_p4:"Rešenje: automatska logika gašenja (traka bez tereta 5 min → signal VFD). Duhovni rad pao na skoro nulu u 2. nedelji.",s3_s1:"Duhovni rad/god.",s3_s2:"Protraćena energija",s3_s3:"Prerana zamena trake",s3_cap1:"Instalacija tračne vage — uređaj montiran direktno na ram trake",s3_cap2:"Detalj uređaja — priključen na postojeći indikator, radi za 2 sata",s4_eye:"INSTALACIJA",s4_title:"Priključuje se na vašu postojeću tračnu vagu",s4_cap:"Tenzometri tračne vage → Postojeći indikator → UCS-X3 → Vaš pregled + Automatska upozorenja + REST API",s4_s1t:"Povezati",s4_s1d:"Jedan uređaj se priključuje na RS-232/485 port vašeg indikatora. Bez zaustavljanja trake, bez rekalibracije.",s4_s2t:"Prenositi",s4_s2d:"UCS-X3 šalje podatke preko bezbedne bežične veze. Dodatni senzori: temperatura, vibracije.",s4_s3t:"Videti",s4_s3d:"Živi protok, detekcija prazne trake, upozorenja o driftu kalibracije, energetska analitika — sa bilo kog uređaja.",s4_motive:"Radi za 2 sata. Bez zaustavljanja trake. Bez rekalibracije. Jedan uređaj, jedan kabl.",s5_eye:"VAŠA TRAKA, TRANSPARENTNA",s5_title:"Pratite svaku tonu, svaki minut",s5_cap1:"Protok (t/h), kumulativna dnevna tonaža, korelacija brzine i opterećenja",s5_alert_lbl:"DETEKCIJA PRAZNE TRAKE",s5_alert_txt:"UPOZORENJE: Traka bez tereta 4:23",s5_alert_cd:"Automatsko isključivanje za 0:37",s5_q_lbl:"PITANJE KOJE POSTAVLJA",s5_q:"'Utorak 14:00–16:45 — traka radila na 12% kapaciteta. Zašto?'",s5_q_sub:"Istorijski trendovi otkrivaju obrasce neefikasnosti koje kontrolna soba ne vidi.",s6_eye:"ISTINA O KALIBRACIJI",s6_title:"Da li je vaša tračna vaga još uvek tačna?",s6_h1:'Vaš indikator pokazuje „342 t/h"',s6_p1:"Ali da li je? SensBELT proverava kontinuirano — tako da vi ne morate da šaljete tehničara.",s6_h2:"Šta SensBELT prati",s6_l1:"Drift nule — da li traka čita 0 kada je prazna?",s6_l2:"Devijacija raspona — da li je puni raspon još korektan?",s6_l3:"Šum signala — da li se tenzometar degradira?",s6_l4:"Događaji isključenja i preopterećenja — zabeleženi sa vremenskim žigom",s6_pred:"Na osnovu trenutnog obrasca degradacije, LC2 će preći prag tačnosti od ±0,5% za približno 6 nedelja. Zakažite kalibraciju.",s6_cap:"Sistem poredi današnja očitanja sa vašom istorijskom osnovom — upozorenja 4–6 nedelja pre kvara.",s7_eye:"MATEMATIKA",s7_title:"36 dana do potpunog povraćaja",s7_alert:"Jedna nepotrebna poseta tehničara košta 142 €. Mesečni trošak sistema: 59–99 €. Sistem se isplati izbegavanjem jednog uzaludnog puta — sve ostalo je čist profit.",s7_l1:"Rizik bez SensBELT",s7_l2:"UCS Investicija",s7_roi_t:"Struktura investicije",s7_b1:"UCS-X3 Edge Gateway: 600 €",s7_b2:"Podešavanje pregleda: 800 €",s7_b3:"Godišnji servis: 1.188 €",s7_r1:"Verifikovane godišnje uštede: 26.496 €/god.",s7_r2:"Period povraćaja: 36 dana",s7_r3:"ROI 1. godina: 924%",s8_eye:"SLEDEĆI KORAK",s8_title_head:"Dokažite na svom najopterećenijem transporteru",s8_title:"Dokažite na svom najopterećenijem transporteru",s8_sub:"Besplatan 30-dnevni pilot na vašoj najkorišćenijoj traci — sistem vam pozajmljujemo na mesec dana bez naknade. Ako ne nađemo protraćene sate — odustanite.",s8_r1t:"Ubijte duhovni rad",s8_r1d:"Automatska detekcija prazne trake, ušteda energije od 1. dana. Prestanite da palite novac na vazduh.",s8_r2t:"Zaštitite tačnost merenja",s8_r2d:"Kontinuirana provera kalibracije bez izlazaka. Znate kada tačnost opada, ne kada je prekasno.",s8_r3t:"Produžite vek trake",s8_r3d:"Prestanite da vozite prazno, smanjite nepotrebne sate habanja. Zamena trake od 38.000 € treba da dođe po planu, ne 14 meseci ranije.",s8_contact:"Nikola Avramović · COO · n.avramovic@unifiedcloudsensors.com · +420 546 427 053"}
+var T={
+en:{
+t1:"Stop paying for air on your conveyor",
+t2:"Your belt cannot tell 500 tonnes an hour from zero. Your electricity bill can.",
+t3:"PATENTED TECHNOLOGY · EP 4 524 526",
+t4:"THE GHOST BELT",
+t5:"The most expensive machine that does nothing",
+t6:"WITHOUT SensBELT",
+t7:"The belt runs on after the last truck dumps — unnoticed for 45 minutes.",
+t8:"Three to four times a shift. A 75 kW drive turning air.",
+t9:"No way to check the belt scale without sending a technician.",
+t10:"€34,560",
+t11:"per belt, per year",
+t12:"Wasted electricity",
+t13:"€12,960",
+t14:"Belt &amp; roller wear",
+t15:"€21,600",
+t16:"WITH SensBELT",
+t17:"An empty belt is detected automatically — shutdown signal after 5 minutes.",
+t18:"Calibration drift is tracked continuously — no site visits.",
+t19:"Throughput verified from your phone.",
+t20:"You would not leave your car engine running all night in the car park. Your belt does exactly that, every day.",
+t21:"FIELD EVIDENCE",
+t22:"A quarry found 847 hours of ghost running in one year",
+t23:"SITE",
+t24:"Aggregate quarry, two belt scales feeding a crusher. The control room saw ON/OFF, nothing else.",
+t25:"2 belts",
+t26:"FAILURE",
+t27:"Belt #1 ran empty 2.65 hours a day. Nothing looked broken, so nobody looked.",
+t28:"847 h",
+t29:"IMPACT",
+t30:"Energy burned on air, plus 14 months of extra wear — a €38,000 belt replaced early.",
+t31:"€11,430",
+t32:"FIX",
+t33:"No load for 5 minutes → shutdown signal to the VFD. Ghost running gone by week 2.",
+t34:"≈ 0 h",
+t35:"The problem: a belt running with nothing on it",
+t36:"The fix: one UCS-X3 on the existing indicator",
+t37:"INSTALLATION",
+t38:"Plugs into your existing belt scale",
+t39:"Belt-scale load cells",
+t40:"Indicator",
+t41:"Edge gateway",
+t42:"HMI / PC / mobile",
+t43:"Connect",
+t44:"One device into the indicator's RS-232/485 port. No belt stoppage, no recalibration.",
+t45:"Transmit",
+t46:"UCS-X3 sends the data over a secure wireless link. Temperature and vibration optional.",
+t47:"See",
+t48:"Live throughput, empty-belt detection, drift alerts and energy analytics, on any device.",
+t49:"Running in 2 hours. No belt stoppage. No recalibration. One device, one cable.",
+t50:"YOUR BELT, TRANSPARENT",
+t51:"See every tonne, every minute",
+t52:"Throughput",
+t53:"Live flow rate on the belt",
+t54:"Daily tonnage",
+t55:"Cumulative, per shift and per day",
+t56:"Speed vs. load",
+t57:"Is the belt moving material, or air?",
+t58:"Empty-belt events",
+t59:"Every idle run logged with its duration",
+t60:"Empty-belt detection",
+t61:"ALERT: belt carrying no load for 4:23",
+t62:"Automated shutdown in 0:37",
+t63:"How the notification appears on your dashboard — e-mail and SMS optional.",
+t64:"The question it asks",
+t65:"“Tuesday 14:00–16:45 — the belt ran at 12% capacity. Why?”",
+t66:"Historical trends reveal inefficiency patterns your control room cannot see.",
+t67:"CALIBRATION TRUTH",
+t68:"Is your belt scale still accurate?",
+t69:"Your indicator says “342 t/h”",
+t70:"Is it right? SensBELT checks continuously, so you do not have to send someone to find out.",
+t71:"Zero drift",
+t72:"Does the belt read 0 when it is empty?",
+t73:"Span deviation",
+t74:"Is the full-scale reading still correct?",
+t75:"Signal noise",
+t76:"Is the load cell starting to degrade?",
+t77:"Disconnection &amp; overload",
+t78:"Every event logged and timestamped",
+t79:"Today's readings are compared with your own historical baseline — the alert comes 4–6 weeks before the tolerance is breached.",
+t80:"Based on the current degradation pattern, LC2 will exceed the ±0.5% accuracy threshold in about 6 weeks. Schedule the calibration.",
+t81:"THE MATH",
+t82:"36 days to full payback",
+t83:"ILLUSTRATIVE FIELD CASE",
+t84:"Based on verified site data. Your figures depend on your own drive power, running hours and electricity price.",
+t85:"Assumptions",
+t86:"Drive power",
+t87:"75 kW",
+t88:"Ghost running",
+t89:"3 h/day × 320 days",
+t90:"Electricity price",
+t91:"€0.18/kWh",
+t92:"Annual risk without SensBELT",
+t93:"€34,560",
+t94:"Wasted electricity",
+t95:"€12,960",
+t96:"Accelerated belt and roller wear",
+t97:"€21,600",
+t98:"UCS investment, year 1<small>UCS-X3 €600 + dashboard setup €800 + service €1,188</small>",
+t99:"€2,588",
+t100:"Expected annual savings",
+t101:"€26,496",
+t102:"Payback period",
+t103:"36 days",
+t104:"Year 1 ROI",
+t105:"One unnecessary technician visit costs €142. The system costs €59–99 a month. It pays for itself by avoiding a single wasted trip — everything after that is profit.",
+t106:"NEXT STEP",
+t107:"Prove it on your busiest conveyor",
+t108:"30-DAY FREE PILOT",
+t109:"Free 30-day pilot on your most-used belt — we lend you the system for a month at no cost. If we do not find wasted hours, walk away.",
+t110:"Kill ghost running",
+t111:"Automatic empty-belt detection, energy saved from day one.",
+t112:"Protect measurement accuracy",
+t113:"Continuous calibration checks without site visits.",
+t114:"Extend belt life",
+t115:"Fewer wear hours. The belt is replaced on schedule, not 14 months early.",
+t116:"Your contact",
+t117:"Chief Operating Officer"
+},
+cs:{
+t1:"Přestaňte platit za vzduch na dopravníku",
+t2:"Váš pás nepozná rozdíl mezi 500 tunami za hodinu a nulou. Váš účet za elektřinu ano.",
+t3:"PATENTOVANÁ TECHNOLOGIE · EP 4 524 526",
+t4:"PÁS, KTERÝ BĚŽÍ NAPRÁZDNO",
+t5:"Nejdražší stroj, který nedělá nic",
+t6:"BEZ SensBELT",
+t7:"Pás běží dál poté, co poslední auto vysype — 45 minut si toho nikdo nevšimne.",
+t8:"Tři až čtyřikrát za směnu. Pohon 75 kW točí vzduch.",
+t9:"Přesnost pásové váhy nelze ověřit bez výjezdu technika.",
+t10:"34 560 €",
+t11:"na jeden pás a rok",
+t12:"Plýtvání elektřinou",
+t13:"12 960 €",
+t14:"Opotřebení pásu a válečků",
+t15:"21 600 €",
+t16:"SE SensBELT",
+t17:"Prázdný pás se detekuje automaticky — signál k vypnutí po 5 minutách.",
+t18:"Drift kalibrace se sleduje průběžně — bez výjezdů na místo.",
+t19:"Průtok ověříte z telefonu.",
+t20:"Auto byste přes noc se zapnutým motorem na parkovišti nenechali. Váš pás to dělá každý den.",
+t21:"DŮKAZY Z TERÉNU",
+t22:"Lom našel 847 hodin běhu naprázdno za jediný rok",
+t23:"MÍSTO",
+t24:"Lom na kamenivo, dvě pásové váhy napájí drtič. Řídicí místnost viděla jen ZAP/VYP.",
+t25:"2 pásy",
+t26:"PORUCHA",
+t27:"Pás č. 1 běžel naprázdno 2,65 hodiny denně. Nic nevypadalo rozbitě, takže nikdo nehledal.",
+t28:"847 h",
+t29:"DOPAD",
+t30:"Energie spotřebovaná na vzduch a 14 měsíců opotřebení navíc — pás za 38 000 € vyměněný předčasně.",
+t31:"11 430 €",
+t32:"ŘEŠENÍ",
+t33:"Bez zátěže 5 minut → signál k vypnutí do měniče. Ve 2. týdnu byl běh naprázdno pryč.",
+t34:"≈ 0 h",
+t35:"Problém: pás, který běží a nic neveze",
+t36:"Řešení: jedna UCS-X3 na stávajícím indikátoru",
+t37:"INSTALACE",
+t38:"Připojí se k vaší stávající pásové váze",
+t39:"Tenzometry pásové váhy",
+t40:"Indikátor",
+t41:"Edge brána",
+t42:"HMI / PC / mobil",
+t43:"Připojit",
+t44:"Jedno zařízení do portu RS-232/485 indikátoru. Žádné zastavení pásu, žádná rekalibrace.",
+t45:"Přenášet",
+t46:"UCS-X3 posílá data zabezpečeným bezdrátovým spojením. Teplota a vibrace volitelně.",
+t47:"Vídet",
+t48:"Živý průtok, detekce prázdného pásu, upozornění na drift a energetická analytika — na jakémkoli zařízení.",
+t49:"V provozu za 2 hodiny. Žádné zastavení pásu. Žádná rekalibrace. Jedno zařízení, jeden kabel.",
+t50:"VÁŠ PÁS, TRANSPARENTNĚ",
+t51:"Sledujte každou tunu, každou minutu",
+t52:"Průtok",
+t53:"Živá hodnota průtoku na pásu",
+t54:"Denní tonáž",
+t55:"Kumulativně, za směnu i za den",
+t56:"Rychlost vs. zátěž",
+t57:"Veze pás materiál, nebo vzduch?",
+t58:"Události prázdného pásu",
+t59:"Každý běh naprázdno zaznamenán včetně délky",
+t60:"Detekce prázdného pásu",
+t61:"UPOZORNĚNÍ: pás bez zátěže 4:23",
+t62:"Automatické vypnutí za 0:37",
+t63:"Takto vypadá oznámení na vašem dashboardu — e-mail a SMS volitelně.",
+t64:"Otázka, kterou klade",
+t65:"„Úterý 14:00–16:45 — pás běžel na 12 % kapacity. Proč?“",
+t66:"Historické trendy odhalí vzorce neefektivity, které řídicí místnost nevidí.",
+t67:"PRAVDA O KALIBRACI",
+t68:"Je vaše pásová váha stále přesná?",
+t69:"Váš indikátor ukazuje „342 t/h“",
+t70:"Je to tak? SensBELT kontroluje průběžně, takže nemusíte nikoho posílat na místo.",
+t71:"Drift nuly",
+t72:"Ukazuje pás 0, když je prázdný?",
+t73:"Odchylka rozsahu",
+t74:"Je údaj při plném rozsahu stále správný?",
+t75:"Šum signálu",
+t76:"Začíná tenzometr degradovat?",
+t77:"Odpojení a přetížení",
+t78:"Každá událost zaznamenána s časovou značkou",
+t79:"Dnešní údaje se porovnávají s vaší vlastní historickou základnou — upozornění přijde 4–6 týdnů před překročením tolerance.",
+t80:"Podle současného průběhu degradace překročí LC2 práh přesnosti ±0,5 % přibližně za 6 týdnů. Naplánujte kalibraci.",
+t81:"MATEMATIKA",
+t82:"36 dní do plné návratnosti",
+t83:"ILUSTRATIVNÍ PŘÍPAD Z PRAXE",
+t84:"Vychází z ověřených dat z provozu. Vaše čísla závisí na výkonu pohonu, provozních hodinách a ceně elektřiny.",
+t85:"Předpoklady",
+t86:"Výkon pohonu",
+t87:"75 kW",
+t88:"Běh naprázdno",
+t89:"3 h/den × 320 dní",
+t90:"Cena elektřiny",
+t91:"0,18 €/kWh",
+t92:"Roční riziko bez SensBELT",
+t93:"34 560 €",
+t94:"Plýtvání elektřinou",
+t95:"12 960 €",
+t96:"Zrychlené opotřebení pásu a válečků",
+t97:"21 600 €",
+t98:"Investice UCS, 1. rok<small>UCS-X3 600 € + nastavení dashboardu 800 € + servis 1 188 €</small>",
+t99:"2 588 €",
+t100:"Očekávané roční úspory",
+t101:"26 496 €",
+t102:"Doba návratnosti",
+t103:"36 dní",
+t104:"ROI 1. rok",
+t105:"Jeden zbytečný výjezd technika stojí 142 €. Systém stojí 59–99 € měsíčně. Zaplatí se tím, že předejde jediné zbytečné cestě — všechno další už je zisk.",
+t106:"DALŠÍ KROK",
+t107:"Ověřte si to na svém nejvíce vytíženém dopravníku",
+t108:"30 DNÍ PILOT ZDARMA",
+t109:"30denní pilot zdarma na vašem nejpoužívanějším pásu — systém vám na měsíc bezplatně zapůjčíme. Pokud nenajdeme promarněné hodiny, odejděte.",
+t110:"Konec běhu naprázdno",
+t111:"Automatická detekce prázdného pásu, úspora energie od prvního dne.",
+t112:"Ochrana přesnosti měření",
+t113:"Průběžná kontrola kalibrace bez výjezdů na místo.",
+t114:"Delší životnost pásu",
+t115:"Méně hodin opotřebení. Pás se vymění podle plánu, ne o 14 měsíců dříve.",
+t116:"Váš kontakt",
+t117:"Provozní ředitel"
+},
+sr:{
+t1:"Prestanite da plaćate vazduh na transporteru",
+t2:"Vaša traka ne razlikuje 500 tona na sat od nule. Vaš račun za struju razlikuje.",
+t3:"PATENTIRANA TEHNOLOGIJA · EP 4 524 526",
+t4:"TRAKA KOJA RADI PRAZNA",
+t5:"Najskuplja mašina koja ne radi ništa",
+t6:"BEZ SensBELT",
+t7:"Traka nastavlja da radi posle poslednjeg istovara — 45 minuta niko ne primeti.",
+t8:"Tri do četiri puta po smeni. Pogon od 75 kW okreće vazduh.",
+t9:"Tačnost tračne vage nije moguće proveriti bez dolaska tehničara.",
+t10:"34.560 €",
+t11:"po traci, godišnje",
+t12:"Bajčena struja",
+t13:"12.960 €",
+t14:"Habanje trake i valjaka",
+t15:"21.600 €",
+t16:"SA SensBELT",
+t17:"Prazna traka se otkriva automatski — signal za isključenje posle 5 minuta.",
+t18:"Drift kalibracije se prati kontinuirano — bez izlazaka na teren.",
+t19:"Protok proveravate sa telefona.",
+t20:"Ne biste ostavili auto da radi celu noć na parkingu. Vaša traka to radi svakog dana.",
+t21:"DOKAZI SA TERENA",
+t22:"Kamenolom je našao 847 sati praznog rada za godinu dana",
+t23:"LOKACIJA",
+t24:"Kamenolom, dve tračne vage napajaju drobilicu. Kontrolna soba je videla samo UKLJUČENO/ISKLJUČENO.",
+t25:"2 trake",
+t26:"KVAR",
+t27:"Traka br. 1 radila je prazna 2,65 sati dnevno. Ništa nije izgledalo pokvareno, pa niko nije ni gledao.",
+t28:"847 h",
+t29:"POSLEDICA",
+t30:"Energija potrošena na vazduh i 14 meseci dodatnog habanja — traka od 38.000 € zamenjena prerano.",
+t31:"11.430 €",
+t32:"REŠENJE",
+t33:"Bez tereta 5 minuta → signal za isključenje ka frekventnom regulatoru. U 2. nedelji prazan rad je nestao.",
+t34:"≈ 0 h",
+t35:"Problem: traka koja radi, a ništa ne nosi",
+t36:"Rešenje: jedan UCS-X3 na postojećem indikatoru",
+t37:"INSTALACIJA",
+t38:"Priključuje se na vašu postojeću tračnu vagu",
+t39:"Merne ćelije tračne vage",
+t40:"Indikator",
+t41:"Edge gateway",
+t42:"HMI / PC / mobilni",
+t43:"Povezati",
+t44:"Jedan uređaj u RS-232/485 port indikatora. Bez zaustavljanja trake, bez rekalibracije.",
+t45:"Prenositi",
+t46:"UCS-X3 šalje podatke preko bezbedne bežične veze. Temperatura i vibracije opciono.",
+t47:"Videti",
+t48:"Živi protok, detekcija prazne trake, upozorenja o driftu i energetska analitika — na bilo kom uređaju.",
+t49:"Radi za 2 sata. Bez zaustavljanja trake. Bez rekalibracije. Jedan uređaj, jedan kabl.",
+t50:"VAŠA TRAKA, TRANSPARENTNA",
+t51:"Pratite svaku tonu, svaki minut",
+t52:"Protok",
+t53:"Živi protok na traci",
+t54:"Dnevna tonaža",
+t55:"Kumulativno, po smeni i po danu",
+t56:"Brzina i opterećenje",
+t57:"Da li traka nosi materijal, ili vazduh?",
+t58:"Događaji prazne trake",
+t59:"Svaki prazan rad zabeležen sa trajanjem",
+t60:"Detekcija prazne trake",
+t61:"UPOZORENJE: traka bez tereta 4:23",
+t62:"Automatsko isključenje za 0:37",
+t63:"Ovako obaveštenje izgleda na vašem dashboardu — e-mail i SMS opciono.",
+t64:"Pitanje koje postavlja",
+t65:"„Utorak 14:00–16:45 — traka je radila na 12% kapaciteta. Zašto?“",
+t66:"Istorijski trendovi otkrivaju obrasce neefikasnosti koje kontrolna soba ne vidi.",
+t67:"ISTINA O KALIBRACIJI",
+t68:"Da li je vaša tračna vaga još uvek tačna?",
+t69:"Vaš indikator pokazuje „342 t/h“",
+t70:"Da li je tačno? SensBELT proverava kontinuirano, pa nikoga ne morate slati na teren.",
+t71:"Drift nule",
+t72:"Da li traka pokazuje 0 kada je prazna?",
+t73:"Devijacija raspona",
+t74:"Da li je očitavanje punog raspona još uvek tačno?",
+t75:"Šum signala",
+t76:"Da li merna ćelija počinje da se degradira?",
+t77:"Isključenje i preopterećenje",
+t78:"Svaki događaj zabeležen sa vremenskim žigom",
+t79:"Današnja očitavanja se porede sa vašom sopstvenom istorijskom osnovom — upozorenje stiže 4–6 nedelja pre prekoračenja tolerancije.",
+t80:"Prema trenutnom obrascu degradacije, LC2 će preći prag tačnosti od ±0,5% za oko 6 nedelja. Zakažite kalibraciju.",
+t81:"MATEMATIKA",
+t82:"36 dana do potpunog povraćaja",
+t83:"ILUSTRATIVAN SLUČAJ SA TERENA",
+t84:"Zasnovano na proverenim podacima sa lokacije. Vaši brojevi zavise od snage pogona, radnih sati i cene struje.",
+t85:"Pretpostavke",
+t86:"Snaga pogona",
+t87:"75 kW",
+t88:"Prazan rad",
+t89:"3 h/dan × 320 dana",
+t90:"Cena struje",
+t91:"0,18 €/kWh",
+t92:"Godišnji rizik bez SensBELT",
+t93:"34.560 €",
+t94:"Bajčena struja",
+t95:"12.960 €",
+t96:"Ubrzano habanje trake i valjaka",
+t97:"21.600 €",
+t98:"UCS investicija, 1. godina<small>UCS-X3 600 € + podešavanje dashboarda 800 € + servis 1.188 €</small>",
+t99:"2.588 €",
+t100:"Očekivane godišnje uštede",
+t101:"26.496 €",
+t102:"Period povraćaja",
+t103:"36 dana",
+t104:"ROI 1. godina",
+t105:"Jedna nepotrebna poseta tehničara košta 142 €. Sistem košta 59–99 € mesečno. Isplati se izbegavanjem jednog uzaludnog puta — sve posle toga je profit.",
+t106:"SLEDEĆI KORAK",
+t107:"Dokažite na svom najopterećenijem transporteru",
+t108:"30 DANA BESPLATNOG PILOTA",
+t109:"Besplatan 30-dnevni pilot na vašoj najkorišćenijoj traci — sistem vam pozajmljujemo na mesec dana bez naknade. Ako ne nađemo protraćene sate, odustanite.",
+t110:"Kraj praznog rada",
+t111:"Automatska detekcija prazne trake, ušteda energije od prvog dana.",
+t112:"Zaštita tačnosti merenja",
+t113:"Kontinuirana provera kalibracije bez izlazaka na teren.",
+t114:"Duži vek trake",
+t115:"Manje sati habanja. Traka se menja po planu, ne 14 meseci ranije.",
+t116:"Vaš kontakt",
+t117:"Operativni direktor"
+}
 };
 
-function switchLanguage(lang){
-  document.querySelectorAll('.lang-btn').forEach(b=>{b.classList.toggle('active',b.textContent.trim()===({en:'English',es:'Español',cs:'Čeština',sk:'Slovenčina',pl:'Polski',sr:'Srpski',ro:'Română',bg:'Български'}[lang]||'English'))});
-  const t=T[lang]||T.en;
-  document.documentElement.lang=lang;
-  document.querySelectorAll('[data-key]').forEach(el=>{const k=el.getAttribute('data-key');if(t[k])el.textContent=t[k]});
-}
+function setLang(lang){var t=T[lang]||T.en;document.documentElement.lang=lang;
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-lang')===lang)});
+  document.querySelectorAll('[data-i]').forEach(function(el){var k=el.getAttribute('data-i');if(t[k]!==undefined)el.innerHTML=t[k]});}
+document.querySelectorAll('.lang-btn').forEach(function(btn){btn.addEventListener('click',function(){setLang(this.getAttribute('data-lang'))})});
+function scaleStage(){var st=document.getElementById('stage'),cv=document.getElementById('canvas');cv.style.setProperty('--k',st.clientWidth/1600)}
+setLang('en');scaleStage();window.addEventListener('resize',scaleStage);
+})();
 </script>
-<script>/* scale the fixed-size canvas to the stage */(function(){function k(){var st=document.getElementById('stage');var cv=document.getElementById('canvas');cv.style.setProperty('--k',st.clientWidth/cv.offsetWidth)}k();window.addEventListener('resize',k)})();</script>
 </body>
 </html>
