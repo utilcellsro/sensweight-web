@@ -74,6 +74,7 @@
     .problem-left li,.problem-right li{font-size:13px;line-height:1.5;color:var(--ink);margin-bottom:6px}
     .cost-banner{margin-top:16px;background:var(--danger);color:#fff;padding:12px 16px;border-radius:var(--r);text-align:center}
     .cost-banner .big{font:700 28px/1 'Chakra Petch',sans-serif;display:block;margin-bottom:4px}
+    [data-fit]{white-space:nowrap}
     .cost-banner .sub{font:400 12px/1.3 'IBM Plex Mono',monospace}
 
     /* Story slide */
@@ -311,7 +312,7 @@
               <li data-i="t11">Structural failure: €195,000+</li>
             </ul>
             <div class="cost-banner">
-              <span class="big" data-i="t12">€257,480</span>
+              <span class="big" data-fit data-i="t12">€257,480</span>
               <span class="sub" data-i="t13">total risk exposure per silo installation</span>
             </div>
           </div>
@@ -475,11 +476,11 @@
             <p class="alert" data-i="t56">Structural failure or overfilling doesn't just cost money — it threatens lives. This is not a theoretical risk.</p>
           </div>
           <div class="roi-table">
-            <div class="roi-row"><span class="label" data-i="t57">Risk without SensSILO</span><span class="value">€257,480</span></div>
-            <div class="roi-row"><span class="label" data-i="t58">Minor events (overfill, cleanup)</span><span class="value">€62,480</span></div>
-            <div class="roi-row"><span class="label" data-i="t59">Major structural failure</span><span class="value">€195,000</span></div>
-            <div class="roi-row"><span class="label" data-i="t60">UCS investment (one-time)</span><span class="value">€11,528</span></div>
-            <div class="roi-row"><span class="label" data-i="t61">Verified annual savings</span><span class="value">€225,484</span></div>
+            <div class="roi-row"><span class="label" data-i="t57">Risk without SensSILO</span><span class="value" data-money="257480">€257,480</span></div>
+            <div class="roi-row"><span class="label" data-i="t58">Minor events (overfill, cleanup)</span><span class="value" data-money="62480">€62,480</span></div>
+            <div class="roi-row"><span class="label" data-i="t59">Major structural failure</span><span class="value" data-money="195000">€195,000</span></div>
+            <div class="roi-row"><span class="label" data-i="t60">UCS investment (one-time)</span><span class="value" data-money="11528">€11,528</span></div>
+            <div class="roi-row"><span class="label" data-i="t61">Verified annual savings</span><span class="value" data-money="225484">€225,484</span></div>
             <div class="roi-row"><span class="label" data-i="t62">Payback period</span><span class="value" data-i="t63">66 days</span></div>
             <div class="roi-row highlight"><span class="label" data-i="t64">Year 1 ROI</span><span class="value">856%</span></div>
           </div>
@@ -586,9 +587,9 @@
       t7:"Material bridging creates hidden cavities \u2014 you think 40 t, you have 28 t",
       t8:"One support leg carries 34% instead of 25% \u2014 dangerous structural stress",
       t9:"No way to detect fill level accurately without climbing the silo",
-      t10:"Overfill event: \u20ac62,480 cleanup and fines at minimum",
-      t11:"Structural failure: \u20ac195,000+",
-      t12:"\u20ac257,480",
+      t10:"Overfill event: {\u20ac62480} cleanup and fines at minimum",
+      t11:"Structural failure: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"total risk exposure per silo installation",
       t14:"WITH SensSILO",
       t15:"Exact weight on every leg \u2014 per-cell distribution visible instantly",
@@ -600,9 +601,9 @@
       t21:"WHAT HAPPENED",
       t22:"A bulk storage site running 4 silos. Operator relied on manual checks and an old level indicator. Everything looked \u201cfine.\u201d",
       t23:"SensSILO found that LC3 carried 27.61% and LC1 only 22.05% \u2014 a 5.56% skew growing silently for months. Asymmetric loading heading toward structural fatigue cracks within 18 months.",
-      t24:"Operator repositioned the fill pipe and rebalanced foundation anchors. Cost of fix: \u20ac2,400. Cost of avoided failure: \u20ac195,000+.",
+      t24:"Operator repositioned the fill pipe and rebalanced foundation anchors. Cost of fix: {\u20ac2400}. Cost of avoided failure: {\u20ac195000}+.",
       t25:"The system also revealed NIA of 9.21 \u2014 meaning 9.21 filling/emptying cycles per month \u2014 which completely changed how they scheduled deliveries.",
-      t26:"72 hrs",t27:"time to detection",t28:"\u20ac2,400",t29:"cost of repair",t30:"\u20ac195,000+",t31:"avoided failure cost",
+      t26:"72 hrs",t27:"time to detection",t28:"{\u20ac2400}",t29:"cost of repair",t30:"{\u20ac195000}+",t31:"avoided failure cost",
       t32:"INSTALLATION",
       t33:"Fits your existing silo. No civil works.",
       t34:"Installs under existing silo legs. No crane, no downtime.",
@@ -630,7 +631,7 @@
       t65:"NEXT STEP",
       t66:"See it working on your silo",
       t67:"Enhance your perception boundaries",
-      t68:"Free 30-day pilot on your busiest silo \u2014 we lend you the system for a month at no cost. If it doesn\u2019t catch something you missed \u2014 walk away.",
+      t68:"Free 30-day pilot \u2014 we lend you the system for a month at no cost. If it doesn\u2019t catch something you missed \u2014 walk away.",
       t69:"Know your balance",t70:"Exact tonnage per leg, fill velocity, consumption patterns \u2014 your silo becomes a transparent account.",
       t71:"Prevent catastrophe",t72:"Structural warnings before damage, not after. Overfill alerts before spills, not during.",
       t73:"Plan with data",t74:"Stop ordering by guesswork. Start ordering by consumption velocity.",
@@ -646,9 +647,9 @@
       t7:"El puenteo del material crea cavidades ocultas: usted cree 40 t, tiene 28 t",
       t8:"Una pata soporta el 34% en lugar del 25%: estr\u00e9s estructural peligroso",
       t9:"No hay forma de detectar el nivel de llenado sin subir al silo",
-      t10:"Evento de sobrellenado: \u20ac62.480 de limpieza y multas como m\u00ednimo",
-      t11:"Fallo estructural: \u20ac195.000+",
-      t12:"\u20ac257.480",
+      t10:"Evento de sobrellenado: {\u20ac62480} de limpieza y multas como m\u00ednimo",
+      t11:"Fallo estructural: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"exposici\u00f3n total al riesgo por instalaci\u00f3n de silo",
       t14:"CON SensSILO",
       t15:"Peso exacto en cada pata: distribuci\u00f3n por celda visible al instante",
@@ -660,9 +661,9 @@
       t21:"QU\u00c9 PAS\u00d3",
       t22:"Una planta de almacenamiento con 4 silos. El operador depend\u00eda de controles manuales y un viejo indicador de nivel. Todo parec\u00eda \u201cbien.\u201d",
       t23:"SensSILO encontr\u00f3 que LC3 cargaba el 27,61% y LC1 solo el 22,05%: una desviaci\u00f3n del 5,56% creciendo silenciosamente durante meses.",
-      t24:"El operador reposicion\u00f3 la tuber\u00eda de llenado y reequilibr\u00f3 los anclajes. Costo de la reparaci\u00f3n: \u20ac2.400. Costo del fallo evitado: \u20ac195.000+.",
+      t24:"El operador reposicion\u00f3 la tuber\u00eda de llenado y reequilibr\u00f3 los anclajes. Costo de la reparaci\u00f3n: {\u20ac2400}. Costo del fallo evitado: {\u20ac195000}+.",
       t25:"El sistema tambi\u00e9n revel\u00f3 un NIA de 9,21 ciclos/mes, lo que cambi\u00f3 completamente la planificaci\u00f3n de entregas.",
-      t26:"72 hrs",t27:"tiempo de detecci\u00f3n",t28:"\u20ac2.400",t29:"costo de reparaci\u00f3n",t30:"\u20ac195.000+",t31:"costo de fallo evitado",
+      t26:"72 hrs",t27:"tiempo de detecci\u00f3n",t28:"{\u20ac2400}",t29:"costo de reparaci\u00f3n",t30:"{\u20ac195000}+",t31:"costo de fallo evitado",
       t32:"INSTALACI\u00d3N",
       t33:"Se adapta a su silo existente. Sin obras civiles.",
       t34:"Se instala bajo las patas existentes. Sin gr\u00faa, sin tiempo de inactividad.",
@@ -690,7 +691,7 @@
       t65:"SIGUIENTE PASO",
       t66:"V\u00e9alo funcionando en su silo",
       t67:"Ampl\u00ede sus l\u00edmites de percepci\u00f3n",
-      t68:"Piloto gratuito de 30 d\u00edas en su silo m\u00e1s activo \u2014 le prestamos el sistema durante un mes sin coste. Si no detecta algo que usted pas\u00f3 por alto, ret\u00edrese.",
+      t68:"Piloto gratuito de 30 d\u00edas \u2014 le prestamos el sistema durante un mes sin coste. Si no detecta algo que usted pas\u00f3 por alto, ret\u00edrese.",
       t69:"Conozca su saldo",t70:"Tonelaje exacto por pata, velocidad de llenado, patrones de consumo.",
       t71:"Prevenga cat\u00e1strofes",t72:"Avisos estructurales antes del da\u00f1o, no despu\u00e9s.",
       t73:"Planifique con datos",t74:"Deje de pedir por intuici\u00f3n. Empiece a pedir por velocidad de consumo.",
@@ -706,9 +707,9 @@
       t7:"Klenbov\u00e1n\u00ed materi\u00e1lu vytv\u00e1\u0159\u00ed skryt\u00e9 dutiny \u2014 mysl\u00edte 40 t, m\u00e1te 28 t",
       t8:"Jedna noha nese 34 % m\u00edsto 25 % \u2014 nebezpe\u010dn\u00e9 statick\u00e9 p\u0159et\u00ed\u017een\u00ed",
       t9:"\u017d\u00e1dn\u00fd zp\u016fsob p\u0159esn\u00e9ho zji\u0161t\u011bn\u00ed hladiny bez v\u00fdstupu na silo",
-      t10:"P\u0159epln\u011bn\u00ed: minim\u00e1ln\u011b 62 480 \u20ac na \u00faklid a pokuty",
-      t11:"Statick\u00e9 selh\u00e1n\u00ed: 195 000+ \u20ac",
-      t12:"\u20ac257 480",
+      t10:"P\u0159epln\u011bn\u00ed: minim\u00e1ln\u011b {\u20ac62480} na \u00faklid a pokuty",
+      t11:"Statick\u00e9 selh\u00e1n\u00ed: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"celkov\u00e1 expozice riziku na instala\u010dn\u00ed jednotku",
       t14:"SE SensSILO",
       t15:"P\u0159esn\u00e1 v\u00e1ha na ka\u017ed\u00e9 noze \u2014 rozlo\u017een\u00ed po bu\u0148k\u00e1ch viditeln\u00e9 okam\u017eit\u011b",
@@ -720,9 +721,9 @@
       t21:"CO SE STALO",
       t22:"Sklad s hromadn\u00fdm materi\u00e1lem se 4 sily. Oper\u00e1tor se spol\u00e9hal na ru\u010dn\u00ed kontroly a star\u00fd hladinov\u00fd ukazatel. V\u0161e vypadalo \u201ev po\u0159\u00e1dku.\u201c",
       t23:"SensSILO zjistilo, \u017ee LC3 nesla 27,61 % a LC1 jen 22,05 % \u2014 odchylka 5,56 %, kter\u00e1 ti\u0161e rostla m\u011bs\u00edce.",
-      t24:"Oper\u00e1tor p\u0159em\u00edstil plnic\u00ed potrub\u00ed a vyv\u00e1\u017eil kotvy z\u00e1klad\u016f. Cena opravy: 2 400 \u20ac. N\u00e1klady na odvr\u00e1cen\u00e9 selh\u00e1n\u00ed: 195 000+ \u20ac.",
+      t24:"Oper\u00e1tor p\u0159em\u00edstil plnic\u00ed potrub\u00ed a vyv\u00e1\u017eil kotvy z\u00e1klad\u016f. Cena opravy: {\u20ac2400}. N\u00e1klady na odvr\u00e1cen\u00e9 selh\u00e1n\u00ed: {\u20ac195000}+.",
       t25:"Syst\u00e9m tak\u00e9 odhalil NIA 9,21 \u2014 tedy 9,21 cykl\u016f pln\u011bn\u00ed/vypr\u00e1zdn\u011bn\u00ed za m\u011bs\u00edc \u2014 co\u017e zcela zm\u011bnilo pl\u00e1nov\u00e1n\u00ed dod\u00e1vek.",
-      t26:"72 hod",t27:"\u010das do detekce",t28:"2 400 \u20ac",t29:"cena opravy",t30:"195 000+ \u20ac",t31:"odvr\u00e1cen\u00e9 n\u00e1klady",
+      t26:"72 hod",t27:"\u010das do detekce",t28:"{\u20ac2400}",t29:"cena opravy",t30:"{\u20ac195000}+",t31:"odvr\u00e1cen\u00e9 n\u00e1klady",
       t32:"INSTALACE",
       t33:"Pasuje na va\u0161e st\u00e1vaj\u00edc\u00ed silo. \u017d\u00e1dn\u00e9 stavebn\u00ed pr\u00e1ce.",
       t34:"Instalace pod st\u00e1vaj\u00edc\u00ed nohy sila. \u017d\u00e1dn\u00fd je\u0159\u00e1b, \u017e\u00e1dn\u00e9 v\u00fdpadky.",
@@ -750,7 +751,7 @@
       t65:"DAL\u0160\u00cd KROK",
       t66:"Pod\u00edvejte se, jak to funguje na va\u0161em silu",
       t67:"Roz\u0161i\u0159te hranice sv\u00e9ho vn\u00edm\u00e1n\u00ed",
-      t68:"30denn\u00ed pilot zdarma na va\u0161em nejv\u00edce vyt\u00ed\u017een\u00e9m silu \u2014 syst\u00e9m v\u00e1m na m\u011bs\u00edc bezplatn\u011b zap\u016fj\u010d\u00edme. Pokud nic neodhal\u00ed \u2014 odejdete.",
+      t68:"30denn\u00ed pilot zdarma \u2014 syst\u00e9m v\u00e1m na m\u011bs\u00edc bezplatn\u011b zap\u016fj\u010d\u00edme. Pokud nic neodhal\u00ed \u2014 odejdete.",
       t69:"Poznejte sv\u016fj z\u016fstatek",t70:"P\u0159esn\u00e1 ton\u00e1\u017e na nohu, rychlost pln\u011bn\u00ed, vzorce spot\u0159eby.",
       t71:"Zabra\u0148te katastrof\u011b",t72:"Statick\u00e1 varov\u00e1n\u00ed p\u0159ed po\u0161kozen\u00edm, ne a\u017e po n\u011bm.",
       t73:"Pl\u00e1nujte s daty",t74:"P\u0159esta\u0148te objedn\u00e1vat od oka. Za\u010dn\u011bte objedn\u00e1vat podle rychlosti spot\u0159eby.",
@@ -766,9 +767,9 @@
       t7:"Klenby materi\u00e1lu vytv\u00e1raj\u00fa skryt\u00e9 dutiny \u2014 mysl\u00edte 40 t, m\u00e1te 28 t",
       t8:"Jedna noha nesie 34 % namiesto 25 % \u2014 nebezpe\u010dn\u00e9 \u0161tatick\u00e9 pre\u0165a\u017eenie",
       t9:"\u017diadny sp\u00f4sob presn\u00e9ho zistenia hladiny bez v\u00fdstupu na silo",
-      t10:"Preplenenie: minim\u00e1lne 62 480 \u20ac na \u010distenie a pokuty",
-      t11:"\u0160tatick\u00e9 zlyhanie: 195 000+ \u20ac",
-      t12:"\u20ac257 480",
+      t10:"Preplenenie: minim\u00e1lne {\u20ac62480} na \u010distenie a pokuty",
+      t11:"\u0160tatick\u00e9 zlyhanie: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"celkov\u00e1 expoz\u00edcia riziku na in\u0161tala\u010dn\u00fa jednotku",
       t14:"SO SensSILO",
       t15:"Presn\u00e1 hmotnos\u0165 na ka\u017edej nohe \u2014 rozlo\u017eenie po bunk\u00e1ch vidie\u0165 okam\u017eite",
@@ -780,9 +781,9 @@
       t21:"\u010cO SA STALO",
       t22:"Sklad s hromadn\u00fdm materi\u00e1lom so 4 silami. Oper\u00e1tor sa spoliehal na ru\u010dn\u00e9 kontroly.",
       t23:"SensSILO zistilo, \u017ee LC3 niesla 27,61 % a LC1 iba 22,05 % \u2014 odch\u00fdlka 5,56 % ticho rast\u00faca mesiace.",
-      t24:"Oper\u00e1tor premiestnil plniace potrubie a vyv\u00e1\u017eil kotvy z\u00e1kladov. Cena opravy: 2 400 \u20ac. Odvr\u00e1ten\u00e9 zlyhanie: 195 000+ \u20ac.",
+      t24:"Oper\u00e1tor premiestnil plniace potrubie a vyv\u00e1\u017eil kotvy z\u00e1kladov. Cena opravy: {\u20ac2400}. Odvr\u00e1ten\u00e9 zlyhanie: {\u20ac195000}+.",
       t25:"Syst\u00e9m tie\u017e odhalil NIA 9,21 cyklov/mesiac, \u010do \u00faplne zmenilo pl\u00e1novanie dod\u00e1vok.",
-      t26:"72 hod",t27:"\u010das do detekcie",t28:"2 400 \u20ac",t29:"cena opravy",t30:"195 000+ \u20ac",t31:"odvr\u00e1ten\u00e9 n\u00e1klady",
+      t26:"72 hod",t27:"\u010das do detekcie",t28:"{\u20ac2400}",t29:"cena opravy",t30:"{\u20ac195000}+",t31:"odvr\u00e1ten\u00e9 n\u00e1klady",
       t32:"IN\u0160TAL\u00c1CIA",
       t33:"Pasuje na va\u0161e s\u00fa\u010dasn\u00e9 silo. \u017diadne stavebn\u00e9 pr\u00e1ce.",
       t34:"In\u0161tal\u00e1cia pod s\u00fa\u010dasn\u00e9 nohy sila. \u017diadny \u017eeriav, \u017eiadne v\u00fdpadky.",
@@ -810,7 +811,7 @@
       t65:"\u010eAL\u0160\u00cd KROK",
       t66:"Pozrite sa, ako to funguje na va\u0161om sile",
       t67:"Roz\u0161\u00edrte hranice svojho vn\u00edmania",
-      t68:"30-d\u0148ov\u00fd pilot zdarma na va\u0161om najvy\u0165a\u017eovanej\u0161om sile \u2014 syst\u00e9m v\u00e1m na mesiac bezplatne zapo\u017ei\u010diame.",
+      t68:"30-d\u0148ov\u00fd pilot zdarma \u2014 syst\u00e9m v\u00e1m na mesiac bezplatne zapo\u017ei\u010diame.",
       t69:"Poznajte svoj zostatok",t70:"Presn\u00e1 ton\u00e1\u017e na nohu, r\u00fdchlos\u0165 plnenia, vzorce spotreby.",
       t71:"Zabr\u00e1\u0148te katastrofe",t72:"\u0160tatick\u00e9 varovania pred po\u0161koden\u00edm, nie a\u017e po \u0148om.",
       t73:"Pl\u00e1nujte s d\u00e1tami",t74:"Presta\u0148te objedn\u00e1va\u0165 od oka. Za\u010dnite objedn\u00e1va\u0165 pod\u013ea spotreby.",
@@ -826,9 +827,9 @@
       t7:"Mostkowanie materia\u0142u tworzy ukryte pustki \u2014 my\u015blisz 40 t, masz 28 t",
       t8:"Jedna noga przenosi 34% zamiast 25% \u2014 niebezpieczne przeci\u0105\u017cenie",
       t9:"Brak sposobu na dok\u0142adne sprawdzenie poziomu bez wchodzenia na silos",
-      t10:"Przelanie: minimum 62 480 \u20ac na sprz\u0105tanie i kary",
-      t11:"Awaria strukturalna: 195 000+ \u20ac",
-      t12:"\u20ac257 480",
+      t10:"Przelanie: minimum {\u20ac62480} na sprz\u0105tanie i kary",
+      t11:"Awaria strukturalna: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"ca\u0142kowita ekspozycja na ryzyko na instalacj\u0119",
       t14:"Z SensSILO",
       t15:"Dok\u0142adna waga na ka\u017cdej nodze \u2014 rozk\u0142ad widoczny natychmiast",
@@ -840,9 +841,9 @@
       t21:"CO SI\u0118 STA\u0141O",
       t22:"Magazyn z 4 silosami. Operator polega\u0142 na r\u0119cznych kontrolach i starym wska\u017aniku poziomu.",
       t23:"SensSILO wykry\u0142o, \u017ce LC3 przenosi\u0142a 27,61%, a LC1 tylko 22,05% \u2014 odchylenie 5,56% rosn\u0105ce po cichu przez miesi\u0105ce.",
-      t24:"Operator przesun\u0105\u0142 rur\u0119 nape\u0142niaj\u0105c\u0105 i wyrównowa\u017cy\u0142 kotwy. Koszt naprawy: 2 400 \u20ac. Unikni\u0119ta awaria: 195 000+ \u20ac.",
+      t24:"Operator przesun\u0105\u0142 rur\u0119 nape\u0142niaj\u0105c\u0105 i wyrównowa\u017cy\u0142 kotwy. Koszt naprawy: {\u20ac2400}. Unikni\u0119ta awaria: {\u20ac195000}+.",
       t25:"System ujawni\u0142 r\u00f3wnie\u017c NIA 9,21 cykli/miesi\u0105c, co ca\u0142kowicie zmieni\u0142o planowanie dostaw.",
-      t26:"72 godz.",t27:"czas do wykrycia",t28:"2 400 \u20ac",t29:"koszt naprawy",t30:"195 000+ \u20ac",t31:"unikni\u0119te koszty",
+      t26:"72 godz.",t27:"czas do wykrycia",t28:"{\u20ac2400}",t29:"koszt naprawy",t30:"{\u20ac195000}+",t31:"unikni\u0119te koszty",
       t32:"INSTALACJA",
       t33:"Pasuje do Twojego istniej\u0105cego silosu. Bez rob\u00f3t budowlanych.",
       t34:"Montuje si\u0119 pod istniej\u0105cymi nogami silosu. Bez d\u017awigu, bez przestoj\u00f3w.",
@@ -870,7 +871,7 @@
       t65:"NAST\u0118PNY KROK",
       t66:"Zobacz jak dzia\u0142a na Twoim silosie",
       t67:"Poszerz granice swojej percepcji",
-      t68:"Bezp\u0142atny 30-dniowy pilota\u017c na najobci\u0105\u017conym silosie \u2014 u\u017cyczamy system na miesi\u0105c bez op\u0142at. Je\u015bli nic nie wykryje \u2014 odejd\u017a.",
+      t68:"Bezp\u0142atny 30-dniowy pilota\u017c \u2014 u\u017cyczamy system na miesi\u0105c bez op\u0142at. Je\u015bli nic nie wykryje \u2014 odejd\u017a.",
       t69:"Poznaj sw\u00f3j stan konta",t70:"Dok\u0142adny tona\u017c na nog\u0119, pr\u0119dko\u015b\u0107 nape\u0142niania, wzorce zu\u017cycia.",
       t71:"Zapobiegnij katastrofie",t72:"Ostrze\u017cenia strukturalne przed uszkodzeniem, nie po nim.",
       t73:"Planuj z danymi",t74:"Przesta\u0144 zamawia\u0107 na oko. Zamawiaj wed\u0142ug pr\u0119dko\u015bci zu\u017cycia.",
@@ -886,9 +887,9 @@
       t7:"Premostavanje materijala stvara skrivene \u0161upljine \u2014 mislite 40 t, imate 28 t",
       t8:"Jedna noga nosi 34% umesto 25% \u2014 opasno strukturno optere\u0107enje",
       t9:"Nema na\u010dina da se ta\u010dno utvrdi nivo punjenja bez penjanja na silos",
-      t10:"Prepunjenje: minimum 62.480 \u20ac za \u010di\u0161\u0107enje i kazne",
-      t11:"Strukturni kvar: 195.000+ \u20ac",
-      t12:"\u20ac257.480",
+      t10:"Prepunjenje: minimum {\u20ac62480} za \u010di\u0161\u0107enje i kazne",
+      t11:"Strukturni kvar: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"ukupna izlo\u017eenost riziku po silosu",
       t14:"SA SensSILO",
       t15:"Ta\u010dna te\u017eina na svakoj nozi \u2014 distribucija po \u0107elijama vidljiva odmah",
@@ -900,9 +901,9 @@
       t21:"\u0160TA SE DESILO",
       t22:"Skladi\u0161te rasutog materijala sa 4 silosa. Operater se oslanjao na ru\u010dne provere i stari indikator nivoa.",
       t23:"SensSILO je utvrdio da LC3 nosi 27,61% a LC1 samo 22,05% \u2014 odstupanje od 5,56% koje je tiho raslo mesecima.",
-      t24:"Operater je premestio cev za punjenje i izbalansirao sidra temelja. Cena popravke: 2.400 \u20ac. Izbegnuti kvar: 195.000+ \u20ac.",
+      t24:"Operater je premestio cev za punjenje i izbalansirao sidra temelja. Cena popravke: {\u20ac2400}. Izbegnuti kvar: {\u20ac195000}+.",
       t25:"Sistem je tako\u0111e otkrio NIA od 9,21 ciklusa/mesec, \u0161to je potpuno promenilo planiranje isporuka.",
-      t26:"72 sata",t27:"vreme do detekcije",t28:"2.400 \u20ac",t29:"cena popravke",t30:"195.000+ \u20ac",t31:"izbegnuti tro\u0161kovi",
+      t26:"72 sata",t27:"vreme do detekcije",t28:"{\u20ac2400}",t29:"cena popravke",t30:"{\u20ac195000}+",t31:"izbegnuti tro\u0161kovi",
       t32:"INSTALACIJA",
       t33:"Odgovara va\u0161em postoje\u0107em silosu. Bez gra\u0111evinskih radova.",
       t34:"Montira se ispod postoje\u0107ih nogu silosa. Bez krana, bez zastoja.",
@@ -930,7 +931,7 @@
       t65:"SLEDE\u0106I KORAK",
       t66:"Pogledajte kako radi na va\u0161em silosu",
       t67:"Pro\u0161irite granice va\u0161e percepcije",
-      t68:"Besplatan 30-dnevni pilot na va\u0161em najoptere\u0107enijem silosu \u2014 sistem vam pozajmljujemo na mesec dana bez naknade.",
+      t68:"Besplatan 30-dnevni pilot \u2014 sistem vam pozajmljujemo na mesec dana bez naknade.",
       t69:"Upoznajte svoj saldo",t70:"Ta\u010dna tona\u017ea po nozi, brzina punjenja, obrasci potro\u0161nje.",
       t71:"Spre\u010dite katastrofu",t72:"Strukturna upozorenja pre o\u0161te\u0107enja, ne nakon njega.",
       t73:"Planirajte sa podacima",t74:"Prestanite naru\u010divati napamet. Po\u010dnite naru\u010divati po brzini potro\u0161nje.",
@@ -946,9 +947,9 @@
       t7:"Puntarea materialului creeaz\u0103 cavit\u0103\u021bi ascunse \u2014 crede\u021bi 40 t, ave\u021bi 28 t",
       t8:"Un picior poart\u0103 34% \u00een loc de 25% \u2014 stres structural periculos",
       t9:"Nu exist\u0103 mod de a detecta nivelul f\u0103r\u0103 a urca pe siloz",
-      t10:"Umplere excesiv\u0103: minim 62.480 \u20ac cur\u0103\u021bare \u0219i amenzi",
-      t11:"Defect structural: 195.000+ \u20ac",
-      t12:"\u20ac257.480",
+      t10:"Umplere excesiv\u0103: minim {\u20ac62480} cur\u0103\u021bare \u0219i amenzi",
+      t11:"Defect structural: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"expunere total\u0103 la risc per instala\u021bie de siloz",
       t14:"CU SensSILO",
       t15:"Greutate exact\u0103 pe fiecare picior \u2014 distribu\u021bia pe celule vizibil\u0103 instant",
@@ -960,9 +961,9 @@
       t21:"CE S-A \u00ceNT\u00c2MPLAT",
       t22:"Un depozit cu 4 silozuri. Operatorul se baza pe verific\u0103ri manuale \u0219i un indicator vechi.",
       t23:"SensSILO a descoperit c\u0103 LC3 purta 27,61% iar LC1 doar 22,05% \u2014 o abatere de 5,56% cresc\u00e2nd \u00een t\u0103cere luni de zile.",
-      t24:"Operatorul a repozi\u021bionat conducta de umplere. Cost repara\u021bie: 2.400 \u20ac. Defect evitat: 195.000+ \u20ac.",
+      t24:"Operatorul a repozi\u021bionat conducta de umplere. Cost repara\u021bie: {\u20ac2400}. Defect evitat: {\u20ac195000}+.",
       t25:"Sistemul a relevat \u0219i NIA de 9,21 cicluri/lun\u0103, schimb\u00e2nd complet planificarea livr\u0103rilor.",
-      t26:"72 ore",t27:"timp de detectare",t28:"2.400 \u20ac",t29:"cost repara\u021bie",t30:"195.000+ \u20ac",t31:"cost defect evitat",
+      t26:"72 ore",t27:"timp de detectare",t28:"{\u20ac2400}",t29:"cost repara\u021bie",t30:"{\u20ac195000}+",t31:"cost defect evitat",
       t32:"INSTALARE",
       t33:"Se potrive\u0219te silozului existent. F\u0103r\u0103 lucr\u0103ri civile.",
       t34:"Se monteaz\u0103 sub picioarele existente. F\u0103r\u0103 macara, f\u0103r\u0103 \u00eentreruperi.",
@@ -990,7 +991,7 @@
       t65:"PASUL URM\u0102TOR",
       t66:"Vede\u021bi cum func\u021bioneaz\u0103 pe silozul dumneavoastr\u0103",
       t67:"Extinde\u021bi limitele percep\u021biei",
-      t68:"Pilot gratuit de 30 de zile pe silozul cel mai aglomerat \u2014 v\u0103 \u00eemprumut\u0103m sistemul o lun\u0103, f\u0103r\u0103 costuri.",
+      t68:"Pilot gratuit de 30 de zile \u2014 v\u0103 \u00eemprumut\u0103m sistemul o lun\u0103, f\u0103r\u0103 costuri.",
       t69:"Cunoa\u0219te\u021bi-v\u0103 soldul",t70:"Tonaj exact per picior, vitez\u0103 de umplere, tipare de consum.",
       t71:"Preveni\u021bi catastrofa",t72:"Avertismente structurale \u00eenainte de deteriorare, nu dup\u0103.",
       t73:"Planifica\u021bi cu date",t74:"Nu mai comanda\u021bi din intui\u021bie. Comanda\u021bi dup\u0103 viteza de consum.",
@@ -1006,9 +1007,9 @@
       t7:"\u041c\u043e\u0441\u0442\u043e\u0432\u0435\u0442\u043e \u043d\u0430 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430 \u0441\u044a\u0437\u0434\u0430\u0432\u0430 \u0441\u043a\u0440\u0438\u0442\u0438 \u043a\u0443\u0445\u0438\u043d\u0438 \u2014 \u043c\u0438\u0441\u043b\u0438\u0442\u0435 40 \u0442, \u0438\u043c\u0430\u0442\u0435 28 \u0442",
       t8:"\u0415\u0434\u0438\u043d \u043a\u0440\u0430\u043a \u043d\u043e\u0441\u0438 34% \u0432\u043c\u0435\u0441\u0442\u043e 25% \u2014 \u043e\u043f\u0430\u0441\u043d\u043e \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u043e \u043d\u0430\u0442\u043e\u0432\u0430\u0440\u0432\u0430\u043d\u0435",
       t9:"\u041d\u044f\u043c\u0430 \u043d\u0430\u0447\u0438\u043d \u0437\u0430 \u0442\u043e\u0447\u043d\u043e \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u043d\u0435 \u043d\u0430 \u043d\u0438\u0432\u043e\u0442\u043e \u0431\u0435\u0437 \u043a\u0430\u0447\u0432\u0430\u043d\u0435 \u043d\u0430 \u0441\u0438\u043b\u043e\u0437\u0430",
-      t10:"\u041f\u0440\u0435\u043f\u044a\u043b\u0432\u0430\u043d\u0435: \u043c\u0438\u043d\u0438\u043c\u0443\u043c 62 480 \u20ac \u0437\u0430 \u043f\u043e\u0447\u0438\u0441\u0442\u0432\u0430\u043d\u0435 \u0438 \u0433\u043b\u043e\u0431\u0438",
-      t11:"\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0430 \u0430\u0432\u0430\u0440\u0438\u044f: 195 000+ \u20ac",
-      t12:"\u20ac257 480",
+      t10:"\u041f\u0440\u0435\u043f\u044a\u043b\u0432\u0430\u043d\u0435: \u043c\u0438\u043d\u0438\u043c\u0443\u043c {\u20ac62480} \u0437\u0430 \u043f\u043e\u0447\u0438\u0441\u0442\u0432\u0430\u043d\u0435 \u0438 \u0433\u043b\u043e\u0431\u0438",
+      t11:"\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0430 \u0430\u0432\u0430\u0440\u0438\u044f: {\u20ac195000}+",
+      t12:"{\u20ac257480}",
       t13:"\u043e\u0431\u0449\u0430 \u0435\u043a\u0441\u043f\u043e\u0437\u0438\u0446\u0438\u044f \u043d\u0430 \u0440\u0438\u0441\u043a \u043d\u0430 \u0438\u043d\u0441\u0442\u0430\u043b\u0430\u0446\u0438\u044f",
       t14:"\u0421\u044a\u0441 SensSILO",
       t15:"\u0422\u043e\u0447\u043d\u043e \u0442\u0435\u0433\u043b\u043e \u043d\u0430 \u0432\u0441\u0435\u043a\u0438 \u043a\u0440\u0430\u043a \u2014 \u0440\u0430\u0437\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u043f\u043e \u043a\u043b\u0435\u0442\u043a\u0438 \u0432\u0438\u0434\u0438\u043c\u043e \u043c\u043e\u043c\u0435\u043d\u0442\u0430\u043b\u043d\u043e",
@@ -1020,9 +1021,9 @@
       t21:"\u041a\u0410\u041a\u0412\u041e \u0421\u0415 \u0421\u041b\u0423\u0427\u0418",
       t22:"\u0421\u043a\u043b\u0430\u0434 \u0437\u0430 \u043d\u0430\u0441\u0438\u043f\u043d\u0438 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0438 \u0441 4 \u0441\u0438\u043b\u043e\u0437\u0430. \u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440\u044a\u0442 \u0440\u0430\u0437\u0447\u0438\u0442\u0430\u0448\u0435 \u043d\u0430 \u0440\u044a\u0447\u043d\u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0438 \u0441\u0442\u0430\u0440 \u0438\u043d\u0434\u0438\u043a\u0430\u0442\u043e\u0440.",
       t23:"SensSILO \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u0438, \u0447\u0435 LC3 \u043d\u043e\u0441\u0438 27,61%, a LC1 \u0441\u0430\u043c\u043e 22,05% \u2014 \u043e\u0442\u043a\u043b\u043e\u043d\u0435\u043d\u0438\u0435 5,56%, \u043d\u0430\u0440\u0430\u0441\u0442\u0432\u0430\u0449\u043e \u0431\u0435\u0437\u0448\u0443\u043c\u043d\u043e \u0441 \u043c\u0435\u0441\u0435\u0446\u0438.",
-      t24:"\u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440\u044a\u0442 \u043f\u0440\u0435\u043c\u0435\u0441\u0442\u0438 \u043f\u044a\u043b\u043d\u0438\u0442\u0435\u043b\u043d\u0430\u0442\u0430 \u0442\u0440\u044a\u0431\u0430 \u0438 \u0431\u0430\u043b\u0430\u043d\u0441\u0438\u0440\u0430 \u043a\u043e\u0442\u0432\u0438\u0442\u0435. \u0426\u0435\u043d\u0430 \u043d\u0430 \u0440\u0435\u043c\u043e\u043d\u0442\u0430: 2 400 \u20ac. \u0418\u0437\u0431\u0435\u0433\u043d\u0430\u0442\u0430 \u0430\u0432\u0430\u0440\u0438\u044f: 195 000+ \u20ac.",
+      t24:"\u041e\u043f\u0435\u0440\u0430\u0442\u043e\u0440\u044a\u0442 \u043f\u0440\u0435\u043c\u0435\u0441\u0442\u0438 \u043f\u044a\u043b\u043d\u0438\u0442\u0435\u043b\u043d\u0430\u0442\u0430 \u0442\u0440\u044a\u0431\u0430 \u0438 \u0431\u0430\u043b\u0430\u043d\u0441\u0438\u0440\u0430 \u043a\u043e\u0442\u0432\u0438\u0442\u0435. \u0426\u0435\u043d\u0430 \u043d\u0430 \u0440\u0435\u043c\u043e\u043d\u0442\u0430: {\u20ac2400}. \u0418\u0437\u0431\u0435\u0433\u043d\u0430\u0442\u0430 \u0430\u0432\u0430\u0440\u0438\u044f: {\u20ac195000}+.",
       t25:"\u0421\u0438\u0441\u0442\u0435\u043c\u0430\u0442\u0430 \u0440\u0430\u0437\u043a\u0440\u0438 \u0438 NIA 9,21 \u0446\u0438\u043a\u044a\u043b\u0430/\u043c\u0435\u0441\u0435\u0446, \u043a\u043e\u0435\u0442\u043e \u043f\u0440\u043e\u043c\u0435\u043d\u0438 \u043f\u043b\u0430\u043d\u0438\u0440\u0430\u043d\u0435\u0442\u043e \u043d\u0430 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438.",
-      t26:"72 \u0447\u0430\u0441\u0430",t27:"\u0432\u0440\u0435\u043c\u0435 \u0437\u0430 \u043e\u0442\u043a\u0440\u0438\u0432\u0430\u043d\u0435",t28:"2 400 \u20ac",t29:"\u0446\u0435\u043d\u0430 \u043d\u0430 \u0440\u0435\u043c\u043e\u043d\u0442\u0430",t30:"195 000+ \u20ac",t31:"\u0438\u0437\u0431\u0435\u0433\u043d\u0430\u0442\u0438 \u0440\u0430\u0437\u0445\u043e\u0434\u0438",
+      t26:"72 \u0447\u0430\u0441\u0430",t27:"\u0432\u0440\u0435\u043c\u0435 \u0437\u0430 \u043e\u0442\u043a\u0440\u0438\u0432\u0430\u043d\u0435",t28:"{\u20ac2400}",t29:"\u0446\u0435\u043d\u0430 \u043d\u0430 \u0440\u0435\u043c\u043e\u043d\u0442\u0430",t30:"{\u20ac195000}+",t31:"\u0438\u0437\u0431\u0435\u0433\u043d\u0430\u0442\u0438 \u0440\u0430\u0437\u0445\u043e\u0434\u0438",
       t32:"\u0418\u041d\u0421\u0422\u0410\u041b\u0410\u0426\u0418\u042f",
       t33:"\u041f\u0430\u0441\u0432\u0430 \u043d\u0430 \u0441\u044a\u0449\u0435\u0441\u0442\u0432\u0443\u0432\u0430\u0449\u0438\u044f \u0441\u0438\u043b\u043e\u0437. \u0411\u0435\u0437 \u0441\u0442\u0440\u043e\u0438\u0442\u0435\u043b\u043d\u0438 \u0434\u0435\u0439\u043d\u043e\u0441\u0442\u0438.",
       t34:"\u041c\u043e\u043d\u0442\u0438\u0440\u0430 \u0441\u0435 \u043f\u043e\u0434 \u0441\u044a\u0449\u0435\u0441\u0442\u0432\u0443\u0432\u0430\u0449\u0438\u0442\u0435 \u043a\u0440\u0430\u043a\u0430. \u0411\u0435\u0437 \u043a\u0440\u0430\u043d, \u0431\u0435\u0437 \u043f\u0440\u0435\u0441\u0442\u043e\u0439.",
@@ -1050,13 +1051,28 @@
       t65:"\u0421\u041b\u0415\u0414\u0412\u0410\u0429\u0410 \u0421\u0422\u042a\u041f\u041a\u0410",
       t66:"\u0412\u0438\u0436\u0442\u0435 \u043a\u0430\u043a \u0440\u0430\u0431\u043e\u0442\u0438 \u043d\u0430 \u0432\u0430\u0448\u0438\u044f \u0441\u0438\u043b\u043e\u0437",
       t67:"\u0420\u0430\u0437\u0448\u0438\u0440\u0435\u0442\u0435 \u0433\u0440\u0430\u043d\u0438\u0446\u0438\u0442\u0435 \u043d\u0430 \u0432\u0430\u0448\u0435\u0442\u043e \u0432\u044a\u0437\u043f\u0440\u0438\u044f\u0442\u0438\u0435",
-      t68:"30-\u0434\u043d\u0435\u0432\u0435\u043d \u043f\u043b\u0430\u0442\u0435\u043d \u043f\u0438\u043b\u043e\u0442 \u043d\u0430 \u043d\u0430\u0439-\u043d\u0430\u0442\u043e\u0432\u0430\u0440\u0435\u043d\u0438\u044f \u0441\u0438\u043b\u043e\u0437.",
+      t68:"\u0411\u0435\u0437\u043f\u043b\u0430\u0442\u0435\u043d 30-\u0434\u043d\u0435\u0432\u0435\u043d \u043f\u0438\u043b\u043e\u0442 \u2014 \u0437\u0430\u0435\u043c\u0430\u043c\u0435 \u0432\u0438 \u0441\u0438\u0441\u0442\u0435\u043c\u0430\u0442\u0430 \u0437\u0430 \u0435\u0434\u0438\u043d \u043c\u0435\u0441\u0435\u0446 \u0431\u0435\u0437 \u0440\u0430\u0437\u0445\u043e\u0434\u0438.",
       t69:"\u041f\u043e\u0437\u043d\u0430\u0439\u0442\u0435 \u0431\u0430\u043b\u0430\u043d\u0441\u0430 \u0441\u0438",t70:"\u0422\u043e\u0447\u0435\u043d \u0442\u043e\u043d\u0430\u0436 \u043d\u0430 \u043a\u0440\u0430\u043a, \u0441\u043a\u043e\u0440\u043e\u0441\u0442 \u043d\u0430 \u043f\u044a\u043b\u043d\u0435\u043d\u0435, \u043c\u043e\u0434\u0435\u043b\u0438 \u043d\u0430 \u043a\u043e\u043d\u0441\u0443\u043c\u0430\u0446\u0438\u044f.",
       t71:"\u041f\u0440\u0435\u0434\u043e\u0442\u0432\u0440\u0430\u0442\u0435\u0442\u0435 \u043a\u0430\u0442\u0430\u0441\u0442\u0440\u043e\u0444\u0430",t72:"\u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u0438 \u043f\u0440\u0435\u0434\u0443\u043f\u0440\u0435\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u0440\u0435\u0434\u0438 \u043f\u043e\u0432\u0440\u0435\u0434\u0430, \u043d\u0435 \u0441\u043b\u0435\u0434 \u043d\u0435\u044f.",
       t73:"\u041f\u043b\u0430\u043d\u0438\u0440\u0430\u0439\u0442\u0435 \u0441 \u0434\u0430\u043d\u043d\u0438",t74:"\u0421\u043f\u0440\u0435\u0442\u0435 \u0434\u0430 \u043f\u043e\u0440\u044a\u0447\u0432\u0430\u0442\u0435 \u043d\u0430\u043f\u043e\u0441\u043e\u043a\u0438. \u041f\u043e\u0440\u044a\u0447\u0432\u0430\u0439\u0442\u0435 \u043f\u043e \u0441\u043a\u043e\u0440\u043e\u0441\u0442 \u043d\u0430 \u043a\u043e\u043d\u0441\u0443\u043c\u0430\u0446\u0438\u044f.",
       t75:"\u041a\u043e\u043d\u0442\u0430\u043a\u0442: Nikola Avramovi\u0107, COO \u00b7 n.avramovic@unifiedcloudsensors.com \u00b7 +420 546 427 053"
     }
   };
+
+  /* ===== CURRENCY PER LANGUAGE - edit exchange rates here (1 EUR = x) ===== */
+  var FX={EUR:1,CZK:25,RSD:117.2,PLN:4.25,RON:5.1};
+  var CURRENCY={en:'EUR',cs:'CZK',sk:'EUR',pl:'PLN',sr:'RSD',es:'EUR',ro:'RON',bg:'EUR'};
+  var LOCALE={en:'en-GB',cs:'cs-CZ',sk:'sk-SK',pl:'pl-PL',sr:'sr-Latn-RS',es:'es-ES',ro:'ro-RO',bg:'bg-BG'};
+  /* ======================================================================== */
+  function money(eur,lang,approx){var c=CURRENCY[lang]||'EUR',v=eur*FX[c],dec=0;
+    if(approx){var mag=Math.pow(10,Math.max(0,Math.floor(Math.log10(Math.abs(v)))-2));v=Math.round(v/mag)*mag}
+    else if(c!=='EUR'){if(v>=10000){v=Math.round(v/100)*100}else if(v>=1000){v=Math.round(v/10)*10}else if(v>=10){v=Math.round(v)}}
+    if(v!==Math.round(v))dec=2;
+    var f=new Intl.NumberFormat(LOCALE[lang]||'en-GB',{style:'currency',currency:c,maximumFractionDigits:dec,minimumFractionDigits:dec}).format(v);
+    return (approx?'\u2248\u00a0':'')+f}
+  function fill(str,lang){return String(str).replace(/\{(\u2248?)\u20ac(\d+(?:\.\d+)?)\}/g,function(_,a,n){return money(parseFloat(n),lang,!!a)})}
+  /* big amounts: shrink until they fit their box (converted currencies are longer than EUR) */
+  function fitAll(){document.querySelectorAll('[data-fit]').forEach(function(el){el.style.fontSize='';var box=el.parentElement,cs=getComputedStyle(box),avail=box.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),fs=parseFloat(getComputedStyle(el).fontSize);while(el.scrollWidth>avail&&fs>16){fs-=2;el.style.fontSize=fs+'px'}})}
 
   // Language switcher
   document.querySelectorAll('.lang-btn').forEach(function(btn){
@@ -1068,10 +1084,15 @@
       document.documentElement.lang = lang;
       document.querySelectorAll('[data-i]').forEach(function(el){
         var k = el.getAttribute('data-i');
-        if(t[k] !== undefined) el.textContent = t[k];
+        if(t[k] !== undefined) el.textContent = fill(t[k], lang);
       });
+      document.querySelectorAll('[data-money]').forEach(function(el){
+        el.textContent = money(parseFloat(el.getAttribute('data-money')), lang, false);
+      });
+      fitAll();
     });
   });
+  fitAll();window.addEventListener('resize',fitAll);
 })();
 </script>
 <script>/* scale the fixed-size canvas to the stage */(function(){function k(){var st=document.getElementById('stage');var cv=document.getElementById('canvas');cv.style.setProperty('--k',st.clientWidth/cv.offsetWidth)}k();window.addEventListener('resize',k)})();</script>
