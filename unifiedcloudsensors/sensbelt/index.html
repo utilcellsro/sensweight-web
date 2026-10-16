@@ -74,6 +74,7 @@
     .leak-item.r1{grid-row:2}.leak-item.r2{grid-row:3}.leak-item.r3{grid-row:4}
     .leak-total{grid-column:2;grid-row:1 / -1;background:var(--danger);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px 20px;gap:12px}
     .leak-total__val{font:700 64px/1 'Chakra Petch',sans-serif;color:#fff;letter-spacing:-.01em;white-space:nowrap}
+    [data-fit]{white-space:nowrap}
     .leak-total__lbl{font:600 13px/1.45 'IBM Plex Mono',monospace;color:#fff;letter-spacing:.04em;max-width:250px}
     /* the two amounts the total is made of — the review praised this kind of breakdown for credibility */
     .leak-total__split{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:2px}
@@ -293,7 +294,7 @@
         <p class="leak-item leak-item--bad r2" data-i="t8">Three to four times a shift. A 75 kW drive turning air.</p>
         <p class="leak-item leak-item--bad r3" data-i="t9">No way to check the belt scale without sending a technician.</p>
         <div class="leak-total">
-          <span class="leak-total__val" data-i="t10">€34,560</span>
+          <span class="leak-total__val" data-fit data-i="t10">€34,560</span>
           <span class="leak-total__lbl" data-i="t11">per belt, per year</span>
           <div class="leak-total__split">
             <div><span class="k" data-i="t12">Wasted electricity</span><span class="v" data-i="t13">€12,960</span></div>
@@ -539,12 +540,12 @@ t6:"WITHOUT SensBELT",
 t7:"The belt runs on after the last truck dumps — unnoticed for 45 minutes.",
 t8:"Three to four times a shift. A 75 kW drive turning air.",
 t9:"No way to check the belt scale without sending a technician.",
-t10:"€34,560",
+t10:"{€34560}",
 t11:"per belt, per year",
 t12:"Wasted electricity",
-t13:"€12,960",
+t13:"{€12960}",
 t14:"Belt &amp; roller wear",
-t15:"€21,600",
+t15:"{€21600}",
 t16:"WITH SensBELT",
 t17:"An empty belt is detected automatically — shutdown signal after 5 minutes.",
 t18:"Calibration drift is tracked continuously — no site visits.",
@@ -559,8 +560,8 @@ t26:"FAILURE",
 t27:"Belt #1 ran empty 2.65 hours a day. Nothing looked broken, so nobody looked.",
 t28:"847 h",
 t29:"IMPACT",
-t30:"Energy burned on air, plus 14 months of extra wear — a €38,000 belt replaced early.",
-t31:"€11,430",
+t30:"Energy burned on air, plus 14 months of extra wear — a {€38000} belt replaced early.",
+t31:"{€11430}",
 t32:"FIX",
 t33:"No load for 5 minutes → shutdown signal to the VFD. Ghost running gone by week 2.",
 t34:"≈ 0 h",
@@ -620,25 +621,25 @@ t87:"75 kW",
 t88:"Ghost running",
 t89:"3 h/day × 320 days",
 t90:"Electricity price",
-t91:"€0.18/kWh",
+t91:"{€0.18}/kWh",
 t92:"Annual risk without SensBELT",
-t93:"€34,560",
+t93:"{€34560}",
 t94:"Wasted electricity",
-t95:"€12,960",
+t95:"{€12960}",
 t96:"Accelerated belt and roller wear",
-t97:"€21,600",
-t98:"UCS investment, year 1<small>UCS-X3 €600 + dashboard setup €800 + service €1,188</small>",
-t99:"€2,588",
+t97:"{€21600}",
+t98:"UCS investment, year 1<small>UCS-X3 {€600} + dashboard setup {€800} + service {€1188}</small>",
+t99:"{€2588}",
 t100:"Expected annual savings",
-t101:"€26,496",
+t101:"{€26496}",
 t102:"Payback period",
 t103:"36 days",
 t104:"Year 1 ROI",
-t105:"One unnecessary technician visit costs €142. The system costs €59–99 a month. It pays for itself by avoiding a single wasted trip — everything after that is profit.",
+t105:"One unnecessary technician visit costs {€142}. The system costs {€59}–{€99} a month. It pays for itself by avoiding a single wasted trip — everything after that is profit.",
 t106:"NEXT STEP",
 t107:"Prove it on your busiest conveyor",
 t108:"30-DAY FREE PILOT",
-t109:"Free 30-day pilot on your most-used belt — we lend you the system for a month at no cost. If we do not find wasted hours, walk away.",
+t109:"We lend you the system for a month at no cost. If we do not find wasted hours, walk away.",
 t110:"Kill ghost running",
 t111:"Automatic empty-belt detection, energy saved from day one.",
 t112:"Protect measurement accuracy",
@@ -658,12 +659,12 @@ t6:"BEZ SensBELT",
 t7:"Pás běží dál poté, co poslední auto vysype — 45 minut si toho nikdo nevšimne.",
 t8:"Tři až čtyřikrát za směnu. Pohon 75 kW točí vzduch.",
 t9:"Přesnost pásové váhy nelze ověřit bez výjezdu technika.",
-t10:"34 560 €",
+t10:"{€34560}",
 t11:"na jeden pás a rok",
 t12:"Plýtvání elektřinou",
-t13:"12 960 €",
+t13:"{€12960}",
 t14:"Opotřebení pásu a válečků",
-t15:"21 600 €",
+t15:"{€21600}",
 t16:"SE SensBELT",
 t17:"Prázdný pás se detekuje automaticky — signál k vypnutí po 5 minutách.",
 t18:"Drift kalibrace se sleduje průběžně — bez výjezdů na místo.",
@@ -678,8 +679,8 @@ t26:"PORUCHA",
 t27:"Pás č. 1 běžel naprázdno 2,65 hodiny denně. Nic nevypadalo rozbitě, takže nikdo nehledal.",
 t28:"847 h",
 t29:"DOPAD",
-t30:"Energie spotřebovaná na vzduch a 14 měsíců opotřebení navíc — pás za 38 000 € vyměněný předčasně.",
-t31:"11 430 €",
+t30:"Energie spotřebovaná na vzduch a 14 měsíců opotřebení navíc — pás za {€38000} vyměněný předčasně.",
+t31:"{€11430}",
 t32:"ŘEŠENÍ",
 t33:"Bez zátěže 5 minut → signál k vypnutí do měniče. Ve 2. týdnu byl běh naprázdno pryč.",
 t34:"≈ 0 h",
@@ -739,25 +740,25 @@ t87:"75 kW",
 t88:"Běh naprázdno",
 t89:"3 h/den × 320 dní",
 t90:"Cena elektřiny",
-t91:"0,18 €/kWh",
+t91:"{€0.18}/kWh",
 t92:"Roční riziko bez SensBELT",
-t93:"34 560 €",
+t93:"{€34560}",
 t94:"Plýtvání elektřinou",
-t95:"12 960 €",
+t95:"{€12960}",
 t96:"Zrychlené opotřebení pásu a válečků",
-t97:"21 600 €",
-t98:"Investice UCS, 1. rok<small>UCS-X3 600 € + nastavení dashboardu 800 € + servis 1 188 €</small>",
-t99:"2 588 €",
+t97:"{€21600}",
+t98:"Investice UCS, 1. rok<small>UCS-X3 {€600} + nastavení dashboardu {€800} + servis {€1188}</small>",
+t99:"{€2588}",
 t100:"Očekávané roční úspory",
-t101:"26 496 €",
+t101:"{€26496}",
 t102:"Doba návratnosti",
 t103:"36 dní",
 t104:"ROI 1. rok",
-t105:"Jeden zbytečný výjezd technika stojí 142 €. Systém stojí 59–99 € měsíčně. Zaplatí se tím, že předejde jediné zbytečné cestě — všechno další už je zisk.",
+t105:"Jeden zbytečný výjezd technika stojí {€142}. Systém stojí {€59}–{€99} měsíčně. Zaplatí se tím, že předejde jediné zbytečné cestě — všechno další už je zisk.",
 t106:"DALŠÍ KROK",
 t107:"Ověřte si to na svém nejvíce vytíženém dopravníku",
 t108:"30 DNÍ PILOT ZDARMA",
-t109:"30denní pilot zdarma na vašem nejpoužívanějším pásu — systém vám na měsíc bezplatně zapůjčíme. Pokud nenajdeme promarněné hodiny, odejděte.",
+t109:"Systém vám na měsíc bezplatně zapůjčíme. Pokud nenajdeme promarněné hodiny, odejděte.",
 t110:"Konec běhu naprázdno",
 t111:"Automatická detekce prázdného pásu, úspora energie od prvního dne.",
 t112:"Ochrana přesnosti měření",
@@ -777,12 +778,12 @@ t6:"BEZ SensBELT",
 t7:"Traka nastavlja da radi posle poslednjeg istovara — 45 minuta niko ne primeti.",
 t8:"Tri do četiri puta po smeni. Pogon od 75 kW okreće vazduh.",
 t9:"Tačnost tračne vage nije moguće proveriti bez dolaska tehničara.",
-t10:"34.560 €",
+t10:"{€34560}",
 t11:"po traci, godišnje",
 t12:"Bajčena struja",
-t13:"12.960 €",
+t13:"{€12960}",
 t14:"Habanje trake i valjaka",
-t15:"21.600 €",
+t15:"{€21600}",
 t16:"SA SensBELT",
 t17:"Prazna traka se otkriva automatski — signal za isključenje posle 5 minuta.",
 t18:"Drift kalibracije se prati kontinuirano — bez izlazaka na teren.",
@@ -797,8 +798,8 @@ t26:"KVAR",
 t27:"Traka br. 1 radila je prazna 2,65 sati dnevno. Ništa nije izgledalo pokvareno, pa niko nije ni gledao.",
 t28:"847 h",
 t29:"POSLEDICA",
-t30:"Energija potrošena na vazduh i 14 meseci dodatnog habanja — traka od 38.000 € zamenjena prerano.",
-t31:"11.430 €",
+t30:"Energija potrošena na vazduh i 14 meseci dodatnog habanja — traka od {€38000} zamenjena prerano.",
+t31:"{€11430}",
 t32:"REŠENJE",
 t33:"Bez tereta 5 minuta → signal za isključenje ka frekventnom regulatoru. U 2. nedelji prazan rad je nestao.",
 t34:"≈ 0 h",
@@ -858,25 +859,25 @@ t87:"75 kW",
 t88:"Prazan rad",
 t89:"3 h/dan × 320 dana",
 t90:"Cena struje",
-t91:"0,18 €/kWh",
+t91:"{€0.18}/kWh",
 t92:"Godišnji rizik bez SensBELT",
-t93:"34.560 €",
+t93:"{€34560}",
 t94:"Bajčena struja",
-t95:"12.960 €",
+t95:"{€12960}",
 t96:"Ubrzano habanje trake i valjaka",
-t97:"21.600 €",
-t98:"UCS investicija, 1. godina<small>UCS-X3 600 € + podešavanje dashboarda 800 € + servis 1.188 €</small>",
-t99:"2.588 €",
+t97:"{€21600}",
+t98:"UCS investicija, 1. godina<small>UCS-X3 {€600} + podešavanje dashboarda {€800} + servis {€1188}</small>",
+t99:"{€2588}",
 t100:"Očekivane godišnje uštede",
-t101:"26.496 €",
+t101:"{€26496}",
 t102:"Period povraćaja",
 t103:"36 dana",
 t104:"ROI 1. godina",
-t105:"Jedna nepotrebna poseta tehničara košta 142 €. Sistem košta 59–99 € mesečno. Isplati se izbegavanjem jednog uzaludnog puta — sve posle toga je profit.",
+t105:"Jedna nepotrebna poseta tehničara košta {€142}. Sistem košta {€59}–{€99} mesečno. Isplati se izbegavanjem jednog uzaludnog puta — sve posle toga je profit.",
 t106:"SLEDEĆI KORAK",
 t107:"Dokažite na svom najopterećenijem transporteru",
 t108:"30 DANA BESPLATNOG PILOTA",
-t109:"Besplatan 30-dnevni pilot na vašoj najkorišćenijoj traci — sistem vam pozajmljujemo na mesec dana bez naknade. Ako ne nađemo protraćene sate, odustanite.",
+t109:"Sistem vam pozajmljujemo na mesec dana bez naknade. Ako ne nađemo protraćene sate, odustanite.",
 t110:"Kraj praznog rada",
 t111:"Automatska detekcija prazne trake, ušteda energije od prvog dana.",
 t112:"Zaštita tačnosti merenja",
@@ -888,12 +889,27 @@ t117:"Operativni direktor"
 }
 };
 
+/* ===== CURRENCY PER LANGUAGE - edit exchange rates here (1 EUR = x) ===== */
+var FX={EUR:1,CZK:25,RSD:117.2,PLN:4.25,RON:5.1};
+var CURRENCY={en:'EUR',cs:'CZK',sk:'EUR',pl:'PLN',sr:'RSD',es:'EUR',ro:'RON',bg:'EUR'};
+var LOCALE={en:'en-GB',cs:'cs-CZ',sk:'sk-SK',pl:'pl-PL',sr:'sr-Latn-RS',es:'es-ES',ro:'ro-RO',bg:'bg-BG'};
+/* ======================================================================== */
+function money(eur,lang,approx){var c=CURRENCY[lang]||'EUR',v=eur*FX[c],dec=0;
+  if(approx){var mag=Math.pow(10,Math.max(0,Math.floor(Math.log10(Math.abs(v)))-2));v=Math.round(v/mag)*mag}
+  else if(c!=='EUR'){if(v>=10000){v=Math.round(v/100)*100}else if(v>=1000){v=Math.round(v/10)*10}else if(v>=10){v=Math.round(v)}}
+  if(v!==Math.round(v))dec=2;
+  var f=new Intl.NumberFormat(LOCALE[lang]||'en-GB',{style:'currency',currency:c,maximumFractionDigits:dec,minimumFractionDigits:dec}).format(v);
+  return (approx?'\u2248\u00a0':'')+f}
+function fill(str,lang){return String(str).replace(/\{(\u2248?)\u20ac(\d+(?:\.\d+)?)\}/g,function(_,a,n){return money(parseFloat(n),lang,!!a)})}
+/* big amounts: shrink until they fit their box (converted currencies are longer than EUR) */
+function fitAll(){document.querySelectorAll('[data-fit]').forEach(function(el){el.style.fontSize='';var box=el.parentElement,cs=getComputedStyle(box),avail=box.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),fs=parseFloat(getComputedStyle(el).fontSize);while(el.scrollWidth>avail&&fs>16){fs-=2;el.style.fontSize=fs+'px'}})}
 function setLang(lang){var t=T[lang]||T.en;document.documentElement.lang=lang;
   document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-lang')===lang)});
-  document.querySelectorAll('[data-i]').forEach(function(el){var k=el.getAttribute('data-i');if(t[k]!==undefined)el.innerHTML=t[k]});}
-document.querySelectorAll('.lang-btn').forEach(function(btn){btn.addEventListener('click',function(){setLang(this.getAttribute('data-lang'))})});
+  document.querySelectorAll('[data-i]').forEach(function(el){var k=el.getAttribute('data-i');if(t[k]!==undefined)el.innerHTML=fill(t[k],lang)});
+  document.querySelectorAll('[data-money]').forEach(function(el){el.textContent=money(parseFloat(el.getAttribute('data-money')),lang,false)})}
+document.querySelectorAll('.lang-btn').forEach(function(btn){btn.addEventListener('click',function(){setLang(this.getAttribute('data-lang'));fitAll()})});
 function scaleStage(){var st=document.getElementById('stage'),cv=document.getElementById('canvas');cv.style.setProperty('--k',st.clientWidth/1600)}
-setLang('en');scaleStage();window.addEventListener('resize',scaleStage);
+setLang('en');scaleStage();fitAll();window.addEventListener('resize',function(){scaleStage();fitAll()});if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitAll);
 })();
 </script>
 </body>
