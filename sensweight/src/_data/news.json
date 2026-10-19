@@ -1,0 +1,88 @@
+{
+  "_readme": [
+    "News, events and promotions shown on /events/. This file is CONTENT, not site copy:",
+    "it deliberately lives outside translations.js and i18n/*.json, so news items never",
+    "appear in the i18n coverage report and never need a lock-file entry.",
+    "",
+    "It is written by hand today and by the /admin/ publisher later, so keep it plain:",
+    "no comments, no trailing commas, one object per item.",
+    "",
+    "  id        stable slug. Used as the anchor and the JSON-LD @id. Never reuse one.",
+    "  type      news | event | promotion  -> which of the three sections it renders in.",
+    "  date      ISO yyyy-mm-dd. News/promotions sort newest first; events sort soonest first.",
+    "  dateEnd   optional ISO, events spanning more than one day.",
+    "  location  optional, events only.",
+    "  published false hides it everywhere without deleting it (drafts).",
+    "  url       optional. Renders a 'Read more' link; external links open in a new tab.",
+    "  image     optional, site-root-relative (e.g. /assets/images/news/foo.jpg).",
+    "  en/cs/pl  { title, summary }. en is required; a missing language falls back to en,",
+    "            matching how translations.js already behaves.",
+    "",
+    "An event whose last day has passed stops rendering at the NEXT BUILD, not at midnight —",
+    "this is a static site, so nothing changes until something triggers a deploy.",
+    "",
+    "The three seeded items are real and already public on unifiedcloudsensors.com's",
+    "Updates carousel, carried over so this page is not empty. Delete them freely.",
+    "Their cs/pl text is AI-translated and has had no native-speaker review, the same",
+    "standing caveat as the rest of the site's CS/PL copy."
+  ],
+  "items": [
+    {
+      "id": "2026-09-15-sensweight-in-quarries",
+      "type": "news",
+      "date": "2026-09-15",
+      "published": true,
+      "url": "https://www.youtube.com/watch?v=-R2kVgiIkdA",
+      "en": {
+        "title": "SensWEIGHT in quarries",
+        "summary": "Detecting belt scale problems earlier, with continuous monitoring and machine learning."
+      },
+      "cs": {
+        "title": "SensWEIGHT v lomech",
+        "summary": "Dřívější odhalení problémů pásových vah díky nepřetržitému monitoringu a strojovému učení."
+      },
+      "pl": {
+        "title": "SensWEIGHT w kopalniach odkrywkowych",
+        "summary": "Wcześniejsze wykrywanie problemów wag taśmowych dzięki ciągłemu monitoringowi i uczeniu maszynowemu."
+      }
+    },
+    {
+      "id": "2025-12-18-pf-2026",
+      "type": "news",
+      "date": "2025-12-18",
+      "published": true,
+      "url": "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all",
+      "en": {
+        "title": "PF 2026",
+        "summary": "Season's greetings to our partners and clients."
+      },
+      "cs": {
+        "title": "PF 2026",
+        "summary": "Přejeme vše nejlepší našim partnerům a zákazníkům."
+      },
+      "pl": {
+        "title": "PF 2026",
+        "summary": "Najlepsze życzenia dla naszych partnerów i klientów."
+      }
+    },
+    {
+      "id": "2025-09-24-dtx-europe-2025",
+      "type": "news",
+      "date": "2025-09-24",
+      "published": true,
+      "url": "https://www.linkedin.com/company/unified-cloud-sensors/posts/?feedView=all",
+      "en": {
+        "title": "UCS at DTX Europe 2025",
+        "summary": "Meeting visitors, partners and exhibitors at RAI, Amsterdam, 24–25 September 2025."
+      },
+      "cs": {
+        "title": "UCS na DTX Europe 2025",
+        "summary": "Setkání s návštěvníky, partnery a vystavovateli v RAI Amsterdam, 24.–25. září 2025."
+      },
+      "pl": {
+        "title": "UCS na DTX Europe 2025",
+        "summary": "Spotkania z odwiedzającymi, partnerami i wystawcami w RAI Amsterdam, 24–25 września 2025."
+      }
+    }
+  ]
+}

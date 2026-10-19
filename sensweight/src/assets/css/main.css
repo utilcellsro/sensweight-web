@@ -907,3 +907,20 @@ h3, h4 { font-weight: 600; }
   .legal-table th { border: 0; padding-bottom: 2px; }
   .legal-table td { border-bottom: 0; padding-top: 2px; }
   .legal-table tr { border-bottom: 1px solid var(--rule); padding: 10px 0; } }
+
+/* ── News / events items on /events/ ────────────────────────── */
+/* Reuses .features-grid + .feature-card; only the parts a news item has and
+   a feature card does not are defined here. */
+.news-grid { margin-top: 24px; }
+.news-card { gap: 10px; }
+.news-thumb {
+  width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--rl); margin-bottom: 4px;
+}
+.news-card .feature-icon { font-size: 11px; text-transform: uppercase; }
+.news-place { font-size: 13px; color: var(--faint); }
+.news-link {
+  font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+  color: var(--sky); text-decoration: none; margin-top: auto; padding-top: 4px;
+}
+.news-link:hover { text-decoration: underline; }
