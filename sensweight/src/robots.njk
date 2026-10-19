@@ -5,4 +5,8 @@ eleventyExcludeFromCollections: true
 User-agent: *
 Allow: /
 
+# Internal news publisher. Also noindex'd on the page itself and blocked by
+# WAF to the office IP - this line only keeps it out of crawl logs.
+Disallow: /admin/
+
 Sitemap: {{ site.url }}/sitemap.xml

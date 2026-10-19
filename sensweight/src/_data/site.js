@@ -25,4 +25,16 @@ module.exports = {
   // var, set via Terraform, never in this repo). Widget created 2026-09-21
   // via the Cloudflare API, scoped to the sensweight.com domain.
   turnstileSiteKey: "0x4AAAAAAE-ojNPnvjut91t_",
+
+  // ── /admin/ news publisher ────────────────────────────────────────────
+  // Cognito user-pool app client for the news publisher. Like the Turnstile
+  // site key above, the client id is a PUBLIC value: it identifies the app,
+  // it does not authorise anything. The pool is a public client with no
+  // secret, so there is nothing here to leak.
+  //
+  // Both values come from the Terraform outputs (sensweight_news_admin_*).
+  // While cognitoClientId is empty, /admin/ renders but refuses to sign in
+  // and says so, rather than failing silently.
+  cognitoRegion: "eu-central-1",
+  cognitoClientId: "",
 };
