@@ -7,7 +7,18 @@ module.exports = function (eleventyConfig) {
 
   // JSON string literal (quotes included) for values dropped into JSON-LD —
   // without it Nunjucks HTML-escapes them and "&" ships as "&amp;"
-  eleventyConfig.addFilter("jsonstr", (v) => JSON.stringify(String(v)));
+  //
+  // < > & are additionally escaped as \uXXXX. They are legal JSON escapes, so
+  // the value a parser sees is unchanged, but it means a string can never
+  // contain the literal "</script>" and close the surrounding tag early. With
+  // plain JSON.stringify, a news item whose summary contained "</script>"
+  // would both corrupt the structured data and inject live HTML into the page
+  // — reachable by anyone who can publish through /admin/.
+  eleventyConfig.addFilter("jsonstr", (v) =>
+    JSON.stringify(String(v))
+      .replace(/</g, "\\u003c")
+      .replace(/>/g, "\\u003e")
+      .replace(/&/g, "\\u0026"));
 
   // Site-root-relative path -> the same path in `lang`. English is served at
   // the root (unprefixed), every other language under /<lang>/. Use it for
