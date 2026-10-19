@@ -7,9 +7,6 @@
     {%- for item in items %}
     {%- set txt = item | newsText(lang) %}
     <article class="feature-card news-card" id="{{ item.id }}">
-      {%- if item.image %}
-      <img class="news-thumb" src="{{ item.image }}" alt="" loading="lazy" width="520" height="390">
-      {%- endif %}
       <div class="feature-icon">
         <time datetime="{{ item.date }}">{{ item.date | newsDate(lang) }}</time>
         {%- if item.dateEnd %} – <time datetime="{{ item.dateEnd }}">{{ item.dateEnd | newsDate(lang) }}</time>{% endif %}
@@ -17,6 +14,12 @@
       <h3>{{ txt.title }}</h3>
       <p>{{ txt.summary }}</p>
       {%- if item.location %}<p class="news-place">{{ item.location }}</p>{% endif %}
+      {#- The photo sits under the text, not above it: in a row where only some
+          items have one, a thumbnail on top pushes that card's date and title
+          below its neighbours' and the row reads as broken. -#}
+      {%- if item.image %}
+      <img class="news-thumb" src="{{ item.image }}" alt="" loading="lazy" width="520" height="390">
+      {%- endif %}
       {%- if item.url %}
       <a class="news-link" href="{{ item.url }}"{% if "http" in item.url %} target="_blank" rel="noopener"{% endif %}>{{ t.labels.read_more }}</a>
       {%- endif %}
