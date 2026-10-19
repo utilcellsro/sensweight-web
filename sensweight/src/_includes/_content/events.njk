@@ -1,6 +1,39 @@
 {% set t = translations[lang] %}
 {% set e = t.events %}
 
+{% macro newsList(items, emptyCopy) %}
+  {%- if items.length %}
+  <div class="features-grid news-grid">
+    {%- for item in items %}
+    {%- set txt = item | newsText(lang) %}
+    <article class="feature-card news-card" id="{{ item.id }}">
+      {%- if item.image %}
+      <img class="news-thumb" src="{{ item.image }}" alt="" loading="lazy" width="520" height="390">
+      {%- endif %}
+      <div class="feature-icon">
+        <time datetime="{{ item.date }}">{{ item.date | newsDate(lang) }}</time>
+        {%- if item.dateEnd %} – <time datetime="{{ item.dateEnd }}">{{ item.dateEnd | newsDate(lang) }}</time>{% endif %}
+      </div>
+      <h3>{{ txt.title }}</h3>
+      <p>{{ txt.summary }}</p>
+      {%- if item.location %}<p class="news-place">{{ item.location }}</p>{% endif %}
+      {%- if item.url %}
+      <a class="news-link" href="{{ item.url }}"{% if "http" in item.url %} target="_blank" rel="noopener"{% endif %}>{{ t.labels.read_more }}</a>
+      {%- endif %}
+    </article>
+    {%- endfor %}
+  </div>
+  {%- else %}
+  <div class="events-empty-state">
+    <p>{{ emptyCopy }}</p>
+  </div>
+  {%- endif %}
+{% endmacro %}
+
+{% set promotions = news.items | newsOfType("promotion") %}
+{% set upcoming   = news.items | newsOfType("event") %}
+{% set latest     = news.items | newsOfType("news") %}
+
 <section class="page-hero">
   <div class="container page-hero-content">
     <div class="hero-tagline">{{ e.page_tagline }}</div>
@@ -14,9 +47,7 @@
     <div class="section-header">
       <div class="section-tagline">{{ e.promotions_title }}</div>
     </div>
-    <div class="events-empty-state">
-      <p>{{ e.promotions_empty }}</p>
-    </div>
+    {{ newsList(promotions, e.promotions_empty) }}
   </div>
 </section>
 
@@ -25,9 +56,7 @@
     <div class="section-header">
       <div class="section-tagline">{{ e.events_title }}</div>
     </div>
-    <div class="events-empty-state">
-      <p>{{ e.events_empty }}</p>
-    </div>
+    {{ newsList(upcoming, e.events_empty) }}
   </div>
 </section>
 
@@ -36,9 +65,7 @@
     <div class="section-header">
       <div class="section-tagline">{{ e.news_title }}</div>
     </div>
-    <div class="events-empty-state">
-      <p>{{ e.news_empty }}</p>
-    </div>
+    {{ newsList(latest, e.news_empty) }}
   </div>
 </section>
 
@@ -55,3 +82,51 @@
     <p class="newsletter-note">{{ e.newsletter_note }}</p>
   </div>
 </section>
+
+{#- Structured data for the items actually on the page. Separate from base.njk's
+    @graph on purpose: that one describes the page, this describes its contents,
+    and this template is the only place that knows what rendered. -#}
+{%- if latest.length or upcoming.length %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {%- set sep = joiner(",") %}
+    {%- for item in latest %}{{ sep() }}
+    {%- set txt = item | newsText(lang) %}
+    {
+      "@type": "NewsArticle",
+      "@id": "{{ site.url }}{{ page.url }}#{{ item.id }}",
+      "headline": {{ txt.title | jsonstr | safe }},
+      "description": {{ txt.summary | jsonstr | safe }},
+      "datePublished": "{{ item.date }}",
+      "inLanguage": "{{ lang }}",
+      "mainEntityOfPage": "{{ site.url }}{{ page.url }}",
+      {%- if item.image %}
+      "image": "{{ site.url }}{{ item.image }}",
+      {%- endif %}
+      "publisher": { "@type": "Organization", "name": {{ site.name | jsonstr | safe }} }
+    }
+    {%- endfor %}
+    {%- for item in upcoming %}{{ sep() }}
+    {%- set txt = item | newsText(lang) %}
+    {
+      "@type": "Event",
+      "@id": "{{ site.url }}{{ page.url }}#{{ item.id }}",
+      "name": {{ txt.title | jsonstr | safe }},
+      "description": {{ txt.summary | jsonstr | safe }},
+      "startDate": "{{ item.date }}",
+      {%- if item.dateEnd %}
+      "endDate": "{{ item.dateEnd }}",
+      {%- endif %}
+      {%- if item.location %}
+      "location": { "@type": "Place", "name": {{ item.location | jsonstr | safe }} },
+      {%- endif %}
+      "eventStatus": "https://schema.org/EventScheduled",
+      "organizer": { "@type": "Organization", "name": {{ site.name | jsonstr | safe }}, "url": "{{ site.url }}" }
+    }
+    {%- endfor %}
+  ]
+}
+</script>
+{%- endif %}

@@ -38,6 +38,7 @@ const en = {
     see_all_solutions: "See all solutions →",
     all_industries: "All industries →",
     learn_more: "Learn more →",
+    read_more: "Read more →",
     next_step: "Next step",
     start_pilot: "Start a pilot",
     industry_cta_heading: "Ready to talk about {name}?",

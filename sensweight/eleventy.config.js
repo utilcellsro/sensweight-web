@@ -22,6 +22,45 @@ module.exports = function (eleventyConfig) {
     return "/" + lang + p;
   });
 
+  // ── /events/ content (src/_data/news.json) ────────────────────────────────
+  //
+  // Kept as filters rather than a prepared _data file so news.json stays plain
+  // data that the /admin/ publisher can rewrite wholesale without knowing
+  // anything about the build.
+
+  // Published items of one type, in reading order: news and promotions newest
+  // first, events soonest first. An event whose last day has passed is dropped
+  // — at build time, so a stale one survives until the next deploy.
+  eleventyConfig.addFilter("newsOfType", (items, type) => {
+    const today = new Date().toISOString().slice(0, 10);
+    const list = (items || []).filter((i) => i && i.published && i.type === type);
+    if (type === "event") {
+      return list
+        .filter((i) => (i.dateEnd || i.date) >= today)
+        .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    }
+    return list.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  });
+
+  // The item's text in `lang`, falling back to English per-field, so a item
+  // translated only in part still renders rather than showing "undefined".
+  eleventyConfig.addFilter("newsText", (item, lang) => {
+    const en = (item && item.en) || {};
+    const loc = (item && item[lang]) || {};
+    return { title: loc.title || en.title || "", summary: loc.summary || en.summary || "" };
+  });
+
+  // ISO date -> the language's own long form (1. října 2026 / 1 October 2026).
+  // Falls back to the raw ISO string if the date is malformed, rather than
+  // rendering "Invalid Date" into the page.
+  eleventyConfig.addFilter("newsDate", (iso, lang) => {
+    const d = new Date(String(iso) + "T00:00:00Z");
+    if (Number.isNaN(d.getTime())) return String(iso || "");
+    return new Intl.DateTimeFormat(lang === "en" ? "en-GB" : lang, {
+      day: "numeric", month: "long", year: "numeric", timeZone: "UTC",
+    }).format(d);
+  });
+
   return {
     dir: {
       input: "src",
