@@ -36,5 +36,5 @@ module.exports = {
   // While cognitoClientId is empty, /admin/ renders but refuses to sign in
   // and says so, rather than failing silently.
   cognitoRegion: "eu-central-1",
-  cognitoClientId: "",
+  cognitoClientId: "s7dthrgmdvkn5lu5tgq0hb2v2",
 };
