@@ -1,0 +1,509 @@
+---
+permalink: /admin/index.html
+eleventyExcludeFromCollections: true
+noindexed: true
+lang: "en"
+singleLanguage: true
+---
+{#-
+  /admin/ — the news publisher. Internal tool, English only.
+
+  Deliberately NOT built on base.njk: that layout emits the public nav, footer,
+  canonical, hreflang and JSON-LD, none of which belong on an internal page,
+  and every one of them would be a way for this URL to leak into the public
+  site. This page carries its own minimal styling instead.
+
+  It is served from the public bucket like any other page, so it is NOT secret.
+  Two independent gates protect it, and neither is sufficient alone:
+    1. AWS WAF blocks /admin* from any IP outside the office allowlist.
+    2. Every /admin-api/ call needs a Cognito ID token; the API Gateway JWT
+       authorizer rejects the request before the Lambda runs.
+  The page itself holds no secret: the Cognito client id below is a public
+  value, like the Turnstile site key.
+-#}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>News publisher — Unified Cloud Sensors</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<style>
+  :root{
+    --navy:#1D2C49; --canvas:#16213a; --blue:#476DB8; --sky:#7ED3F0;
+    --pale:#DCE5F4; --sub:#BAC4D5; --faint:#8894a8;
+    --rule:rgba(220,229,244,.14); --alarm:#BF4B41; --ok:#3F8F6B; --r:6px;
+    --mono:'IBM Plex Mono',monospace; --body:'IBM Plex Sans',sans-serif;
+    --display:'Chakra Petch',sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--navy);color:var(--pale);font:400 15px/1.6 var(--body)}
+  a{color:var(--sky)}
+  h1,h2,h3{font-family:var(--display);font-weight:600;margin:0}
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 24px 80px}
+  header.bar{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+    border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:28px;flex-wrap:wrap}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky)}
+  .who{font-family:var(--mono);font-size:12px;color:var(--sub)}
+  label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--sub);margin:0 0 6px}
+  input,select,textarea{width:100%;background:var(--canvas);color:var(--pale);
+    border:1px solid var(--rule);border-radius:var(--r);padding:10px 12px;font:400 15px/1.5 var(--body)}
+  textarea{resize:vertical;min-height:76px}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sky)}
+  .btn{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    border-radius:var(--r);padding:11px 18px;border:1px solid var(--sky);
+    background:var(--sky);color:var(--navy);cursor:pointer}
+  .btn.ghost{background:none;color:var(--sky)}
+  .btn.danger{background:none;border-color:var(--alarm);color:var(--alarm)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .row{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin-bottom:16px}
+  .panel{border:1px solid var(--rule);border-radius:var(--r);padding:24px;background:var(--canvas)}
+  .msg{border-radius:var(--r);padding:12px 14px;margin:16px 0;font-size:14px;display:none}
+  .msg.err{display:block;border:1px solid var(--alarm);color:#f4b4ae}
+  .msg.ok{display:block;border:1px solid var(--ok);color:#9fd8bd}
+  .msg.info{display:block;border:1px solid var(--rule);color:var(--sub)}
+  .item{border-top:1px solid var(--rule);padding:18px 0;display:grid;
+    grid-template-columns:120px 1fr auto;gap:16px;align-items:start}
+  .item .date{font-family:var(--mono);font-size:12px;color:var(--sub)}
+  .item h3{font-size:17px;margin-bottom:4px}
+  .item p{margin:0;font-size:14px;color:var(--sub)}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--rule);border-radius:3px;padding:2px 7px;color:var(--sub);margin-right:6px}
+  .tag.draft{border-color:var(--alarm);color:#f4b4ae}
+  .actions{display:flex;gap:8px}
+  .hint{font-size:13px;color:var(--faint);margin-top:6px}
+  .lang-block{border:1px solid var(--rule);border-radius:var(--r);padding:16px;margin-bottom:12px}
+  .lang-block h4{margin:0 0 12px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--sky);font-weight:400}
+  .hidden{display:none}
+  .bottom{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:24px;
+    border-top:1px solid var(--rule);padding-top:20px}
+  @media(max-width:700px){ .item{grid-template-columns:1fr} .actions{justify-content:flex-start} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="bar">
+    <div>
+      <div class="eyebrow">Unified Cloud Sensors</div>
+      <h1>News publisher</h1>
+    </div>
+    <div class="who" id="who"></div>
+  </header>
+
+  <div class="msg" id="msg"></div>
+
+  {# ── Sign in ─────────────────────────────────────────────── #}
+  <section class="panel" id="loginPanel">
+    <h2>Sign in</h2>
+    <p class="hint">Use the email and password you were given. You will be asked to
+      choose your own password the first time.</p>
+    <div class="row" style="margin-top:20px">
+      <div><label for="email">Email</label><input id="email" type="email" autocomplete="username"></div>
+      <div><label for="password">Password</label><input id="password" type="password" autocomplete="current-password"></div>
+    </div>
+    <div id="newPassWrap" class="hidden">
+      <label for="newPassword">Choose a new password</label>
+      <input id="newPassword" type="password" autocomplete="new-password">
+      <p class="hint">At least 10 characters, with an upper-case letter, a lower-case letter and a number.</p>
+    </div>
+    <p style="margin-top:18px"><button class="btn" id="loginBtn">Sign in</button></p>
+  </section>
+
+  {# ── Editor ──────────────────────────────────────────────── #}
+  <section id="editor" class="hidden">
+
+    <div class="panel" style="margin-bottom:28px">
+      <h2 id="formTitle">Add an item</h2>
+      <div class="row" style="margin-top:18px">
+        <div>
+          <label for="f-type">Section</label>
+          <select id="f-type">
+            <option value="news">Latest news</option>
+            <option value="event">Upcoming event</option>
+            <option value="promotion">Promotion</option>
+          </select>
+        </div>
+        <div><label for="f-date">Date</label><input id="f-date" type="date"></div>
+        <div>
+          <label for="f-dateEnd">End date <span style="text-transform:none">(events only)</span></label>
+          <input id="f-dateEnd" type="date">
+        </div>
+        <div>
+          <label for="f-published">Status</label>
+          <select id="f-published">
+            <option value="true">Published</option>
+            <option value="false">Draft (hidden)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div><label for="f-location">Location <span style="text-transform:none">(optional)</span></label>
+          <input id="f-location" placeholder="RAI, Amsterdam"></div>
+        <div><label for="f-url">Link <span style="text-transform:none">(optional)</span></label>
+          <input id="f-url" placeholder="https://…"></div>
+        <div><label for="f-image">Image <span style="text-transform:none">(optional)</span></label>
+          <input id="f-image" placeholder="/assets/images/news/….jpg"></div>
+      </div>
+
+      <div class="lang-block">
+        <h4>English — required</h4>
+        <label for="f-en-title">Title</label><input id="f-en-title">
+        <label for="f-en-summary" style="margin-top:12px">Summary</label><textarea id="f-en-summary"></textarea>
+      </div>
+      <div class="lang-block">
+        <h4>Czech — optional</h4>
+        <label for="f-cs-title">Title</label><input id="f-cs-title">
+        <label for="f-cs-summary" style="margin-top:12px">Summary</label><textarea id="f-cs-summary"></textarea>
+      </div>
+      <div class="lang-block">
+        <h4>Polish — optional</h4>
+        <label for="f-pl-title">Title</label><input id="f-pl-title">
+        <label for="f-pl-summary" style="margin-top:12px">Summary</label><textarea id="f-pl-summary"></textarea>
+      </div>
+      <p class="hint">Anything left blank in Czech or Polish falls back to the English text,
+        so a partly translated item is fine.</p>
+
+      <p style="margin-top:18px">
+        <button class="btn" id="addBtn">Add to the list</button>
+        <button class="btn ghost hidden" id="cancelEditBtn">Cancel edit</button>
+      </p>
+    </div>
+
+    <h2>Items</h2>
+    <p class="hint">Nothing is live until you press <em>Publish</em>.</p>
+    <div id="list"></div>
+
+    <div class="bottom">
+      <button class="btn" id="publishBtn">Publish to the website</button>
+      <button class="btn ghost" id="reloadBtn">Discard changes</button>
+      <span class="who" id="dirty"></span>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var COGNITO_REGION    = {{ site.cognitoRegion | default("eu-central-1") | jsonstr | safe }};
+  var COGNITO_CLIENT_ID = {{ site.cognitoClientId | default("") | jsonstr | safe }};
+  var API = "/admin-api/news";
+  var IDP = "https://cognito-idp." + COGNITO_REGION + ".amazonaws.com/";
+
+  var state = { items: [], sha: "", editingId: null, dirty: false };
+  var $ = function (id) { return document.getElementById(id); };
+
+  function say(kind, text) {
+    var box = $("msg");
+    box.className = "msg " + kind;
+    box.textContent = text;
+    if (kind) window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function clearMsg() { $("msg").className = "msg"; $("msg").textContent = ""; }
+
+  // ── Cognito, called directly: no SDK, no hosted UI, no OAuth redirect ──
+  function idp(target, payload) {
+    return fetch(IDP, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-amz-json-1.1",
+        "X-Amz-Target": "AWSCognitoIdentityProviderService." + target
+      },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) {
+          var m = data.message || data.__type || "Sign-in failed";
+          if (/NotAuthorizedException|UserNotFound/i.test(data.__type || "")) {
+            m = "That email and password did not match.";
+          }
+          throw new Error(m);
+        }
+        return data;
+      });
+    });
+  }
+
+  function token() { try { return sessionStorage.getItem("ucs_news_token") || ""; } catch (e) { return ""; } }
+  function setToken(t, email) {
+    try {
+      sessionStorage.setItem("ucs_news_token", t);
+      if (email) sessionStorage.setItem("ucs_news_email", email);
+    } catch (e) { /* private window: the token simply does not persist */ }
+  }
+  function signedInAs() { try { return sessionStorage.getItem("ucs_news_email") || ""; } catch (e) { return ""; } }
+
+  function signIn() {
+    var email = $("email").value.trim();
+    var password = $("password").value;
+    var fresh = $("newPassword").value;
+    if (!email || !password) { say("err", "Enter your email and password."); return; }
+    $("loginBtn").disabled = true;
+    clearMsg();
+
+    var start;
+    if (state.challengeSession && fresh) {
+      start = idp("RespondToAuthChallenge", {
+        ChallengeName: "NEW_PASSWORD_REQUIRED",
+        ClientId: COGNITO_CLIENT_ID,
+        Session: state.challengeSession,
+        ChallengeResponses: { USERNAME: email, NEW_PASSWORD: fresh }
+      });
+    } else {
+      start = idp("InitiateAuth", {
+        AuthFlow: "USER_PASSWORD_AUTH",
+        ClientId: COGNITO_CLIENT_ID,
+        AuthParameters: { USERNAME: email, PASSWORD: password }
+      });
+    }
+
+    start.then(function (data) {
+      if (data.ChallengeName === "NEW_PASSWORD_REQUIRED") {
+        state.challengeSession = data.Session;
+        $("newPassWrap").classList.remove("hidden");
+        $("loginBtn").disabled = false;
+        say("info", "First sign-in: choose a password, then press Sign in again.");
+        return;
+      }
+      var result = data.AuthenticationResult || {};
+      if (!result.IdToken) throw new Error("No token returned.");
+      setToken(result.IdToken, email);
+      clearMsg();
+      showEditor();
+      load();
+    }).catch(function (err) {
+      $("loginBtn").disabled = false;
+      say("err", err.message);
+    });
+  }
+
+  function showEditor() {
+    $("loginPanel").classList.add("hidden");
+    $("editor").classList.remove("hidden");
+    $("who").textContent = "Signed in as " + signedInAs();
+  }
+
+  // ── API ───────────────────────────────────────────────────────────────
+  function api(method, body) {
+    return fetch(API, {
+      method: method,
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token() },
+      body: body ? JSON.stringify(body) : undefined
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (res.status === 401 || res.status === 403) {
+          throw new Error("Your session expired. Reload the page and sign in again.");
+        }
+        if (!res.ok) throw new Error(data.error || ("Request failed (" + res.status + ")"));
+        return data;
+      });
+    });
+  }
+
+  function load() {
+    say("info", "Loading…");
+    api("GET").then(function (data) {
+      state.items = data.items || [];
+      state.sha = data.sha || "";
+      state.dirty = false;
+      render();
+      clearMsg();
+    }).catch(function (err) { say("err", err.message); });
+  }
+
+  // ── Item list ─────────────────────────────────────────────────────────
+  var SECTION = { news: "Latest news", event: "Upcoming event", promotion: "Promotion" };
+
+  function render() {
+    var list = $("list");
+    list.textContent = "";
+    if (!state.items.length) {
+      var none = document.createElement("p");
+      none.className = "hint";
+      none.textContent = "No items yet. Add one above.";
+      list.appendChild(none);
+    }
+    state.items.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); })
+      .forEach(function (item) {
+        var row = document.createElement("div");
+        row.className = "item";
+
+        var when = document.createElement("div");
+        when.className = "date";
+        when.textContent = item.date + (item.dateEnd ? " – " + item.dateEnd : "");
+        row.appendChild(when);
+
+        var mid = document.createElement("div");
+        var tags = document.createElement("div");
+        var t1 = document.createElement("span");
+        t1.className = "tag"; t1.textContent = SECTION[item.type] || item.type;
+        tags.appendChild(t1);
+        if (item.published === false) {
+          var t2 = document.createElement("span");
+          t2.className = "tag draft"; t2.textContent = "Draft";
+          tags.appendChild(t2);
+        }
+        mid.appendChild(tags);
+        var h = document.createElement("h3");
+        h.textContent = (item.en && item.en.title) || "(no title)";
+        mid.appendChild(h);
+        var p = document.createElement("p");
+        p.textContent = (item.en && item.en.summary) || "";
+        mid.appendChild(p);
+        row.appendChild(mid);
+
+        var acts = document.createElement("div");
+        acts.className = "actions";
+        var edit = document.createElement("button");
+        edit.className = "btn ghost"; edit.textContent = "Edit";
+        edit.onclick = function () { startEdit(item.id); };
+        var del = document.createElement("button");
+        del.className = "btn danger"; del.textContent = "Delete";
+        del.onclick = function () { removeItem(item.id); };
+        acts.appendChild(edit); acts.appendChild(del);
+        row.appendChild(acts);
+
+        list.appendChild(row);
+      });
+
+    $("dirty").textContent = state.dirty ? "Unsaved changes" : "";
+  }
+
+  function readForm() {
+    var out = {
+      type: $("f-type").value,
+      date: $("f-date").value,
+      published: $("f-published").value === "true"
+    };
+    if ($("f-dateEnd").value) out.dateEnd = $("f-dateEnd").value;
+    if ($("f-location").value.trim()) out.location = $("f-location").value.trim();
+    if ($("f-url").value.trim()) out.url = $("f-url").value.trim();
+    if ($("f-image").value.trim()) out.image = $("f-image").value.trim();
+    ["en", "cs", "pl"].forEach(function (lang) {
+      var title = $("f-" + lang + "-title").value.trim();
+      var summary = $("f-" + lang + "-summary").value.trim();
+      if (title || summary) out[lang] = { title: title, summary: summary };
+    });
+    return out;
+  }
+
+  function clearForm() {
+    ["f-date", "f-dateEnd", "f-location", "f-url", "f-image",
+     "f-en-title", "f-en-summary", "f-cs-title", "f-cs-summary",
+     "f-pl-title", "f-pl-summary"].forEach(function (id) { $(id).value = ""; });
+    $("f-type").value = "news";
+    $("f-published").value = "true";
+    state.editingId = null;
+    $("formTitle").textContent = "Add an item";
+    $("addBtn").textContent = "Add to the list";
+    $("cancelEditBtn").classList.add("hidden");
+  }
+
+  // Slug from the date plus the English title, which is what the site uses as
+  // the anchor. Kept stable once created: editing an item never re-slugs it,
+  // so a link someone already shared keeps working.
+  function makeId(date, title) {
+    var base = String(title).toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 50);
+    var id = (date || "") + "-" + (base || "item");
+    id = id.replace(/^-+/, "").slice(0, 80);
+    var taken = {}; state.items.forEach(function (i) { taken[i.id] = true; });
+    if (!taken[id]) return id;
+    var n = 2; while (taken[id + "-" + n]) n++;
+    return id + "-" + n;
+  }
+
+  function addOrUpdate() {
+    var item = readForm();
+    if (!item.date) { say("err", "Pick a date."); return; }
+    if (!item.en || !item.en.title || !item.en.summary) {
+      say("err", "The English title and summary are both required."); return;
+    }
+    if (state.editingId) {
+      state.items = state.items.map(function (old) {
+        return old.id === state.editingId ? Object.assign({ id: old.id }, item) : old;
+      });
+    } else {
+      item.id = makeId(item.date, item.en.title);
+      state.items.push(item);
+    }
+    state.dirty = true;
+    clearForm(); render(); clearMsg();
+  }
+
+  function startEdit(id) {
+    var item = state.items.filter(function (i) { return i.id === id; })[0];
+    if (!item) return;
+    state.editingId = id;
+    $("f-type").value = item.type || "news";
+    $("f-date").value = item.date || "";
+    $("f-dateEnd").value = item.dateEnd || "";
+    $("f-published").value = item.published === false ? "false" : "true";
+    $("f-location").value = item.location || "";
+    $("f-url").value = item.url || "";
+    $("f-image").value = item.image || "";
+    ["en", "cs", "pl"].forEach(function (lang) {
+      $("f-" + lang + "-title").value = (item[lang] && item[lang].title) || "";
+      $("f-" + lang + "-summary").value = (item[lang] && item[lang].summary) || "";
+    });
+    $("formTitle").textContent = "Edit item";
+    $("addBtn").textContent = "Save to the list";
+    $("cancelEditBtn").classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function removeItem(id) {
+    state.items = state.items.filter(function (i) { return i.id !== id; });
+    if (state.editingId === id) clearForm();
+    state.dirty = true;
+    render();
+  }
+
+  function publish() {
+    $("publishBtn").disabled = true;
+    say("info", "Saving and starting the deploy…");
+    api("PUT", { items: state.items, sha: state.sha }).then(function (data) {
+      state.sha = data.sha || state.sha;
+      state.dirty = false;
+      render();
+      var note = "Saved " + data.count + " item(s).";
+      note += data.deployStarted
+        ? " The website is rebuilding — it goes live in about 2–3 minutes."
+        : " WARNING: saved, but the deploy did not start (" + (data.deployError || "unknown") +
+          "). Ask a developer to run the deploy workflow.";
+      say(data.deployStarted ? "ok" : "err", note);
+    }).catch(function (err) {
+      say("err", err.message);
+    }).then(function () { $("publishBtn").disabled = false; });
+  }
+
+  // ── Wiring ────────────────────────────────────────────────────────────
+  $("loginBtn").onclick = signIn;
+  $("password").addEventListener("keydown", function (e) { if (e.key === "Enter") signIn(); });
+  $("newPassword").addEventListener("keydown", function (e) { if (e.key === "Enter") signIn(); });
+  $("addBtn").onclick = addOrUpdate;
+  $("cancelEditBtn").onclick = function () { clearForm(); clearMsg(); };
+  $("publishBtn").onclick = publish;
+  $("reloadBtn").onclick = function () { clearForm(); load(); };
+
+  window.addEventListener("beforeunload", function (e) {
+    if (state.dirty) { e.preventDefault(); e.returnValue = ""; }
+  });
+
+  if (!COGNITO_CLIENT_ID) {
+    say("err", "This page is not configured yet: no Cognito client id. " +
+               "Set cognitoClientId in src/_data/site.js from the Terraform output, then redeploy.");
+    $("loginBtn").disabled = true;
+  } else if (token()) {
+    showEditor();
+    load();
+  }
+})();
+</script>
+</body>
+</html>
