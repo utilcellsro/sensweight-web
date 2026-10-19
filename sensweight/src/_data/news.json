@@ -83,6 +83,27 @@
         "title": "UCS na DTX Europe 2025",
         "summary": "Spotkania z odwiedzającymi, partnerami i wystawcami w RAI Amsterdam, 24–25 września 2025."
       }
+    },
+    {
+      "id": "2026-10-15-ucs-at-symas-2026-in-krak-w",
+      "type": "news",
+      "date": "2026-10-15",
+      "published": true,
+      "location": "EXPO Kraków, Poland",
+      "url": "https://www.linkedin.com/posts/pablo-d-73b03455_symas-activity-7516059698190667776-aktq",
+      "image": "/assets/images/news/symas-2026-booth.jpg",
+      "en": {
+        "title": "UCS at SYMAS 2026 in Kraków",
+        "summary": "On 14–15 October we were at EXPO Kraków for the 17th SYMAS & MAINTENANCE fair, with a live demonstration of the UCS platform at booth C31. Thank you to everyone who stopped by — and if we didn't get to meet you there, the conversation is still open."
+      },
+      "cs": {
+        "title": "UCS na veletrhu SYMAS 2026 v Krakově",
+        "summary": "14.–15. října jsme byli na EXPO Kraków na 17. ročníku veletrhu SYMAS & MAINTENANCE a na stánku C31 jsme živě předváděli platformu UCS. Děkujeme všem, kdo se u nás zastavili — a pokud jsme se nepotkali, rádi si promluvíme i nyní."
+      },
+      "pl": {
+        "title": "UCS na targach SYMAS 2026 w Krakowie",
+        "summary": "14–15 października byliśmy na EXPO Kraków na 17. edycji targów SYMAS & MAINTENANCE. Na stoisku C31 prezentowaliśmy platformę UCS na żywo. Dziękujemy wszystkim, którzy nas odwiedzili — a jeśli się nie   spotkaliśmy, chętnie porozmawiamy teraz."
+      }
     }
   ]
 }
