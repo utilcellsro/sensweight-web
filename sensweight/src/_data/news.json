@@ -83,16 +83,6 @@
         "title": "UCS na DTX Europe 2025",
         "summary": "Spotkania z odwiedzającymi, partnerami i wystawcami w RAI Amsterdam, 24–25 września 2025."
       }
-    },
-    {
-      "id": "e2e-test-draft-2026-10-19",
-      "type": "news",
-      "date": "2026-10-19",
-      "published": false,
-      "en": {
-        "title": "End-to-end test draft",
-        "summary": "Created by the end-to-end test. Draft, so it does not render. Removed immediately."
-      }
     }
   ]
 }
