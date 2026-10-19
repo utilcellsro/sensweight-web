@@ -154,6 +154,7 @@ singleLanguage: true
           <p class="photo-row">
             <input id="f-file" type="file" accept="image/jpeg,image/png" hidden>
             <button class="btn ghost" id="pickBtn" type="button">Choose a photo…</button>
+            <button class="btn ghost hidden" id="dropBtn" type="button">Remove photo</button>
             <span class="hint" id="photoStatus"></span>
           </p>
           <img id="f-preview" class="photo-preview" alt=""></div>
@@ -330,6 +331,34 @@ singleLanguage: true
 
   function photoSay(text) { $("photoStatus").textContent = text || ""; }
 
+  // The Remove button only exists while there is something to remove, so it
+  // follows the field rather than being toggled by hand at each call site.
+  function syncPhotoButtons() {
+    $("dropBtn").classList.toggle("hidden", !$("f-image").value.trim());
+  }
+
+  function removePhoto() {
+    var path = $("f-image").value.trim();
+    $("f-image").value = "";
+    $("f-preview").style.display = "none";
+    syncPhotoButtons();
+    if (!path) { photoSay(""); return; }
+
+    photoSay("Removing…");
+    $("dropBtn").disabled = true;
+    request(API_IMAGE, "DELETE", { path: path }).then(function (result) {
+      if (result.deleted) photoSay("Photo removed and the file deleted.");
+      else if (result.usedBy) photoSay("Removed from this item. The file is kept — another item still uses it.");
+      else photoSay("Photo removed.");
+    }).catch(function (err) {
+      // The item no longer carries the photo either way; only the file is
+      // in doubt, so say exactly that rather than implying nothing happened.
+      photoSay("Removed from this item, but the file could not be deleted: " + (err.message || "unknown error"));
+    }).then(function () {
+      $("dropBtn").disabled = false;
+    });
+  }
+
   function loadImage(file) {
     // createImageBitmap is the better decoder, but it can hang instead of
     // rejecting when the browser has no image-decoding service - and a hung
@@ -404,6 +433,7 @@ singleLanguage: true
         preview.src = URL.createObjectURL(blob);
         preview.style.display = "block";
         photoSay("Added — it goes live when you publish.");
+        syncPhotoButtons();
       });
     }).catch(function (err) {
       photoSay(err.message || "Upload failed.");
@@ -520,6 +550,7 @@ singleLanguage: true
     $("f-published").value = "true";
     $("f-preview").style.display = "none";
     photoSay("");
+    syncPhotoButtons();
     state.editingId = null;
     $("formTitle").textContent = "Add an item";
     $("addBtn").textContent = "Add to the list";
@@ -570,6 +601,7 @@ singleLanguage: true
     $("f-url").value = item.url || "";
     $("f-image").value = item.image || "";
     showExistingPhoto(item.image);
+    syncPhotoButtons();
     ["en", "cs", "pl"].forEach(function (lang) {
       $("f-" + lang + "-title").value = (item[lang] && item[lang].title) || "";
       $("f-" + lang + "-summary").value = (item[lang] && item[lang].summary) || "";
@@ -611,6 +643,8 @@ singleLanguage: true
   $("newPassword").addEventListener("keydown", function (e) { if (e.key === "Enter") signIn(); });
   $("addBtn").onclick = addOrUpdate;
   $("pickBtn").onclick = function () { $("f-file").click(); };
+  $("dropBtn").onclick = removePhoto;
+  $("f-image").addEventListener("input", syncPhotoButtons);
   $("f-file").addEventListener("change", function () { uploadPhoto(this.files && this.files[0]); });
   $("cancelEditBtn").onclick = function () { clearForm(); clearMsg(); };
   $("publishBtn").onclick = publish;
