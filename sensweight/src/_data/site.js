@@ -1,9 +1,10 @@
 // Site-wide config that isn't per-language copy (see translations.js for that).
 module.exports = {
-  // Canonical origin. sensweight.com still 301s to the legacy en.sensweight.eu
-  // site, so nothing here is live yet — every absolute URL (canonical, OG,
-  // sitemap, JSON-LD) is built from this one value, so the DNS cutover is a
-  // one-line change. `www` matches how unifiedcloudsensors.com had to be set
+  // Canonical origin, and live — the DNS cutover happened 2026-10-14, so the
+  // legacy sensweight.eu hosts (apex, `www`, `en`, `pl`) now 301 *here*,
+  // language-aware, rather than this redirecting to them. Every absolute URL
+  // (canonical, OG, sitemap, JSON-LD) is built from this one value.
+  // `www` matches how unifiedcloudsensors.com had to be set
   // up (Zoner's DNS has no ALIAS/ANAME record, so the apex can only be
   // forwarded, and only `www` is served directly by CloudFront).
   url: "https://www.sensweight.com",
