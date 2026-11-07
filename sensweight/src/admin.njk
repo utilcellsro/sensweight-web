@@ -77,7 +77,50 @@ singleLanguage: true
   .hint{font-size:13px;color:var(--faint);margin-top:6px}
   .photo-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
   .photo-row .hint{margin-top:0}
-  .photo-preview{display:none;max-width:240px;width:100%;border-radius:6px;margin-top:10px}
+  /* 4:3 + cover, exactly like .news-thumb on the public card, so the preview
+     shows what visitors will see rather than the raw upload. */
+  .photo-preview{display:none;max-width:240px;width:100%;aspect-ratio:4/3;object-fit:cover;
+    border-radius:6px;margin-top:10px}
+
+  /* ── Crop dialog ── */
+  .crop-modal{position:fixed;inset:0;z-index:50;background:rgba(10,15,28,.86);
+    display:flex;align-items:center;justify-content:center;padding:16px}
+  .crop-modal.hidden{display:none}
+  .crop-dialog{background:var(--canvas);border:1px solid var(--rule);border-radius:var(--r);
+    width:100%;max-width:980px;max-height:100%;overflow:auto;padding:20px;
+    display:flex;flex-direction:column;gap:14px}
+  .crop-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .crop-head h2{font-size:20px}
+  .crop-tools{display:flex;gap:8px;flex-wrap:wrap}
+  .btn.sm{padding:8px 12px;font-size:11px}
+  .seg{display:inline-flex;border:1px solid var(--rule);border-radius:var(--r);overflow:hidden}
+  .seg button{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    background:none;color:var(--sub);border:0;padding:8px 12px;cursor:pointer}
+  .seg button+button{border-left:1px solid var(--rule)}
+  .seg button.on{background:var(--sky);color:var(--navy)}
+  .crop-wrap{width:100%;display:flex;justify-content:center;padding:12px}
+  /* The stage does NOT clip, so the box border and handles stay whole when the
+     crop touches the photo's edge; only the dimming layer is clipped. */
+  .crop-stage{position:relative;touch-action:none;user-select:none;-webkit-user-select:none}
+  .crop-stage canvas{display:block;width:100%;height:100%}
+  .crop-clip{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .crop-shade{position:absolute;box-shadow:0 0 0 9999px rgba(10,15,28,.62)}
+  .crop-box{position:absolute;outline:2px solid var(--sky);cursor:move;
+    background:
+      linear-gradient(to right,transparent calc(33.333% - .5px),rgba(126,211,240,.45) calc(33.333% - .5px),rgba(126,211,240,.45) calc(33.333% + .5px),transparent calc(33.333% + .5px),transparent calc(66.666% - .5px),rgba(126,211,240,.45) calc(66.666% - .5px),rgba(126,211,240,.45) calc(66.666% + .5px),transparent calc(66.666% + .5px)),
+      linear-gradient(to bottom,transparent calc(33.333% - .5px),rgba(126,211,240,.45) calc(33.333% - .5px),rgba(126,211,240,.45) calc(33.333% + .5px),transparent calc(33.333% + .5px),transparent calc(66.666% - .5px),rgba(126,211,240,.45) calc(66.666% - .5px),rgba(126,211,240,.45) calc(66.666% + .5px),transparent calc(66.666% + .5px))}
+  .crop-box:focus-visible{outline:3px solid #fff}
+  .crop-h{position:absolute;width:16px;height:16px;background:var(--sky);border:2px solid var(--navy);border-radius:3px}
+  .crop-h[data-h="nw"]{left:-9px;top:-9px;cursor:nwse-resize}
+  .crop-h[data-h="ne"]{right:-9px;top:-9px;cursor:nesw-resize}
+  .crop-h[data-h="sw"]{left:-9px;bottom:-9px;cursor:nesw-resize}
+  .crop-h[data-h="se"]{right:-9px;bottom:-9px;cursor:nwse-resize}
+  @media (pointer:coarse){ .crop-h{width:26px;height:26px}
+    .crop-h[data-h="nw"],.crop-h[data-h="sw"]{left:-14px} .crop-h[data-h="ne"],.crop-h[data-h="se"]{right:-14px}
+    .crop-h[data-h="nw"],.crop-h[data-h="ne"]{top:-14px} .crop-h[data-h="sw"],.crop-h[data-h="se"]{bottom:-14px} }
+  .crop-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .crop-foot .hint{margin:0}
+  .crop-foot .warn{color:#f0c27a}
   .lang-block{border:1px solid var(--rule);border-radius:var(--r);padding:16px;margin-bottom:12px}
   .lang-block h4{margin:0 0 12px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--sky);font-weight:400}
@@ -154,6 +197,7 @@ singleLanguage: true
           <p class="photo-row">
             <input id="f-file" type="file" accept="image/jpeg,image/png" hidden>
             <button class="btn ghost" id="pickBtn" type="button">Choose a photo…</button>
+            <button class="btn ghost hidden" id="recropBtn" type="button">Adjust crop</button>
             <button class="btn ghost hidden" id="dropBtn" type="button">Remove photo</button>
             <span class="hint" id="photoStatus"></span>
           </p>
@@ -194,6 +238,42 @@ singleLanguage: true
       <span class="who" id="dirty"></span>
     </div>
   </section>
+</div>
+
+{# ── Crop dialog ─────────────────────────────────────────────────── #}
+<div class="crop-modal hidden" id="cropModal" role="dialog" aria-modal="true" aria-labelledby="cropTitle">
+  <div class="crop-dialog">
+    <div class="crop-head">
+      <h2 id="cropTitle">Crop the photo</h2>
+      <div class="crop-tools">
+        <div class="seg" role="group" aria-label="Shape">
+          <button type="button" data-ratio="card" class="on">4:3 — as on the website</button>
+          <button type="button" data-ratio="free">Free</button>
+        </div>
+        <button class="btn ghost sm" id="rotLeftBtn" type="button" title="Rotate left">↺ Rotate</button>
+        <button class="btn ghost sm" id="rotRightBtn" type="button" title="Rotate right">Rotate ↻</button>
+        <button class="btn ghost sm" id="cropResetBtn" type="button">Reset</button>
+      </div>
+    </div>
+    <div class="crop-wrap" id="cropWrap">
+      <div class="crop-stage" id="cropStage">
+        <canvas id="cropView"></canvas>
+        <div class="crop-clip"><div class="crop-shade" id="cropShade"></div></div>
+        <div class="crop-box" id="cropBox" tabindex="0"
+             aria-label="Crop area. Drag to move, drag a corner to resize, or use the arrow keys.">
+          <span class="crop-h" data-h="nw"></span><span class="crop-h" data-h="ne"></span>
+          <span class="crop-h" data-h="sw"></span><span class="crop-h" data-h="se"></span>
+        </div>
+      </div>
+    </div>
+    <div class="crop-foot">
+      <p class="hint" id="cropInfo"></p>
+      <div class="crop-tools">
+        <button class="btn ghost" id="cropCancelBtn" type="button">Cancel</button>
+        <button class="btn" id="cropApplyBtn" type="button">Use this crop</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -334,7 +414,9 @@ singleLanguage: true
   // The Remove button only exists while there is something to remove, so it
   // follows the field rather than being toggled by hand at each call site.
   function syncPhotoButtons() {
-    $("dropBtn").classList.toggle("hidden", !$("f-image").value.trim());
+    var has = !!$("f-image").value.trim();
+    $("dropBtn").classList.toggle("hidden", !has);
+    $("recropBtn").classList.toggle("hidden", !has);
   }
 
   function removePhoto() {
@@ -387,20 +469,216 @@ singleLanguage: true
     });
   }
 
-  function shrink(file) {
-    return loadImage(file).then(function (img) {
-      var scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
-      var w = Math.round(img.width * scale);
-      var h = Math.round(img.height * scale);
-      var canvas = document.createElement("canvas");
-      canvas.width = w;
-      canvas.height = h;
-      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-      return new Promise(function (resolve, reject) {
-        canvas.toBlob(function (blob) {
-          if (blob) resolve(blob); else reject(new Error("Could not process that photo."));
-        }, "image/jpeg", JPEG_QUALITY);
-      });
+  // ── Crop ──────────────────────────────────────────────────────────────
+  //
+  // Hand-written rather than a library: the admin page loads nothing from a
+  // third party (same rule as the self-hosted fonts), and a crop box is small.
+  // The public news card shows photos at 4:3 with object-fit: cover, so 4:3
+  // is the default and makes the crop exactly what visitors see. "Free" is
+  // allowed, but the card will still trim a free crop to 4:3.
+  //
+  // All crop geometry lives in SOURCE pixels (crop.x/y/w/h); the on-screen
+  // box is derived from it, so resizing the window never moves the crop.
+  var CARD_RATIO = 4 / 3;
+  var CARD_WIDTH = 520;       // .news-thumb renders at 520x390
+  var SOURCE_MAX = 4096;      // keeps the working canvas under mobile limits
+  var MIN_BOX = 40;           // smallest crop box, in screen pixels
+  var crop = null;
+  var drag = null;
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  function rotated(img, turns) {
+    var s = Math.min(1, SOURCE_MAX / Math.max(img.width, img.height));
+    var w = Math.round(img.width * s), h = Math.round(img.height * s);
+    var t = ((turns % 4) + 4) % 4;
+    var c = document.createElement("canvas");
+    c.width = t % 2 ? h : w;
+    c.height = t % 2 ? w : h;
+    var g = c.getContext("2d");
+    g.translate(c.width / 2, c.height / 2);
+    g.rotate(t * Math.PI / 2);
+    g.drawImage(img, -w / 2, -h / 2, w, h);
+    return c;
+  }
+
+  // The largest box of the current shape, centred.
+  function fullCrop() {
+    var W = crop.src.width, H = crop.src.height, w = W, h = H;
+    if (crop.ratio) { if (W / H > crop.ratio) w = H * crop.ratio; else h = W / crop.ratio; }
+    crop.w = w; crop.h = h; crop.x = (W - w) / 2; crop.y = (H - h) / 2;
+  }
+
+  function prepareSource() {
+    crop.src = rotated(crop.img, crop.turns);
+    fullCrop();
+    layoutCrop();
+  }
+
+  function layoutCrop() {
+    if (!crop) return;
+    var view = $("cropView"), stage = $("cropStage");
+    var availW = ($("cropWrap").clientWidth || 600) - 24;   // minus the wrap's padding
+    var availH = Math.max(220, window.innerHeight - 230);
+    var s = Math.min(availW / crop.src.width, availH / crop.src.height, 1);
+    var dw = Math.max(1, Math.round(crop.src.width * s));
+    var dh = Math.max(1, Math.round(crop.src.height * s));
+    var dpr = window.devicePixelRatio || 1;
+    crop.scale = dw / crop.src.width;
+    view.width = Math.round(dw * dpr);
+    view.height = Math.round(dh * dpr);
+    var g = view.getContext("2d");
+    g.imageSmoothingQuality = "high";
+    g.drawImage(crop.src, 0, 0, view.width, view.height);
+    stage.style.width = dw + "px";
+    stage.style.height = dh + "px";
+    drawBox();
+  }
+
+  function outputSize() {
+    var k = Math.min(1, MAX_EDGE / Math.max(crop.w, crop.h));
+    return { w: Math.max(1, Math.round(crop.w * k)), h: Math.max(1, Math.round(crop.h * k)) };
+  }
+
+  function drawBox() {
+    var s = crop.scale;
+    [$("cropBox"), $("cropShade")].forEach(function (el) {
+      el.style.left = (crop.x * s) + "px";
+      el.style.top = (crop.y * s) + "px";
+      el.style.width = (crop.w * s) + "px";
+      el.style.height = (crop.h * s) + "px";
+    });
+    var out = outputSize(), info = $("cropInfo");
+    var small = out.w < CARD_WIDTH;
+    info.className = "hint" + (small ? " warn" : "");
+    info.textContent = out.w + " × " + out.h + " px" +
+      (small ? " — smaller than the news card (" + CARD_WIDTH + " px wide), it may look soft."
+             : (crop.ratio ? "" : " — the news card will still show it at 4:3."));
+  }
+
+  function setRatio(which) {
+    crop.ratio = which === "free" ? 0 : CARD_RATIO;
+    var buttons = document.querySelectorAll("#cropModal [data-ratio]");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.toggle("on", buttons[i].getAttribute("data-ratio") === which);
+    }
+    // Free keeps whatever box is there; switching back to 4:3 needs a box of
+    // that shape, so fit the largest 4:3 inside the current one, same centre.
+    if (crop.ratio) {
+      var cx = crop.x + crop.w / 2, cy = crop.y + crop.h / 2, w = crop.w, h = crop.h;
+      if (w / h > crop.ratio) w = h * crop.ratio; else h = w / crop.ratio;
+      crop.w = w; crop.h = h;
+      crop.x = clamp(cx - w / 2, 0, crop.src.width - w);
+      crop.y = clamp(cy - h / 2, 0, crop.src.height - h);
+    }
+    drawBox();
+  }
+
+  function openCropper(img) {
+    return new Promise(function (resolve) {
+      crop = { img: img, turns: 0, ratio: CARD_RATIO, resolve: resolve };
+      $("cropModal").classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+      prepareSource();
+      setRatio("card");
+      $("cropBox").focus();
+    });
+  }
+
+  function closeCropper(result) {
+    var c = crop;
+    crop = null; drag = null;
+    $("cropModal").classList.add("hidden");
+    document.body.style.overflow = "";
+    if (c) c.resolve(result);
+  }
+
+  function applyCrop() {
+    if (!crop) return;
+    var out = outputSize();
+    var canvas = document.createElement("canvas");
+    canvas.width = out.w; canvas.height = out.h;
+    var g = canvas.getContext("2d");
+    g.fillStyle = "#ffffff";            // a transparent PNG would turn black as JPEG
+    g.fillRect(0, 0, out.w, out.h);
+    g.imageSmoothingQuality = "high";
+    g.drawImage(crop.src, crop.x, crop.y, crop.w, crop.h, 0, 0, out.w, out.h);
+    closeCropper(canvas);
+  }
+
+  function startDrag(e) {
+    if (!crop || e.button > 0) return;
+    var handle = e.target.getAttribute && e.target.getAttribute("data-h");
+    if (!handle && !$("cropBox").contains(e.target)) return;
+    e.preventDefault();
+    try { $("cropStage").setPointerCapture(e.pointerId); } catch (err) { /* drag still works inside the stage */ }
+    var r = $("cropStage").getBoundingClientRect();
+    drag = { mode: handle || "move", id: e.pointerId, left: r.left, top: r.top,
+             sx: e.clientX, sy: e.clientY, x: crop.x, y: crop.y };
+    if (handle) {
+      drag.dx = handle.charAt(1) === "w" ? -1 : 1;
+      drag.dy = handle.charAt(0) === "n" ? -1 : 1;
+      drag.ax = drag.dx < 0 ? crop.x + crop.w : crop.x;   // the corner that stays put
+      drag.ay = drag.dy < 0 ? crop.y + crop.h : crop.y;
+    }
+  }
+
+  function moveDrag(e) {
+    if (!crop || !drag || e.pointerId !== drag.id) return;
+    var s = crop.scale, W = crop.src.width, H = crop.src.height;
+    if (drag.mode === "move") {
+      crop.x = clamp(drag.x + (e.clientX - drag.sx) / s, 0, W - crop.w);
+      crop.y = clamp(drag.y + (e.clientY - drag.sy) / s, 0, H - crop.h);
+      drawBox();
+      return;
+    }
+    var px = clamp((e.clientX - drag.left) / s, 0, W);
+    var py = clamp((e.clientY - drag.top) / s, 0, H);
+    var w = Math.max(0, (px - drag.ax) * drag.dx);
+    var h = Math.max(0, (py - drag.ay) * drag.dy);
+    var min = MIN_BOX / s;
+    if (crop.ratio) {
+      if (w / h > crop.ratio || !h) w = h * crop.ratio; else h = w / crop.ratio;
+      if (h < min) { h = min; w = h * crop.ratio; }
+      if (w < min) { w = min; h = w / crop.ratio; }
+    } else {
+      w = Math.max(w, min); h = Math.max(h, min);
+    }
+    var x = drag.dx < 0 ? drag.ax - w : drag.ax;
+    var y = drag.dy < 0 ? drag.ay - h : drag.ay;
+    if (x < -0.5 || y < -0.5 || x + w > W + 0.5 || y + h > H + 0.5) return;  // would leave the photo
+    crop.x = clamp(x, 0, W); crop.y = clamp(y, 0, H);
+    crop.w = Math.min(w, W - crop.x); crop.h = Math.min(h, H - crop.y);
+    drawBox();
+  }
+
+  function endDrag(e) { if (drag && e.pointerId === drag.id) drag = null; }
+
+  function cropKeys(e) {
+    if (!crop) return;
+    if (e.key === "Escape") { e.preventDefault(); closeCropper(null); return; }
+    if (e.key === "Enter" && e.target === $("cropBox")) { e.preventDefault(); applyCrop(); return; }
+    var step = (e.shiftKey ? 10 : 1) / crop.scale;
+    var d = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }[e.key];
+    if (!d || e.target !== $("cropBox")) return;
+    e.preventDefault();
+    crop.x = clamp(crop.x + d[0], 0, crop.src.width - crop.w);
+    crop.y = clamp(crop.y + d[1], 0, crop.src.height - crop.h);
+    drawBox();
+  }
+
+  function rotate(by) {
+    if (!crop) return;
+    crop.turns += by;
+    prepareSource();
+    setRatio(crop.ratio ? "card" : "free");
+  }
+
+  function encode(canvas) {
+    return new Promise(function (resolve, reject) {
+      canvas.toBlob(function (blob) {
+        if (blob) resolve(blob); else reject(new Error("Could not process that photo."));
+      }, "image/jpeg", JPEG_QUALITY);
     });
   }
 
@@ -413,33 +691,90 @@ singleLanguage: true
     });
   }
 
+  // The uncropped original of the photo currently in the form, kept in memory
+  // so "Adjust crop" starts from the full picture rather than re-cropping an
+  // already-cropped one. Only valid while the form still points at `path`.
+  var original = { path: "", blob: null, name: "" };
+
+  function setPhotoBusy(busy) {
+    $("pickBtn").disabled = busy;
+    $("recropBtn").disabled = busy;
+    $("dropBtn").disabled = busy;
+  }
+
   function uploadPhoto(file) {
     if (!file) return;
     if (!/^image\/(jpeg|png)$/.test(file.type)) {
       photoSay("Choose a JPEG or PNG photo.");
       return;
     }
-    $("pickBtn").disabled = true;
-    photoSay("Preparing…");
-    shrink(file).then(function (blob) {
-      photoSay("Uploading " + Math.round(blob.size / 1024) + " kB…");
-      return asBase64(blob).then(function (data) {
-        return request(API_IMAGE, "POST", { filename: file.name, data: data });
-      }).then(function (result) {
-        $("f-image").value = result.path;
-        // Preview from the local file, not from result.path: the photo is in
-        // the repo now but is not on the website until the next publish.
-        var preview = $("f-preview");
-        preview.src = URL.createObjectURL(blob);
-        preview.style.display = "block";
-        photoSay("Added — it goes live when you publish.");
-        syncPhotoButtons();
+    cropAndUpload(file, file.name, $("f-image").value.trim()).then(function () { $("f-file").value = ""; });
+  }
+
+  function recropPhoto() {
+    var path = $("f-image").value.trim();
+    if (!path) return;
+    if (original.blob && original.path === path) {
+      cropAndUpload(original.blob, original.name, path);
+      return;
+    }
+    // Not uploaded in this session: start from the file on the website. A
+    // photo committed but not yet published is not there yet, hence the 404 note.
+    photoSay("Loading the photo…");
+    setPhotoBusy(true);
+    fetch(path, { cache: "no-store" }).then(function (res) {
+      if (!res.ok) throw new Error("This photo is not on the website yet — choose it again with “Choose a photo…” to crop it.");
+      return res.blob();
+    }).then(function (blob) {
+      setPhotoBusy(false);
+      return cropAndUpload(blob, path.split("/").pop(), path);
+    }).catch(function (err) {
+      setPhotoBusy(false);
+      photoSay(err.message || "Could not load the photo.");
+    });
+  }
+
+  // replaces: the path this upload supersedes ("" if the item had none). It is
+  // deleted only after the new one is safely uploaded, and the API keeps the
+  // file anyway if another item still uses it.
+  function cropAndUpload(source, name, replaces) {
+    setPhotoBusy(true);
+    photoSay("Opening…");
+    return loadImage(source).then(function (img) {
+      photoSay("Cropping…");
+      return openCropper(img);
+    }).then(function (canvas) {
+      if (!canvas) { photoSay(replaces ? "Cancelled — the photo is unchanged." : "Cancelled — no photo added."); return; }
+      photoSay("Preparing…");
+      return encode(canvas).then(function (blob) {
+        photoSay("Uploading " + Math.round(blob.size / 1024) + " kB…");
+        return asBase64(blob).then(function (data) {
+          return request(API_IMAGE, "POST", { filename: name, data: data });
+        }).then(function (result) {
+          $("f-image").value = result.path;
+          original = { path: result.path, blob: source, name: name };
+          // Preview from the local file, not from result.path: the photo is in
+          // the repo now but is not on the website until the next publish.
+          var preview = $("f-preview");
+          preview.onerror = null; preview.onload = null;
+          preview.src = URL.createObjectURL(blob);
+          preview.style.display = "block";
+          photoSay("Added — it goes live when you publish.");
+          syncPhotoButtons();
+          // The API only knows the published list, so also check the unsaved
+          // one here before deleting a file some other item may still use.
+          var stillUsed = state.items.some(function (i) {
+            return i.id !== state.editingId && i.image === replaces;
+          });
+          if (replaces && replaces !== result.path && !stillUsed) {
+            request(API_IMAGE, "DELETE", { path: replaces }).catch(function () { /* stray file, harmless */ });
+          }
+        });
       });
     }).catch(function (err) {
       photoSay(err.message || "Upload failed.");
     }).then(function () {
-      $("pickBtn").disabled = false;
-      $("f-file").value = "";
+      setPhotoBusy(false);
     });
   }
 
@@ -646,6 +981,21 @@ singleLanguage: true
   $("dropBtn").onclick = removePhoto;
   $("f-image").addEventListener("input", syncPhotoButtons);
   $("f-file").addEventListener("change", function () { uploadPhoto(this.files && this.files[0]); });
+  $("recropBtn").onclick = recropPhoto;
+  $("cropStage").addEventListener("pointerdown", startDrag);
+  $("cropStage").addEventListener("pointermove", moveDrag);
+  $("cropStage").addEventListener("pointerup", endDrag);
+  $("cropStage").addEventListener("pointercancel", endDrag);
+  $("cropModal").addEventListener("keydown", cropKeys);
+  $("cropApplyBtn").onclick = applyCrop;
+  $("cropCancelBtn").onclick = function () { closeCropper(null); };
+  $("cropResetBtn").onclick = function () { if (crop) { crop.turns = 0; prepareSource(); setRatio("card"); } };
+  $("rotLeftBtn").onclick = function () { rotate(-1); };
+  $("rotRightBtn").onclick = function () { rotate(1); };
+  Array.prototype.forEach.call(document.querySelectorAll("#cropModal [data-ratio]"), function (b) {
+    b.onclick = function () { if (crop) setRatio(b.getAttribute("data-ratio")); };
+  });
+  window.addEventListener("resize", layoutCrop);
   $("cancelEditBtn").onclick = function () { clearForm(); clearMsg(); };
   $("publishBtn").onclick = publish;
   $("reloadBtn").onclick = function () { clearForm(); load(); };
