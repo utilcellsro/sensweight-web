@@ -116,6 +116,19 @@
         "title": "YOUR SILO IS NOT JUST A STORAGE STRUCTURE. IT IS A WALLET FULL OF MONEY.",
         "summary": "And who is watching over that wallet, 24 hours a day?\nWould you leave a wallet containing half a million euros without knowing whether its contents are secure, whether the structure is healthy, or whether some of its value is gradually disappearing?"
       }
+    },
+    {
+      "id": "2026-11-09-lost-data-today-is-lost-knowledge-for-tomorrow",
+      "type": "news",
+      "date": "2026-11-09",
+      "published": true,
+      "location": "Ostrovačice",
+      "url": "https://www.linkedin.com/pulse/lost-data-today-knowledge-tomorrow-unified-cloud-sensors-iwtvf/?trackingId=N5rDhk8behg6XIGlUi9Mkw%3D%3D",
+      "image": "/assets/images/news/1792324442767-1-f3da7a74.jpg",
+      "en": {
+        "title": "Lost data today is lost knowledge for tomorrow.",
+        "summary": "With the relevant workflows and integrations configured, business, logistics and order data can  come together in SensWEIGHT—giving you one place to view weighing information alongside the activities it supports."
+      }
     }
   ]
 }
