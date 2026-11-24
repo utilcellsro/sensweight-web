@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>UCS-Nose – technická dokumentace vyhodnocovacího softwaru | Unified Cloud Sensors</title>
+<meta name="description" content="Technická dokumentace vyhodnocovacího softwaru UCS-Nose: architektura, komunikace přes 5G, zpracování a vyhodnocení dat, modely strojového učení, uživatelské rozhraní, instalace a provoz.">
+<link rel="canonical" href="https://www.unifiedcloudsensors.com/ucs-nose-documentation.html">
+<meta name="robots" content="noindex, follow">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<link rel="stylesheet" href="fonts.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #F7F7F6; color: #2F2F2E; font-family: 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2 { font-family: 'Chakra Petch', system-ui, sans-serif; font-weight: 700; margin: 0; }
+  p, li { margin: 0; }
+  a { color: #476DB8; text-decoration: none; }
+  a:hover { color: #2F4D89; }
+  .nav-bar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 22px 56px; background: rgba(29,44,73,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220,229,244,0.08); }
+  .nav-back { font-size: 14px; color: #DCE5F4; }
+  .nav-back:hover { color: #7ED3F0; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 88px 24px 96px; }
+  .overline { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #476DB8; }
+  h1 { font-size: 36px; line-height: 1.15; letter-spacing: -0.01em; color: #1D2C49; margin-top: 12px; }
+  .updated { font-size: 14px; color: #6F6F6E; margin-top: 16px; }
+  .toc { margin-top: 32px; background: #fff; border: 1px solid #ECECEB; border-radius: 8px; padding: 16px 20px; }
+  .toc ol { margin: 8px 0 0; padding-left: 20px; columns: 2; column-gap: 32px; }
+  .toc li { font-size: 14px; line-height: 1.9; }
+  .toc .k { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6F6F6E; }
+  section.s { margin-top: 56px; scroll-margin-top: 90px; }
+  h2 { font-size: 20px; color: #1D2C49; padding-bottom: 12px; border-bottom: 2px solid #ECECEB; }
+  h3 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15px; color: #1D2C49; margin: 24px 0 0; }
+  .s p, .s li { font-size: 15px; line-height: 1.8; color: #484847; }
+  .s p + p, .s ul, .s ol { margin-top: 14px; }
+  .s ul, .s ol { padding-left: 22px; }
+  .s li + li { margin-top: 6px; }
+  code { font-family: 'IBM Plex Mono', monospace; font-size: 13px; background: #ECECEB; padding: 1px 5px; border-radius: 3px; }
+  pre { background: #1D2C49; color: #DCE5F4; font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.6; padding: 16px 18px; border-radius: 8px; overflow-x: auto; margin: 14px 0 0; }
+  pre code { background: none; padding: 0; color: inherit; }
+  table.data-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
+  table.data-table th, table.data-table td { text-align: left; padding: 9px 12px; border-bottom: 1px solid #ECECEB; vertical-align: top; }
+  table.data-table th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6F6F6E; font-weight: 500; }
+  .table-scroll { overflow-x: auto; }
+  .steps { counter-reset: st; list-style: none; padding-left: 0 !important; }
+  .steps li { counter-increment: st; position: relative; padding-left: 40px; }
+  .steps li::before { content: counter(st); position: absolute; left: 0; top: 2px; width: 26px; height: 26px; border-radius: 50%; background: #1D2C49; color: #fff; font: 600 13px/26px 'IBM Plex Sans', sans-serif; text-align: center; }
+  .note { margin-top: 20px; padding: 14px 18px; border-radius: 6px; background: #DCE5F4; border: 1px solid rgba(71,109,184,0.25); font-size: 14px; line-height: 1.7; color: #1D2C49; }
+  @media (max-width: 640px) {
+    .nav-bar { padding: 18px 20px; }
+    .wrap { padding: 64px 20px 72px; }
+    h1 { font-size: 27px; }
+    .toc ol { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+    <img src="ucs-mark-white.png" alt="UCS" style="height: 22px; width: auto; display: block;">
+  </a>
+  <a href="ucs-nose.html" class="nav-back">&larr; UCS-Nose</a>
+</div>
+
+<div class="wrap">
+  <span class="overline">Projekt UCS-Nose · Technická dokumentace</span>
+  <h1>Vyhodnocovací software s uživatelským rozhraním a podporou komunikace přes 5G síť</h1>
+  <p class="updated">Popis výsledku: <a href="ucs-nose.html">ucs-nose.html</a></p>
+
+  <nav class="toc" aria-label="Obsah">
+    <span class="k">Obsah</span>
+    <ol>
+      <li><a href="#prehled">Přehled</a></li>
+      <li><a href="#architektura">Architektura</a></li>
+      <li><a href="#komunikace">Komunikace přes 5G</a></li>
+      <li><a href="#zpracovani">Zpracování a vyhodnocení</a></li>
+      <li><a href="#konfigurace">Konfigurace vyhodnocení</a></li>
+      <li><a href="#ml">Strojové učení</a></li>
+      <li><a href="#rozhrani">Uživatelské rozhraní</a></li>
+      <li><a href="#postupy">Typické postupy</a></li>
+      <li><a href="#instalace">Instalace a spuštění</a></li>
+      <li><a href="#bezpecnost">Bezpečnost</a></li>
+    </ol>
+  </nav>
+
+  <section class="s" id="prehled">
+    <h2>1. Přehled</h2>
+    <p>
+      Software přijímá měření z jednotek „elektronického nosu“ UCS-Nose, vyhodnocuje kvalitu ovzduší
+      a přítomnost látek a výsledky zpřístupňuje uživatelům ve webovém rozhraní. Měřicí jednotky
+      komunikují se serverem přes mobilní síť 5G. Systém je vyvinut v projektu výzkumu a vývoje
+      řešeném společností Utilcell, s.r.o. ve spolupráci s VUT v Brně.
+    </p>
+  </section>
+
+  <section class="s" id="architektura">
+    <h2>2. Architektura</h2>
+    <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Komponenta</th><th>Úloha</th><th>Technologie</th></tr></thead>
+      <tbody>
+        <tr><td>Měřicí jednotka</td><td>Čtení plynových a prachových senzorů, odesílání měření</td><td>Raspberry Pi / Raspberry Pi Pico, MicroPython; senzory Bosch BME688, MiCS-6814, Sensirion SFA30 a další</td></tr>
+        <tr><td>MQTT broker</td><td>Příjem zpráv od jednotek přes šifrované spojení</td><td>MQTT, TLS, certifikát pro každé zařízení</td></tr>
+        <tr><td>Vyhodnocovací proces</td><td>Zpracování, vyhodnocení, modely strojového učení, odesílání výsledků</td><td>Python, balík <code>sensoreval</code></td></tr>
+        <tr><td>Webová aplikace</td><td>Uživatelské rozhraní, správa jednotek, výsledky, trénování, nastavení, REST API pro vyhodnocovací proces</td><td>Python, Django, kontejner Docker</td></tr>
+        <tr><td>Databáze</td><td>Uživatelé, jednotky, měření a výsledky vyhodnocení</td><td>relační databáze (MySQL, pro vývoj SQLite)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="s" id="komunikace">
+    <h2>3. Komunikace přes 5G</h2>
+    <ul>
+      <li>Jednotka je připojena k mobilní síti 5G a odesílá měření jako zprávy MQTT na broker.</li>
+      <li>Spojení je šifrované (TLS); každá jednotka se prokazuje vlastním klientským certifikátem,
+        broker ověřuje certifikáty proti certifikační autoritě systému.</li>
+      <li>Zpráva nese identifikátor jednotky, časové razítko a hodnoty jednotlivých senzorů.</li>
+      <li>Vyhodnocovací proces a webová aplikace si data předávají přes REST API, takže každou část lze
+        provozovat na jiném serveru.</li>
+    </ul>
+  </section>
+
+  <section class="s" id="zpracovani">
+    <h2>4. Zpracování a vyhodnocení</h2>
+    <p>Vyhodnocovací proces běží pro každou měřicí jednotku v nekonečné smyčce. Při každém kroku:</p>
+    <ol class="steps">
+      <li>na pozadí načte aktuální nastavení vyhodnocení (limity, režim strojového učení);</li>
+      <li>získá nová měření jednotky;</li>
+      <li>data validuje proti platnému rozsahu každé veličiny a sloučí měření senzorů do časových oken;</li>
+      <li>vyhodnotí každou veličinu proti pásmům <em>normální / zvýšená / nebezpečná</em>, prahu alarmu
+        a době trvání mimo normál;</li>
+      <li>podle režimu (trénování / vyhodnocení / vypnuto) zavolá detektor anomálií a klasifikátor látek;</li>
+      <li>výsledky průběžně a v pořadí odešle do webové aplikace, která je uloží a zobrazí.</li>
+    </ol>
+  </section>
+
+  <section class="s" id="konfigurace">
+    <h2>5. Konfigurace vyhodnocení</h2>
+    <p>Limity jsou uloženy v konfiguraci <code>analysis_settings.json</code> a lze je měnit z rozhraní. Příklad pro formaldehyd:</p>
+<pre><code>"fmhd": {
+  "units": "ppb",
+  "validInterval":     [0, 5000],
+  "normalInterval":    [[0, 50]],
+  "elevatedInterval":  [[50, 100]],
+  "hazardousInterval": [[100, 300]],
+  "criticalDurationSec": 3600,
+  "alarmThreshold": 300,
+  "domesticLimit":     { "min": null, "max": 50 },
+  "occupationalLimit": { "min": null, "max": 300 }
+}</code></pre>
+    <table class="data-table">
+      <thead><tr><th>Klíč</th><th>Význam</th></tr></thead>
+      <tbody>
+        <tr><td><code>validInterval</code></td><td>Fyzikálně platný rozsah; hodnoty mimo něj se vyřadí.</td></tr>
+        <tr><td><code>normal / elevated / hazardousInterval</code></td><td>Pásma pro hodnocení stavu (může jich být více, např. příliš nízká i vysoká teplota).</td></tr>
+        <tr><td><code>criticalDurationSec</code></td><td>Jak dlouho smí být hodnota mimo normál, než se stav vyhodnotí jako kritický.</td></tr>
+        <tr><td><code>alarmThreshold</code></td><td>Hodnota, při které se okamžitě vyvolá upozornění.</td></tr>
+        <tr><td><code>domestic / occupationalLimit</code></td><td>Limity pro domácí a pracovní prostředí.</td></tr>
+      </tbody>
+    </table>
+    <p>Vyhodnocované veličiny: VOC index, formaldehyd, CO₂, CO, NO₂, O₃, NH₃, prachové částice PM1, PM2,5, PM4, PM10 a hmotnostní koncentrace, teplota a relativní vlhkost.</p>
+  </section>
+
+  <section class="s" id="ml">
+    <h2>6. Strojové učení</h2>
+    <table class="data-table">
+      <thead><tr><th>Parametr</th><th>Výchozí hodnota</th><th>Význam</th></tr></thead>
+      <tbody>
+        <tr><td>Detektor anomálií</td><td>hustý autoenkodér</td><td>Naučí se běžné složení vzduchu; vysoká chyba rekonstrukce znamená anomálii.</td></tr>
+        <tr><td>Práh anomálie</td><td>98. percentil</td><td>Anomálií je vzorek, jehož chyba je vyšší než 98 % chyb trénovacích dat.</td></tr>
+        <tr><td>Klasifikátor látek</td><td>logistická regrese</td><td>Rozpoznává látky, na které byl model natrénován.</td></tr>
+        <tr><td>Vstupní okno</td><td>10 vzorků</td><td>Počet po sobě jdoucích měření, ze kterých model rozhoduje.</td></tr>
+      </tbody>
+    </table>
+    <p>Režim strojového učení se pro každou jednotku přepíná mezi <em>trénováním</em>, <em>vyhodnocením</em> a <em>vypnuto</em>. Modely jsou vázané na konkrétní jednotku, protože se senzory jednotlivých kusů liší.</p>
+  </section>
+
+  <section class="s" id="rozhrani">
+    <h2>7. Uživatelské rozhraní</h2>
+    <table class="data-table">
+      <thead><tr><th>Stránka</th><th>Funkce</th></tr></thead>
+      <tbody>
+        <tr><td>Přihlášení / registrace</td><td>Uživatelské účty a skupiny oprávnění.</td></tr>
+        <tr><td>Moje senzory</td><td>Seznam jednotek uživatele, registrace nové jednotky.</td></tr>
+        <tr><td>Výsledky senzoru</td><td>Výsledky po látkách; interaktivní graf a rozklad časové řady (trend, sezónní složka, zbytek).</td></tr>
+        <tr><td>Sběr dat</td><td>Řízený sběr měření pro trénovací data.</td></tr>
+        <tr><td>Trénování látek</td><td>Natrénování modelu látky a jeho doladění na jednotce.</td></tr>
+        <tr><td>Analýza</td><td>Prohlížení a srovnání výsledků.</td></tr>
+        <tr><td>Upozornění</td><td>Přehled překročení limitů a anomálií.</td></tr>
+        <tr><td>Nastavení</td><td>Limity vyhodnocení a parametry modelů.</td></tr>
+        <tr><td>Dokumentace</td><td>Návod k použití v aplikaci.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="s" id="postupy">
+    <h2>8. Typické postupy</h2>
+    <h3>Zapojení nové jednotky</h3>
+    <ol>
+      <li>V části <em>Moje senzory</em> zaregistrujte jednotku jejím identifikátorem.</li>
+      <li>Nahrajte do jednotky certifikát a připojte ji k síti 5G; první měření se objeví v <em>Výsledcích senzoru</em>.</li>
+    </ol>
+    <h3>Naučení nové látky</h3>
+    <ol>
+      <li>V části <em>Sběr dat</em> spusťte sběr, zatímco je jednotka vystavena látce.</li>
+      <li>V části <em>Trénování látek</em> natrénujte model a případně jej dolaďte.</li>
+      <li>Přepněte jednotku do režimu vyhodnocení; rozpoznání látky se zobrazí ve výsledcích a upozorněních.</li>
+    </ol>
+  </section>
+
+  <section class="s" id="instalace">
+    <h2>9. Instalace a spuštění</h2>
+    <h3>Vyhodnocovací proces</h3>
+<pre><code>conda env create -f conda_environment.yaml
+conda activate ucsnose_dataeval
+pip install -e .
+sensoreval run --box-id &lt;identifikátor jednotky&gt;</code></pre>
+    <p>Adresa API webové aplikace (<code>API_BASE_URL</code>), identifikátor jednotky (<code>BOX_ID</code>), úroveň logování a adresář s modely se zadávají v souboru <code>system_settings.env</code>. Testy: <code>pytest -m test_settings</code> (jednotkové), <code>pytest -m test_api_client_virtual</code> (integrační).</p>
+    <h3>Webová aplikace</h3>
+    <p>Dodává se jako kontejner Docker (Python 3.12, Django 5); naslouchá na portu 8000. Databáze se volí proměnnou <code>DB_ENGINE</code> (<code>mysql</code>, jinak SQLite pro vývoj); výchozí skupiny uživatelů vytvoří příkaz <code>initialize_user_groups</code>.</p>
+    <div class="note">Zdrojové kódy jsou vedeny v interním repozitáři; na vyžádání je poskytneme. Kontakt: <a href="mailto:info@unifiedcloudsensors.com">info@unifiedcloudsensors.com</a>.</div>
+  </section>
+
+  <section class="s" id="bezpecnost">
+    <h2>10. Bezpečnost</h2>
+    <ul>
+      <li>Komunikace jednotek je šifrovaná (TLS) a každá jednotka má vlastní certifikát, který lze samostatně zneplatnit.</li>
+      <li>Webové rozhraní je dostupné jen přihlášeným uživatelům; oprávnění se řídí skupinami.</li>
+    </ul>
+  </section>
+</div>
+
+</body>
+</html>

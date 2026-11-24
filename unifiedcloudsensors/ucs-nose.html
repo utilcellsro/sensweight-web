@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>UCS-Nose – vyhodnocovací software s uživatelským rozhraním a komunikací přes 5G | Unified Cloud Sensors</title>
+<meta name="description" content="Výsledek projektu výzkumu a vývoje UCS-Nose: software pro vyhodnocení dat z elektronického nosu (plynové senzory) s webovým uživatelským rozhraním a podporou komunikace přes 5G síť.">
+<link rel="canonical" href="https://www.unifiedcloudsensors.com/ucs-nose.html">
+<meta name="robots" content="noindex, follow">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<!-- Self-hosted fonts, see fonts.css and scripts/vendor-fonts.js -->
+<link rel="stylesheet" href="fonts.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #F7F7F6;
+    color: #2F2F2E;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2 { font-family: 'Chakra Petch', system-ui, sans-serif; font-weight: 700; margin: 0; }
+  p, li { margin: 0; }
+  a { color: #476DB8; text-decoration: none; transition: color 200ms cubic-bezier(0.2,0,0,1); }
+  a:hover { color: #2F4D89; }
+
+  .nav-bar {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 56px;
+    background: rgba(29,44,73,0.92);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(220,229,244,0.08);
+  }
+  .nav-back { font-size: 14px; color: #DCE5F4; }
+  .nav-back:hover { color: #7ED3F0; }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 88px 24px 96px; }
+  .overline {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: #476DB8;
+  }
+  h1 { font-size: 38px; line-height: 1.15; letter-spacing: -0.01em; color: #1D2C49; margin-top: 12px; }
+  .updated { font-size: 14px; color: #6F6F6E; margin-top: 16px; }
+  .lede { font-size: 17px; line-height: 1.75; color: #484847; margin-top: 32px; }
+
+  section.s { margin-top: 56px; }
+  h2 {
+    font-size: 20px; color: #1D2C49; letter-spacing: -0.005em;
+    padding-bottom: 12px; border-bottom: 2px solid #ECECEB;
+  }
+  .s p, .s li { font-size: 15px; line-height: 1.8; color: #484847; }
+  .s p + p, .s ul { margin-top: 16px; }
+  .s ul { padding-left: 20px; }
+  .s li + li { margin-top: 8px; }
+
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 24px; }
+  .fact { background: #fff; border: 1px solid #ECECEB; border-radius: 8px; padding: 14px 16px; }
+  .fact .k { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6F6F6E; }
+  .fact .v { font-size: 15px; color: #1D2C49; margin-top: 6px; line-height: 1.5; font-weight: 500; }
+
+  figure { margin: 24px 0 0; background: #fff; border: 1px solid #ECECEB; border-radius: 10px; padding: 20px; }
+  figure svg { width: 100%; height: auto; display: block; }
+  .dg-v { display: none; }
+  @media (max-width: 640px) { .dg-h { display: none !important; } .dg-v { display: block; max-width: 360px; margin: 0 auto; } }
+  figcaption { font-size: 13px; color: #6F6F6E; margin-top: 12px; line-height: 1.6; }
+
+  .modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 24px; }
+  .module { background: #fff; border: 1px solid #ECECEB; border-left: 3px solid #476DB8; border-radius: 6px; padding: 14px 16px; }
+  .module h3 { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 15px; color: #1D2C49; margin: 0; }
+  .module p { font-size: 14px; line-height: 1.6; margin-top: 6px; color: #484847; }
+
+  table.data-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+  table.data-table th, table.data-table td { text-align: left; padding: 9px 12px; border-bottom: 1px solid #ECECEB; vertical-align: top; }
+  table.data-table th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6F6F6E; font-weight: 500; }
+  .table-scroll { overflow-x: auto; }
+
+  .note {
+    margin-top: 24px; padding: 16px 18px; border-radius: 6px;
+    background: #DCE5F4; border: 1px solid rgba(71,109,184,0.25);
+    font-size: 14px; line-height: 1.7; color: #1D2C49;
+  }
+  .cta { display: inline-block; margin-top: 20px; padding: 12px 18px; border-radius: 6px; background: #1D2C49; color: #fff; font-size: 14px; font-weight: 500; }
+  .cta:hover { background: #2F4D89; color: #fff; }
+
+  @media (max-width: 640px) {
+    .nav-bar { padding: 18px 20px; }
+    .wrap { padding: 64px 20px 72px; }
+    h1 { font-size: 28px; }
+    figure { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <a href="index.html" style="display: flex; align-items: center; gap: 12px;">
+    <img src="ucs-mark-white.png" alt="UCS" style="height: 22px; width: auto; display: block;">
+  </a>
+  <a href="index.html" class="nav-back">&larr; unifiedcloudsensors.com</a>
+</div>
+
+<div class="wrap">
+  <span class="overline">Výsledek výzkumu a vývoje · Projekt UCS-Nose</span>
+  <h1>Vyhodnocovací software s uživatelským rozhraním a podporou komunikace přes 5G síť</h1>
+  <p class="updated">Software (výsledek typu R) · <a href="ucs-nose-documentation.html">Technická dokumentace</a> · <a href="#en">English summary</a></p>
+
+  <p class="lede">
+    UCS-Nose je „elektronický nos“: síť měřicích jednotek s plynovými a prachovými senzory,
+    které průběžně sledují kvalitu ovzduší a přítomnost látek ve vzduchu. Výsledkem projektu je
+    <strong>vyhodnocovací software</strong>, který data z jednotek přijímá přes mobilní síť 5G,
+    vyhodnocuje je proti limitům a modelům strojového učení a výsledky zobrazuje ve
+    <strong>webovém uživatelském rozhraní</strong>.
+  </p>
+
+  <div class="facts">
+    <div class="fact"><div class="k">Projekt</div><div class="v">UCS-Nose</div></div>
+    <div class="fact"><div class="k">Řešitelé</div><div class="v">Utilcell, s.r.o. ve spolupráci s VUT v Brně</div></div>
+    <div class="fact"><div class="k">Druh výsledku</div><div class="v">Software s uživatelským rozhraním</div></div>
+    <div class="fact"><div class="k">Komunikace</div><div class="v">5G mobilní síť, MQTT přes TLS</div></div>
+  </div>
+
+  <section class="s">
+    <h2>Jak systém funguje</h2>
+    <figure>
+      <svg class="dg-h" viewBox="0 0 860 300" role="img" aria-labelledby="dg-t dg-d">
+        <title id="dg-t">Architektura systému UCS-Nose</title>
+        <desc id="dg-d">Měřicí jednotky s plynovými senzory posílají data přes 5G síť na MQTT broker. Vyhodnocovací software data zpracuje, vyhodnotí proti limitům a modelům strojového učení a výsledky ukládá do databáze. Webové uživatelské rozhraní zobrazuje výsledky a upozornění a umožňuje trénování látek.</desc>
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#476DB8"/>
+          </marker>
+        </defs>
+        <style>
+          .bx { fill: #fff; stroke: #C9D3E6; stroke-width: 1.5; }
+          .bx2 { fill: #1D2C49; }
+          .t { font: 600 14px 'IBM Plex Sans', sans-serif; fill: #1D2C49; }
+          .t2 { font: 600 14px 'IBM Plex Sans', sans-serif; fill: #fff; }
+          .s1 { font: 400 12px 'IBM Plex Sans', sans-serif; fill: #6F6F6E; }
+          .s2 { font: 400 12px 'IBM Plex Sans', sans-serif; fill: #DCE5F4; }
+          .lb { font: 500 11px 'IBM Plex Mono', monospace; fill: #476DB8; letter-spacing: .06em; }
+          .ln { stroke: #476DB8; stroke-width: 2; fill: none; }
+        </style>
+
+        <!-- sensors -->
+        <rect class="bx" x="10" y="40" width="170" height="210" rx="10"/>
+        <text class="t" x="95" y="68" text-anchor="middle">Měřicí jednotky</text>
+        <text class="s1" x="95" y="92" text-anchor="middle">plynové senzory</text>
+        <text class="s1" x="95" y="110" text-anchor="middle">VOC, CO₂, CO, NO₂,</text>
+        <text class="s1" x="95" y="128" text-anchor="middle">O₃, NH₃, formaldehyd</text>
+        <text class="s1" x="95" y="150" text-anchor="middle">prachové částice</text>
+        <text class="s1" x="95" y="168" text-anchor="middle">PM1 – PM10</text>
+        <text class="s1" x="95" y="190" text-anchor="middle">teplota, vlhkost</text>
+        <text class="s1" x="95" y="226" text-anchor="middle">RPi / Pico, připojení 5G</text>
+
+        <!-- 5G link -->
+        <path class="ln" d="M180 145 L262 145" marker-end="url(#ar)"/>
+        <text class="lb" x="221" y="134" text-anchor="middle">5G</text>
+        <text class="lb" x="221" y="166" text-anchor="middle">MQTT/TLS</text>
+
+        <!-- broker -->
+        <rect class="bx" x="265" y="95" width="130" height="100" rx="10"/>
+        <text class="t" x="330" y="135" text-anchor="middle">MQTT broker</text>
+        <text class="s1" x="330" y="157" text-anchor="middle">šifrované spojení,</text>
+        <text class="s1" x="330" y="174" text-anchor="middle">certifikáty zařízení</text>
+
+        <path class="ln" d="M395 145 L462 145" marker-end="url(#ar)"/>
+
+        <!-- evaluation software -->
+        <rect class="bx2" x="465" y="30" width="200" height="230" rx="12"/>
+        <text class="t2" x="565" y="60" text-anchor="middle">Vyhodnocovací</text>
+        <text class="t2" x="565" y="78" text-anchor="middle">software</text>
+        <text class="s2" x="565" y="108" text-anchor="middle">validace a redukce dat</text>
+        <text class="s2" x="565" y="130" text-anchor="middle">vyhodnocení proti limitům</text>
+        <text class="s2" x="565" y="152" text-anchor="middle">detekce anomálií</text>
+        <text class="s2" x="565" y="170" text-anchor="middle">(autoenkodér)</text>
+        <text class="s2" x="565" y="192" text-anchor="middle">klasifikace látek</text>
+        <text class="s2" x="565" y="214" text-anchor="middle">trénování modelů</text>
+        <text class="s2" x="565" y="240" text-anchor="middle">výsledky a upozornění</text>
+
+        <path class="ln" d="M665 145 L732 145" marker-end="url(#ar)"/>
+        <path class="ln" d="M735 190 Q700 260 640 262" marker-end="url(#ar)" stroke-dasharray="5 4"/>
+        <text class="lb" x="728" y="270" text-anchor="end">nastavení, trénink</text>
+
+        <!-- web UI -->
+        <rect class="bx" x="735" y="70" width="115" height="150" rx="10"/>
+        <text class="t" x="792" y="100" text-anchor="middle">Webové</text>
+        <text class="t" x="792" y="118" text-anchor="middle">rozhraní</text>
+        <text class="s1" x="792" y="146" text-anchor="middle">výsledky</text>
+        <text class="s1" x="792" y="164" text-anchor="middle">grafy</text>
+        <text class="s1" x="792" y="182" text-anchor="middle">upozornění</text>
+        <text class="s1" x="792" y="200" text-anchor="middle">správa senzorů</text>
+      </svg>
+      <svg class="dg-v" viewBox="0 0 360 640" role="img" aria-label="Architektura systému UCS-Nose: měřicí jednotky, 5G, MQTT broker, vyhodnocovací software, webové rozhraní">
+        <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#476DB8"/></marker></defs>
+        <style>
+          .vb { fill: #fff; stroke: #C9D3E6; stroke-width: 1.5; }
+          .vd { fill: #1D2C49; }
+          .vt { font: 600 16px 'IBM Plex Sans', sans-serif; fill: #1D2C49; }
+          .vt2 { font: 600 16px 'IBM Plex Sans', sans-serif; fill: #fff; }
+          .vs { font: 400 13px 'IBM Plex Sans', sans-serif; fill: #6F6F6E; }
+          .vs2 { font: 400 13px 'IBM Plex Sans', sans-serif; fill: #DCE5F4; }
+          .vl { font: 500 12px 'IBM Plex Mono', monospace; fill: #476DB8; }
+          .vln { stroke: #476DB8; stroke-width: 2; fill: none; }
+        </style>
+        <rect class="vb" x="20" y="10" width="320" height="110" rx="10"/>
+        <text class="vt" x="180" y="38" text-anchor="middle">Měřicí jednotky</text>
+        <text class="vs" x="180" y="62" text-anchor="middle">plynové senzory: VOC, CO₂, CO, NO₂, O₃, NH₃,</text>
+        <text class="vs" x="180" y="80" text-anchor="middle">formaldehyd · prach PM1–PM10</text>
+        <text class="vs" x="180" y="98" text-anchor="middle">teplota, vlhkost · RPi / Pico, připojení 5G</text>
+        <path class="vln" d="M180 120 L180 168" marker-end="url(#ar2)"/>
+        <text class="vl" x="192" y="150">5G · MQTT/TLS</text>
+        <rect class="vb" x="60" y="170" width="240" height="70" rx="10"/>
+        <text class="vt" x="180" y="198" text-anchor="middle">MQTT broker</text>
+        <text class="vs" x="180" y="220" text-anchor="middle">šifrované spojení, certifikáty</text>
+        <path class="vln" d="M180 240 L180 278" marker-end="url(#ar2)"/>
+        <rect class="vd" x="20" y="280" width="320" height="200" rx="12"/>
+        <text class="vt2" x="180" y="310" text-anchor="middle">Vyhodnocovací software</text>
+        <text class="vs2" x="180" y="340" text-anchor="middle">validace a redukce dat</text>
+        <text class="vs2" x="180" y="362" text-anchor="middle">vyhodnocení proti limitům</text>
+        <text class="vs2" x="180" y="384" text-anchor="middle">detekce anomálií (autoenkodér)</text>
+        <text class="vs2" x="180" y="406" text-anchor="middle">klasifikace látek</text>
+        <text class="vs2" x="180" y="428" text-anchor="middle">trénování modelů</text>
+        <text class="vs2" x="180" y="456" text-anchor="middle">výsledky a upozornění</text>
+        <path class="vln" d="M150 480 L150 528" marker-end="url(#ar2)"/>
+        <path class="vln" d="M210 530 L210 482" marker-end="url(#ar2)" stroke-dasharray="5 4"/>
+        <text class="vl" x="222" y="512">nastavení, trénink</text>
+        <rect class="vb" x="20" y="530" width="320" height="100" rx="10"/>
+        <text class="vt" x="180" y="560" text-anchor="middle">Webové rozhraní</text>
+        <text class="vs" x="180" y="584" text-anchor="middle">výsledky · grafy · upozornění</text>
+        <text class="vs" x="180" y="604" text-anchor="middle">správa senzorů · trénování látek</text>
+      </svg>
+      <figcaption>Měřicí jednotky odesílají data přes mobilní síť 5G na šifrovaný MQTT broker. Vyhodnocovací
+        software je zpracuje a výsledky zpřístupní ve webovém rozhraní, odkud se zpět řídí nastavení
+        vyhodnocení a trénování modelů.</figcaption>
+    </figure>
+  </section>
+
+  <section class="s">
+    <h2>Hlavní funkce</h2>
+    <ul>
+      <li><strong>Příjem dat přes 5G.</strong> Měřicí jednotky komunikují se serverem přes mobilní síť 5G
+        protokolem MQTT se šifrováním TLS a certifikátem pro každé zařízení.</li>
+      <li><strong>Zpracování a validace.</strong> Měření z více senzorů jednotky se slučují do časových oken,
+        neplatné a mimorozsahové hodnoty se vyřazují.</li>
+      <li><strong>Vyhodnocení proti limitům.</strong> Každá veličina má platný rozsah a pásma
+        <em>normální / zvýšená / nebezpečná</em>, prahovou hodnotu pro alarm a limity pro domácí
+        a pracovní prostředí. Hlídá se i doba, po kterou je hodnota mimo normál.</li>
+      <li><strong>Strojové učení.</strong> Detektor anomálií (hustý autoenkodér, práh na 98. percentilu chyby
+        rekonstrukce) odhalí neobvyklé složení vzduchu; klasifikátor (logistická regrese) rozpozná
+        naučené látky. Modely lze z rozhraní trénovat a doladit na konkrétní jednotce.</li>
+      <li><strong>Výsledky a upozornění.</strong> Výsledky vyhodnocení se ukládají a zobrazují
+        v rozhraní; překročení limitů vyvolá upozornění.</li>
+    </ul>
+  </section>
+
+  <section class="s">
+    <h2>Uživatelské rozhraní</h2>
+    <p>Webová aplikace (Django) s přihlášením a rolemi uživatelů. Obsahuje tyto části:</p>
+    <div class="modules">
+      <div class="module"><h3>Moje senzory</h3><p>Přehled měřicích jednotek, registrace nové jednotky.</p></div>
+      <div class="module"><h3>Výsledky senzoru</h3><p>Výsledky vyhodnocení po látkách, interaktivní grafy a rozklad časové řady (trend, sezónnost).</p></div>
+      <div class="module"><h3>Sběr dat</h3><p>Řízený sběr měření pro tvorbu trénovacích dat.</p></div>
+      <div class="module"><h3>Trénování látek</h3><p>Natrénování a doladění modelu pro konkrétní látku a jednotku.</p></div>
+      <div class="module"><h3>Analýza</h3><p>Prohlížení a srovnání výsledků v čase.</p></div>
+      <div class="module"><h3>Upozornění</h3><p>Přehled překročených limitů a detekovaných anomálií.</p></div>
+      <div class="module"><h3>Nastavení</h3><p>Limity vyhodnocení a parametry modelů.</p></div>
+      <div class="module"><h3>Dokumentace</h3><p>Návod k použití přímo v aplikaci.</p></div>
+    </div>
+  </section>
+
+  <section class="s">
+    <h2>Vyhodnocované veličiny</h2>
+    <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Veličina</th><th>Jednotka</th><th>Platný rozsah</th><th>Limit pro pracovní prostředí</th></tr></thead>
+      <tbody>
+        <tr><td>Těkavé organické látky (VOC)</td><td>index</td><td>0 – 500</td><td>max. 400</td></tr>
+        <tr><td>Formaldehyd</td><td>ppb</td><td>0 – 5 000</td><td>max. 300</td></tr>
+        <tr><td>Oxid uhličitý (CO₂)</td><td>ppm</td><td>0 – 40 000</td><td>max. 5 000</td></tr>
+        <tr><td>Oxid uhelnatý (CO)</td><td>ppm</td><td>0 – 500</td><td>max. 50</td></tr>
+        <tr><td>Oxid dusičitý (NO₂)</td><td>ppm</td><td>0,05 – 10</td><td>max. 0,1</td></tr>
+        <tr><td>Ozon (O₃)</td><td>ppm</td><td>0 – 10</td><td>max. 0,1</td></tr>
+        <tr><td>Amoniak (NH₃)</td><td>ppm</td><td>0 – 300</td><td>max. 25</td></tr>
+        <tr><td>Prachové částice PM1 / PM2,5 / PM4</td><td>µg/m³</td><td>0 – 1 000</td><td>max. 50</td></tr>
+        <tr><td>Prachové částice PM10</td><td>µg/m³</td><td>0 – 1 000</td><td>max. 100</td></tr>
+        <tr><td>Teplota</td><td>°C</td><td>−10 – 50</td><td>16 – 27</td></tr>
+        <tr><td>Relativní vlhkost</td><td>% RH</td><td>0 – 100</td><td>30 – 70</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:13px;color:#6F6F6E;margin-top:12px">Limity jsou výchozí nastavení softwaru a lze je v rozhraní upravit.</p>
+  </section>
+
+  <section class="s">
+    <h2>Dostupnost</h2>
+    <p>
+      Software je provozován jako uzavřený systém pro řešitele projektu a pilotní uživatele.
+      Webové rozhraní je přístupné po přihlášení; přístup, ukázku nebo zdrojové kódy poskytneme na vyžádání.
+    </p>
+    <a class="cta" href="ucs-nose-documentation.html">Technická dokumentace &rarr;</a>
+    <div class="note">
+      Kontakt: <strong>Unified Cloud Sensors, s.r.o.</strong>, nám. V. Mrštíka 40, 664&nbsp;81 Ostrovačice ·
+      <a href="mailto:info@unifiedcloudsensors.com">info@unifiedcloudsensors.com</a> ·
+      <a href="tel:+420546427053">+420 546 427 053</a>
+    </div>
+  </section>
+
+  <section class="s" id="en">
+    <h2>English summary</h2>
+    <p>
+      <strong>Evaluation software with a user interface and 5G communication support</strong> is a result of the
+      UCS-Nose research and development project (Utilcell, s.r.o. with Brno University of Technology).
+      Sensor units with gas and particulate sensors send measurements over a 5G mobile network (MQTT over TLS).
+      The software validates the data, evaluates it against configurable limits, detects anomalies with an
+      autoencoder model, classifies trained substances and shows results and alerts in a web user interface,
+      from which users also manage sensors and train models. The system runs as a closed installation;
+      access, a demonstration or the source code are available on request.
+      See the <a href="ucs-nose-documentation.html">technical documentation</a>.
+    </p>
+  </section>
+</div>
+
+</body>
+</html>
